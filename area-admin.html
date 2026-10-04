@@ -18,13 +18,17 @@
   /* Isys Mattos — Área do Administrador. Mesmo sistema visual das demais telas.
      Verde=ok/recebido, âmbar=andamento/a receber, vermelho=pendente/vencido. */
   :root{
-    --paper:#FFFFFF;--ink:#414141;--ink-2:#717171;--ink-3:#a3a3a3;
-    --hair:#D0D0D0;--hair-soft:#ECECEC;
+    --paper:#FFFFFF;--ink:#33322F;--ink-2:#6A6862;--ink-3:#9A968E;
+    --hair:#DCD9D2;--hair-soft:#ECE9E3;
     --green:#5E7D57;--amber:#C08A1E;--red:#AA564A;--slate:#5F7C8A;--gray:#8f8f8f;
+    --gold:#AF853A;--gold-soft:#F4ECDA;--info:#5F7C8A;--go:#6E7C46;
+    --shadow-sm:0 1px 2px rgba(28,26,22,.03),0 2px 6px rgba(28,26,22,.05);
+    --shadow-md:0 10px 30px rgba(28,26,22,.09);
+    --r:14px;--r-sm:10px;
     --display:"Quicksand",system-ui,sans-serif;--sans:"Inter",system-ui,sans-serif;
-    --wrap:1040px;color-scheme:light;
-    /* tema do ambiente (trocável) — padrão "Atual" austero */
-    --brand:#414141;--brand-on:#FFFFFF;--tint:#FFFFFF;--panel:var(--panel);--panel-2:var(--panel-2);--accent:#414141;
+    --wrap:1120px;color-scheme:light;
+    /* tema do ambiente (trocável) — padrão "Atual": fundo off-white, cards brancos */
+    --brand:#37352F;--brand-on:#FFFFFF;--tint:#F6F5F1;--panel:#FFFFFF;--panel-2:#F0EEE8;--accent:#37352F;
   }
   .adm-panel,.pj-info,.np-panel,.mdl{transition:background .4s}
   *{box-sizing:border-box}
@@ -34,15 +38,18 @@
   .wrap{max-width:var(--wrap);margin:0 auto;padding:0 clamp(22px,5vw,48px) 20px}
 
   .sec-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 16px}
-  .label{font-family:var(--sans);font-weight:300;font-size:clamp(17px,2.4vw,21px);letter-spacing:.6px;color:var(--ink);margin:0}
-  .label::before{content:"| ";color:var(--hair)}
+  .label{font-family:var(--sans);font-weight:400;font-size:clamp(17px,2.4vw,21px);letter-spacing:.4px;color:var(--ink);margin:0}
+  .label::before{content:"| ";color:var(--gold)}
 
-  .pill{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;border-radius:50px;padding:11px 22px;border:1px solid transparent;background:none;color:var(--ink-2);transition:background .22s,color .22s,border-color .22s;text-decoration:none}
-  .pill.solid{background:var(--brand);color:var(--brand-on);border-color:var(--brand)}
-  .pill.solid:hover{filter:brightness(1.12)}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:9px;padding:9px 15px;border:1px solid transparent;background:none;color:var(--ink-2);transition:background .18s,color .18s,border-color .18s,box-shadow .18s;text-decoration:none}
+  .pill.solid{background:var(--btn,var(--brand));color:var(--btn-on,var(--brand-on));border-color:var(--btn,var(--brand))}
+  .pill.solid:hover{filter:brightness(1.12);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
   .pill.ghost{border-color:var(--hair);color:var(--ink-2)}
-  .pill.ghost:hover{border-color:var(--ink);color:var(--ink)}
-  .pill.sm{padding:8px 15px;letter-spacing:.12em}
+  .pill.ghost:hover{border-color:var(--ink);color:var(--ink);background:var(--panel-2)}
+  .pill.sm{padding:7px 13px;font-size:11px}
+  .pill svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-right:-1px}
+  .pill.sm svg{width:14px;height:14px}
+  .pill:active{transform:translateY(0)}
 
   .state{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.02em;color:var(--ink-3);white-space:nowrap}
   .state::before{content:"";width:7px;height:7px;border-radius:50%;border:1px solid currentColor;background:currentColor;flex:none}
@@ -64,7 +71,7 @@
 
   /* home */
   .hero{padding-top:clamp(38px,6vw,64px)}
-  .greet{font-family:var(--display);font-weight:500;font-size:clamp(30px,5.2vw,46px);line-height:1;margin:0;color:var(--ink)}
+  .greet{font-family:var(--display);font-weight:700;font-size:clamp(30px,5.2vw,46px);line-height:1;margin:0;color:var(--ink);letter-spacing:-.01em}
   .motiva{font-family:var(--sans);font-weight:300;font-size:clamp(14px,1.8vw,16px);line-height:1.5;color:var(--ink-2);margin:16px 0 0;max-width:52ch}
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   #view-home.anim .greet{animation:rise .55s cubic-bezier(.22,.61,.36,1) both}
@@ -74,7 +81,7 @@
 
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hair-soft);border:1px solid var(--hair-soft);margin-top:clamp(28px,4vw,42px)}
   .stat{background:var(--paper);padding:20px}
-  .stat .n{font-family:var(--display);font-weight:500;font-size:clamp(24px,3.4vw,32px);color:var(--ink);font-variant-numeric:tabular-nums}
+  .stat .n{font-family:var(--display);font-weight:700;font-size:clamp(24px,3.4vw,32px);color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
   .stat .n.amber{color:var(--amber)}.stat .n.red{color:var(--red)}.stat .n.green{color:var(--green)}
   .stat .k{font-size:12px;color:var(--ink-2);margin-top:4px}
   @media(max-width:620px){.stats{grid-template-columns:1fr 1fr}}
@@ -95,40 +102,87 @@
   .back::before{content:"‹ ";font-size:16px}
   .back:hover{color:var(--ink)}
   .page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
-  .page-title{font-family:var(--display);font-weight:500;font-size:clamp(26px,4.4vw,38px);color:var(--ink);margin:8px 0 clamp(20px,3vw,30px)}
+  .page-title{font-family:var(--display);font-weight:700;font-size:clamp(26px,4.4vw,38px);color:var(--ink);margin:8px 0 clamp(20px,3vw,30px);letter-spacing:-.01em}
   .proj-note{font-size:13.5px;color:var(--ink-2);line-height:1.65;margin:0 0 clamp(22px,3vw,32px);max-width:66ch}
   .proj-note b{color:var(--ink);font-weight:500}
   @media (prefers-reduced-motion:reduce){.view,#view-home.anim *{animation:none!important}}
 
-  /* filtros / abas coloridas (central + financeiro) */
-  .filters{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:22px}
-  .filter{font-family:var(--sans);font-size:12.5px;letter-spacing:.04em;color:var(--ink-3);background:none;border:none;cursor:pointer;padding:6px 2px;position:relative;transition:color .2s}
-  .filter::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--fc,var(--ink-3));display:inline-block;margin-right:8px;vertical-align:1px;opacity:.5;transition:opacity .2s}
-  .filter[aria-selected="true"]{color:var(--fc,var(--ink))}
-  .filter[aria-selected="true"]::before{opacity:1}
-  .filter[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:var(--fc,var(--ink))}
+  /* ===== abas segmentadas — padrão ÚNICO (só a selecionada fica clara) ===== */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:22px}
+  .filter,.ptab,.wk-btn,.sortbtn{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:500;font-size:12.5px;letter-spacing:.02em;color:var(--ink-3);background:transparent;border:1px solid transparent;border-radius:50px;padding:8px 14px;cursor:pointer;white-space:nowrap;position:relative;transition:color .2s,border-color .2s,box-shadow .2s,background .2s}
+  .filter::before,.ptab::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--fc,var(--ink-3));opacity:.55;transition:opacity .2s}
+  .filter:hover,.ptab:hover,.wk-btn:hover,.sortbtn:hover{color:var(--ink-2);background:var(--panel-2)}
+  .filter[aria-selected="true"],.ptab[aria-selected="true"],.wk-btn[aria-selected="true"],.sortbtn[aria-selected="true"]{color:var(--ink);background:var(--panel);border-color:var(--hair);box-shadow:var(--shadow-sm)}
+  .filter[aria-selected="true"]::before,.ptab[aria-selected="true"]::before{opacity:1}
 
-  /* central de projetos */
-  .proj{display:grid;grid-template-columns:1.5fr 1.3fr auto;gap:20px;align-items:center;padding:16px 16px 16px 15px;margin-bottom:6px;border-left:3px solid transparent;border-radius:0 8px 8px 0}
-  .proj[data-status="andamento"]{background:#FBF5E7;border-left-color:var(--amber)}
-  .proj[data-status="concluido"]{background:#EDF3EB;border-left-color:var(--green)}
-  .proj[data-status="pausado"]{background:#F1F1EF;border-left-color:var(--gray)}
-  .proj[data-status="cancelado"]{background:#F7ECEA;border-left-color:var(--red)}
-  .proj-obra{font-family:var(--display);font-weight:500;font-size:16px;color:var(--ink)}
-  .proj-cli{font-size:12.5px;color:var(--ink-3);margin-top:3px}
-  .proj-contract{font-size:12px;color:var(--ink-3);margin-top:3px}
-  .proj-contract b{color:var(--ink-2);font-weight:500}
-  .proj-resp{font-size:12px;color:var(--ink-3);margin-top:5px}
-  .proj-valor{font-size:12px;color:var(--green);margin-top:5px}
-  .proj-valor b{font-weight:600}
-  .proj-etapa{font-size:12px;color:var(--ink-2);margin-bottom:8px}
-  .proj-etapa b{color:var(--ink);font-weight:500}
-  .mini-bar{display:flex;align-items:center;gap:10px}
-  .mini-track{flex:1;height:6px;border-radius:50px;background:var(--panel-2);overflow:hidden;min-width:70px}
-  .mini-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,#9a948d,#414141)}
-  .mini-pct{font-family:var(--display);font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums;min-width:34px;text-align:right}
-  .proj-end{display:flex;align-items:center;gap:16px;justify-content:flex-end}
-  @media(max-width:720px){.proj{grid-template-columns:1fr;gap:12px}.proj-end{justify-content:flex-start}}
+  /* ===== central de projetos (layout premium) ===== */
+  .page-sub{font-size:13.5px;color:var(--ink-2);margin:-6px 0 clamp(20px,3vw,28px);max-width:66ch}
+  .pill.solid.go{background:var(--go);border-color:var(--go);color:#fff}
+  .pill.solid.go:hover{filter:brightness(1.1)}
+  .proj-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px 20px;flex-wrap:wrap;margin-bottom:20px}
+  /* filtros segmentados (escopo central) */
+  #view-proj .filters{display:flex;gap:8px;flex-wrap:wrap;margin:0}
+  #view-proj .filter{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:500;font-size:12.5px;letter-spacing:.02em;color:var(--ink-3);background:transparent;border:1px solid transparent;border-radius:50px;padding:8px 14px;transition:color .2s,border-color .2s,box-shadow .2s,background .2s}
+  #view-proj .filter::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--fc,var(--ink-3));opacity:.6;margin:0;vertical-align:0;transition:opacity .2s}
+  #view-proj .filter:hover{color:var(--ink-2);background:var(--panel-2)}
+  #view-proj .filter[aria-selected="true"]{color:var(--ink);background:var(--panel);border-color:var(--hair);box-shadow:var(--shadow-sm)}
+  #view-proj .filter[aria-selected="true"]::before{opacity:1}
+  #view-proj .filter[aria-selected="true"]::after{display:none}
+  .filter-n{font-family:var(--sans);font-weight:600;font-size:11px;color:var(--ink-3);background:var(--panel-2);border-radius:20px;min-width:20px;height:19px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+  #view-proj .filter[aria-selected="true"] .filter-n{background:var(--gold-soft);color:var(--gold)}
+  .proj-search{position:relative;flex:1;min-width:190px;max-width:340px}
+  .proj-search input{width:100%;font-family:var(--sans);font-weight:300;font-size:13.5px;color:var(--ink);background:var(--panel);border:1px solid var(--hair-soft);border-radius:50px;padding:10px 16px 10px 38px;transition:border-color .2s,box-shadow .2s}
+  .proj-search input:focus{outline:none;border-color:var(--hair);box-shadow:var(--shadow-sm)}
+  .proj-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--ink-3);fill:none;stroke:currentColor;stroke-width:1.7}
+  /* cabeçalho da tabela */
+  .projs-head{display:grid;grid-template-columns:1.8fr 1.5fr .7fr 132px;gap:20px;padding:0 18px 12px;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .projs-head span:last-child{text-align:right}
+  @media(max-width:860px){.projs-head{display:none}}
+  /* cartão do projeto */
+  .proj{display:grid;grid-template-columns:1.8fr 1.5fr .7fr 132px;gap:20px;align-items:center;padding:16px 18px;margin-bottom:12px;background:var(--panel);border:1px solid var(--hair-soft);border-left:3px solid var(--gray);border-radius:var(--r);box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .12s,border-color .2s}
+  .proj:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .proj[data-status="andamento"]{border-left-color:var(--amber)}
+  .proj[data-status="concluido"]{border-left-color:var(--green)}
+  .proj[data-status="pausado"]{border-left-color:var(--gray)}
+  .proj[data-status="cancelado"]{border-left-color:var(--red)}
+  .proj-main{display:flex;align-items:center;gap:14px;min-width:0}
+  .proj-thumb{flex:none;width:58px;height:58px;border-radius:12px;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:21px}
+  .proj-info{min-width:0}
+  .proj-obra{font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .proj-loc{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-3);margin-top:4px}
+  .proj-loc svg{width:12px;height:12px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7}
+  .proj-cli{font-size:12.5px;color:var(--ink-2);margin-top:5px}
+  .proj-cli b{color:var(--ink);font-weight:600}
+  .proj-etapa{font-size:12.5px;color:var(--ink-2);margin-bottom:9px}
+  .proj-etapa b{color:var(--ink);font-weight:600}
+  .pbar{height:8px;border-radius:50px;background:var(--panel-2);overflow:hidden}
+  .pbar-fill{height:100%;border-radius:50px;background:var(--go);transition:width .5s cubic-bezier(.22,.61,.36,1)}
+  .proj-tasks{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-2);margin-top:8px}
+  .proj-tasks svg{width:13px;height:13px;color:var(--go);flex:none;fill:none;stroke:currentColor;stroke-width:2}
+  .proj-prog{text-align:center}
+  .proj-pct{font-family:var(--display);font-weight:700;font-size:26px;color:var(--go);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .proj-prog-lbl{font-size:11px;color:var(--ink-3);margin-top:3px}
+  .proj-actions{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+  .proj-status-badge{display:flex;align-items:center;justify-content:flex-end}
+  .proj-btns{display:flex;flex-direction:column;gap:6px}
+  .pbtn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);background:var(--panel);border:1px solid var(--hair);border-radius:8px;padding:7px 11px;cursor:pointer;text-decoration:none;transition:background .18s,color .18s,border-color .18s}
+  .pbtn svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7}
+  .pbtn:hover{color:var(--ink);border-color:var(--ink-3);background:var(--panel-2)}
+  .pbtn.danger{color:var(--red);border-color:#e6c9c4}
+  .pbtn.danger:hover{color:#fff;background:var(--red);border-color:var(--red)}
+  .proj-thumb img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+  /* capa do projeto (tela de detalhe) */
+  .pj-cover{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .pj-cover-preview{width:108px;height:80px;flex:none;border-radius:12px;border:1px solid var(--hair-soft);background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:30px;overflow:hidden}
+  .pj-cover-preview img{width:100%;height:100%;object-fit:cover}
+  .pj-cover-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .pj-cover .pill svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;margin-right:2px}
+  @media(max-width:860px){
+    .proj{grid-template-columns:1fr;gap:14px}
+    .proj-actions{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+    .proj-status-badge{justify-content:flex-start}
+    .proj-btns{flex-direction:row;flex-wrap:wrap}
+  }
 
   /* página da obra: painel de info + etapas + financeiro */
   .pj-info{background:var(--panel);border-radius:10px;padding:clamp(20px,3vw,28px)}
@@ -162,7 +216,9 @@
   .etapa-prazo{display:flex;gap:30px;margin:16px 0 2px;flex-wrap:wrap}
   .pz{display:flex;flex-direction:column;gap:8px}
   .pz label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
-  .pz input{font-family:var(--sans);font-size:14px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 4px;color-scheme:light}
+  .pz input{font-family:var(--sans);font-size:14px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 4px}
+  /* listas suspensas legíveis em qualquer tema */
+  select option{background:var(--panel);color:var(--ink)}
   .pz input:focus{outline:none;border-bottom-color:var(--ink)}
   .check{list-style:none;margin:14px 0 0;padding:0}
   .check li{padding:6px 0}
@@ -173,13 +229,13 @@
   .colabs{margin:0 0 clamp(28px,4vw,40px)}
   .colabs-label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin:0 0 14px}
   .chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
-  .chip{display:inline-flex;align-items:center;gap:9px;background:#F1F0ED;border-radius:50px;padding:6px 8px 6px 6px;font-size:13.5px;color:var(--ink)}
-  .chip .av{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:10.5px;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:500;flex:none}
+  .chip{display:inline-flex;align-items:center;gap:9px;background:var(--panel-2);border-radius:50px;padding:6px 8px 6px 6px;font-size:13.5px;color:var(--ink)}
+  .chip .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;font-size:10.5px;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:500;flex:none}
   .chip button{background:none;border:none;color:var(--ink-3);cursor:pointer;font-size:17px;line-height:1;padding:0 6px 0 2px;transition:color .2s}
   .chip button:hover{color:var(--ink)}
   .colab-add select{font-family:var(--sans);font-size:14px;color:var(--ink-2);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 4px;cursor:pointer}
   .colab-add select:focus{outline:none;border-bottom-color:var(--ink)}
-  .etapa-remove{margin-top:8px;background:none;border:none;color:var(--red);font-family:var(--sans);font-size:12.5px;cursor:pointer;padding:4px 0}
+  .etapa-remove{margin-top:16px}
   .pj-actions{margin-top:clamp(30px,4vw,44px);padding-top:24px;border-top:1px solid var(--hair-soft);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
   .pj-edit-only{display:none!important}
   #view-projeto.editing .pj-edit-only{display:inline-flex!important}
@@ -188,12 +244,13 @@
   #view-cliente .form-grid input:disabled,#view-cliente .form-grid select:disabled{color:var(--ink);opacity:1;-webkit-text-fill-color:var(--ink);border-bottom-color:var(--hair-soft);cursor:default;background:transparent}
   #view-cliente .form-grid select:disabled{appearance:none;-webkit-appearance:none;-moz-appearance:none}
   #cli-senha:disabled{opacity:.4}
+  #colab-acesso-note:empty{display:none}
   #view-projeto .etapa{margin-bottom:6px;border:none!important;position:relative}
   #view-projeto .etapa-head{background:var(--panel-2);padding:18px 40px 18px clamp(14px,2vw,18px);transition:background .2s}
   #view-projeto.editing .etapa-head{padding-right:112px}
   .etapa-tools{position:absolute;top:50%;transform:translateY(-50%);right:12px;display:none;gap:4px;z-index:2}
   #view-projeto.editing .etapa-tools{display:flex}
-  .etapa-move{width:26px;height:26px;border:1px solid var(--hair);background:#fff;border-radius:6px;color:var(--ink-2);cursor:pointer;font-size:13px;line-height:1;transition:border-color .2s,color .2s}
+  .etapa-move{width:26px;height:26px;border:1px solid var(--hair);background:var(--panel);border-radius:6px;color:var(--ink-2);cursor:pointer;font-size:13px;line-height:1;transition:border-color .2s,color .2s}
   .etapa-move:hover{border-color:var(--ink);color:var(--ink)}
   .etapa-termo{font-size:11px;color:var(--ink-3);margin-top:4px}
   .etapa-termo b{color:var(--ink-2);font-weight:500}
@@ -205,11 +262,41 @@
   #view-projeto .etapa-chev{width:9px;height:9px;border:solid var(--ink-3);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);transition:transform .2s,border-color .2s}
   #view-projeto .etapa-head:hover .etapa-chev{border-color:var(--ink);transform:rotate(-45deg) translate(1px,1px)}
   #etapa-screen-body{margin-top:4px}
-  #etapa-screen-body .etapa-pad{padding:0}
+  #etapa-screen-body .etapa-pad{padding:0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-areas:"dados check" "doc check" "acoes acoes";gap:18px;align-items:start;max-width:1000px}
+  /* tela da etapa organizada em cards (padrão da central) */
+  .es-card{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:clamp(18px,2.4vw,24px);min-width:0}
+  .es-card[data-sec="dados"]{grid-area:dados}
+  .es-card[data-sec="check"]{grid-area:check}
+  .es-card[data-sec="doc"]{grid-area:doc}
+  .es-card[data-sec="acoes"]{grid-area:acoes;padding:14px clamp(18px,2.4vw,24px)}
+  .es-card-h{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--hair-soft)}
+  .es-card[data-sec="acoes"] .es-card-h{display:none}
+  .es-card[data-sec="acoes"] .es-card-body{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .es-card .etapa-ctrl{margin-top:0}
+  .es-card .etapa-remove{margin-top:0;margin-left:auto}
+  .es-card .np-field{max-width:none!important;margin-bottom:12px!important}
+  .es-card .np-field input{font-size:15px;color:var(--ink)}
+  .es-card .etapa-termo{display:inline-flex;align-items:center;background:var(--panel-2);color:var(--ink-2);border-radius:50px;padding:5px 12px;font-size:11.5px;margin:0 0 6px}
+  .es-card .etapa-termo b{color:var(--ink);font-weight:500}
+  .es-card .edit-block{max-width:none!important;margin:14px 0 0!important}
+  .es-card .etapa-prazo{margin:18px 0 0;gap:22px}
+  .es-card .pz{flex:1;min-width:140px}
+  .es-card .pz input{width:100%;color:var(--ink)}
+  .es-card .check{margin:0}
+  .es-card .check li{padding:10px 0;border-bottom:1px solid var(--hair-soft)}
+  .es-card .check li:last-child{border-bottom:none}
+  .es-card .check label{font-size:14px;color:var(--ink)}
+  .es-card .check input:checked ~ span{color:var(--ink-2)}
+  .es-card .check-count{display:inline-flex;margin-top:14px;font-size:11.5px;font-weight:500;color:var(--ink-2);background:var(--panel-2);border-radius:50px;padding:4px 11px}
+  .es-card .chk-add{margin-top:14px;width:100%}
+  .es-card .chk-add input{flex:1;min-width:150px;font-family:var(--sans);font-weight:300;font-size:14px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 2px}
+  .es-card .etapa-doc{margin:0!important;max-width:none!important}
+  .es-card .etapa-doc>label{display:none!important}
+  @media(max-width:820px){#etapa-screen-body .etapa-pad{grid-template-columns:1fr;grid-template-areas:"dados" "check" "doc" "acoes"}}
   #etapa-screen.anim{animation:fade .42s cubic-bezier(.22,.61,.36,1) both}
 
   /* painéis cinza genéricos */
-  .adm-panel{background:var(--panel);border-radius:10px;padding:clamp(20px,3vw,28px);margin-bottom:clamp(20px,3vw,30px);max-width:720px}
+  .adm-panel{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:clamp(20px,3vw,28px);margin-bottom:clamp(20px,3vw,30px);max-width:720px}
   .adm-only-tag{display:inline-flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);margin-left:10px}
   .adm-only-tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amber)}
   .adm-row{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:15px 0;border-bottom:1px solid var(--hair-soft)}
@@ -231,8 +318,7 @@
   .np-doc.filed .np-doc-file{display:block}
   .np-doc-state{font-size:12px;color:var(--ink-3);flex:none;white-space:nowrap}
   .np-doc.filed .np-doc-state{display:none}
-  .np-doc-rm{background:none;border:none;color:var(--ink-3);cursor:pointer;font-size:18px;line-height:1;padding:0 4px;flex:none;transition:color .2s}
-  .np-doc-rm:hover{color:var(--red)}
+  .np-doc-rm{flex:none}
   .np-attach{position:relative;overflow:hidden;flex:none;white-space:nowrap}
   .np-attach input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
   .np-doc.filed .np-attach{border-color:var(--green);color:var(--green)}
@@ -260,15 +346,12 @@
   .np-check input{width:16px;height:16px;accent-color:var(--ink);flex:none}
   @media(max-width:560px){.np-etapas{grid-template-columns:1fr;grid-template-rows:auto;grid-auto-flow:row}}
   .np-docsel{display:grid;gap:14px;margin-top:4px}
-  .np-panel{background:var(--panel);border-radius:10px;padding:clamp(20px,3vw,28px);margin-bottom:20px;max-width:660px}
+  .np-panel{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:clamp(20px,3vw,28px);margin-bottom:20px;max-width:660px}
   .np-panel .np-field{max-width:none;margin-bottom:26px}
   .np-panel .np-field:last-child{margin-bottom:0}
 
   /* agenda · gantt semanal */
-  .week-toggle{display:flex;gap:18px;margin-bottom:22px}
-  .wk-btn{font-family:var(--sans);font-size:13px;letter-spacing:.04em;color:var(--ink-3);background:none;border:none;cursor:pointer;padding:6px 2px;position:relative;transition:color .2s}
-  .wk-btn[aria-selected="true"]{color:var(--ink)}
-  .wk-btn[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink)}
+  .week-toggle{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
   .gantt{border:1px solid var(--hair-soft);overflow-x:auto}
   .g-head,.g-row{display:grid;grid-template-columns:160px 1fr;min-width:640px}
   .g-track{display:grid;grid-template-columns:repeat(7,1fr)}
@@ -277,7 +360,7 @@
   .g-day{padding:9px 2px 11px;text-align:center;border-left:1px solid var(--hair)}
   .g-day .dow{display:block;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);line-height:1}
   .g-day .dnum{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;margin-top:6px;font-family:var(--display);font-weight:500;font-size:13px;color:var(--ink);line-height:1}
-  .g-day.today .dnum{background:var(--ink);color:#fff}
+  .g-day.today .dnum{background:var(--ink);color:var(--panel)}
   .g-day.holiday .dnum,.g-day.holiday .dow{color:var(--red)}
   .g-day.holiday.today .dnum{color:#fff}
   .g-row{border-bottom:1px solid var(--hair-soft)}
@@ -309,54 +392,62 @@
 
   /* clientes: link no topo, lista colorida e ordenável */
   .cli-tools{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}
-  .cli-sort{display:flex;gap:16px;align-items:center}
-  .cli-sort .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
-  .sortbtn{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);background:none;border:none;cursor:pointer;padding:6px 2px;position:relative;transition:color .2s}
-  .sortbtn[aria-selected="true"]{color:var(--ink)}
-  .sortbtn[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink)}
+  .cli-sort{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .cli-sort .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-right:4px}
   .cli-search{flex:1;min-width:200px;max-width:320px;font-family:var(--sans);font-weight:300;font-size:15px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:9px 2px}
   .cli-search::placeholder{color:var(--ink-3)}
   .cli-search:focus{outline:none;border-bottom-color:var(--ink)}
   .cli-list{margin-top:4px}
-  .cli{display:grid;grid-template-columns:1.5fr 1.2fr auto;gap:20px;align-items:center;width:100%;text-align:left;border:none;border-left:3px solid transparent;border-radius:0 8px 8px 0;padding:16px 16px 16px 15px;margin-bottom:6px;cursor:pointer;font-family:inherit;transition:filter .18s}
-  .cli[data-membro="1"]{background:#EDF3EB;border-left-color:var(--green)}
-  .cli[data-membro="0"]{background:#FBF5E7;border-left-color:var(--amber)}
-  .cli:hover{filter:brightness(.975)}
-  .cli-name{font-family:var(--display);font-weight:500;font-size:16px;color:var(--ink)}
-  .cli-sub{font-size:12.5px;color:var(--ink-3);margin-top:3px}
+  .cli{display:grid;grid-template-columns:1.5fr 1.2fr auto;gap:20px;align-items:center;width:100%;text-align:left;background:var(--panel);border:1px solid var(--hair-soft);border-left:3px solid var(--gray);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;cursor:pointer;font-family:inherit;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .12s,border-color .2s}
+  .cli[data-membro="1"]{border-left-color:var(--green)}
+  .cli[data-membro="0"]{border-left-color:var(--amber)}
+  .cli:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .cli-name{font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink)}
+  .cli-sub{font-size:12.5px;color:var(--ink-2);margin-top:3px}
   .cli-obras{font-size:12.5px;color:var(--ink-2)}
   .cli-end{display:flex;align-items:center;gap:16px;justify-content:flex-end}
   .cli-chev{width:9px;height:9px;flex:none;border:solid var(--ink-3);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);transition:transform .2s,border-color .2s}
   .cli:hover .cli-chev{border-color:var(--ink);transform:rotate(-45deg) translate(1px,1px)}
   @media(max-width:720px){.cli{grid-template-columns:1fr;gap:10px}.cli-end{justify-content:flex-start}}
   .link-box{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
-  .link-url{font-family:var(--sans);font-size:13.5px;color:var(--ink);background:#fff;border:1px solid var(--hair);border-radius:8px;padding:11px 14px;flex:1;min-width:240px;font-variant-numeric:tabular-nums;overflow:auto;white-space:nowrap}
+  .link-url{font-family:var(--sans);font-size:13.5px;color:var(--ink);background:var(--panel-2);border:1px solid var(--hair);border-radius:8px;padding:11px 14px;flex:1;min-width:240px;font-variant-numeric:tabular-nums;overflow:auto;white-space:nowrap}
 
   /* tabelas (financeiro consolidado + parceiros) */
-  .ptabs{display:flex;gap:22px;flex-wrap:nowrap;overflow-x:auto;margin-bottom:26px}
-  .ptab{font-family:var(--sans);font-size:13px;letter-spacing:.03em;color:var(--ink-3);background:none;border:none;cursor:pointer;padding:6px 2px;position:relative;transition:color .2s;white-space:nowrap;flex:none}
-  .ptab::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--fc,var(--ink-3));display:inline-block;margin-right:8px;vertical-align:1px;opacity:.5;transition:opacity .2s}
-  .ptab[aria-selected="true"]{color:var(--fc,var(--ink))}
-  .ptab[aria-selected="true"]::before{opacity:1}
-  .ptab[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:var(--fc,var(--ink))}
+  .ptabs{display:flex;gap:8px;flex-wrap:wrap;align-items:center;overflow-x:auto;margin-bottom:26px}
+  .ptab{flex:none}
   .ptable-wrap{overflow-x:auto}
   .ptable{width:100%;border-collapse:collapse;min-width:720px}
   .ptable th{font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);text-align:left;padding:0 16px 12px 0;border-bottom:1px solid var(--hair);white-space:nowrap}
   .ptable td{font-size:13.5px;color:var(--ink);padding:14px 16px 14px 0;border-bottom:1px solid var(--hair-soft);vertical-align:top}
   .ptable td small{color:var(--ink-3);display:block;margin-top:2px}
-  .ptable tbody tr:nth-child(even) td{background:#F4F3F0}
+  .ptable tbody tr:nth-child(even) td{background:var(--panel-2)}
   .ptable .num{font-variant-numeric:tabular-nums;white-space:nowrap}
   .ptable .lk{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair)}
   .ptable .lk:hover{border-bottom-color:var(--ink)}
   .lk-del{background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:12px;color:var(--ink-3);padding:0;border-bottom:1px solid transparent;transition:color .15s,border-color .15s}
   .lk-del:hover{color:var(--red);border-bottom-color:var(--red)}
   .ptable tfoot td{font-weight:500;color:var(--ink);border-top:1px solid var(--hair);border-bottom:none;padding-top:14px}
+  /* fornecedores em cards (padrão da central) — largura total, campos em grade */
+  .forn-cards{display:flex;flex-direction:column;gap:12px}
+  .forn-card{position:relative;background:var(--panel);border:1px solid var(--hair-soft);border-left:3px solid var(--slate);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:18px 20px;transition:box-shadow .2s,transform .12s,border-color .2s}
+  .forn-card:hover{box-shadow:var(--shadow-md);border-color:var(--hair)}
+  .forn-card-name{font-family:var(--display);font-weight:600;font-size:16.5px;color:var(--ink);line-height:1.25;padding-right:120px}
+  .forn-fields{margin-top:13px;display:flex;flex-wrap:wrap;gap:10px 34px;align-items:baseline}
+  .forn-f{font-size:13.5px;color:var(--ink);line-height:1.5}
+  .forn-f b{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:500;margin-right:8px}
+  .forn-del-top{position:absolute;top:16px;right:18px}
+  @media(max-width:560px){.forn-card-name{padding-right:0}.forn-del-top{position:static;margin-top:14px;display:inline-flex}}
+  /* confirmação própria (substitui o confirm nativo, que pode ser bloqueado) */
+  .imc-ov{position:fixed;inset:0;background:rgba(20,18,15,.45);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+  .imc-box{background:var(--panel);border:1px solid var(--hair);border-radius:var(--r);box-shadow:var(--shadow-md);padding:22px 24px;max-width:380px;width:100%}
+  .imc-msg{font-size:14.5px;color:var(--ink);line-height:1.5;margin-bottom:20px}
+  .imc-acts{display:flex;gap:10px;justify-content:flex-end}
   .ptable .rec{color:var(--green)}.ptable .arec{color:var(--amber)}
 
   /* equipe */
   .team-list{border-top:1px solid var(--hair)}
   .team{display:grid;grid-template-columns:auto 1.4fr 1fr auto;gap:18px;align-items:center;padding:16px 2px;border-bottom:1px solid var(--hair-soft)}
-  .team-av{width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:500;font-size:13px;flex:none}
+  .team-av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:15px;flex:none}
   .team-name{font-family:var(--display);font-weight:500;font-size:15.5px;color:var(--ink)}
   .team-role{font-size:12.5px;color:var(--ink-3);margin-top:2px}
   .team-proj{font-size:13px;color:var(--ink-2)}
@@ -365,14 +456,42 @@
   @media(max-width:560px){.team{grid-template-columns:auto 1fr auto}.team-proj{grid-column:2 / -1;order:3}}
   /* lista de equipe: tons de fundo para leitura */
   .team-list{border-top:none}
-  .team{width:100%;text-align:left;font-family:inherit;border:none;border-left:3px solid var(--slate);border-radius:0 8px 8px 0;padding:16px 14px;margin-bottom:6px;background:#F3F4F5;cursor:pointer;transition:filter .18s}
-  .team:hover{filter:brightness(.975)}
+  .team{width:100%;text-align:left;font-family:inherit;background:var(--panel);border:1px solid var(--hair-soft);border-left:3px solid var(--slate);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;cursor:pointer;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .12s,border-color .2s}
+  .team:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
   .team-chev{width:9px;height:9px;flex:none;border:solid var(--ink-3);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);transition:transform .2s,border-color .2s}
   .team:hover .team-chev{border-color:var(--ink);transform:rotate(-45deg) translate(1px,1px)}
-  .team[data-role="titular"]{background:#EDF1F3;border-left-color:var(--slate)}
-  .team[data-role="arquiteta"]{background:#EDF3EB;border-left-color:var(--green)}
-  .team[data-role="projetista"]{background:#FBF5E7;border-left-color:var(--amber)}
-  .team[data-role="estagiaria"]{background:#F3F1F4;border-left-color:#8b7fa3}
+  .team[data-role="titular"]{border-left-color:var(--slate)}
+  /* ===== cabeçalho de colunas ACIMA dos cards (mesmo padrão da central) ===== */
+  .list-head{display:grid;gap:20px;padding:0 19px 12px 22px;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .list-head span:last-child{text-align:right}
+  @media(max-width:860px){.list-head{display:none}}
+  /* clientes */
+  .cli-head,.cli{grid-template-columns:1.5fr 1.2fr 190px}
+  /* equipe */
+  .team-head,.team{grid-template-columns:1.4fr 1fr 1.3fr 20px;gap:18px}
+  .team-main{display:flex;align-items:center;gap:14px;min-width:0}
+  .team-role{margin-top:0;color:var(--ink-2)}
+  /* membros */
+  .mbr-head,.mbr{grid-template-columns:1.6fr 1fr 126px;gap:16px}
+  .mbr-main{display:flex;align-items:center;gap:14px;min-width:0}
+  .mbr-main .mbr-mail{margin-top:3px}
+  .mbr-acc .mbr-status{margin-top:0}
+  /* fornecedores: valores em colunas, títulos no cabeçalho */
+  .forn-head,.forn-card{grid-template-columns:var(--forn-cols);gap:16px}
+  .forn-card{display:grid;align-items:center}
+  .forn-card .forn-card-name{padding-right:0;font-size:15px;min-width:0;overflow-wrap:anywhere}
+  .forn-card .forn-f{min-width:0;overflow-wrap:anywhere;font-size:13px}
+  .forn-card .forn-f b{display:none}
+  .forn-card .forn-act{display:flex;justify-content:flex-end}
+  @media(max-width:860px){
+    .cli,.team,.mbr,.forn-card{grid-template-columns:1fr}
+    .team-proj{grid-column:auto;order:0}
+    .forn-card .forn-f b{display:inline}
+    .forn-card .forn-act{justify-content:flex-start}
+  }
+  .team[data-role="arquiteta"]{border-left-color:var(--green)}
+  .team[data-role="projetista"]{border-left-color:var(--amber)}
+  .team[data-role="estagiaria"]{border-left-color:#8b7fa3}
 
   /* progresso por colaborador — barra colorida por nível */
   .mini-fill.lv-green{background:var(--green)}
@@ -380,7 +499,7 @@
   .mini-fill.lv-red{background:var(--red)}
 
   /* gantt: leitura por faixas (zebra) e nome com acento */
-  .g-row:nth-child(even){background:#FAFAF8}
+  .g-row:nth-child(even){background:var(--panel-2)}
   .g-name{border-left:3px solid var(--slate)}
   .g-row:nth-child(3) .g-name{border-left-color:var(--green)}
   .g-row:nth-child(4) .g-name{border-left-color:var(--amber)}
@@ -389,20 +508,23 @@
 
   /* KANBAN — tarefas do adm */
   .tarefas{margin-top:clamp(34px,5vw,52px)}
-  .kanban{display:flex;gap:14px;overflow-x:auto;padding:4px 0 10px}
-  .kcol{flex:0 0 194px;background:var(--panel);border-radius:10px;padding:12px 11px 6px;display:flex;flex-direction:column;border-top:3px solid var(--kc,var(--gray))}
-  .kcol-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 4px 12px}
-  .kcol-title{font-family:var(--sans);font-weight:500;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);line-height:1.3}
-  .kcol-n{font-family:var(--display);font-size:13px;color:var(--ink-3);flex:none}
-  .kcol.drop{outline:1px dashed var(--ink-3);outline-offset:-4px}
-  .kcard{background:#fff;border:1px solid var(--hair-soft);border-left:3px solid var(--kc,var(--gray));border-radius:8px;padding:12px 13px;margin-bottom:10px;cursor:grab;transition:box-shadow .18s,transform .1s}
-  .kcard:hover{box-shadow:0 2px 10px rgba(65,65,65,.08)}
+  .kanban{display:flex;gap:16px;overflow-x:auto;padding:4px 4px 16px;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--hair) transparent}
+  .kanban::-webkit-scrollbar{height:8px}
+  .kanban::-webkit-scrollbar-thumb{background:var(--hair);border-radius:8px}
+  .kanban::-webkit-scrollbar-track{background:transparent}
+  .kcol{flex:0 0 208px;scroll-snap-align:start;background:var(--panel-2);border:1px solid var(--hair-soft);border-radius:var(--r);padding:14px 12px 8px;display:flex;flex-direction:column;border-top:3px solid var(--kc,var(--gray));min-height:120px}
+  .kcol-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 2px 14px}
+  .kcol-title{font-family:var(--sans);font-weight:600;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);line-height:1.3}
+  .kcol-n{font-family:var(--sans);font-weight:600;font-size:11px;color:var(--ink-2);flex:none;background:var(--panel);border:1px solid var(--hair-soft);border-radius:20px;min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+  .kcol.drop{outline:2px dashed var(--gold);outline-offset:-5px;background:var(--gold-soft)}
+  .kcard{background:var(--panel);border:1px solid var(--hair-soft);border-left:3px solid var(--kc,var(--gray));border-radius:var(--r-sm);padding:12px 13px;margin-bottom:10px;cursor:grab;box-shadow:var(--shadow-sm);transition:box-shadow .18s,transform .12s,border-color .18s}
+  .kcard:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
   .kcard:active{cursor:grabbing}
-  .kcard.dragging{opacity:.5}
-  .kcard-t{font-family:var(--display);font-weight:500;font-size:14px;color:var(--ink);line-height:1.3}
+  .kcard.dragging{opacity:.5;box-shadow:var(--shadow-md)}
+  .kcard-t{font-family:var(--display);font-weight:600;font-size:14px;color:var(--ink);line-height:1.3}
   .kcard-m{font-size:11.5px;color:var(--ink-3);margin-top:5px}
   .kcard-chk{font-size:11px;color:var(--ink-2);margin-top:8px;font-variant-numeric:tabular-nums}
-  .kcard-etapa{background:#FBFAF8}
+  .kcard-etapa{background:var(--panel-2)}
   .kcard-tag{display:inline-block;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);border:1px solid var(--hair);border-radius:50px;padding:1px 8px;margin-left:8px}
   .etapa-status.gray{background:var(--gray)}
   .etapa-ctrl{margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
@@ -419,24 +541,27 @@
   .check li .lbl{flex:1;display:flex;align-items:center;gap:11px}
 
   /* arquivos */
-  .arq{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:16px 15px;margin-bottom:6px;background:#F1F1EF;border-left:3px solid var(--gray);border-radius:0 8px 8px 0}
+  .arq{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:16px 18px;margin-bottom:10px;background:var(--panel);border:1px solid var(--hair-soft);border-left:3px solid var(--gray);border-radius:var(--r);box-shadow:var(--shadow-sm)}
   .arq-obra{font-family:var(--display);font-weight:500;font-size:15.5px;color:var(--ink)}
   .arq-sub{font-size:12.5px;color:var(--ink-3);margin-top:3px}
 
   /* membros */
-  .mbr{display:grid;grid-template-columns:auto 1.5fr auto;gap:16px;align-items:center;padding:14px 15px;margin-bottom:6px;border-left:3px solid var(--slate);border-radius:0 8px 8px 0;background:var(--panel-2)}
+  .mbr{display:grid;grid-template-columns:1.6fr 1fr 126px;gap:16px;align-items:center;padding:14px 18px;margin-bottom:10px;border:1px solid var(--hair-soft);border-left:3px solid var(--slate);border-radius:var(--r);background:var(--panel);box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .12s,border-color .2s}
+  .mbr:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
   .mbr[data-st="ativo"]{border-left-color:var(--green)}
   .mbr[data-st="pendente"]{border-left-color:var(--amber)}
   .mbr[data-st="inativo"]{border-left-color:var(--gray)}
   .mbr[data-st="inativo"] .mbr-name{color:var(--ink-2)}
-  .mbr-type{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);border:1px solid var(--hair);border-radius:50px;padding:4px 11px;white-space:nowrap;background:var(--paper)}
-  .mbr-name{font-family:var(--display);font-weight:500;font-size:15px;color:var(--ink)}
-  .mbr-sub{font-size:12px;color:var(--ink-3);margin-top:3px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  .mbr-acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-  @media(max-width:640px){.mbr{grid-template-columns:auto 1fr}.mbr-acts{grid-column:1 / -1;justify-content:flex-start}}
+  .mbr-av{width:46px;height:46px;flex:none;border-radius:50%;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:18px}
+  .mbr-name{font-family:var(--display);font-weight:600;font-size:15.5px;color:var(--ink)}
+  .mbr-status{margin-top:5px}
+  .mbr-kind{font-size:12px;color:var(--ink-2);margin-top:4px;text-transform:capitalize}
+  .mbr-mail{font-size:12px;color:var(--ink-3);margin-top:3px}
+  .mbr-acts{display:flex;flex-direction:column;gap:6px;align-items:stretch;width:126px}
+  @media(max-width:860px){.mbr{grid-template-columns:1fr}.mbr-acts{flex-direction:row;flex-wrap:wrap;width:auto}}
 
   /* modelos de etapa */
-  .mdl{background:var(--panel);border-radius:10px;padding:clamp(18px,2.4vw,24px);margin-bottom:16px;max-width:660px}
+  .mdl{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:clamp(18px,2.4vw,24px);margin-bottom:16px;max-width:660px}
   .mdl-h{font-family:var(--display);font-weight:500;font-size:16px;color:var(--ink);margin:0 0 12px}
   .mdl-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--hair-soft)}
   .mdl-item input{flex:1;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid transparent;padding:4px 2px}
@@ -447,6 +572,30 @@
   /* financeiro: abas */
   .fin-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hair-soft);border:1px solid var(--hair-soft);margin-bottom:clamp(24px,3vw,32px)}
   @media(max-width:620px){.fin-cards{grid-template-columns:1fr 1fr}}
+  /* financeiro — cartões com badge, filtro de período, linhas clicáveis, dica (padrão da central) */
+  .st-ico-doc{background:rgba(55,53,47,.1);color:var(--ink)}
+  .stat-badge{align-self:flex-start;font-size:10.5px;font-weight:500;letter-spacing:.02em;color:var(--ink-2);background:var(--panel-2);border-radius:50px;padding:4px 10px;margin-top:2px}
+  .stat-badge.green{background:rgba(94,125,87,.13);color:var(--green)}
+  .stat-badge.amber{background:rgba(192,138,30,.14);color:var(--amber)}
+  .stat-badge.red{background:rgba(170,86,74,.13);color:var(--red)}
+  .fin-period{position:relative;display:inline-flex;align-items:center}
+  .fin-period>svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--ink-2);fill:none;stroke:currentColor;stroke-width:1.7;pointer-events:none}
+  .fin-period select{appearance:none;-webkit-appearance:none;font-family:var(--sans);font-weight:500;font-size:12.5px;color:var(--ink);background:var(--panel);border:1px solid var(--hair);border-radius:50px;padding:9px 34px 9px 34px;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+  .fin-period select:focus{outline:none;border-color:var(--ink-3);box-shadow:var(--shadow-sm)}
+  .fin-period::after{content:"";position:absolute;right:16px;top:44%;width:7px;height:7px;border:solid var(--ink-2);border-width:0 1.5px 1.5px 0;transform:rotate(45deg);pointer-events:none}
+  #fin-contratos tr{cursor:pointer;transition:background .15s}
+  #fin-contratos tr:hover td{background:var(--panel-2)}
+  .fin-chev{width:8px;height:8px;display:inline-block;border:solid var(--ink-3);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);transition:border-color .2s,transform .2s}
+  #fin-contratos tr:hover .fin-chev{border-color:var(--ink);transform:rotate(-45deg) translate(1px,1px)}
+  .fin-tip{display:flex;align-items:center;gap:16px;margin-top:clamp(24px,3vw,32px)}
+  .fin-tip-ico{flex:none;width:40px;height:40px;border-radius:12px;background:var(--panel-2);color:var(--ink-2);display:flex;align-items:center;justify-content:center}
+  .fin-tip-ico svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7}
+  .fin-tip-t{font-family:var(--display);font-weight:600;font-size:14.5px;color:var(--ink)}
+  .fin-tip-s{font-size:13px;color:var(--ink-2);margin-top:2px;line-height:1.5}
+  /* botões de ação da tabela do financeiro: centralizados na célula */
+  #view-financeiro .ptable td{vertical-align:middle}
+  #view-financeiro .ptable td:last-child{text-align:center}
+  #view-financeiro .ptable td:last-child .pbtn{display:inline-flex}
   .fin-edit{cursor:pointer}
   .fin-edit td:first-child{position:relative}
 
@@ -466,18 +615,19 @@
 
   /* ---- barra de abas (navegação no topo) ---- */
   /* barra lateral de navegação (ícones) */
-  .sidebar{position:fixed;top:0;left:0;bottom:0;width:66px;background:var(--brand);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:6px;z-index:50;transition:background .4s}
-  .sidebar svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-  .side-logo{font-family:var(--sans);font-weight:600;font-size:16px;letter-spacing:.05em;color:var(--brand-on);margin-bottom:16px}
-  .side-tabs{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;width:100%;overflow-y:auto}
-  .sidebar .tab{width:44px;height:44px;padding:0;border:none;display:flex;align-items:center;justify-content:center;border-radius:12px;color:rgba(255,255,255,.72);text-decoration:none;transition:background .18s,color .18s}
-  .sidebar .tab:hover{background:rgba(255,255,255,.12);color:#fff}
-  .sidebar .tab[aria-current="true"]{background:rgba(255,255,255,.18);color:#fff;border:none}
-  .side-exit{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;color:rgba(255,255,255,.72);margin-top:6px;text-decoration:none}
-  .side-exit:hover{background:rgba(255,255,255,.12);color:#fff}
-  .side-bell{position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:none;border:none;color:rgba(255,255,255,.72);cursor:pointer;margin-bottom:8px}
-  .side-bell:hover{background:rgba(255,255,255,.12);color:#fff}
-  .notif-badge{position:absolute;top:6px;right:6px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--red);color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;font-family:var(--sans)}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:66px;background:var(--brand);display:flex;flex-direction:column;align-items:stretch;padding:16px 0;gap:6px;z-index:60;overflow:hidden;transition:width .22s cubic-bezier(.22,.61,.36,1),background .4s,box-shadow .22s}
+  .sidebar:hover{width:214px;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+  .sidebar svg{width:21px;height:21px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .side-logo{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.05em;color:var(--brand-on);margin:0 0 16px;height:28px;display:flex;align-items:center;padding-left:23px}
+  .side-tabs{display:flex;flex-direction:column;align-items:stretch;gap:6px;flex:1;width:100%;overflow-x:hidden;overflow-y:auto}
+  .sidebar .tab,.side-bell,.side-exit{position:relative;display:flex;align-items:center;gap:14px;height:44px;margin:0 8px;padding:0 0 0 15px;border:none;border-radius:12px;background:none;color:rgba(255,255,255,.66);text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .18s,color .18s}
+  .sidebar .tab::after,.side-bell::after,.side-exit::after{content:attr(aria-label);font-family:var(--sans);font-weight:500;font-size:13.5px;letter-spacing:.01em;opacity:0;transition:opacity .16s;pointer-events:none}
+  .sidebar:hover .tab::after,.sidebar:hover .side-bell::after,.sidebar:hover .side-exit::after{opacity:1}
+  .sidebar .tab:hover,.side-bell:hover,.side-exit:hover{background:rgba(255,255,255,.1);color:#fff}
+  .sidebar .tab[aria-current="true"]{background:rgba(255,255,255,.15);color:#fff}
+  .sidebar .tab[aria-current="true"]::before{content:"";position:absolute;left:-8px;top:50%;transform:translateY(-50%);width:3px;height:24px;border-radius:0 3px 3px 0;background:var(--gold)}
+  .notif-badge{position:absolute;top:6px;left:27px;right:auto;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--red);color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;font-family:var(--sans);box-shadow:0 0 0 2px var(--brand)}
+  @media(prefers-reduced-motion:reduce){.sidebar{transition:background .4s}}
   .notif-panel{position:fixed;left:74px;bottom:16px;top:auto;width:330px;max-width:calc(100vw - 90px);max-height:80vh;overflow:auto;background:var(--panel);border:1px solid var(--hair);border-radius:14px;box-shadow:0 16px 54px rgba(0,0,0,.2);z-index:70}
   .notif-head{font-family:var(--display);font-weight:600;font-size:14.5px;color:var(--ink);padding:14px 16px 10px}
   .notif-list{list-style:none;margin:0;padding:0 6px 8px}
@@ -495,16 +645,28 @@
   /* tela inicial interativa */
   .home-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(20px,3vw,32px);margin-top:clamp(22px,4vw,36px)}
   @media(max-width:820px){.home-grid{grid-template-columns:1fr}}
-  .home-grid-b{grid-template-columns:1.6fr 1fr;margin-top:clamp(20px,3vw,28px)!important}
+  .home-grid-b{grid-template-columns:1.4fr 1fr;margin-top:clamp(20px,3vw,28px)!important}
   @media(max-width:820px){.home-grid-b{grid-template-columns:1fr}}
   .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(10px,2vw,18px)}
   @media(max-width:820px){.stat-cards{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:460px){.stat-cards{grid-template-columns:1fr}}
-  .stat-card{display:flex;flex-direction:column;gap:9px;background:var(--panel);border:1px solid var(--hair-soft);border-radius:14px;padding:18px 18px 15px;text-decoration:none;color:inherit;transition:box-shadow .2s,transform .15s}
-  .stat-card:hover{box-shadow:0 8px 26px rgba(0,0,0,.08);transform:translateY(-1px)}
-  .stat-lbl{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
-  .stat-num{font-family:var(--display);font-weight:600;font-size:clamp(30px,4vw,40px);color:var(--ink);line-height:1}
-  .stat-link{font-size:12.5px;color:var(--ink-2)}
+  .stat-card{position:relative;display:flex;flex-direction:column;gap:8px;background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);padding:18px 18px 16px;text-decoration:none;color:inherit;box-shadow:var(--shadow-sm);overflow:hidden;transition:box-shadow .22s,transform .18s,border-color .22s}
+  .stat-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity .22s}
+  .stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--hair)}
+  .stat-card:hover::before{opacity:1}
+  .stat-ico{position:absolute;top:15px;right:15px;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+  .stat-ico svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .st-ico-ev{background:rgba(94,125,87,.13);color:var(--green)}
+  .st-ico-tk{background:rgba(192,138,30,.14);color:var(--amber)}
+  .st-ico-pj{background:rgba(95,124,138,.14);color:var(--slate)}
+  .st-ico-pz{background:rgba(170,86,74,.13);color:var(--red)}
+  .st-ico-cl{background:rgba(175,133,58,.14);color:var(--gold)}
+  .stat-num.green{color:var(--green)}
+  .stat-num.amber{color:var(--amber)}
+  .stat-lbl{font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);max-width:calc(100% - 42px);line-height:1.3;min-height:2.6em}
+  .stat-num{font-family:var(--display);font-weight:500;font-size:clamp(22px,2.4vw,28px);color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+  .stat-link{font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:5px;margin-top:auto;padding-top:4px}
+  .stat-card:hover .stat-link{color:var(--ink)}
   .recent-list{list-style:none;margin:8px 0 0;padding:0}
   .recent-row{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--hair-soft);font-size:13.5px;color:var(--ink)}
   .recent-row:last-child{border-bottom:none}
@@ -515,14 +677,19 @@
   .theme-dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--hair);cursor:pointer;padding:0;transition:transform .15s,border-color .15s,box-shadow .15s}
   .theme-dot:hover{transform:scale(1.08)}
   .theme-dot[aria-current="true"]{border-color:var(--ink);box-shadow:0 0 0 3px var(--panel),0 0 0 4px var(--ink)}
-  .card{background:var(--panel);border-radius:12px;padding:clamp(20px,3vw,28px);transition:background .4s}
-  .card h3{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 16px}
+  .card{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);padding:clamp(20px,3vw,28px);box-shadow:var(--shadow-sm);transition:background .4s,box-shadow .25s,border-color .25s}
+  .card h3{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 16px}
   .today-list{list-style:none;margin:0;padding:0}
   .td{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid var(--hair-soft)}
   .td:last-child{border-bottom:none}
   .td-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);flex:none;margin-top:6px}
-  .td-name{font-family:var(--display);font-weight:500;font-size:14.5px;color:var(--ink)}
-  .td-sub{font-size:12px;color:var(--ink-3);margin-top:2px}
+  .td-name{font-family:var(--display);font-weight:600;font-size:14.5px;color:var(--ink)}
+  .td-sub{font-size:12px;color:var(--ink-2);margin-top:2px}
+  /* hover discreto nas linhas de lista */
+  .td,.aviso,.recent-row{margin-inline:-10px;padding-inline:10px;border-radius:var(--r-sm);transition:background .18s}
+  .td:hover,.aviso:hover,.recent-row:hover{background:var(--panel-2)}
+  .notif-row{transition:background .18s;border-radius:8px}
+  .notif-row:hover{background:var(--panel-2)}
   .avisos{list-style:none;margin:0;padding:0}
   .aviso{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--hair-soft)}
   .aviso:last-child{border-bottom:none}
@@ -604,20 +771,20 @@
 <nav class="sidebar" aria-label="Seções">
   <span class="side-logo">IM</span>
   <div class="side-tabs" id="tabbar">
-    <a class="tab" href="#inicio" data-view="home" title="início" aria-label="início"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a>
-    <a class="tab" href="#tarefas" data-view="tarefas" title="minhas tarefas" aria-label="minhas tarefas"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8.5 12l2.2 2.2L15.6 9.4"/></svg></a>
-    <a class="tab" href="#proj" data-view="proj" title="projetos" aria-label="projetos"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a>
-    <a class="tab" href="#agenda" data-view="agenda" title="agenda" aria-label="agenda"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></a>
-    <a class="tab" href="#clientes" data-view="clientes" title="clientes" aria-label="clientes"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6.6a3 3 0 0 1 0 5.8"/><path d="M20.5 19a5.5 5.5 0 0 0-3.6-5.2"/></svg></a>
-    <a class="tab" href="#equipe" data-view="equipe" title="equipe" aria-label="equipe"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></a>
-    <a class="tab" href="#membros" data-view="membros" title="membros" aria-label="membros"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="2.4"/><path d="M8.5 17a3.5 3.5 0 0 1 7 0"/></svg></a>
-    <a class="tab" href="#financeiro" data-view="financeiro" title="financeiro" aria-label="financeiro"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/></svg></a>
-    <a class="tab" href="#modelos" data-view="modelos" title="modelo" aria-label="modelo"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg></a>
-    <a class="tab" href="#parc" data-view="parc" title="parceiros" aria-label="parceiros"><svg viewBox="0 0 24 24"><path d="M4 9l1-4h14l1 4"/><path d="M5 9v10h14V9"/><path d="M4 9h16"/></svg></a>
-    <a class="tab" href="#arquivos" data-view="arquivos" title="arquivos" aria-label="arquivos"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11h14V8"/><path d="M10 12h4"/></svg></a>
+    <a class="tab" href="#inicio" data-view="home" title="Início" aria-label="Início"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a>
+    <a class="tab" href="#tarefas" data-view="tarefas" title="Minhas tarefas" aria-label="Minhas tarefas"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8.5 12l2.2 2.2L15.6 9.4"/></svg></a>
+    <a class="tab" href="#proj" data-view="proj" title="Projetos" aria-label="Projetos"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a>
+    <a class="tab" href="#agenda" data-view="agenda" title="Agenda" aria-label="Agenda"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></a>
+    <a class="tab" href="#clientes" data-view="clientes" title="Clientes" aria-label="Clientes"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6.6a3 3 0 0 1 0 5.8"/><path d="M20.5 19a5.5 5.5 0 0 0-3.6-5.2"/></svg></a>
+    <a class="tab" href="#equipe" data-view="equipe" title="Equipe" aria-label="Equipe"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></a>
+    <a class="tab" href="#membros" data-view="membros" title="Membros" aria-label="Membros"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="2.4"/><path d="M8.5 17a3.5 3.5 0 0 1 7 0"/></svg></a>
+    <a class="tab" href="#financeiro" data-view="financeiro" title="Financeiro" aria-label="Financeiro"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/></svg></a>
+    <a class="tab" href="#modelos" data-view="modelos" title="Modelo" aria-label="Modelo"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg></a>
+    <a class="tab" href="#parc" data-view="parc" title="Parceiros" aria-label="Parceiros"><svg viewBox="0 0 24 24"><path d="M4 9l1-4h14l1 4"/><path d="M5 9v10h14V9"/><path d="M4 9h16"/></svg></a>
+    <a class="tab" href="#arquivos" data-view="arquivos" title="Arquivos" aria-label="Arquivos"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11h14V8"/><path d="M10 12h4"/></svg></a>
   </div>
-  <button class="side-bell" id="notif-bell" title="notificações" aria-label="notificações" style="margin-top:auto"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="notif-badge" id="notif-badge" hidden></span></button>
-  <a class="side-exit" href="#" id="exit" title="sair" aria-label="sair" style="margin-top:0"><svg viewBox="0 0 24 24"><path d="M15 12H4"/><path d="M8 8l-4 4 4 4"/><path d="M12 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg></a>
+  <button class="side-bell" id="notif-bell" title="Notificações" aria-label="Notificações" style="margin-top:auto"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="notif-badge" id="notif-badge" hidden></span></button>
+  <a class="side-exit" href="#" id="exit" title="Sair" aria-label="Sair" style="margin-top:0"><svg viewBox="0 0 24 24"><path d="M15 12H4"/><path d="M8 8l-4 4 4 4"/><path d="M12 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg></a>
 </nav>
 <div class="notif-panel" id="notif-panel" hidden>
   <div class="notif-head">notificações</div>
@@ -634,21 +801,21 @@
     </section>
 
     <div class="stat-cards">
-      <a class="stat-card" href="#agenda"><span class="stat-lbl">eventos de hoje</span><span class="stat-num" id="st-eventos">—</span><span class="stat-link">ver agenda →</span></a>
-      <a class="stat-card" href="#tarefas"><span class="stat-lbl">tarefas pendentes</span><span class="stat-num" id="st-tarefas">—</span><span class="stat-link">ver tarefas →</span></a>
-      <a class="stat-card" href="#proj"><span class="stat-lbl">projetos em andamento</span><span class="stat-num" id="st-projetos">—</span><span class="stat-link">ver projetos →</span></a>
-      <a class="stat-card" href="#agenda"><span class="stat-lbl">prazos próximos</span><span class="stat-num" id="st-prazos">—</span><span class="stat-link">ver prazos →</span></a>
+      <a class="stat-card" href="#agenda"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></span><span class="stat-lbl">eventos de hoje</span><span class="stat-num" id="st-eventos">—</span><span class="stat-link">Ver agenda →</span></a>
+      <a class="stat-card" href="#tarefas"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8.5 12l2.2 2.2L15.5 9"/></svg></span><span class="stat-lbl">tarefas pendentes</span><span class="stat-num" id="st-tarefas">—</span><span class="stat-link">Ver tarefas →</span></a>
+      <a class="stat-card" href="#proj"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="stat-lbl">projetos em andamento</span><span class="stat-num" id="st-projetos">—</span><span class="stat-link">Ver projetos →</span></a>
+      <a class="stat-card" href="#agenda"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><span class="stat-lbl">prazos próximos</span><span class="stat-num" id="st-prazos">—</span><span class="stat-link">Ver prazos →</span></a>
     </div>
 
     <div class="home-grid">
       <section class="card">
-        <h3>sua agenda de hoje <a href="#agenda" style="float:right;font-size:12px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-2);text-decoration:none">ver agenda completa</a></h3>
+        <h3>sua agenda de hoje <a href="#agenda" style="float:right;font-size:12px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-2);text-decoration:none">Ver agenda completa</a></h3>
         <ul class="today-list" id="today-list"></ul>
       </section>
       <section class="card">
         <h3>avisos</h3>
         <ul class="avisos" id="avisos"></ul>
-        <div class="aviso-add"><input id="aviso-input" type="text" placeholder="Novo aviso para a equipe…"><button class="pill ghost sm" type="button" id="aviso-add-btn">publicar</button></div>
+        <div class="aviso-add"><input id="aviso-input" type="text" placeholder="Novo aviso para a equipe…"><button class="pill ghost sm" type="button" id="aviso-add-btn"><svg viewBox="0 0 24 24"><path d="M4 12l16-7-7 16-2-7z"/></svg>publicar</button></div>
       </section>
     </div>
 
@@ -666,10 +833,10 @@
 
   <!-- MINHAS TAREFAS (kanban) -->
   <section class="view" id="view-tarefas" hidden>
-    <button class="back" type="button" data-home>voltar</button>
+    <button class="back" type="button" data-home>Voltar</button>
     <div class="page-head">
-      <h2 class="page-title">minhas tarefas</h2>
-      <button class="pill solid sm" type="button" id="nova-tarefa" style="margin-bottom:clamp(20px,3vw,30px)">+ nova tarefa</button>
+      <h2 class="page-title">Minhas tarefas</h2>
+      <button class="pill solid sm" type="button" id="nova-tarefa" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>nova tarefa</button>
     </div>
     <p class="proj-note">Cartões avulsos e <b>etapas dos projetos por responsável</b>. Use o filtro para ver as suas, as de um colaborador ou de toda a equipe.</p>
     <div style="margin:0 0 18px;max-width:320px"><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Mostrar tarefas de</label><select id="kanban-filtro" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
@@ -678,71 +845,33 @@
 
   <!-- CENTRAL DE PROJETOS -->
   <section class="view" id="view-proj" hidden>
-    <button class="back" type="button" data-home>voltar</button>
+    <button class="back" type="button" data-home>Voltar</button>
     <div class="page-head">
-      <h2 class="page-title">central de projetos</h2>
-      <a class="pill solid sm" href="#novo" style="margin-bottom:clamp(20px,3vw,30px)">+ novo projeto</a>
+      <h2 class="page-title">Central de projetos</h2>
+      <a class="pill solid sm" href="#novo" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo projeto</a>
     </div>
-    <div class="filters" role="tablist" aria-label="Filtrar projetos">
-      <button class="filter" role="tab" aria-selected="true" data-filter="andamento" style="--fc:var(--amber)">em andamento</button>
-      <button class="filter" role="tab" aria-selected="false" data-filter="concluido" style="--fc:var(--green)">concluído</button>
-      <button class="filter" role="tab" aria-selected="false" data-filter="pausado" style="--fc:var(--gray)">pausado</button>
-      <button class="filter" role="tab" aria-selected="false" data-filter="cancelado" style="--fc:var(--red)">cancelado</button>
-    </div>
-    <div class="projs" id="projs">
-      <div class="proj" data-status="andamento" data-proj="jurere">
-        <div><div class="proj-obra">Residência Jurerê</div><div class="proj-cli">Marina Andrade · Jurerê Internacional</div><div class="proj-contract">contrato nº <b>2026-014</b> · unifamiliar</div><div class="proj-resp">resp. Isys Mattos, Ana Ribeiro</div><div class="proj-valor">contrato <b>R$ 78.000</b> · a receber R$ 36.000</div></div>
-        <div><div class="proj-etapa">etapa atual — <b>estudo de fachada</b></div><div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:45%"></div></div><span class="mini-pct">45%</span></div></div>
-        <div class="proj-end"><span class="state amber">em andamento</span><a class="pill ghost sm" href="#projeto">abrir</a></div>
+    <p class="page-sub">Acompanhe todos os projetos do escritório e seu progresso atual.</p>
+    <div class="proj-toolbar">
+      <div class="filters" role="tablist" aria-label="Filtrar projetos">
+        <button class="filter" role="tab" aria-selected="true" data-filter="andamento" style="--fc:var(--amber)">Em andamento <span class="filter-n" data-count="andamento">0</span></button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="concluido" style="--fc:var(--green)">Concluído <span class="filter-n" data-count="concluido">0</span></button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="pausado" style="--fc:var(--gray)">Pausado <span class="filter-n" data-count="pausado">0</span></button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="cancelado" style="--fc:var(--red)">Cancelado <span class="filter-n" data-count="cancelado">0</span></button>
       </div>
-      <div class="proj" data-status="andamento" data-proj="centro">
-        <div><div class="proj-obra">Reforma Apartamento Centro</div><div class="proj-cli">Marina Andrade · Centro</div><div class="proj-contract">contrato nº <b>2026-022</b> · mista</div><div class="proj-resp">resp. Ana Ribeiro</div><div class="proj-valor">contrato <b>R$ 42.000</b> · a receber R$ 35.700</div></div>
-        <div><div class="proj-etapa">etapa atual — <b>levantamento</b></div><div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:15%"></div></div><span class="mini-pct">15%</span></div></div>
-        <div class="proj-end"><span class="state amber">em andamento</span><a class="pill ghost sm" href="#projeto">abrir</a></div>
-      </div>
-      <div class="proj" data-status="andamento">
-        <div><div class="proj-obra">Casa Campeche</div><div class="proj-cli">Rafael Souza · Campeche</div><div class="proj-contract">contrato nº <b>2026-011</b> · unifamiliar</div><div class="proj-resp">resp. Lucas Prado</div><div class="proj-valor">contrato <b>R$ 65.000</b> · a receber R$ 19.500</div></div>
-        <div><div class="proj-etapa">etapa atual — <b>projeto executivo</b></div><div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:70%"></div></div><span class="mini-pct">70%</span></div></div>
-        <div class="proj-end"><span class="state amber">em andamento</span><a class="pill ghost sm" href="#projeto">abrir</a></div>
-      </div>
-      <div class="proj" data-status="andamento">
-        <div><div class="proj-obra">Sobrado Santo Antônio</div><div class="proj-cli">Família Prado · Santo Antônio de Lisboa</div><div class="proj-contract">contrato nº <b>2026-018</b> · multifamiliar</div><div class="proj-resp">resp. Bruna Faria, Isys Mattos</div><div class="proj-valor">contrato <b>R$ 88.000</b> · a receber R$ 66.000</div></div>
-        <div><div class="proj-etapa">etapa atual — <b>estudo preliminar</b></div><div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:25%"></div></div><span class="mini-pct">25%</span></div></div>
-        <div class="proj-end"><span class="state amber">em andamento</span><a class="pill ghost sm" href="#projeto">abrir</a></div>
-      </div>
-      <div class="proj" data-status="andamento">
-        <div><div class="proj-obra">Comercial Centro</div><div class="proj-cli">Ótica Vizzat · Centro</div><div class="proj-contract">contrato nº <b>2026-007</b> · comercial</div><div class="proj-resp">resp. Ana Ribeiro</div><div class="proj-valor">contrato <b>R$ 54.000</b> · a receber R$ 21.600</div></div>
-        <div><div class="proj-etapa">etapa atual — <b>aprovação na prefeitura</b></div><div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:60%"></div></div><span class="mini-pct">60%</span></div></div>
-        <div class="proj-end"><span class="state amber">em andamento</span><a class="pill ghost sm" href="#projeto">abrir</a></div>
-      </div>
-      <div class="proj" data-status="andamento">
-        <div><div class="proj-obra">Apartamento Beira-Mar</div><div class="proj-cli">Sofia Lima · Beira-Mar Norte</div><div class="proj-contract">contrato nº <b>2026-021</b> · mista</div><div class="proj-resp">resp. Bruna Faria</div><div class="proj-valor">contrato <b>R$ 60.000</b> · a receber R$ 27.000</div></div>
-        <div><div class="proj-etapa">etapa atual — <b>projeto executivo</b></div><div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:55%"></div></div><span class="mini-pct">55%</span></div></div>
-        <div class="proj-end"><span class="state amber">em andamento</span><a class="pill ghost sm" href="#projeto">abrir</a></div>
-      </div>
-      <div class="proj" data-status="concluido">
-        <div><div class="proj-obra">Residência Ingleses</div><div class="proj-cli">João Meyer · Ingleses</div><div class="proj-contract">contrato nº <b>2025-032</b> · unifamiliar</div><div class="proj-resp">resp. Isys Mattos</div><div class="proj-valor">contrato <b>R$ 72.000</b> · quitado</div></div>
-        <div><div class="proj-etapa">etapa atual — <b>entregue</b></div><div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:100%"></div></div><span class="mini-pct">100%</span></div></div>
-        <div class="proj-end"><span class="state green">concluído</span><a class="pill ghost sm" href="#projeto">abrir</a></div>
-      </div>
-      <div class="proj" data-status="pausado">
-        <div><div class="proj-obra">Reforma Lagoa</div><div class="proj-cli">Camila e Diego · Lagoa da Conceição</div><div class="proj-contract">contrato nº <b>2026-009</b> · unifamiliar</div><div class="proj-resp">resp. Lucas Prado, Carla Nunes</div><div class="proj-valor">contrato <b>R$ 38.000</b> · a receber R$ 34.200</div></div>
-        <div><div class="proj-etapa">etapa atual — <b>levantamento</b></div><div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:10%"></div></div><span class="mini-pct">10%</span></div></div>
-        <div class="proj-end"><span class="state gray">pausado</span><a class="pill ghost sm" href="#projeto">abrir</a></div>
-      </div>
-      <div class="proj" data-status="cancelado">
-        <div><div class="proj-obra">Galpão Biguaçu</div><div class="proj-cli">Transportes Sul · Biguaçu</div><div class="proj-contract">contrato nº <b>2026-003</b> · comercial</div><div class="proj-resp">resp. Lucas Prado</div><div class="proj-valor">contrato <b>R$ 50.000</b> · distratado</div></div>
-        <div><div class="proj-etapa">etapa atual — <b>cancelado</b></div><div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:5%"></div></div><span class="mini-pct">5%</span></div></div>
-        <div class="proj-end"><span class="state red">cancelado</span><a class="pill ghost sm" href="#projeto">abrir</a></div>
+      <div class="proj-search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="proj-search-input" type="search" placeholder="Buscar projeto ou cliente…" aria-label="Buscar projeto ou cliente">
       </div>
     </div>
+    <div class="projs-head" aria-hidden="true"><span>projeto / cliente</span><span>etapa atual</span><span>progresso</span><span>ações</span></div>
+    <div class="projs" id="projs"></div>
     <p class="note" id="proj-empty" hidden style="padding:16px 2px">Nenhum projeto neste filtro.</p>
   </section>
 
   <!-- PÁGINA DA OBRA -->
   <section class="view" id="view-projeto" hidden>
    <div id="projeto-index">
-    <button class="back" type="button" data-home>voltar</button>
+    <button class="back" type="button" data-home>Voltar</button>
     <h2 class="page-title" id="obra-page-title">Residência Jurerê</h2>
     <p class="proj-note">Informações, etapas, <b>financeiro</b> e <b>contrato</b> do projeto. O que você e os colaboradores editarem fica sincronizado com a área do colaborador. Toque em uma etapa para abri-la em sua própria tela.</p>
 
@@ -754,6 +883,16 @@
       <div class="field"><label>Tipo</label><select><option>Unifamiliar</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
     </div>
 
+    <p class="sec-label">imagem do projeto</p>
+    <div class="pj-cover" style="max-width:660px;margin-bottom:clamp(28px,4vw,42px)">
+      <div class="pj-cover-preview" id="pj-cover-preview"><span id="pj-cover-ini">P</span></div>
+      <div class="pj-cover-actions">
+        <label class="pill ghost sm" style="cursor:pointer"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-7 7"/></svg><span id="pj-cover-btn-txt">anexar imagem</span><input type="file" id="pj-cover-file" accept="image/*" hidden></label>
+        <button class="pbtn danger" type="button" id="pj-cover-remove" hidden><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button>
+        <span class="note" id="pj-cover-note">Aparece na miniatura do card na central de projetos.</span>
+      </div>
+    </div>
+
     <p class="sec-label">financeiro do projeto <span class="adm-only-tag">visível só ao administrador</span></p>
     <div class="adm-panel">
       <p class="adm-note" style="margin:0 0 18px">Os valores ficam no projeto (um cliente pode ter vários). Isto alimenta a aba <b>financeiro</b> da Área do Cliente; o colaborador não vê estes valores.</p>
@@ -762,7 +901,7 @@
         <div class="field"><label>Forma de pagamento</label><select id="f-forma"></select></div>
       </div>
       <ul class="parcelas" id="parcelas"></ul>
-      <div class="form-actions"><button class="pill ghost sm pj-edit-only" type="button" id="add-parcela">+ adicionar parcela</button><button class="pill solid sm pj-edit-only" type="button" id="salvar-financeiro">salvar financeiro</button><span class="note" id="fin-note"></span></div>
+      <div class="form-actions"><button class="pill ghost sm pj-edit-only" type="button" id="add-parcela"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar parcela</button><button class="pill solid sm pj-edit-only" type="button" id="salvar-financeiro"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar financeiro</button><span class="note" id="fin-note"></span></div>
       <div id="extras-wrap" style="margin-top:24px;padding-top:20px;border-top:1px solid var(--hair-soft);display:none">
         <p class="adm-note" style="margin:0 0 12px"><b>Serviços extras</b> — recebimentos avulsos vinculados a este projeto (não fazem parte do valor do contrato).</p>
         <div id="extras-projeto"></div>
@@ -829,43 +968,43 @@
       <div class="np-field" id="ae-nome-wrap" hidden><label>Nome da etapa (deste projeto)</label><input id="ae-nome" type="text" placeholder="Ex.: Compatibilização"></div>
       <div class="np-field"><label>Termo da etapa</label><select id="ae-termo"><option value="nenhum">Sem termo</option><option value="entrega">Termo de finalização e entrega</option><option value="aceite">Termo de finalização, entrega e aceite de etapa</option></select></div>
       <div class="np-field" id="ae-libera-wrap"><label>Liberação do arquivo ao cliente</label><select id="ae-libera"><option value="livre">Libera independente de aceite</option><option value="aceite">Só libera após o aceite do termo</option></select></div>
-      <button class="pill solid sm" type="button" id="ae-add">adicionar etapa</button>
+      <button class="pill solid sm" type="button" id="ae-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar etapa</button>
     </div>
 
     <p class="sec-label" style="margin-top:clamp(30px,4vw,44px)">documentos do cliente</p>
     <p class="proj-note" style="margin-top:-6px">O <b>Contrato</b> é anexado por você (administrador) e fica para o cliente baixar. Os demais documentos são anexados pelo colaborador na página da obra.</p>
     <div class="np-panel" style="max-width:660px">
       <ul class="np-docs" id="adm-docs">
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Contrato</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach"><span class="ftag">PDF</span> anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Alvará de construção</div></div><span class="np-doc-state">colaborador</span><button type="button" class="np-doc-rm" aria-label="Remover" title="Remover documento">×</button></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Arquitetônico Legal Deferido</div></div><span class="np-doc-state">colaborador</span><button type="button" class="np-doc-rm" aria-label="Remover" title="Remover documento">×</button></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Hidrossanitário Deferido</div></div><span class="np-doc-state">colaborador</span><button type="button" class="np-doc-rm" aria-label="Remover" title="Remover documento">×</button></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Hidro</div></div><span class="np-doc-state">colaborador</span><button type="button" class="np-doc-rm" aria-label="Remover" title="Remover documento">×</button></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Prefeitura</div></div><span class="np-doc-state">colaborador</span><button type="button" class="np-doc-rm" aria-label="Remover" title="Remover documento">×</button></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Contrato</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Alvará de construção</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Arquitetônico Legal Deferido</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Hidrossanitário Deferido</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Hidro</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Prefeitura</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button></li>
       </ul>
       <div class="edit-block" style="margin-top:14px">
         <label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:8px">Adicionar documento</label>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
           <select id="ad-modelo" style="flex:1;min-width:200px;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select>
           <input id="ad-nome" type="text" hidden placeholder="Nome do documento" style="flex:1;min-width:200px;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px">
-          <button class="pill ghost sm" type="button" id="ad-add">adicionar</button>
+          <button class="pill ghost sm" type="button" id="ad-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button>
         </div>
       </div>
     </div>
 
     <div class="pj-actions">
-      <button class="pill solid" type="button" id="pj-editar">editar</button>
-      <button class="pill ghost sm" type="button" id="pj-pausar">pausar</button>
-      <button class="pill ghost sm" type="button" id="pj-cancelar">cancelar</button>
-      <button class="pill ghost sm" type="button" id="pj-retomar">retomar</button>
-      <button class="pill ghost sm pj-edit-only" type="button" id="add-etapa">+ adicionar etapa</button>
-      <button class="pill solid pj-edit-only" type="button" id="pj-concluir">concluir</button>
+      <button class="pill solid" type="button" id="pj-editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 5l4 4"/></svg>editar</button>
+      <button class="pill ghost sm" type="button" id="pj-pausar"><svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg>pausar</button>
+      <button class="pill ghost sm" type="button" id="pj-cancelar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>cancelar</button>
+      <button class="pill ghost sm" type="button" id="pj-retomar"><svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>retomar</button>
+      <button class="pill ghost sm pj-edit-only" type="button" id="add-etapa"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar etapa</button>
+      <button class="pill solid pj-edit-only" type="button" id="pj-concluir"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>concluir</button>
       <span class="note" id="pj-status-note"></span>
     </div>
    </div>
 
    <div id="etapa-screen" hidden>
-     <button class="back" type="button" id="etapa-back">voltar ao projeto</button>
+     <button class="back" type="button" id="etapa-back">Voltar ao projeto</button>
      <h2 class="page-title" id="etapa-screen-title">Etapa</h2>
      <p class="proj-note" id="etapa-screen-meta">Residência Jurerê · etapa do projeto</p>
      <div id="etapa-screen-body"></div>
@@ -874,8 +1013,8 @@
 
   <!-- NOVO PROJETO -->
   <section class="view" id="view-novo" hidden>
-    <button class="back" type="button" data-home>voltar</button>
-    <h2 class="page-title">novo projeto</h2>
+    <button class="back" type="button" data-home>Voltar</button>
+    <h2 class="page-title">Novo projeto</h2>
     <p class="proj-note">Vincule o projeto a um cliente <b>já cadastrado</b>, selecione as etapas do contrato e os documentos. As etapas entram na <b>central de projetos</b> e no <b>acompanhamento</b> do cliente.</p>
     <form id="form-projeto" novalidate>
       <div class="np-panel">
@@ -895,7 +1034,7 @@
         <label>Parcelas <span style="color:var(--amber);text-transform:none;letter-spacing:0">· só o administrador vê</span></label>
         <p class="np-hint">Lance as parcelas do contrato aqui. Elas ficam no projeto e alimentam o financeiro da Área do Cliente e o consolidado do administrador.</p>
         <ul class="parcelas" id="np-parcelas"></ul>
-        <div style="margin-top:14px"><button class="pill ghost sm" type="button" id="np-add-parcela">+ adicionar parcela</button></div>
+        <div style="margin-top:14px"><button class="pill ghost sm" type="button" id="np-add-parcela"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar parcela</button></div>
       </div>
       </div>
 
@@ -916,7 +1055,7 @@
       </div>
 
       <div class="form-actions">
-        <button class="pill solid" type="submit">criar projeto</button>
+        <button class="pill solid" type="submit"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>criar projeto</button>
         <span class="note" id="note-projeto"></span>
       </div>
     </form>
@@ -924,13 +1063,13 @@
 
   <!-- AGENDA (toda a equipe) -->
   <section class="view" id="view-agenda" hidden>
-    <button class="back" type="button" data-home>voltar</button>
-    <h2 class="page-title">agenda</h2>
+    <button class="back" type="button" data-home>Voltar</button>
+    <h2 class="page-title">Agenda</h2>
     <p class="proj-note">Linha do tempo de <b>toda a equipe</b>: veja a programação de cada colaborador na semana e o avanço das atividades. Alimentada pelos prazos e check-lists lançados nos projetos.</p>
     <div style="margin:0 0 16px;max-width:320px"><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Mostrar demandas de</label><select id="agenda-filtro" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
     <div class="week-toggle" role="tablist" aria-label="Semana">
-      <button class="wk-btn" role="tab" data-week="0" aria-selected="true">esta semana</button>
-      <button class="wk-btn" role="tab" data-week="1" aria-selected="false">próxima semana</button>
+      <button class="wk-btn" role="tab" data-week="0" aria-selected="true">Esta semana</button>
+      <button class="wk-btn" role="tab" data-week="1" aria-selected="false">Próxima semana</button>
     </div>
     <div class="gantt" id="gantt"></div>
     <div class="gantt-legend"><span><span class="lg green"></span>concluído</span><span><span class="lg amber"></span>em andamento</span><span><span class="lg red"></span>atrasado</span></div>
@@ -943,22 +1082,22 @@
 
   <!-- CLIENTES -->
   <section class="view" id="view-clientes" hidden>
-    <button class="back" type="button" data-home>voltar</button>
+    <button class="back" type="button" data-home>Voltar</button>
     <div class="page-head">
-      <h2 class="page-title">clientes</h2>
-      <button class="pill solid sm" type="button" id="novo-cliente" style="margin-bottom:clamp(20px,3vw,30px)">+ novo cliente</button>
+      <h2 class="page-title">Clientes</h2>
+      <button class="pill solid sm" type="button" id="novo-cliente" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo cliente</button>
     </div>
 
     <div class="adm-panel" style="max-width:none">
       <div class="adm-row" style="padding-top:0">
         <div class="adm-k">Link de cadastro de novos clientes <small>compartilhe este link — quando o cliente preencher, ele entra na lista abaixo</small></div>
         <div style="display:flex;gap:10px">
-          <button class="pill solid sm" type="button" id="gen-link">gerar link</button>
+          <button class="pill solid sm" type="button" id="gen-link"><svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5l1.6-1.6a4 4 0 0 1 5.7 5.7L16 12"/><path d="M13.5 17.5l-1.6 1.6a4 4 0 0 1-5.7-5.7L8 12"/></svg>gerar link</button>
         </div>
       </div>
       <div class="link-box" id="link-box" hidden>
         <span class="link-url" id="link-url"></span>
-        <button class="pill ghost sm" type="button" id="link-copy">copiar</button>
+        <button class="pill ghost sm" type="button" id="link-copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>copiar</button>
       </div>
       <p class="note" id="link-note" style="margin-top:10px"></p>
     </div>
@@ -966,19 +1105,20 @@
     <div class="cli-tools">
       <div class="cli-sort">
         <span class="lbl">ordenar</span>
-        <button class="sortbtn" type="button" data-sort="cad" aria-selected="true">cadastro</button>
+        <button class="sortbtn" type="button" data-sort="cad" aria-selected="true">Cadastro</button>
         <button class="sortbtn" type="button" data-sort="az" aria-selected="false">A–Z</button>
       </div>
       <input class="cli-search" id="cli-search" type="search" placeholder="Buscar cliente…" aria-label="Buscar cliente">
     </div>
 
+    <div class="list-head cli-head" aria-hidden="true"><span>cliente / e-mail</span><span>obras</span><span>situação</span></div>
     <div class="cli-list" id="cli-list"></div>
     <p class="note" id="cli-empty" hidden style="padding:16px 6px">Nenhum cliente encontrado.</p>
   </section>
 
   <!-- DETALHE DO CLIENTE -->
   <section class="view" id="view-cliente" hidden>
-    <button class="back" type="button" id="cli-back">voltar aos clientes</button>
+    <button class="back" type="button" id="cli-back">Voltar aos clientes</button>
     <h2 class="page-title" id="cli-name">Cliente</h2>
     <p class="proj-note" id="cli-meta"></p>
 
@@ -1020,56 +1160,77 @@
     <div class="adm-panel">
       <div class="adm-row" style="padding-top:0">
         <div class="adm-k">Membro da área do cliente <small id="membro-sub"></small></div>
-        <button class="pill ghost sm" type="button" id="membro-toggle">incluir como membro</button>
+        <button class="pill ghost sm" type="button" id="membro-toggle"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a6 6 0 0 1 11 0"/><path d="M18 9v6M15 12h6"/></svg>incluir como membro</button>
       </div>
       <div class="adm-row">
         <div class="adm-k">Senha de acesso <small>defina uma senha para o cliente entrar (mín. 6)</small></div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
           <input id="cli-senha" type="text" placeholder="senha do cliente" style="border:none;border-bottom:1px solid var(--hair);padding:6px 2px;font-family:var(--sans);font-weight:300;font-size:14px;width:160px;color:var(--ink)">
-          <button class="pill solid sm" type="button" id="senha-btn">definir acesso</button>
+          <button class="pill solid sm" type="button" id="senha-btn"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8"/><path d="M17 6l2 2"/></svg>definir acesso</button>
         </div>
       </div>
       <div class="adm-row" style="border-bottom:none">
         <div class="adm-k">Obras deste cliente <small id="cli-obras-sub"></small></div>
-        <a class="pill ghost sm" href="#proj">ver na central</a>
+        <a class="pill ghost sm" href="#proj"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>ver na central</a>
       </div>
       <p class="note" id="acesso-note" style="margin-top:10px"></p>
     </div>
 
     <div class="pj-actions">
-      <button class="pill solid sm" type="button" id="cli-editar">editar cadastro</button>
-      <button class="pill solid sm" type="button" id="salvar-dados" hidden>salvar dados</button>
-      <button class="pill ghost sm" type="button" id="excluir-cliente" style="color:var(--red);border-color:#e6c9c4">excluir cliente</button>
+      <button class="pill solid sm" type="button" id="cli-editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 5l4 4"/></svg>editar cadastro</button>
+      <button class="pill solid sm" type="button" id="salvar-dados" hidden><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar dados</button>
+      <button class="pill ghost sm" type="button" id="excluir-cliente" style="color:var(--red);border-color:#e6c9c4"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir cliente</button>
       <span class="note" id="dados-note"></span>
     </div>
   </section>
 
   <!-- FINANCEIRO CONSOLIDADO -->
   <section class="view" id="view-financeiro" hidden>
-    <button class="back" type="button" data-home>voltar</button>
-    <h2 class="page-title">financeiro</h2>
+    <button class="back" type="button" data-home>Voltar</button>
+    <div class="page-head">
+      <h2 class="page-title">Financeiro</h2>
+      <div class="fin-period" style="margin-bottom:clamp(20px,3vw,30px)">
+        <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>
+        <select id="fin-periodo" aria-label="Filtrar por período">
+          <option value="todos">Todos os períodos</option>
+          <option value="0">Este mês</option>
+          <option value="-1">Mês passado</option>
+          <option value="1">Próximo mês</option>
+        </select>
+      </div>
+    </div>
     <p class="proj-note">Fluxo financeiro do escritório. Em <b>contratos</b>, clique numa linha para editar as parcelas e o status — ao marcar uma parcela como <b>paga</b>, ela alimenta o recibo na Área do Cliente. Tudo sincronizado com o financeiro do cliente (ligação em tempo real via backend).</p>
 
-    <div class="fin-cards">
-      <div class="stat"><div class="n" id="fc-contratos">—</div><div class="k">em contratos</div></div>
-      <div class="stat"><div class="n green" id="fc-recebido">—</div><div class="k">recebido</div></div>
-      <div class="stat"><div class="n amber" id="fc-areceber">—</div><div class="k">a receber</div></div>
-      <div class="stat"><div class="n red" id="fc-vencido">—</div><div class="k">vencido</div></div>
+    <div class="stat-cards" style="margin-bottom:clamp(22px,3vw,30px)">
+      <div class="stat-card"><span class="stat-ico st-ico-doc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg></span><span class="stat-lbl">em contratos</span><span class="stat-num" id="fc-contratos">—</span><span class="stat-badge">Total contratado</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg></span><span class="stat-lbl">recebido</span><span class="stat-num" id="fc-recebido">—</span><span class="stat-badge green">Total recebido</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12M6 20h12M8 4v3l4 4 4-4V4M8 20v-3l4-4 4 4v3"/></svg></span><span class="stat-lbl">a receber</span><span class="stat-num" id="fc-areceber">—</span><span class="stat-badge amber">Em aberto</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></span><span class="stat-lbl">vencido</span><span class="stat-num" id="fc-vencido">—</span><span class="stat-badge red">Em atraso</span></div>
     </div>
 
-    <div class="ptabs" role="tablist" aria-label="Financeiro">
-      <button class="ptab" role="tab" aria-selected="true" data-fcat="contratos" style="--fc:var(--slate)">contratos</button>
-      <button class="ptab" role="tab" aria-selected="false" data-fcat="areceber" style="--fc:var(--amber)">a receber</button>
-      <button class="ptab" role="tab" aria-selected="false" data-fcat="recebido" style="--fc:var(--green)">recebido</button>
-      <button class="ptab" role="tab" aria-selected="false" data-fcat="pagamentos" style="--fc:var(--red)">pagamentos</button>
+    <div class="proj-toolbar">
+      <div class="ptabs" role="tablist" aria-label="Financeiro">
+        <button class="ptab" role="tab" aria-selected="true" data-fcat="contratos" style="--fc:var(--slate)">Contratos</button>
+        <button class="ptab" role="tab" aria-selected="false" data-fcat="areceber" style="--fc:var(--amber)">A receber</button>
+        <button class="ptab" role="tab" aria-selected="false" data-fcat="recebido" style="--fc:var(--green)">Recebido</button>
+        <button class="ptab" role="tab" aria-selected="false" data-fcat="pagamentos" style="--fc:var(--red)">Pagamentos</button>
+      </div>
+      <div class="proj-search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="fin-search" type="search" placeholder="Buscar contrato, cliente…" aria-label="Buscar contrato ou cliente">
+      </div>
     </div>
 
     <div class="fcat" data-fcat="contratos">
       <div class="ptable-wrap"><table class="ptable">
-        <thead><tr><th>Obra</th><th>Cliente</th><th>Valor</th><th>Recebido</th><th>A receber</th><th>Status</th></tr></thead>
+        <thead><tr><th>Obra</th><th>Cliente</th><th>Valor</th><th>Recebido</th><th>A receber</th><th>Status</th><th></th></tr></thead>
         <tbody id="fin-contratos"></tbody>
       </table></div>
-      <p class="note" style="margin-top:12px">Clique numa linha para editar as parcelas e o status de pagamento.</p>
+      <p class="note" id="fin-empty" hidden style="margin-top:12px">Nenhum contrato encontrado.</p>
+      <div class="card fin-tip">
+        <div class="fin-tip-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6h.01"/></svg></div>
+        <div><div class="fin-tip-t">Dica rápida</div><div class="fin-tip-s">Clique numa linha para editar as parcelas e o status de pagamento.</div></div>
+      </div>
     </div>
     <div class="fcat" data-fcat="areceber" hidden>
       <div class="ptable-wrap"><table class="ptable">
@@ -1089,56 +1250,57 @@
         <thead><tr><th>Para</th><th>Referente</th><th>Vencimento</th><th>Valor</th><th>Status</th><th></th></tr></thead>
         <tbody id="fin-pagamentos"></tbody>
       </table></div>
-      <div style="margin-top:20px"><button class="pill solid sm" type="button" id="novo-pagamento">+ novo pagamento</button></div>
+      <div style="margin-top:20px"><button class="pill solid sm" type="button" id="novo-pagamento"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo pagamento</button></div>
     </div>
 
     <div id="receb-actions" style="margin-top:26px;padding-top:22px;border-top:1px solid var(--hair-soft);display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <button class="pill solid sm" type="button" id="novo-recebimento">+ novo recebimento</button>
+      <button class="pill solid sm" type="button" id="novo-recebimento"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo recebimento</button>
       <span class="np-hint" style="margin:0">Entradas que não vêm de nenhum projeto (ex.: consultoria, serviços avulsos).</span>
     </div>
   </section>
 
   <!-- MODELO -->
   <section class="view" id="view-modelos" hidden>
-    <button class="back" type="button" data-home>voltar</button>
-    <h2 class="page-title">modelo</h2>
+    <button class="back" type="button" data-home>Voltar</button>
+    <h2 class="page-title">Modelo</h2>
     <p class="proj-note">Modelos padrão usados ao <b>criar um projeto</b> e sincronizados nas etapas e documentos de todos os projetos (adm, colaborador e cliente). Toque num modelo para expandir e editar o check-list. Você pode <b>criar</b> uma etapa que não está na lista e <b>excluir</b> as que não usa.</p>
 
     <p class="sec-label">etapas</p>
     <div id="modelos-list"></div>
-    <div class="aviso-add" style="max-width:660px;margin-top:6px"><input id="novo-modelo-input" type="text" placeholder="Nome da nova etapa-modelo…"><button class="pill solid sm" type="button" id="novo-modelo-btn">+ criar etapa</button></div>
+    <div class="aviso-add" style="max-width:660px;margin-top:6px"><input id="novo-modelo-input" type="text" placeholder="Nome da nova etapa-modelo…"><button class="pill solid sm" type="button" id="novo-modelo-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>criar etapa</button></div>
 
     <p class="sec-label" style="margin-top:clamp(30px,4vw,44px)">documentos</p>
     <p class="proj-note" style="margin-top:-6px">Documentos que o colaborador anexa em cada projeto (o <b>Contrato</b> é sempre do administrador). Editar aqui muda as opções em "novo projeto".</p>
     <div class="mdl" style="max-width:660px">
       <ul class="mdl-docs" id="modelo-docs" style="list-style:none;margin:0;padding:0"></ul>
-      <div class="aviso-add" style="margin-top:12px"><input id="novo-doc-input" type="text" placeholder="Novo documento…"><button class="pill ghost sm" type="button" id="novo-doc-btn">adicionar</button></div>
+      <div class="aviso-add" style="margin-top:12px"><input id="novo-doc-input" type="text" placeholder="Novo documento…"><button class="pill ghost sm" type="button" id="novo-doc-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button></div>
     </div>
   </section>
 
   <!-- MEMBROS -->
   <section class="view" id="view-membros" hidden>
-    <button class="back" type="button" data-home>voltar</button>
-    <h2 class="page-title">membros</h2>
+    <button class="back" type="button" data-home>Voltar</button>
+    <h2 class="page-title">Membros</h2>
     <p class="proj-note">Quem tem acesso à ferramenta — <b>clientes</b> e <b>colaboradores</b>. Ative ou desative o acesso, redefina a senha e abra o cadastro. O cliente entra na Área do Cliente; o colaborador, na Área do Colaborador.</p>
 
-    <div class="stats" style="margin-top:0;margin-bottom:clamp(24px,3vw,32px)">
-      <div class="stat"><div class="n" id="mb-total">—</div><div class="k">membros</div></div>
-      <div class="stat"><div class="n green" id="mb-ativos">—</div><div class="k">ativos</div></div>
-      <div class="stat"><div class="n amber" id="mb-pend">—</div><div class="k">pendentes</div></div>
-      <div class="stat"><div class="n" id="mb-colab">—</div><div class="k">colaboradores</div></div>
+    <div class="stat-cards" style="margin-top:0;margin-bottom:clamp(24px,3vw,32px)">
+      <div class="stat-card"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6.6a3 3 0 0 1 0 5.8"/><path d="M20.5 19a5.5 5.5 0 0 0-3.6-5.2"/></svg></span><span class="stat-lbl">membros</span><span class="stat-num" id="mb-total">—</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg></span><span class="stat-lbl">ativos</span><span class="stat-num green" id="mb-ativos">—</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><span class="stat-lbl">pendentes</span><span class="stat-num amber" id="mb-pend">—</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-cl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span><span class="stat-lbl">colaboradores</span><span class="stat-num" id="mb-colab">—</span></div>
     </div>
 
     <div class="filters" role="tablist" aria-label="Filtrar membros">
-      <button class="filter" role="tab" aria-selected="true" data-mfilter="todos" style="--fc:var(--ink)">todos</button>
-      <button class="filter" role="tab" aria-selected="false" data-mfilter="cliente" style="--fc:var(--green)">clientes</button>
-      <button class="filter" role="tab" aria-selected="false" data-mfilter="colaborador" style="--fc:var(--slate)">colaboradores</button>
+      <button class="filter" role="tab" aria-selected="true" data-mfilter="todos" style="--fc:var(--ink)">Todos</button>
+      <button class="filter" role="tab" aria-selected="false" data-mfilter="cliente" style="--fc:var(--green)">Clientes</button>
+      <button class="filter" role="tab" aria-selected="false" data-mfilter="colaborador" style="--fc:var(--slate)">Colaboradores</button>
     </div>
 
     <div class="cli-tools" style="justify-content:flex-end">
       <input class="cli-search" id="mb-search" type="search" placeholder="Buscar membro…" aria-label="Buscar membro">
     </div>
 
+    <div class="list-head mbr-head" aria-hidden="true"><span>membro / e-mail</span><span>acesso / tipo</span><span>ações</span></div>
     <div id="membros-list"></div>
     <p class="note" id="mb-empty" hidden style="padding:16px 6px">Nenhum membro neste filtro.</p>
     <p class="note" id="mb-note" style="margin-top:12px"></p>
@@ -1146,35 +1308,39 @@
 
   <!-- EQUIPE -->
   <section class="view" id="view-equipe" hidden>
-    <button class="back" type="button" data-home>voltar</button>
+    <button class="back" type="button" data-home>Voltar</button>
     <div class="page-head">
-      <h2 class="page-title">equipe</h2>
-      <button class="pill solid sm" type="button" id="novo-colab" style="margin-bottom:clamp(20px,3vw,30px)">+ novo colaborador</button>
+      <h2 class="page-title">Equipe</h2>
+      <button class="pill solid sm" type="button" id="novo-colab" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo colaborador</button>
     </div>
     <p class="proj-note">Colaboradores do escritório — quem pode ser responsável por etapas nos projetos. Toque em um colaborador para editar os dados. O nº de projetos ativos vem da central de projetos.</p>
 
     <div class="adm-panel" style="max-width:none">
       <div class="adm-row" style="padding-top:0;border-bottom:none">
         <div class="adm-k">Link de cadastro de colaborador <small>envie para o colaborador preencher os próprios dados; ao concluir, ele entra na lista</small></div>
-        <button class="pill solid sm" type="button" id="gen-colab-link">gerar link</button>
+        <button class="pill solid sm" type="button" id="gen-colab-link"><svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5l1.6-1.6a4 4 0 0 1 5.7 5.7L16 12"/><path d="M13.5 17.5l-1.6 1.6a4 4 0 0 1-5.7-5.7L8 12"/></svg>gerar link</button>
       </div>
-      <div class="link-box" id="colab-link-box" hidden><span class="link-url" id="colab-link-url"></span><button class="pill ghost sm" type="button" id="colab-link-copy">copiar</button></div>
+      <div class="link-box" id="colab-link-box" hidden><span class="link-url" id="colab-link-url"></span><button class="pill ghost sm" type="button" id="colab-link-copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>copiar</button></div>
       <p class="note" id="colab-link-note" style="margin-top:10px"></p>
     </div>
 
+    <div class="list-head team-head" aria-hidden="true"><span>colaborador</span><span>função</span><span>e-mail</span><span></span></div>
     <div class="team-list" id="team-list"></div>
   </section>
 
   <!-- PARCEIROS E FORNECEDORES -->
   <section class="view" id="view-parc" hidden>
-    <button class="back" type="button" data-home>voltar</button>
-    <h2 class="page-title">parceiros e fornecedores</h2>
+    <button class="back" type="button" data-home>Voltar</button>
+    <div class="page-head">
+      <h2 class="page-title">Parceiros e fornecedores</h2>
+      <button class="pill solid sm" type="button" id="new-forn" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo fornecedor</button>
+    </div>
     <div class="ptabs" role="tablist" aria-label="Categorias">
-      <button class="ptab" role="tab" aria-selected="true" data-cat="projeto" style="--fc:var(--amber)">projeto</button>
-      <button class="ptab" role="tab" aria-selected="false" data-cat="execucao" style="--fc:var(--green)">execução</button>
-      <button class="ptab" role="tab" aria-selected="false" data-cat="loja" style="--fc:var(--slate)">loja</button>
-      <button class="ptab" role="tab" aria-selected="false" data-cat="online" style="--fc:var(--red)">online</button>
-      <button class="ptab" role="tab" aria-selected="false" data-cat="marcas" style="--fc:var(--gray)">marcas</button>
+      <button class="ptab" role="tab" aria-selected="true" data-cat="projeto" style="--fc:var(--amber)">Projeto</button>
+      <button class="ptab" role="tab" aria-selected="false" data-cat="execucao" style="--fc:var(--green)">Execução</button>
+      <button class="ptab" role="tab" aria-selected="false" data-cat="loja" style="--fc:var(--slate)">Loja</button>
+      <button class="ptab" role="tab" aria-selected="false" data-cat="online" style="--fc:var(--red)">Online</button>
+      <button class="ptab" role="tab" aria-selected="false" data-cat="marcas" style="--fc:var(--gray)">Marcas</button>
     </div>
     <div class="pcat" data-cat="projeto">
       <div class="ptable-wrap"><table class="ptable">
@@ -1226,12 +1392,11 @@
         </tbody>
       </table></div>
     </div>
-    <div style="margin-top:26px"><button class="pill ghost sm" type="button" id="new-forn">+ novo fornecedor</button></div>
   </section>
 
   <!-- TAREFA (cartão do kanban) -->
   <section class="view" id="view-tarefa" hidden>
-    <button class="back" type="button" id="tarefa-back">voltar ao painel</button>
+    <button class="back" type="button" id="tarefa-back">Voltar ao painel</button>
     <p class="sec-label" style="margin-bottom:6px">título da tarefa</p>
     <h2 class="page-title" id="tarefa-title" style="outline:none;border-bottom:1px solid var(--hair);padding-bottom:6px;max-width:520px">Tarefa</h2>
     <p class="proj-note" id="tarefa-meta"></p>
@@ -1245,11 +1410,11 @@
       </div>
       <p class="sec-label" style="margin-top:26px">check-list</p>
       <ul class="check" id="tarefa-check"></ul>
-      <div class="chk-add" style="margin-top:12px"><input id="tarefa-newitem" type="text" placeholder="Novo item do check-list…"><button class="pill ghost sm" type="button" id="tarefa-additem">adicionar</button></div>
+      <div class="chk-add" style="margin-top:12px"><input id="tarefa-newitem" type="text" placeholder="Novo item do check-list…"><button class="pill ghost sm" type="button" id="tarefa-additem"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button></div>
       <div class="form-actions" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:30px;padding-top:22px;border-top:1px solid var(--hair-soft)">
-        <button class="pill solid sm" type="button" id="tarefa-inserir">salvar tarefa</button>
-        <button class="pill sm" type="button" id="tarefa-concluir" style="background:var(--green);border:1px solid var(--green);color:#fff">concluir tarefa</button>
-        <button class="pill ghost sm" type="button" id="tarefa-remove" style="color:var(--red);border-color:#e6c9c4;margin-left:auto">excluir tarefa</button>
+        <button class="pill solid sm" type="button" id="tarefa-inserir"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar tarefa</button>
+        <button class="pill sm" type="button" id="tarefa-concluir" style="background:var(--green);border:1px solid var(--green);color:#fff"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>concluir tarefa</button>
+        <button class="pill ghost sm" type="button" id="tarefa-remove" style="color:var(--red);border-color:#e6c9c4;margin-left:auto"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir tarefa</button>
         <span class="note" id="tarefa-note" style="flex-basis:100%;margin:2px 0 0"></span>
       </div>
     </div>
@@ -1257,8 +1422,8 @@
 
   <!-- ARQUIVOS -->
   <section class="view" id="view-arquivos" hidden>
-    <button class="back" type="button" data-home>voltar</button>
-    <h2 class="page-title">arquivos</h2>
+    <button class="back" type="button" data-home>Voltar</button>
+    <h2 class="page-title">Arquivos</h2>
     <p class="proj-note">Projetos <b>arquivados</b> saem da central de projetos e da visão do colaborador e do cliente. Você pode restaurar a qualquer momento.</p>
     <div id="arq-list"></div>
     <p class="note" id="arq-empty" style="padding:16px 2px">Nenhum projeto arquivado ainda. Arquive um projeto pela central de projetos.</p>
@@ -1266,7 +1431,7 @@
 
   <!-- COLABORADOR (detalhe/edição) -->
   <section class="view" id="view-colab" hidden>
-    <button class="back" type="button" id="colab-back">voltar à equipe</button>
+    <button class="back" type="button" id="colab-back">Voltar à equipe</button>
     <h2 class="page-title" id="colab-name">Colaborador</h2>
     <p class="proj-note" id="colab-meta"></p>
 
@@ -1293,12 +1458,30 @@
       </div>
     </div>
 
-    <div class="form-actions"><button class="pill solid sm" type="button" id="colab-save">salvar</button><span class="note" id="colab-note"></span></div>
+    <div id="colab-acesso" hidden>
+      <p class="sec-label">acesso</p>
+      <div class="adm-panel">
+        <div class="adm-row" style="padding-top:0">
+          <div class="adm-k">Membro da área do colaborador <small id="colab-membro-sub"></small></div>
+          <button class="pill ghost sm" type="button" id="colab-membro-toggle"></button>
+        </div>
+        <div class="adm-row" style="border-bottom:none">
+          <div class="adm-k">Senha de acesso <small>defina uma senha para o colaborador entrar (mín. 6)</small></div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <input id="colab-senha" type="text" placeholder="senha do colaborador" autocomplete="off" style="border:none;border-bottom:1px solid var(--hair);padding:6px 2px;font-family:var(--sans);font-weight:300;font-size:14px;width:160px;color:var(--ink)">
+            <button class="pill solid sm" type="button" id="colab-senha-btn"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8"/><path d="M17 6l2 2"/></svg>definir acesso</button>
+          </div>
+        </div>
+        <p class="note" id="colab-acesso-note" style="margin-top:10px"></p>
+      </div>
+    </div>
+
+    <div class="form-actions"><button class="pill solid sm" type="button" id="colab-save"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar</button><button class="pbtn danger" type="button" id="colab-del" hidden><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir colaborador</button><span class="note" id="colab-note"></span></div>
   </section>
 
 </div>
 
-<div class="foot"><div class="foot-in">protótipo · dados de exemplo · sem backend conectado</div></div>
+<div class="foot"><div class="foot-in">Isys Mattos · engenharia . arquitetura</div></div>
 
 <!-- modal genérico -->
 <div class="modal-back" id="modal" aria-hidden="true">
@@ -1307,8 +1490,8 @@
     <form id="modal-form" novalidate>
       <div class="modal-fields" id="modal-fields"></div>
       <div class="modal-actions">
-        <button class="pill ghost sm" type="button" id="modal-cancel">cancelar</button>
-        <button class="pill solid sm" type="submit">adicionar</button>
+        <button class="pill ghost sm" type="button" id="modal-cancel"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>cancelar</button>
+        <button class="pill solid sm" type="submit"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button>
       </div>
     </form>
   </div>
@@ -1369,50 +1552,68 @@
       var kf=document.getElementById('kanban-filtro'); if(kf) kf.addEventListener('change',function(){ KB_FILTRO=kf.value; if(typeof renderKanban==='function') renderKanban(); });
       var af=document.getElementById('agenda-filtro'); if(af) af.addEventListener('change',function(){ AG_FILTRO=af.value; var a=document.querySelector('.wk-btn[aria-selected="true"]'); if(typeof buildGantt==='function') buildGantt(a?a.dataset.week:'0'); });
     })();
+    var projBusca='';
     function applyFilter(val){
       var live=document.querySelectorAll('#projs .proj'); var shown=0;
-      live.forEach(function(p){ var ok=(val==='todos'||p.dataset.status===val); p.hidden=!ok; if(ok) shown++; });
-      if(projEmpty){ projEmpty.hidden=shown>0; projEmpty.textContent='Nenhum projeto neste filtro.'; }
+      var q=projBusca.trim().toLowerCase();
+      live.forEach(function(p){
+        var okStatus=(val==='todos'||p.dataset.status===val);
+        var okBusca=(!q || (p.dataset.busca||'').indexOf(q)>=0);
+        var ok=okStatus&&okBusca; p.hidden=!ok; if(ok) shown++;
+      });
+      if(projEmpty){ projEmpty.hidden=shown>0; projEmpty.textContent= q?('Nenhum projeto encontrado para "'+projBusca.trim()+'".'):'Nenhum projeto neste filtro.'; }
     }
-    filters.forEach(function(f){ f.addEventListener('click',function(){ filters.forEach(function(x){x.setAttribute('aria-selected','false');}); f.setAttribute('aria-selected','true'); applyFilter(f.dataset.filter); }); });
+    filters.forEach(function(f){ if(!f.dataset.filter) return; f.addEventListener('click',function(){ filters.forEach(function(x){ if(x.dataset.filter) x.setAttribute('aria-selected','false');}); f.setAttribute('aria-selected','true'); applyFilter(f.dataset.filter); }); });
+    (function(){ var si=document.getElementById('proj-search-input'); if(si) si.addEventListener('input',function(){ projBusca=si.value||''; applyFilter(curFilter()); }); })();
     var curFilter=function(){ var s=document.querySelector('.filter[aria-selected="true"]'); return s?s.dataset.filter:'andamento'; };
     function chipDe(st){ return st==='concluido'?'green':(st==='pausado'?'gray':(st==='cancelado'?'red':'amber')); }
     function txtDe(st){ return st==='concluido'?'concluído':(st==='pausado'?'pausado':(st==='cancelado'?'cancelado':'em andamento')); }
     async function renderCentral(){
       if(!projsBox) return;
-      var res=await sb.from('projetos').select('id,nome,status,arquivado,valor_contrato,clientes(nome,cidade),etapas(nome,ordem,status)').order('criado_em',{ascending:true});
+      var res=await sb.from('projetos').select('id,nome,status,arquivado,imagem_path,valor_contrato,clientes(nome,cidade),etapas(nome,ordem,status)').order('criado_em',{ascending:true});
       if(res.error){
-        // a coluna 'arquivado' pode ainda não existir — tenta sem ela
+        // colunas novas ('arquivado'/'imagem_path') podem ainda não existir — tenta sem elas
         res=await sb.from('projetos').select('id,nome,status,valor_contrato,clientes(nome,cidade),etapas(nome,ordem,status)').order('criado_em',{ascending:true});
         if(res.error){ projsBox.innerHTML=''; if(projEmpty){ projEmpty.hidden=false; projEmpty.textContent='Erro ao carregar: '+res.error.message; } return; }
       }
       var arr=res.data||[];
       var ativos=arr.filter(function(p){return !p.arquivado;});
       var arqs=arr.filter(function(p){return p.arquivado;});
-      projsBox.innerHTML=ativos.map(function(p){
+      var counts={andamento:0,concluido:0,pausado:0,cancelado:0};
+      function projCardHTML(p, btnsHtml){
         var ets=(p.etapas||[]).slice().sort(function(a,b){return (a.ordem||0)-(b.ordem||0);});
         var total=ets.length, done=0, atual=null;
         ets.forEach(function(e){ if(e.status==='concluida') done++; else if(!atual) atual=e; });
         var pct= total? Math.round(done/total*100):0;
         var atualNome= atual? atual.nome : (total?'entregue':'—');
         var st=p.status||'andamento';
-        var cli= p.clientes? (p.clientes.nome + (p.clientes.cidade?(' · '+p.clientes.cidade):'')) : '';
-        return '<div class="proj" data-status="'+st+'" data-id="'+p.id+'">'
-          +'<div><div class="proj-obra">'+p.nome+'</div><div class="proj-cli">'+cli+'</div></div>'
-          +'<div><div class="proj-etapa">etapa atual — <b>'+atualNome+'</b></div><div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:'+pct+'%"></div></div><span class="mini-pct">'+pct+'%</span></div></div>'
-          +'<div class="proj-end"><span class="state '+chipDe(st)+'">'+txtDe(st)+'</span><a class="pill ghost sm" href="#projeto" data-abrir="'+p.id+'">abrir</a><button class="pill ghost sm" type="button" data-arq="'+p.id+'">arquivar</button><button class="pill ghost sm" type="button" data-del="'+p.id+'" style="color:var(--red);border-color:#e6c9c4">excluir</button></div>'
+        var nome=p.nome||'', ini=(String(nome).trim().charAt(0)||'·').toUpperCase();
+        var thumb=ini; if(p.imagem_path){ try{ var pu=sb.storage.from('projeto-capas').getPublicUrl(p.imagem_path); if(pu&&pu.data&&pu.data.publicUrl) thumb='<img src="'+esc(pu.data.publicUrl)+'" alt="">'; }catch(e){} }
+        var cliNome= p.clientes? (p.clientes.nome||'') : '';
+        var cidade= (p.clientes&&p.clientes.cidade)? p.clientes.cidade : '';
+        var loc= cidade? '<div class="proj-loc"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>'+cidade+'</div>' : '';
+        var cliLine= cliNome? '<div class="proj-cli"><b>Cliente:</b> '+cliNome+'</div>' : '';
+        var tasks= total? (done+' de '+total+' '+(total===1?'etapa concluída':'etapas concluídas')) : 'sem etapas cadastradas';
+        return '<div class="proj" data-status="'+st+'" data-id="'+p.id+'" data-busca="'+esc((nome+' '+cliNome+' '+cidade).toLowerCase())+'">'
+          +'<div class="proj-main"><div class="proj-thumb" aria-hidden="true">'+thumb+'</div><div class="proj-info"><div class="proj-obra">'+nome+'</div>'+loc+cliLine+'</div></div>'
+          +'<div class="proj-stage"><div class="proj-etapa">etapa atual — <b>'+atualNome+'</b></div><div class="pbar"><div class="pbar-fill" style="width:'+pct+'%"></div></div><div class="proj-tasks"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>'+tasks+'</div></div>'
+          +'<div class="proj-prog"><div class="proj-pct">'+pct+'%</div><div class="proj-prog-lbl">do projeto</div></div>'
+          +'<div class="proj-actions"><div class="proj-status-badge"><span class="state '+chipDe(st)+'">'+txtDe(st)+'</span></div><div class="proj-btns">'+btnsHtml+'</div></div>'
         +'</div>';
+      }
+      ativos.forEach(function(p){ var st=p.status||'andamento'; if(counts[st]!=null) counts[st]++; });
+      projsBox.innerHTML=ativos.map(function(p){
+        return projCardHTML(p,
+          '<a class="pbtn" href="#projeto" data-abrir="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>abrir</a>'
+          +'<button class="pbtn" type="button" data-arq="'+p.id+'"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11h14V8"/><path d="M10 12h4"/></svg>arquivar</button>'
+          +'<button class="pbtn danger" type="button" data-del="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button>');
       }).join('');
+      Object.keys(counts).forEach(function(k){ var b=document.querySelector('.filter-n[data-count="'+k+'"]'); if(b) b.textContent=counts[k]; });
       applyFilter(curFilter());
       if(arqList){
-        arqList.innerHTML='';
-        arqs.forEach(function(p){
-          var d=document.createElement('div'); d.className='arq';
-          d.innerHTML='<div><div class="arq-obra">'+p.nome+'</div><div class="arq-sub">'+(p.clientes?p.clientes.nome:'')+'</div></div>';
-          var b=document.createElement('button'); b.className='pill ghost sm'; b.type='button'; b.textContent='restaurar';
-          b.addEventListener('click',async function(){ await sb.from('projetos').update({arquivado:false}).eq('id',p.id); renderCentral(); });
-          d.appendChild(b); arqList.appendChild(d);
-        });
+        arqList.innerHTML=arqs.map(function(p){
+          return projCardHTML(p, '<button class="pbtn" type="button" data-restaurar="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>restaurar</button>');
+        }).join('');
         if(arqEmpty) arqEmpty.hidden=arqs.length>0;
         if(arqHint) arqHint.textContent=arqs.length?(arqs.length+' projeto'+(arqs.length>1?'s':'')+' arquivado'+(arqs.length>1?'s':'')):'projetos arquivados';
       }
@@ -1428,12 +1629,13 @@
       }
       var dl=e.target.closest('[data-del]');
       if(dl){ e.preventDefault();
-        if(!confirm('Excluir este projeto definitivamente? As etapas dele também serão apagadas. Esta ação não pode ser desfeita.')) return;
+        if(!(await imConfirm('Excluir este projeto definitivamente? As etapas dele também serão apagadas. Esta ação não pode ser desfeita.'))) return;
         var del=await sb.from('projetos').delete().eq('id',dl.getAttribute('data-del'));
         if(del.error){ alert('Erro ao excluir: '+del.error.message); return; }
         renderCentral(); if(typeof carregarClientes==='function') carregarClientes();
       }
     });
+    if(arqList) arqList.addEventListener('click',async function(e){ var rb=e.target.closest('[data-restaurar]'); if(!rb) return; await sb.from('projetos').update({arquivado:false}).eq('id',rb.getAttribute('data-restaurar')); renderCentral(); });
     renderCentral();
 
     /* ---------------- página da obra: tela dedicada de etapa ---------------- */
@@ -1449,15 +1651,44 @@
       currentEtapa=et; currentInner=et.querySelector('.etapa-inner');
       var pad=currentInner&&currentInner.querySelector('.etapa-pad'); if(!pad) return;
       etapaBody.appendChild(pad);
+      layoutEtapaCards(pad);
       var nm=et.querySelector('.etapa-name'); if(nm) etapaTitle.textContent=nm.textContent;
-      var badge=et.querySelector('.etapa-status'); if(etapaMeta) etapaMeta.textContent=obraNomeAtual+(badge?(' · '+badge.textContent):'');
+      var badge=et.querySelector('.etapa-status');
+      paintEtapaMeta(badge?(badge.classList.contains('green')?'green':(badge.classList.contains('red')?'red':(badge.classList.contains('gray')?'gray':'amber'))):'', badge?badge.textContent:'');
       projetoIndex.hidden=true; etapaScreen.hidden=false;
       etapaScreen.classList.remove('anim'); void etapaScreen.offsetWidth; etapaScreen.classList.add('anim');
       window.scrollTo(0,0);
     }
+    /* organiza os campos da etapa em cards só enquanto a tela está aberta (desfaz ao fechar) */
+    var ES_SECS=[['dados','Dados da etapa'],['check','Check-list'],['doc','Documento de conclusão (PDF)'],['acoes','Ações']];
+    function paintEtapaMeta(st, txt){
+      if(!etapaMeta) return; etapaMeta.textContent=obraNomeAtual||'projeto';
+      if(txt){ var sp=document.createElement('span'); sp.className='state '+(st||'amber'); sp.style.marginLeft='12px'; sp.textContent=txt; etapaMeta.appendChild(sp); }
+    }
+    function esSecOf(n){ var c=n.classList; if(!c) return 'dados';
+      if(c.contains('check')||c.contains('check-count')||c.contains('chk-add')) return 'check';
+      if(c.contains('etapa-doc')) return 'doc';
+      if(c.contains('etapa-ctrl')||c.contains('etapa-remove')) return 'acoes';
+      return 'dados'; }
+    function layoutEtapaCards(pad){
+      if(!pad||pad.querySelector(':scope > .es-card')) return;
+      var kids=[].slice.call(pad.children); pad._esOrder=kids; var bodies={};
+      ES_SECS.forEach(function(s){ var card=document.createElement('section'); card.className='es-card'; card.setAttribute('data-sec',s[0]);
+        card.innerHTML='<h3 class="es-card-h">'+s[1]+'</h3><div class="es-card-body"></div>'; pad.appendChild(card); bodies[s[0]]=card.querySelector('.es-card-body'); });
+      kids.forEach(function(n){ bodies[esSecOf(n)].appendChild(n); });
+    }
+    function unlayoutEtapaCards(pad){
+      if(!pad) return;
+      var cards=[].slice.call(pad.querySelectorAll(':scope > .es-card')); if(!cards.length) return;
+      var rest=[]; cards.forEach(function(c){ var b=c.querySelector('.es-card-body'); if(b) [].forEach.call(b.children,function(n){ rest.push(n); }); });
+      (pad._esOrder||[]).forEach(function(n){ if(rest.indexOf(n)>=0) pad.appendChild(n); });
+      rest.forEach(function(n){ if(n.parentNode!==pad) pad.appendChild(n); });
+      cards.forEach(function(c){ c.remove(); });
+    }
     function closeEtapa(putBack){
       if(!etapaScreen) return;
       var pad=etapaBody.querySelector('.etapa-pad');
+      unlayoutEtapaCards(pad);
       if(pad && putBack!==false && currentInner){ currentInner.appendChild(pad); }
       else if(pad){ pad.parentNode.removeChild(pad); }
       etapaScreen.hidden=true; if(projetoIndex) projetoIndex.hidden=false;
@@ -1507,7 +1738,7 @@
       if(badge){ badge.className='etapa-status '+st; badge.textContent=txt; }
       var count=scope.querySelector('.check-count'); if(count) count.textContent=done+' de '+total+' itens';
       et._kcol=kcol; et._done=done; et._total=total; et._sttxt=txt;
-      if(currentEtapa===et && etapaMeta){ etapaMeta.textContent=obraNomeAtual+' · '+txt; }
+      if(currentEtapa===et) paintEtapaMeta(st, txt);
     }
     function wireColabs(box){
       var chipsBox=box.querySelector('[data-chips]'), sel=box.querySelector('[data-colabsel]'), et=box.closest('.etapa');
@@ -1538,7 +1769,7 @@
       if(note) note.textContent='Modelo aplicado ('+tpl.length+' itens).';
       recomputeEtapa(et); kanbanSync();
     }
-    function paintPause(btn,et){ btn.textContent=(et.dataset.paused==='1')?'retomar etapa':'pausar etapa'; }
+    function paintPause(btn,et){ btn.innerHTML=(et.dataset.paused==='1')?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5l12 7-12 7z"/></svg>retomar etapa':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5v14M15 5v14"/></svg>pausar etapa'; }
     function ensureCheckEditor(et){
       var ul=et.querySelector('.check'); if(!ul) return;
       [].forEach.call(ul.querySelectorAll('li'),function(li){ addItemRemove(li,et); });
@@ -1546,12 +1777,12 @@
       var cc=et.querySelector('.check-count');
       var wrap=document.createElement('div'); wrap.className='chk-add pj-edit-only';
       var inp=document.createElement('input'); inp.type='text'; inp.placeholder='Novo item do check-list…';
-      var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.textContent='adicionar item';
+      var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>adicionar item';
       function doAdd(){ var v=inp.value.trim(); if(!v) return; var li=document.createElement('li'); li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; li.querySelector('span').textContent=v; addItemRemove(li,et); ul.appendChild(li); inp.value=''; recomputeEtapa(et); kanbanSync(); }
       add.addEventListener('click',doAdd); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();doAdd();} });
       wrap.appendChild(inp); wrap.appendChild(add);
       var ctrl=document.createElement('div'); ctrl.className='etapa-ctrl';
-      var mdl=document.createElement('button'); mdl.type='button'; mdl.className='pill ghost sm pj-edit-only'; mdl.textContent='aplicar modelo'; mdl.addEventListener('click',function(){ applyModelo(et); });
+      var mdl=document.createElement('button'); mdl.type='button'; mdl.className='pill ghost sm pj-edit-only'; mdl.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg>aplicar modelo'; mdl.addEventListener('click',function(){ applyModelo(et); });
       var pause=document.createElement('button'); pause.type='button'; pause.className='pill ghost sm'; paintPause(pause,et); pause.addEventListener('click',function(){ et.dataset.paused=(et.dataset.paused==='1')?'':'1'; paintPause(pause,et); recomputeEtapa(et); kanbanSync(); });
       var note=document.createElement('span'); note.className='note'; note.setAttribute('data-mdl-note','');
       ctrl.appendChild(mdl); ctrl.appendChild(pause); ctrl.appendChild(note);
@@ -1559,7 +1790,7 @@
     }
     function addRemove(et){
       var pad=et.querySelector('.etapa-pad'); if(!pad || pad.querySelector('.etapa-remove')) return;
-      var b=document.createElement('button'); b.type='button'; b.className='etapa-remove pj-edit-only'; b.textContent='remover etapa';
+      var b=document.createElement('button'); b.type='button'; b.className='pbtn danger pj-edit-only etapa-remove'; b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover etapa';
       b.addEventListener('click',function(){ if(currentEtapa===et){ closeEtapa(false); } et.remove(); kanbanSync(); });
       pad.appendChild(b);
     }
@@ -1603,12 +1834,54 @@
     }
     document.querySelectorAll('#etapas .etapa').forEach(wireEtapa);
 
+    /* ---- imagem de capa do projeto (aparece na miniatura do card) ---- */
+    var COVER_PATH=null;
+    function coverUrl(path){ try{ var pu=sb.storage.from('projeto-capas').getPublicUrl(path); return (pu&&pu.data&&pu.data.publicUrl)||''; }catch(e){ return ''; } }
+    function setCover(path, nome){
+      COVER_PATH=path||null;
+      var prev=document.getElementById('pj-cover-preview'), rm=document.getElementById('pj-cover-remove'), bt=document.getElementById('pj-cover-btn-txt');
+      if(!prev) return;
+      var letter=((nome||'').trim().charAt(0)||'P').toUpperCase();
+      if(path){ prev.innerHTML='<img src="'+coverUrl(path)+'" alt="capa do projeto">'; if(rm) rm.hidden=false; if(bt) bt.textContent='trocar imagem'; }
+      else { prev.innerHTML='<span id="pj-cover-ini">'+letter+'</span>'; if(rm) rm.hidden=true; if(bt) bt.textContent='anexar imagem'; }
+    }
+    (function(){
+      var file=document.getElementById('pj-cover-file'), note=document.getElementById('pj-cover-note'), rm=document.getElementById('pj-cover-remove');
+      if(file) file.addEventListener('change', async function(){
+        var f=file.files&&file.files[0]; if(!f||!obraId) return;
+        if(!/^image\//.test(f.type)){ if(note) note.textContent='Selecione um arquivo de imagem.'; return; }
+        if(note) note.textContent='Enviando imagem…';
+        try{
+          var ext=((f.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,''))||'jpg';
+          var path=obraId+'/capa-'+Date.now()+'.'+ext;
+          var up=await sb.storage.from('projeto-capas').upload(path, f, {upsert:true, contentType:f.type});
+          if(up.error){ if(note) note.textContent='Para a imagem funcionar, rode o SQL (bucket projeto-capas). Detalhe: '+up.error.message; return; }
+          var old=COVER_PATH;
+          var upd=await sb.from('projetos').update({imagem_path:path}).eq('id',obraId);
+          if(upd.error){ if(note) note.textContent='Não foi possível salvar: '+upd.error.message; return; }
+          if(old && old!==path){ try{ await sb.storage.from('projeto-capas').remove([old]); }catch(e){} }
+          setCover(path, obraNomeAtual); if(note) note.textContent='Imagem atualizada.';
+          if(typeof renderCentral==='function') renderCentral();
+        }catch(e){ if(note) note.textContent='Erro: '+(e&&e.message||e); }
+        file.value='';
+      });
+      if(rm) rm.addEventListener('click', async function(){
+        if(!obraId||!COVER_PATH) return;
+        if(!(await imConfirm('Remover a imagem do projeto?'))) return;
+        try{ await sb.storage.from('projeto-capas').remove([COVER_PATH]); }catch(e){}
+        var upd=await sb.from('projetos').update({imagem_path:null}).eq('id',obraId);
+        if(upd.error){ if(note) note.textContent='Erro ao remover: '+upd.error.message; return; }
+        setCover(null, obraNomeAtual); if(note) note.textContent='Imagem removida.';
+        if(typeof renderCentral==='function') renderCentral();
+      });
+    })();
+
     /* ---- página da obra REAL: carrega o projeto aberto (obraId) do banco ---- */
     function byOrdemEt(a,b){ return (a.ordem||0)-(b.ordem||0); }
     async function fillObra(){
       if(typeof resetEtapaScreen==='function') resetEtapaScreen();
       if(!obraId) return;
-      var res=await sb.from('projetos').select('id,nome,status,valor_contrato,forma_pagamento,clientes(nome,cidade),etapas(id,nome,ordem,status,checklist,prazo_inicio,prazo_fim,termo,documento_nome,documento_path,kanban,responsavel_id),parcelas(id,descricao,valor,vencimento,status,ordem,pago_em)').eq('id',obraId).single();
+      var res=await sb.from('projetos').select('id,nome,status,imagem_path,valor_contrato,forma_pagamento,clientes(nome,cidade),etapas(id,nome,ordem,status,checklist,prazo_inicio,prazo_fim,termo,documento_nome,documento_path,kanban,responsavel_id),parcelas(id,descricao,valor,vencimento,status,ordem,pago_em)').eq('id',obraId).single();
       if(res.error){
         // financeiro (forma/parcelas) pode falhar — mantém o documento das etapas
         res=await sb.from('projetos').select('id,nome,status,valor_contrato,clientes(nome,cidade),etapas(id,nome,ordem,status,checklist,prazo_inicio,prazo_fim,termo,documento_nome,documento_path,kanban,responsavel_id)').eq('id',obraId).single();
@@ -1619,6 +1892,7 @@
       if(res.error){ return; }
       var p=res.data;
       obraNomeAtual=p.nome;
+      if(typeof setCover==='function') setCover(p.imagem_path, p.nome);
       // financeiro do projeto
       var ftot=document.getElementById('f-total'); if(ftot) ftot.value = (p.valor_contrato!=null) ? ('R$ '+p.valor_contrato) : 'R$ ';
       if(typeof fillFormaOptions==='function') fillFormaOptions(p.forma_pagamento||'');
@@ -1702,13 +1976,13 @@
       box.innerHTML='<label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:8px">Documento de conclusão (PDF)</label>'
         +'<div class="doc-state" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">'
         + (temDoc
-            ? '<button type="button" class="doc-ver" style="background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:14px;color:var(--ink);padding:0;border-bottom:1px solid var(--hair)">📄 '+(nome||'documento.pdf')+'</button><button type="button" class="doc-rm pj-edit-only lk-del">remover</button>'
+            ? '<button type="button" class="doc-ver" style="background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:14px;color:var(--ink);padding:0;border-bottom:1px solid var(--hair)">📄 '+(nome||'documento.pdf')+'</button><button type="button" class="doc-rm pj-edit-only pbtn danger"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button>'
             : '<span class="note" style="color:var(--ink-3);margin:0">Nenhum documento anexado.</span>')
         +'</div>'
-        +'<div class="pj-edit-only" style="margin-top:10px"><button type="button" class="pill ghost sm doc-add">'+(temDoc?'trocar PDF':'anexar PDF')+'</button></div>'
+        +'<div class="pj-edit-only" style="margin-top:10px"><button type="button" class="pill ghost sm doc-add"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>'+(temDoc?'trocar PDF':'anexar PDF')+'</button></div>'
         +'<input type="file" accept="application/pdf" class="doc-file" hidden>'
         +'<p class="doc-msg note" style="margin:8px 0 0;color:var(--ink-3)"></p>';
-      pad.appendChild(box);
+      (pad.querySelector(':scope > .es-card[data-sec="doc"] .es-card-body')||pad).appendChild(box);
       var fileIn=box.querySelector('.doc-file'), addBtn=box.querySelector('.doc-add'), msg=box.querySelector('.doc-msg');
       var verBtn=box.querySelector('.doc-ver'), rmBtn=box.querySelector('.doc-rm');
       if(addBtn) addBtn.addEventListener('click',function(){ fileIn.click(); });
@@ -1718,7 +1992,7 @@
         uploadDocEtapa(pad, eid, f, msg);
       });
       if(verBtn) verBtn.addEventListener('click',function(){ verDocEtapa(path, msg); });
-      if(rmBtn) rmBtn.addEventListener('click',function(){ if(confirm('Remover o documento desta etapa?')) removerDocEtapa(pad, eid, path, msg); });
+      if(rmBtn) rmBtn.addEventListener('click',function(){ imConfirm('Remover o documento desta etapa?').then(function(ok){ if(ok) removerDocEtapa(pad, eid, path, msg); }); });
     }
     async function uploadDocEtapa(pad, eid, file, msg){
       if(!obraId){ if(msg) msg.textContent='Abra o projeto antes de anexar.'; return; }
@@ -1807,13 +2081,13 @@
       var ver=temArq?'<button type="button" class="np-doc-ver" style="background:none;border:none;padding:0;margin-top:4px;cursor:pointer;color:var(--green);font-size:12.5px;border-bottom:1px solid var(--hair)">📄 '+ceDoc(row.arquivo_nome||'arquivo.pdf')+'</button>':'';
       var main='<div class="np-doc-main"><div class="np-doc-name">'+ceDoc(tipo)+'</div>'+ver+'</div>';
       var state='<span class="np-doc-state">'+(temArq?'anexado':'aguardando anexo')+'</span>';
-      var attach='<label class="pill ghost sm np-attach pj-edit-only">'+(temArq?'trocar':'anexar')+'<input type="file" accept="application/pdf" hidden></label>';
-      var rm=temArq?'<button type="button" class="np-doc-rm pj-edit-only" title="Remover">×</button>':'';
+      var attach='<label class="pill ghost sm np-attach pj-edit-only"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>'+(temArq?'trocar':'anexar')+'<input type="file" accept="application/pdf" hidden></label>';
+      var rm=temArq?'<button type="button" class="pbtn danger np-doc-rm pj-edit-only" title="Remover"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button>':'';
       li.innerHTML=main+state+attach+rm;
       var fileIn=li.querySelector('input[type=file]');
       if(fileIn) fileIn.addEventListener('change',function(){ var f=fileIn.files&&fileIn.files[0]; if(!f) return; if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){ alert('Envie um PDF.'); return; } uploadDocProjeto(tipo, f, li); });
       var vb=li.querySelector('.np-doc-ver'); if(vb) vb.addEventListener('click',function(){ verDocProjeto(row.arquivo_path); });
-      var rmb=li.querySelector('.np-doc-rm'); if(rmb) rmb.addEventListener('click',function(){ if(confirm('Remover "'+tipo+'"?')) removerDocProjeto(tipo, row); });
+      var rmb=li.querySelector('.np-doc-rm'); if(rmb) rmb.addEventListener('click',function(){ imConfirm('Remover "'+tipo+'"?').then(function(ok){ if(ok) removerDocProjeto(tipo, row); }); });
       return li;
     }
     async function uploadDocProjeto(tipo, file, li){
@@ -1851,7 +2125,7 @@
         var head=document.createElement('button'); head.type='button'; head.className='mdl-head';
         head.innerHTML='<span class="mdl-h">'+nome+'</span><span class="mdl-count">'+ETAPA_MODELOS[nome].length+' itens</span><span class="mdl-chev" aria-hidden="true"></span>';
         head.addEventListener('click',function(){ box.classList.toggle('open'); });
-        var delx=document.createElement('button'); delx.type='button'; delx.className='mdl-delx'; delx.textContent='excluir'; delx.title='Excluir esta etapa-modelo';
+        var delx=document.createElement('button'); delx.type='button'; delx.className='pbtn danger'; delx.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir'; delx.title='Excluir esta etapa-modelo';
         delx.addEventListener('click',function(){ delete ETAPA_MODELOS[nome]; renderModelos(); renderNovoOpts(); });
         row.appendChild(head); row.appendChild(delx); box.appendChild(row);
         var body=document.createElement('div'); body.className='mdl-body';
@@ -1866,7 +2140,7 @@
         });
         var addRow=document.createElement('div'); addRow.className='mdl-add';
         var ai=document.createElement('input'); ai.type='text'; ai.placeholder='Novo item padrão…';
-        var ab=document.createElement('button'); ab.type='button'; ab.className='pill ghost sm'; ab.textContent='adicionar';
+        var ab=document.createElement('button'); ab.type='button'; ab.className='pill ghost sm'; ab.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar';
         function doAdd(){ var v=ai.value.trim(); if(!v) return; ETAPA_MODELOS[nome].push(v); renderModelos(); keepOpen(nome); }
         ab.addEventListener('click',doAdd); ai.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();doAdd();} });
         addRow.appendChild(ai); addRow.appendChild(ab); inner.appendChild(addRow);
@@ -2158,13 +2432,13 @@
     /* link de cadastro (tela inicial de clientes) */
     var linkBox=document.getElementById('link-box'), linkUrl=document.getElementById('link-url');
     document.getElementById('gen-link').addEventListener('click',function(){
-      linkUrl.textContent='isysmattos.com/cadastro/'+Math.random().toString(36).slice(2,8);
+      linkUrl.textContent=location.origin+'/area-cadastro.html#cliente';
       linkBox.hidden=false;
       document.getElementById('link-note').textContent='Link gerado — compartilhe com o novo cliente. Quando ele preencher o cadastro, aparece automaticamente na lista.';
     });
     document.getElementById('link-copy').addEventListener('click',function(){
       try{navigator.clipboard&&navigator.clipboard.writeText(linkUrl.textContent);}catch(e){}
-      document.getElementById('link-note').textContent='Link copiado (protótipo).';
+      document.getElementById('link-note').textContent='Link copiado.';
     });
 
     /* detalhe do cliente */
@@ -2172,8 +2446,8 @@
     var elName=document.getElementById('cli-name'), elMeta=document.getElementById('cli-meta');
     var membroToggle=document.getElementById('membro-toggle'), membroSub=document.getElementById('membro-sub');
     function paintMembro(c){
-      if(c.membro){ membroToggle.textContent='remover acesso'; membroSub.textContent='liberado para acessar a Área do Cliente'; }
-      else{ membroToggle.textContent='incluir como membro'; membroSub.textContent='ainda não liberado — inclua para dar acesso'; }
+      if(c.membro){ membroToggle.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a6 6 0 0 1 11 0"/><path d="M16 10l5 5M21 10l-5 5"/></svg>remover acesso'; membroSub.textContent='liberado para acessar a Área do Cliente'; }
+      else{ membroToggle.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a6 6 0 0 1 11 0"/><path d="M18 9v6M15 12h6"/></svg>incluir como membro'; membroSub.textContent='ainda não liberado — inclua para dar acesso'; }
       var obras=c.obras||[];
       var obrasTxt=obras.length?(obras.length+' obra'+(obras.length>1?'s':'')+' · '+obras.join(', ')):'sem obras ainda';
       elMeta.innerHTML=(c.membro?'<span class="state green">membro</span>':'<span class="state amber">cadastro pendente</span>')+' · '+obrasTxt;
@@ -2399,8 +2673,8 @@
       if(!lista.length){ teamList.innerHTML='<p class="note" style="color:var(--ink-3);padding:14px 2px">Nenhum colaborador cadastrado ainda. Eles aparecem aqui quando se cadastram pelo link.</p>'; return; }
       lista.forEach(function(m){
         var row=document.createElement('button'); row.type='button'; row.className='team'; row.setAttribute('data-role',m.rk||'');
-        row.innerHTML='<div class="team-av">'+initials(m.nome)+'</div>'
-          +'<div><div class="team-name">'+m.nome+'</div><div class="team-role">'+(m.role||'Colaborador')+(m.ativo===false?' · <span style="color:var(--red)">inativo</span>':'')+'</div></div>'
+        row.innerHTML='<div class="team-main"><div class="team-av">'+initials(m.nome)+'</div><div class="team-name">'+m.nome+'</div></div>'
+          +'<div class="team-role">'+(m.role||'Colaborador')+(m.ativo===false?' · <span style="color:var(--red)">inativo</span>':'')+'</div>'
           +'<div class="team-proj">'+m.email+'</div>'
           +'<span class="team-chev" aria-hidden="true"></span>';
         row.addEventListener('click',function(){ location.hash='colab'; openColab(m); });
@@ -2435,7 +2709,7 @@
     }
     carregarColabs();
     async function excluirCliDB(cliKey, nome){
-      if(!confirm('Excluir o cliente "'+nome+'" e todos os seus projetos? Esta ação não pode ser desfeita.')) return false;
+      if(!(await imConfirm('Excluir o cliente "'+nome+'" e todos os seus projetos? Esta ação não pode ser desfeita.'))) return false;
       var pid=null; try{ var q=await sb.from('clientes').select('perfil_id').eq('id',cliKey).single(); pid=q.data&&q.data.perfil_id; }catch(e){}
       var d=await sb.from('clientes').delete().eq('id',cliKey);
       if(d.error){ alert('Erro ao excluir cliente: '+d.error.message); return false; }
@@ -2447,7 +2721,7 @@
         var ok=await excluirCliDB(it.ref.key, it.ref.nome); if(!ok) return;
         if(typeof carregarClientes==='function') carregarClientes();
       } else {
-        if(!confirm('Excluir o colaborador "'+it.ref.nome+'"? Esta ação não pode ser desfeita.')) return;
+        if(!(await imConfirm('Excluir o colaborador "'+it.ref.nome+'"? Esta ação não pode ser desfeita.'))) return;
         var d=await sb.from('perfis').delete().eq('id',it.ref.key);
         if(d.error){ alert('Erro ao excluir: '+d.error.message+'\\n(rodou o SQL de exclusão de perfis?)'); return; }
         if(typeof carregarColabs==='function') carregarColabs();
@@ -2477,17 +2751,20 @@
         shown++;
         var stt=mbStatus(it);
         var row=document.createElement('div'); row.className='mbr'; row.setAttribute('data-st',stt);
-        row.innerHTML='<span class="mbr-type">'+(it.kind==='cliente'?'cliente':'colaborador')+'</span>'
-          +'<div><div class="mbr-name">'+it.nome+'</div><div class="mbr-sub"><span class="state '+(stt==='ativo'?'green':(stt==='pendente'?'amber':'gray'))+'">'+mbStatusTxt(stt)+'</span><span>'+(it.email||'sem e-mail')+'</span></div></div>'
+        var mbIni=((it.nome||'?').trim().charAt(0)||'?').toUpperCase();
+        row.innerHTML='<div class="mbr-main"><span class="mbr-av" aria-hidden="true">'+mbIni+'</span>'
+            +'<div class="mbr-info"><div class="mbr-name">'+it.nome+'</div><div class="mbr-mail">'+(it.email||'sem e-mail')+'</div></div></div>'
+          +'<div class="mbr-acc"><div class="mbr-status"><span class="state '+(stt==='ativo'?'green':(stt==='pendente'?'amber':'gray'))+'">'+mbStatusTxt(stt)+'</span></div>'
+            +'<div class="mbr-kind">'+(it.kind==='cliente'?'cliente':'colaborador')+'</div></div>'
           +'<div class="mbr-acts"></div>';
         var acts=row.querySelector('.mbr-acts');
-        var tgl=document.createElement('button'); tgl.type='button'; tgl.className='pill ghost sm'; tgl.textContent=mbAtivo(it)?'desativar':'ativar';
+        var tgl=document.createElement('button'); tgl.type='button'; tgl.className='pbtn'; tgl.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 4v8"/><path d="M7 7a7 7 0 1 0 10 0"/></svg>'+(mbAtivo(it)?'desativar':'ativar');
         tgl.addEventListener('click',function(){ if(it.kind==='cliente'){ var nm=!it.ref.membro; it.ref.membro=nm; sb.from('clientes').update({membro:nm}).eq('id',it.ref.key).then(function(r){ if(r&&r.error&&mbNote) mbNote.textContent='Erro ao salvar: '+r.error.message; }); if(typeof renderList==='function') renderList(); } else { var novo=!(it.ref.ativo!==false); it.ref.ativo=novo; sb.from('perfis').update({ativo:novo}).eq('id',it.ref.key).then(function(r){ if(r&&r.error&&mbNote) mbNote.textContent='Erro ao salvar (rodou o SQL de perfis?): '+r.error.message; }); } renderMembros(); mbNote.textContent=it.ref.nome+(mbAtivo(it)?' — acesso ativado.':' — acesso desativado.'); });
-        var sen=document.createElement('button'); sen.type='button'; sen.className='pill ghost sm'; sen.textContent='senha';
-        sen.addEventListener('click',function(){ if(it.kind==='cliente'){ location.hash='cliente'; openCliente(it.ref.key); if(mbNote) mbNote.textContent='Defina a senha na seção "acesso" (clique em "editar cadastro").'; } else { if(mbNote) mbNote.textContent='O acesso do colaborador será configurado na Área do Colaborador.'; } });
-        var opn=document.createElement('button'); opn.type='button'; opn.className='pill ghost sm'; opn.textContent='abrir';
+        var sen=document.createElement('button'); sen.type='button'; sen.className='pbtn'; sen.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8"/><path d="M17 6l2 2"/></svg>senha';
+        sen.addEventListener('click',function(){ if(it.kind==='cliente'){ location.hash='cliente'; openCliente(it.ref.key); if(mbNote) mbNote.textContent='Defina a senha na seção "acesso" (clique em "editar cadastro").'; } else { location.hash='colab'; openColab(it.ref); setTimeout(function(){ var a=cg('colab-acesso'); if(a&&a.scrollIntoView) a.scrollIntoView({behavior:'smooth',block:'start'}); var s=cg('colab-senha'); if(s){ try{ s.focus({preventScroll:true}); }catch(e){} } },150); } });
+        var opn=document.createElement('button'); opn.type='button'; opn.className='pbtn'; opn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>abrir';
         opn.addEventListener('click',function(){ if(it.kind==='cliente'){ location.hash='cliente'; openCliente(it.ref.key); } else { location.hash='colab'; openColab(it.ref); } });
-        var del=document.createElement('button'); del.type='button'; del.className='pill ghost sm'; del.textContent='excluir'; del.style.color='var(--red)'; del.style.borderColor='#e6c9c4';
+        var del=document.createElement('button'); del.type='button'; del.className='pbtn danger'; del.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir';
         del.addEventListener('click',function(){ excluirMembro(it); });
         acts.appendChild(tgl); acts.appendChild(sen); acts.appendChild(opn); acts.appendChild(del);
         membrosList.appendChild(row);
@@ -2508,8 +2785,62 @@
       cg('c-nome').value=m?m.nome:''; cg('c-role').value=m?m.role:''; cg('c-email').value=m?m.email:''; cg('c-fone').value=m?m.fone:''; cg('c-cpf').value=m?m.cpf:''; cg('c-end').value=m?m.end:'';
       cg('c-banco').value=m?m.banco:''; cg('c-tipo').value=m?(m.tipo||'Corrente'):'Corrente'; cg('c-ag').value=m?m.ag:''; cg('c-conta').value=m?m.conta:''; cg('c-pix').value=m?m.pix:'';
       cg('colab-note').textContent='';
+      var cdel=cg('colab-del'); if(cdel) cdel.hidden=!(m&&m.key); // só para colaborador já cadastrado
+      var cac=cg('colab-acesso'); if(cac) cac.hidden=!(m&&m.key); // acesso: só para quem já tem login
+      if(cg('colab-senha')) cg('colab-senha').value='';
+      if(cg('colab-acesso-note')) cg('colab-acesso-note').textContent='';
+      paintColabAcesso(m);
       show('colab');
     }
+    /* seção "acesso" do colaborador (igual à do cliente): remover/liberar acesso + definir senha */
+    function paintColabAcesso(m){
+      var b=cg('colab-membro-toggle'), s=cg('colab-membro-sub'); if(!b||!s||!m) return;
+      var ico='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a6 6 0 0 1 11 0"/>';
+      if(m.ativo!==false){ b.innerHTML=ico+'<path d="M16 10l5 5M21 10l-5 5"/></svg>remover acesso'; s.textContent='liberado para acessar a Área do Colaborador'; }
+      else{ b.innerHTML=ico+'<path d="M18 9v6M15 12h6"/></svg>liberar acesso'; s.textContent='acesso removido — libere para ele voltar a entrar'; }
+    }
+    (function(){ var tg=cg('colab-membro-toggle'), sb2=cg('colab-senha-btn'); if(!tg||!sb2) return;
+      tg.addEventListener('click', async function(){
+        var c=editingColab, an=cg('colab-acesso-note'); if(!c||!c.key) return;
+        var novo=!(c.ativo!==false); c.ativo=novo; paintColabAcesso(c);
+        var r=await sb.from('perfis').update({ativo:novo}).eq('id',c.key);
+        if(r&&r.error){ c.ativo=!novo; paintColabAcesso(c); an.textContent='Erro ao salvar no banco: '+r.error.message; return; }
+        an.textContent=novo?'Acesso liberado — o colaborador já entra na Área do Colaborador.':'Acesso removido.';
+        if(typeof renderMembros==='function') renderMembros(); if(typeof renderTeam==='function') renderTeam();
+      });
+      sb2.addEventListener('click', async function(){
+        var c=editingColab, an=cg('colab-acesso-note'); if(!c||!c.key) return;
+        var senha=(cg('colab-senha').value||'').trim();
+        if(senha.length<6){ an.textContent='Digite uma senha de pelo menos 6 caracteres.'; return; }
+        an.textContent='Definindo senha…';
+        try{
+          var r=await sb.rpc('admin_definir_senha',{ alvo:c.key, nova_senha:senha });
+          if(r.error){
+            var falta=(r.error.code==='PGRST202')||/could not find the function|schema cache/i.test(r.error.message||'');
+            an.textContent=falta?'Falta um passo no banco: rode uma vez o arquivo sql-definir-senha.sql no Supabase. Enquanto isso, o colaborador pode trocar a senha em "Esqueci minha senha", na tela de login.':('Erro ao definir a senha: '+r.error.message);
+            return;
+          }
+          cg('colab-senha').value='';
+          an.textContent='Acesso definido! O colaborador entra com o e-mail '+(c.email||'cadastrado')+' e essa senha.'+(c.ativo===false?' (O acesso dele está removido — clique em "liberar acesso".)':'');
+        }catch(e){ an.textContent='Erro: '+(e&&e.message||e); }
+      });
+    })();
+    /* exclusão completa do colaborador (remove o perfil: sai da equipe e perde o acesso) */
+    (function(){ var cdel=cg('colab-del'); if(!cdel) return;
+      cdel.addEventListener('click', async function(){
+        var c=editingColab; if(!c||!c.key) return;
+        if(MEU_ID && String(c.key)===String(MEU_ID)){ cg('colab-note').textContent='Você não pode excluir o seu próprio usuário.'; return; }
+        if(!(await imConfirm('Excluir o colaborador "'+c.nome+'" por completo? Ele sai da equipe e perde o acesso; etapas e tarefas dele ficam sem responsável. Esta ação não pode ser desfeita.'))) return;
+        var d=await sb.from('perfis').delete().eq('id',c.key).select('id');
+        if(d.error){ cg('colab-note').textContent='Erro ao excluir: '+d.error.message; return; }
+        if(!d.data||!d.data.length){ cg('colab-note').textContent='Não foi possível excluir — falta a permissão no banco (rode o arquivo sql-excluir-perfis.sql no Supabase).'; return; }
+        try{ localStorage.removeItem('im-colab'); }catch(e){}
+        editingColab=null;
+        if(typeof carregarColabs==='function') await carregarColabs();
+        if(typeof renderMembros==='function') renderMembros();
+        location.hash='equipe';
+      });
+    })();
     cg('colab-back').addEventListener('click',function(){ history.length>1?history.back():(location.hash='equipe'); });
     cg('colab-save').addEventListener('click',function(){
       var v=function(id){return cg(id).value.trim();};
@@ -2526,19 +2857,19 @@
           cg('colab-note').textContent = (r&&r.error) ? ('Erro ao salvar: '+r.error.message) : 'Dados salvos. ✓';
           if(!(r&&r.error) && typeof carregarColabs==='function') carregarColabs();
         });
-      } else { cg('colab-note').textContent='Dados salvos (protótipo — colaborador criado pelo link).'; }
+      } else { cg('colab-note').textContent='Estes dados ainda não foram gravados: o colaborador entra na equipe ao se cadastrar pelo link ("gerar link").'; }
     });
 
     /* link de cadastro de colaborador */
     var cLinkBox=document.getElementById('colab-link-box'), cLinkUrl=document.getElementById('colab-link-url');
     document.getElementById('gen-colab-link').addEventListener('click',function(){
-      cLinkUrl.textContent='isysmattos.com/equipe/cadastro/'+Math.random().toString(36).slice(2,8);
+      cLinkUrl.textContent=location.origin+'/area-cadastro.html#colaborador';
       cLinkBox.hidden=false;
       document.getElementById('colab-link-note').textContent='Link gerado — envie ao colaborador. Ao preencher, ele entra na lista da equipe.';
     });
     document.getElementById('colab-link-copy').addEventListener('click',function(){
       try{navigator.clipboard&&navigator.clipboard.writeText(cLinkUrl.textContent);}catch(e){}
-      document.getElementById('colab-link-note').textContent='Link copiado (protótipo).';
+      document.getElementById('colab-link-note').textContent='Link copiado.';
     });
 
     /* ---------------- modal genérico (fornecedor + colaborador) ---------------- */
@@ -2560,23 +2891,30 @@
     var ptabs=document.querySelectorAll('#view-parc .ptab'), pcats=document.querySelectorAll('#view-parc .pcat');
     ptabs.forEach(function(t){ t.addEventListener('click',function(){ ptabs.forEach(function(x){x.setAttribute('aria-selected','false');}); t.setAttribute('aria-selected','true'); var c=t.dataset.cat; pcats.forEach(function(p){ p.hidden=(p.dataset.cat!==c); }); }); });
     async function carregarFornecedores(){
-      var res; try{ res=await sb.from('fornecedores').select('id,categoria,dados').order('criado_em',{ascending:true}); }catch(e){ return; }
+      var res; try{ res=await sb.from('fornecedores').select('id,categoria,dados').order('criado_em',{ascending:true}); }catch(e){ res={error:e}; }
       var rows=(res&&!res.error)?(res.data||[]):[];
       Object.keys(FFIELDS).forEach(function(cat){
-        var tb=document.querySelector('.pcat[data-cat="'+cat+'"] tbody'); if(!tb) return;
+        var box=document.querySelector('.pcat[data-cat="'+cat+'"]'); if(!box) return;
         var campos=FFIELDS[cat];
+        var nameKey=(campos.indexOf('Fornecedor')>=0)?'Fornecedor':(campos.indexOf('Marca')>=0?'Marca':campos[0]);
         var lst=rows.filter(function(r){return r.categoria===cat;});
-        tb.innerHTML='';
-        if(!lst.length){ tb.innerHTML='<tr><td colspan="'+(campos.length+1)+'" style="color:var(--ink-3)">Nenhum fornecedor nesta categoria ainda.</td></tr>'; return; }
-        lst.forEach(function(r){
-          var cells=campos.map(function(lb){ var v=(r.dados&&r.dados[lb])||'—'; return '<td>'+String(v).replace(/</g,'&lt;')+'</td>'; }).join('');
-          var tr=document.createElement('tr'); tr.innerHTML=cells+'<td><button type="button" class="lk-del" data-del-forn="'+r.id+'">excluir</button></td>';
-          tb.appendChild(tr);
-        });
+        if(!lst.length){ box.innerHTML='<p class="note" style="color:var(--ink-3);padding:8px 2px">Nenhum fornecedor nesta categoria ainda. Toque em <b>+ novo fornecedor</b> para adicionar.</p>'; return; }
+        var outros=campos.filter(function(lb){return lb!==nameKey;});
+        var cols='1.3fr repeat('+outros.length+',1fr) 104px';
+        var head='<div class="list-head forn-head" aria-hidden="true" style="padding-bottom:0"><span>'+nameKey+'</span>'+outros.map(function(lb){return '<span>'+lb+'</span>';}).join('')+'<span>ações</span></div>';
+        box.innerHTML='<div class="forn-cards" style="--forn-cols:'+cols+'">'+head+lst.map(function(r){
+          var d=r.dados||{};
+          var nome=String(d[nameKey]||'—').replace(/</g,'&lt;');
+          var fields=outros.map(function(lb){
+            var v=d[lb]; var tem=!(v==null||v===''||v==='—');
+            return '<div class="forn-f"><b>'+lb+'</b>'+(tem?String(v).replace(/</g,'&lt;'):'—')+'</div>';
+          }).join('');
+          return '<div class="forn-card"><div class="forn-card-name">'+nome+'</div>'+fields+'<div class="forn-act"><button type="button" class="pbtn danger" data-del-forn="'+r.id+'"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button></div></div>';
+        }).join('')+'</div>';
       });
     }
     var vParc=document.getElementById('view-parc');
-    if(vParc) vParc.addEventListener('click',function(e){ var b=e.target.closest('[data-del-forn]'); if(!b) return; if(!confirm('Excluir este fornecedor?')) return; sb.from('fornecedores').delete().eq('id',b.dataset.delForn).then(function(r){ if(r.error) alert('Erro ao excluir: '+r.error.message); else carregarFornecedores(); }); });
+    if(vParc) vParc.addEventListener('click',function(e){ var b=e.target.closest('[data-del-forn]'); if(!b) return; imConfirm('Excluir este fornecedor?').then(function(ok){ if(!ok) return; sb.from('fornecedores').delete().eq('id',b.dataset.delForn).then(function(r){ if(r.error) alert('Erro ao excluir: '+r.error.message); else carregarFornecedores(); }); }); });
     carregarFornecedores();
 
     /* ---------------- financeiro: abas + contratos editáveis ---------------- */
@@ -2589,12 +2927,25 @@
         var tb=document.getElementById(id); if(!tb||tb.__delWired) return; tb.__delWired=true;
         tb.addEventListener('click',function(e){
           var rb=e.target.closest('[data-del-receb]'), pgb=e.target.closest('[data-del-pag]');
-          if(rb){ if(!confirm('Excluir este recebimento?')) return; sb.from('recebimentos').delete().eq('id',rb.dataset.delReceb).then(function(r){ if(r.error) alert('Erro ao excluir: '+r.error.message); else if(typeof carregarFinanceiroConsolidado==='function') carregarFinanceiroConsolidado(); }); }
-          else if(pgb){ if(!confirm('Excluir este pagamento?')) return; sb.from('pagamentos').delete().eq('id',pgb.dataset.delPag).then(function(r){ if(r.error) alert('Erro ao excluir: '+r.error.message); else if(typeof carregarFinanceiroConsolidado==='function') carregarFinanceiroConsolidado(); }); }
+          if(rb){ imConfirm('Excluir este recebimento?').then(function(ok){ if(!ok) return; sb.from('recebimentos').delete().eq('id',rb.dataset.delReceb).then(function(r){ if(r.error) alert('Erro ao excluir: '+r.error.message); else if(typeof carregarFinanceiroConsolidado==='function') carregarFinanceiroConsolidado(); }); }); }
+          else if(pgb){ imConfirm('Excluir este pagamento?').then(function(ok){ if(!ok) return; sb.from('pagamentos').delete().eq('id',pgb.dataset.delPag).then(function(r){ if(r.error) alert('Erro ao excluir: '+r.error.message); else if(typeof carregarFinanceiroConsolidado==='function') carregarFinanceiroConsolidado(); }); }); }
         });
       });
     })();
     function fmt(n){ return 'R$ '+Math.round(n).toLocaleString('pt-BR'); }
+    function imConfirm(msg){
+      return new Promise(function(resolve){
+        var ov=document.createElement('div'); ov.className='imc-ov';
+        ov.innerHTML='<div class="imc-box"><div class="imc-msg"></div><div class="imc-acts"><button type="button" class="pill ghost sm imc-no"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>cancelar</button><button type="button" class="pbtn danger imc-yes"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button></div></div>';
+        ov.querySelector('.imc-msg').textContent=msg;
+        document.body.appendChild(ov);
+        function done(v){ try{ov.remove();}catch(e){} resolve(v); }
+        ov.querySelector('.imc-no').addEventListener('click',function(){ done(false); });
+        ov.querySelector('.imc-yes').addEventListener('click',function(){ done(true); });
+        ov.addEventListener('click',function(e){ if(e.target===ov) done(false); });
+        var y=ov.querySelector('.imc-yes'); if(y) y.focus();
+      });
+    }
     function pz(p){ return p.parc.reduce(function(a,x){return a+(x.st==='pago'?x.v:0);},0); }
     function pa(p){ return p.parc.reduce(function(a,x){return a+(x.st!=='pago'?x.v:0);},0); }
     function ptot(p){ return p.parc.reduce(function(a,x){return a+x.v;},0); }
@@ -2621,42 +2972,57 @@
       }catch(e){ console.error(e); }
     }
     carregarFinanceiroConsolidado();
+    (function(){
+      var fp=document.getElementById('fin-periodo'); if(fp) fp.addEventListener('change',function(){ FIN_PER=fp.value||'todos'; if(typeof renderFin==='function') renderFin(); });
+      var fs=document.getElementById('fin-search'); if(fs) fs.addEventListener('input',function(){ FIN_Q=fs.value||''; if(typeof renderFin==='function') renderFin(); });
+      var fc=document.getElementById('fin-contratos'); if(fc) fc.addEventListener('click',function(e){ if(e.target.closest('a,button')) return; var tr=e.target.closest('tr[data-fin]'); if(!tr) return; obraId=tr.getAttribute('data-fin'); try{localStorage.setItem('im-obra-adm',obraId);}catch(err){} location.hash='projeto'; });
+    })();
     function stChip(st){ return st==='pago'?'<span class="state green">pago</span>':(st==='vencido'?'<span class="state red">vencido</span>':'<span class="state amber">a vencer</span>'); }
+    var FIN_PER='todos', FIN_Q='';
+    function finPerTarget(){ if(FIN_PER==='todos') return null; var d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+parseInt(FIN_PER,10)); return d.getFullYear()*100+(d.getMonth()+1); }
+    function finInPer(dateStr){ var t=finPerTarget(); if(t===null) return true; if(!dateStr) return false; var p=String(dateStr).split('-'); if(p.length<2) return false; return (parseInt(p[0],10)*100+parseInt(p[1],10))===t; }
     function renderFin(){
       var tot=0,rec=0,arec=0,venc=0;
-      CONTRATOS.forEach(function(p){ tot+=ptot(p); rec+=pz(p); arec+=pa(p); venc+=p.parc.reduce(function(a,x){return a+(x.st==='vencido'?x.v:0);},0); });
-      (RECEBIMENTOS||[]).forEach(function(x){ var v=Number(x.valor)||0; if(x.status==='recebido') rec+=v; else arec+=v; });
+      CONTRATOS.forEach(function(p){ tot+=ptot(p); p.parc.forEach(function(x){
+        if(x.st==='pago'){ if(finInPer(x.pago||x.venc)) rec+=x.v; }
+        else { if(finInPer(x.venc)){ arec+=x.v; if(x.st==='vencido') venc+=x.v; } }
+      }); });
+      (RECEBIMENTOS||[]).forEach(function(x){ var v=Number(x.valor)||0; if(x.status==='recebido'){ if(finInPer(x.data)) rec+=v; } else { if(finInPer(x.data)) arec+=v; } });
       var el;
       el=document.getElementById('fc-contratos'); if(el) el.textContent=fmt(tot);
       el=document.getElementById('fc-recebido'); if(el) el.textContent=fmt(rec);
       el=document.getElementById('fc-areceber'); if(el) el.textContent=fmt(arec);
       el=document.getElementById('fc-vencido'); if(el) el.textContent=fmt(venc);
-      var tb=document.getElementById('fin-contratos'); tb.innerHTML='';
+      var tb=document.getElementById('fin-contratos'); tb.innerHTML=''; var qc=FIN_Q.trim().toLowerCase(), shownC=0;
       CONTRATOS.forEach(function(p,i){
+        if(qc && (String(p.obra)+' '+String(p.cli)).toLowerCase().indexOf(qc)<0) return;
+        shownC++;
         var venciu=p.parc.some(function(x){return x.st==='vencido';});
         var quit=pa(p)===0;
         var stx=quit?'<span class="state green">quitado</span>':(venciu?'<span class="state red">parcela vencida</span>':'<span class="state amber">em dia</span>');
-        var tr=document.createElement('tr');
-        tr.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td class="num">'+fmt(ptot(p))+'</td><td class="num rec">'+fmt(pz(p))+'</td><td class="num arec">'+fmt(pa(p))+'</td><td>'+stx+'</td>';
+        var tr=document.createElement('tr'); tr.setAttribute('data-fin', p.id);
+        tr.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td class="num">'+fmt(ptot(p))+'</td><td class="num rec">'+fmt(pz(p))+'</td><td class="num arec">'+fmt(pa(p))+'</td><td>'+stx+'</td><td style="text-align:right"><span class="fin-chev"></span></td>';
         tb.appendChild(tr);
       });
+      var fe=document.getElementById('fin-empty'); if(fe) fe.hidden=shownC>0;
       var ar=document.getElementById('fin-areceber'); ar.innerHTML='';
       var rc=document.getElementById('fin-recebido'); rc.innerHTML='';
       CONTRATOS.forEach(function(p){ p.parc.forEach(function(x){
-        if(x.st!=='pago'){ var tr=document.createElement('tr'); tr.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td>'+x.d+'</td><td class="num">'+(x.venc||'—')+'</td><td class="num">'+fmt(x.v)+'</td><td>'+stChip(x.st)+'</td>'; ar.appendChild(tr); }
-        else { var dpago=x.pago||x.venc; var tr2=document.createElement('tr'); tr2.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td>'+x.d+'</td><td class="num">'+(dpago||'—')+'</td><td class="num rec">'+fmt(x.v)+'</td><td><a class="lk" href="#" data-recibo data-obra="'+escAttr(p.obra)+'" data-cli="'+escAttr(p.cli)+'" data-desc="'+escAttr(x.d)+'" data-valor="'+x.v+'" data-data="'+escAttr(dpago||'')+'">recibo</a></td>'; rc.appendChild(tr2); }
+        if(x.st!=='pago'){ if(!finInPer(x.venc)) return; var tr=document.createElement('tr'); tr.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td>'+x.d+'</td><td class="num">'+(x.venc||'—')+'</td><td class="num">'+fmt(x.v)+'</td><td>'+stChip(x.st)+'</td>'; ar.appendChild(tr); }
+        else { var dpago=x.pago||x.venc; if(!finInPer(dpago)) return; var tr2=document.createElement('tr'); tr2.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td>'+x.d+'</td><td class="num">'+(dpago||'—')+'</td><td class="num rec">'+fmt(x.v)+'</td><td><a class="lk" href="#" data-recibo data-obra="'+escAttr(p.obra)+'" data-cli="'+escAttr(p.cli)+'" data-desc="'+escAttr(x.d)+'" data-valor="'+x.v+'" data-data="'+escAttr(dpago||'')+'">recibo</a></td>'; rc.appendChild(tr2); }
       }); });
       // recebimentos avulsos / serviços extras (fora das parcelas de contrato)
       (RECEBIMENTOS||[]).forEach(function(x){ var v=Number(x.valor)||0;
+        if(!finInPer(x.data)) return;
         var obraCol=x.projeto_nome?x.projeto_nome:'—';
         var cliCol=x.cliente_nome?x.cliente_nome:'avulso';
         var desc=(x.projeto_id?'<em style="color:var(--ink-3);font-style:normal">serviço extra · </em>':'')+(x.descricao||'—');
-        if(x.status==='recebido'){ var tr=document.createElement('tr'); tr.innerHTML='<td>'+obraCol+'</td><td>'+cliCol+'</td><td>'+desc+'</td><td class="num">'+(x.data||'—')+'</td><td class="num rec">'+fmt(v)+'</td><td><button class="lk-del" type="button" data-del-receb="'+x.id+'">excluir</button></td>'; rc.appendChild(tr); }
-        else { var tr2=document.createElement('tr'); tr2.innerHTML='<td>'+obraCol+'</td><td>'+cliCol+'</td><td>'+desc+'</td><td class="num">'+(x.data||'—')+'</td><td class="num">'+fmt(v)+'</td><td>'+stChip('a vencer')+' <button class="lk-del" type="button" data-del-receb="'+x.id+'">excluir</button></td>'; ar.appendChild(tr2); }
+        if(x.status==='recebido'){ var tr=document.createElement('tr'); tr.innerHTML='<td>'+obraCol+'</td><td>'+cliCol+'</td><td>'+desc+'</td><td class="num">'+(x.data||'—')+'</td><td class="num rec">'+fmt(v)+'</td><td><button class="pbtn danger" type="button" data-del-receb="'+x.id+'"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button></td>'; rc.appendChild(tr); }
+        else { var tr2=document.createElement('tr'); tr2.innerHTML='<td>'+obraCol+'</td><td>'+cliCol+'</td><td>'+desc+'</td><td class="num">'+(x.data||'—')+'</td><td class="num">'+fmt(v)+'</td><td>'+stChip('a vencer')+' <button class="pbtn danger" type="button" data-del-receb="'+x.id+'"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button></td>'; ar.appendChild(tr2); }
       });
       rc.querySelectorAll('[data-recibo]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); gerarReciboAdmin(this.dataset); }); });
       var pg=document.getElementById('fin-pagamentos'); pg.innerHTML='';
-      PAGAMENTOS.forEach(function(x){ var tr=document.createElement('tr'); tr.innerHTML='<td>'+x.para+'</td><td>'+x.ref+'</td><td class="num">'+(x.venc||'—')+'</td><td class="num">'+fmt(x.v)+'</td><td>'+stChip(x.st)+'</td><td><button class="lk-del" type="button" data-del-pag="'+x.id+'">excluir</button></td>'; pg.appendChild(tr); });
+      PAGAMENTOS.forEach(function(x){ var tr=document.createElement('tr'); tr.innerHTML='<td>'+x.para+'</td><td>'+x.ref+'</td><td class="num">'+(x.venc||'—')+'</td><td class="num">'+fmt(x.v)+'</td><td>'+stChip(x.st)+'</td><td><button class="pbtn danger" type="button" data-del-pag="'+x.id+'"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button></td>'; pg.appendChild(tr); });
     }
     function escAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
     function gerarReciboAdmin(d){
@@ -2723,7 +3089,7 @@
       mFields.appendChild(wrap);
       var addWrap=document.createElement('div'); addWrap.className='field full';
       var note=document.createElement('p'); note.className='adm-note'; note.style.margin='0 0 12px'; note.textContent='Marcar "pago" gera o recibo na Área do Cliente e move para a aba Recebido.';
-      var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.textContent='+ adicionar parcela'; add.addEventListener('click',function(){ document.getElementById('ct-parc').appendChild(ctRow({d:'',v:'',venc:'',st:'a vencer'})); });
+      var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar parcela'; add.addEventListener('click',function(){ document.getElementById('ct-parc').appendChild(ctRow({d:'',v:'',venc:'',st:'a vencer'})); });
       addWrap.appendChild(note); addWrap.appendChild(add); mFields.appendChild(addWrap);
       modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
     }
@@ -3070,21 +3436,21 @@
     if(avisoInput) avisoInput.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();addAviso();} });
 
     var THEMES=[
-      {key:'atual',name:'Atual',sub:'branco e grafite',brand:'#414141',on:'#fff',tint:'#FFFFFF',panel:'#F5F4F1',panel2:'#EFEEEB',accent:'#414141',sw:'linear-gradient(90deg,#414141 50%,#FFFFFF 50%)'},
+      {key:'atual',name:'Atual',sub:'off-white e grafite',brand:'#37352F',on:'#fff',tint:'#F6F5F1',panel:'#FFFFFF',panel2:'#F0EEE8',accent:'#AF853A',sw:'linear-gradient(90deg,#37352F 50%,#F6F5F1 50%)'},
       {key:'marrom',name:'Marrom-luxo',sub:'terroso e sóbrio',brand:'#6E4B3A',on:'#fff',tint:'#F6F1ED',panel:'#EFE6DF',panel2:'#E7DACF',accent:'#8A5A42',sw:'linear-gradient(90deg,#6E4B3A 50%,#C9A98F 50%)'},
       {key:'rosa',name:'Rosé',sub:'rosa suave',brand:'#A85C74',on:'#fff',tint:'#FAF1F4',panel:'#F1E2E8',panel2:'#EAD3DC',accent:'#C27690',sw:'linear-gradient(90deg,#A85C74 50%,#DDA9BA 50%)'},
       {key:'primavera',name:'Folhagem de Primavera',sub:'verde-oliva',brand:'#7E8C4F',on:'#fff',tint:'#F2F4EC',panel:'#E9EDDD',panel2:'#DFE4CE',accent:'#8A9A5B',sw:'linear-gradient(90deg,#7E8C4F 50%,#BFC79A 50%)'},
       {key:'conforto',name:'Conforto',sub:'cinza-azulado',brand:'#6F8288',on:'#fff',tint:'#EEF2F3',panel:'#E4EAEB',panel2:'#D8E0E1',accent:'#8FA3A9',sw:'linear-gradient(90deg,#6F8288 50%,#B7C6C9 50%)'},
       {key:'sandalo',name:'Sândalo',sub:'areia quente',brand:'#A98B54',on:'#fff',tint:'#F7F3EA',panel:'#EFE7D5',panel2:'#E7DCC4',accent:'#C1A063',sw:'linear-gradient(90deg,#A98B54 50%,#DAC79A 50%)'},
-      {key:'escuro',name:'Modo escuro',sub:'fundo preto',brand:'#0e0e0e',on:'#fff',tint:'#121212',panel:'#1c1c1c',panel2:'#242424',accent:'#8FA3A9',ink:'#ededed',ink2:'#b7b7b7',ink3:'#8a8a8a',hair:'#3a3a3a',hairsoft:'#2b2b2b',sw:'linear-gradient(90deg,#0e0e0e 50%,#3a3a3a 50%)'}
+      {key:'escuro',name:'Modo escuro',sub:'fundo preto',brand:'#0e0e0e',on:'#fff',tint:'#121212',panel:'#1c1c1c',panel2:'#242424',paper:'#1c1c1c',btn:'#ECEAE5',btnOn:'#161616',accent:'#C9A24B',ink:'#ededed',ink2:'#b7b7b7',ink3:'#8f8f8f',hair:'#3a3a3a',hairsoft:'#2f2f2f',sw:'linear-gradient(90deg,#0e0e0e 50%,#3a3a3a 50%)'}
     ];
     var themesEl=document.getElementById('themes');
     function applyTheme(t){
       var r=document.documentElement.style;
       r.setProperty('--brand',t.brand); r.setProperty('--brand-on',t.on); r.setProperty('--tint',t.tint);
-      r.setProperty('--panel',t.panel); r.setProperty('--panel-2',t.panel2); r.setProperty('--accent',t.accent);
-      r.setProperty('--ink', t.ink||'#414141'); r.setProperty('--ink-2', t.ink2||'#717171'); r.setProperty('--ink-3', t.ink3||'#a3a3a3');
-      r.setProperty('--hair', t.hair||'#D0D0D0'); r.setProperty('--hair-soft', t.hairsoft||'#ECECEC');
+      r.setProperty('--panel',t.panel); r.setProperty('--panel-2',t.panel2); r.setProperty('--accent',t.accent); r.setProperty('--paper',t.paper||'#FFFFFF'); r.setProperty('--btn',t.btn||t.brand); r.setProperty('--btn-on',t.btnOn||t.on); r.setProperty('color-scheme', t.key==='escuro'?'dark':'light');
+      r.setProperty('--ink', t.ink||'#33322F'); r.setProperty('--ink-2', t.ink2||'#6A6862'); r.setProperty('--ink-3', t.ink3||'#9A968E');
+      r.setProperty('--hair', t.hair||'#DCD9D2'); r.setProperty('--hair-soft', t.hairsoft||'#ECE9E3');
       document.body.style.background='var(--tint)';
       try{ localStorage.setItem('im-theme',t.key); }catch(e){}
       if(themesEl) themesEl.querySelectorAll('.theme-dot').forEach(function(b){ b.setAttribute('aria-current', b.dataset.key===t.key?'true':'false'); });
@@ -3107,5 +3473,4 @@
     show((location.hash||'').replace('#','')||'home');
   })();
 </script>
-
 </body></html>

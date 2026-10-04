@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Quicksand:wght@400;500;600;700&display=swap">
 <style>
   :root{
-    --paper:#FFFFFF;--ink:#414141;--ink-2:#717171;--ink-3:#a3a3a3;
-    --hair:#D0D0D0;--hair-soft:#ECECEC;--red:#AA564A;--green:#5E7D57;
+    --paper:#FFFFFF;--ink:#37352F;--ink-2:#6A6862;--ink-3:#9A968E;
+    --hair:#DCD9D2;--hair-soft:#ECE9E3;--red:#AA564A;--green:#5E7D57;--gold:#AF853A;
     --display:"Quicksand",system-ui,sans-serif;--sans:"Inter",system-ui,sans-serif;
     color-scheme:light;
   }
@@ -23,20 +23,25 @@
   /* lado grafite */
   .mark{background:var(--ink);color:#fff;position:relative;display:flex;flex-direction:column;justify-content:center;padding:clamp(30px,5vw,64px)}
   @media(max-width:820px){.mark{min-height:200px;justify-content:flex-end}}
-  .mark .wm{font-family:var(--sans);font-weight:400;font-size:clamp(30px,3.4vw,40px);letter-spacing:.14em;line-height:1}
+  .mark .wm{font-family:var(--sans);font-weight:400;font-size:clamp(30px,3.4vw,40px);letter-spacing:.14em;line-height:1;white-space:nowrap}
+  /* em janelas médias o nome não pode quebrar em duas linhas (o subtítulo acompanha a largura dele) */
+  @media(min-width:821px){.mark{padding-left:clamp(28px,4vw,64px);padding-right:clamp(28px,4vw,64px)} .mark .wm{font-size:clamp(28px,3.4vw,40px)}}
   .mark .tg{font-family:var(--sans);font-weight:300;font-size:13px;letter-spacing:.34em;color:#9a9895;margin-top:12px;text-transform:lowercase}
 
   /* lado formulário */
   .panel{display:flex;align-items:center;justify-content:center;padding:clamp(28px,5vw,72px)}
   .box{width:100%;max-width:392px}
   .sec-label{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin:0 0 22px}
-  .sec-label::before{content:"| ";color:var(--hair)}
+  .sec-label::before{content:"| ";color:var(--gold)}
+  @keyframes loginrise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .box{animation:loginrise .5s cubic-bezier(.22,.61,.36,1) both}
+  @media(prefers-reduced-motion:reduce){.box{animation:none}}
 
   /* toggle cliente | colaborador */
   .roles{display:flex;align-items:center;gap:14px;margin-bottom:30px}
   .role{font-family:var(--sans);font-weight:400;font-size:15px;color:var(--ink-3);background:none;border:none;cursor:pointer;padding:2px 0 6px;position:relative;transition:color .2s}
   .role[aria-selected="true"]{color:var(--ink)}
-  .role[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink)}
+  .role[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:var(--gold)}
   .role-sep{color:var(--hair);font-weight:300}
 
   .field{display:flex;flex-direction:column;margin-bottom:22px}
@@ -57,8 +62,9 @@
   .forgot:hover{color:var(--ink)}
 
   .btn{width:100%;font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.22em;text-transform:uppercase;
-    cursor:pointer;padding:16px 22px;border:1px solid var(--ink);background:var(--ink);color:#fff;transition:filter .2s,opacity .2s}
-  .btn:hover{filter:brightness(1.14)}
+    cursor:pointer;padding:16px 22px;border:1px solid var(--ink);border-radius:10px;background:var(--ink);color:#fff;transition:filter .2s,opacity .2s,box-shadow .2s,transform .12s}
+  .btn:hover{filter:brightness(1.18);box-shadow:0 8px 22px rgba(28,26,22,.16);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
   .btn:disabled{opacity:.55;cursor:default}
 
   .msg{font-size:13.5px;line-height:1.5;margin:18px 0 0;min-height:1em}
@@ -106,6 +112,11 @@
     </div>
   </main>
 
+<script>
+  /* Link de redefinição de senha que caiu nesta tela: leva para a tela de redefinir sem perder o token do e-mail. */
+  if(/type=recovery/.test(location.hash+location.search)){ location.replace('redefinir.html'+location.search+location.hash); }
+  var LINK_ERRO = /error(_code|_description)?=/.test(location.hash+location.search);
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
@@ -128,9 +139,16 @@
     if(s.type==='password'){ s.type='text'; this.textContent='ocultar'; } else { s.type='password'; this.textContent='mostrar'; }
   });
 
+  // Link do e-mail vencido ou já usado: avisa e pede um novo.
+  if(typeof LINK_ERRO!=='undefined' && LINK_ERRO){
+    msg.className='msg err'; msg.textContent='Este link de redefinição expirou ou já foi usado. Digite seu e-mail acima e clique em "Esqueci minha senha" para receber um novo.';
+    try{ history.replaceState(null,'',location.pathname); }catch(e){}
+  }
+
   // Se já estiver logado, vai direto para a área certa.
   (async function(){
     try{
+      if(/type=recovery/.test(location.hash+location.search)) return; // está indo para a tela de redefinir
       var s = (await sb.auth.getSession()).data.session;
       if(s){ var perfil = await meuPerfil(); if(perfil){ location.href = destinoPorPapel(perfil.papel); } }
     }catch(e){}
@@ -142,7 +160,9 @@
     if(!em){ msg.className='msg err'; msg.textContent='Digite seu e-mail no campo acima e clique de novo em "Esqueci minha senha".'; return; }
     msg.textContent = 'Enviando link de redefinição…';
     try{
-      var r = await sb.auth.resetPasswordForEmail(em, { redirectTo: location.origin + '/redefinir.html' });
+      // sempre o endereço oficial (https, sem "www"): é o que está liberado no Supabase
+      var base = /^(localhost|127\.|\[::1\])/.test(location.hostname) ? location.origin : ('https://' + location.host.replace(/^www\./,''));
+      var r = await sb.auth.resetPasswordForEmail(em, { redirectTo: base + '/redefinir.html' });
       if(r.error){ msg.className='msg err'; msg.textContent='Não foi possível enviar: ' + r.error.message; return; }
       msg.className='msg ok'; msg.textContent='Enviamos um link de redefinição para ' + em + '. Confira seu e-mail (inclusive spam).';
     }catch(e){ msg.className='msg err'; msg.textContent='Erro: ' + (e && e.message || e); }
@@ -179,16 +199,33 @@
   /* Alinha "engenharia . arquitetura" para ter exatamente a largura de "ISYS MATTOS"
      (ajusta só o espaçamento das letras do subtítulo; o título não muda). */
   (function(){
+    /* Mede a largura VISÍVEL (da 1ª à última letra): desconta o espaçamento que sobra
+       depois da última letra e a folga lateral dos glifos das pontas. */
+    var cv=document.createElement('canvas'), ctx=cv.getContext('2d');
     function tw(el){ var r=document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect().width; }
+    function folga(el, ch, lado){
+      try{ var cs=getComputedStyle(el); ctx.font=cs.fontStyle+' '+cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily;
+        var m=ctx.measureText(ch); if(m.actualBoundingBoxLeft==null) return 0;
+        return lado==='e' ? -m.actualBoundingBoxLeft : (m.width-m.actualBoundingBoxRight);
+      }catch(e){ return 0; }
+    }
     function fitMark(){
       var wm=document.querySelector('.mark .wm'), tg=document.querySelector('.mark .tg');
       if(!wm||!tg) return;
-      var target=tw(wm);
-      tg.style.letterSpacing='0px';
-      var n=tw(tg), chars=(tg.textContent||'').length||1;
-      var ls=(target-n)/chars; tg.style.letterSpacing=ls+'px';
-      var actual=tw(tg); // correção fina (2 passos) para ficar exato
-      if(Math.abs(actual-n)>0.5){ ls=ls*(target-n)/(actual-n); tg.style.letterSpacing=ls+'px'; }
+      var wt=(wm.textContent||'').trim(), tt=(tg.textContent||'').trim(); if(!wt||!tt) return;
+      var vaos=tt.length-1; if(vaos<1) return;
+      var wmLs=parseFloat(getComputedStyle(wm).letterSpacing)||0;
+      var wmE=folga(wm,wt.charAt(0),'e'), wmD=folga(wm,wt.charAt(wt.length-1),'d');
+      var tgE=folga(tg,tt.charAt(0),'e'), tgD=folga(tg,tt.charAt(tt.length-1),'d');
+      var alvo=tw(wm)-wmLs-wmE-wmD;                 // largura visível de "ISYS MATTOS"
+      tg.style.whiteSpace='nowrap'; tg.style.marginLeft='0px'; tg.style.letterSpacing='0px';
+      var base=tw(tg)-tgE-tgD;                       // subtítulo sem espaçamento
+      var ls=(alvo-base)/vaos; tg.style.letterSpacing=ls+'px';
+      for(var i=0;i<3;i++){                          // correção fina
+        var real=tw(tg)-ls-tgE-tgD; if(Math.abs(real-alvo)<0.02) break;
+        ls+=(alvo-real)/vaos; tg.style.letterSpacing=ls+'px';
+      }
+      tg.style.marginLeft=(wmE-tgE)+'px';            // alinha também a borda esquerda
     }
     if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fitMark); } else { window.addEventListener('load',fitMark); }
     window.addEventListener('resize',fitMark);

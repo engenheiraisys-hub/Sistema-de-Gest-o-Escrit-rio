@@ -4,9 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Isys Mattos · Sistema</title>
-<meta http-equiv="refresh" content="0; url=login.html">
 <link rel="canonical" href="login.html">
-<script>location.replace('login.html');</script>
+<script>
+  /* Entrada do site: vai para o acesso. Se chegou pelo link de redefinição de senha do e-mail,
+     vai para a tela de redefinir — sempre levando junto o token que veio no endereço. */
+  (function(){
+    var h=location.hash||'', q=location.search||'';
+    var dest=/type=recovery/.test(h+q) ? 'redefinir.html' : 'login.html';
+    location.replace(dest+q+h);
+  })();
+</script>
+<noscript><meta http-equiv="refresh" content="0; url=login.html"></noscript>
 </head>
 <body>
 <p>Redirecionando para o acesso… <a href="login.html">clique aqui se não abrir automaticamente</a>.</p>

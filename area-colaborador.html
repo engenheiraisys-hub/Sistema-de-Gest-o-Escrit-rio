@@ -7,12 +7,16 @@
      Quicksand (títulos/números) + Inter (texto/UI). Navegação por páginas.
      Status: verde=ok, âmbar=andamento, vermelho=pendente. */
   :root{
-    --paper:#FFFFFF;--ink:#414141;--ink-2:#717171;--ink-3:#a3a3a3;
-    --hair:#D0D0D0;--hair-soft:#ECECEC;
+    --paper:#FFFFFF;--ink:#33322F;--ink-2:#6A6862;--ink-3:#9A968E;
+    --hair:#DCD9D2;--hair-soft:#ECE9E3;
     --green:#5E7D57;--amber:#C08A1E;--red:#AA564A;--slate:#5F7C8A;--gray:#8f8f8f;
+    --gold:#AF853A;--gold-soft:#F4ECDA;--info:#5F7C8A;--go:#6E7C46;
+    --shadow-sm:0 1px 2px rgba(28,26,22,.03),0 2px 6px rgba(28,26,22,.05);
+    --shadow-md:0 10px 30px rgba(28,26,22,.09);
+    --r:14px;--r-sm:10px;
     --display:"Quicksand",system-ui,sans-serif;--sans:"Inter",system-ui,sans-serif;
-    --wrap:1040px;color-scheme:light;
-    --brand:#414141;--brand-on:#FFFFFF;--tint:#FFFFFF;--panel:var(--panel);--panel-2:var(--panel-2);--accent:#414141;
+    --wrap:1120px;color-scheme:light;
+    --brand:#37352F;--brand-on:#FFFFFF;--tint:#F6F5F1;--panel:#FFFFFF;--panel-2:#F0EEE8;--accent:#37352F;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -20,15 +24,30 @@
   [hidden]{display:none!important}
   .wrap{max-width:var(--wrap);margin:0 auto;padding:0 clamp(22px,5vw,48px) 20px}
 
-  .label{font-family:var(--sans);font-weight:300;font-size:clamp(17px,2.4vw,21px);letter-spacing:.6px;color:var(--ink);margin:0}
-  .label::before{content:"| ";color:var(--hair)}
+  .label{font-family:var(--sans);font-weight:400;font-size:clamp(17px,2.4vw,21px);letter-spacing:.4px;color:var(--ink);margin:0}
+  .label::before{content:"| ";color:var(--gold)}
 
-  .pill{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;border-radius:50px;padding:11px 22px;border:1px solid transparent;background:none;color:var(--ink-2);transition:background .22s,color .22s,border-color .22s;text-decoration:none}
-  .pill.solid{background:var(--brand);color:var(--brand-on);border-color:var(--brand)}
-  .pill.solid:hover{filter:brightness(1.12)}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:9px;padding:9px 15px;border:1px solid transparent;background:none;color:var(--ink-2);transition:background .18s,color .18s,border-color .18s,box-shadow .18s;text-decoration:none}
+  /* botão de ação no padrão da central + confirmação própria */
+  .pbtn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);background:var(--panel);border:1px solid var(--hair);border-radius:8px;padding:7px 11px;cursor:pointer;text-decoration:none;transition:background .18s,color .18s,border-color .18s}
+  .pbtn svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .pbtn:hover{color:var(--ink);border-color:var(--ink-3);background:var(--panel-2)}
+  .pbtn.danger{color:var(--red);border-color:#e6c9c4}
+  .pbtn.danger:hover{color:#fff;background:var(--red);border-color:var(--red)}
+  .imc-ov{position:fixed;inset:0;background:rgba(20,18,15,.45);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+  .imc-box{background:var(--panel);border:1px solid var(--hair);border-radius:var(--r);box-shadow:var(--shadow-md);padding:22px 24px;max-width:380px;width:100%}
+  .imc-msg{font-size:14.5px;color:var(--ink);line-height:1.5;margin-bottom:20px}
+  .imc-acts{display:flex;gap:10px;justify-content:flex-end}
+  .pill.solid{background:var(--btn,var(--brand));color:var(--btn-on,var(--brand-on));border-color:var(--btn,var(--brand))}
+  .pill.solid:hover{filter:brightness(1.12);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+  .pill.solid.go{background:var(--go);border-color:var(--go);color:#fff}
+  .pill.solid.go:hover{filter:brightness(1.1)}
   .pill.ghost{border-color:var(--hair);color:var(--ink-2)}
-  .pill.ghost:hover{border-color:var(--ink);color:var(--ink)}
-  .pill.sm{padding:8px 15px;letter-spacing:.12em}
+  .pill.ghost:hover{border-color:var(--ink);color:var(--ink);background:var(--panel-2)}
+  .pill.sm{padding:7px 13px;font-size:11px}
+  .pill svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-right:-1px}
+  .pill.sm svg{width:14px;height:14px}
+  .pill:active{transform:translateY(0)}
 
   .state{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.02em;color:var(--ink-3);white-space:nowrap}
   .state::before{content:"";width:7px;height:7px;border-radius:50%;border:1px solid currentColor;background:currentColor;flex:none}
@@ -51,8 +70,8 @@
   /* home */
   .hero{padding-top:clamp(38px,6vw,64px)}
   .hello{font-size:14px;color:var(--ink-2)}
-  .hero h1{font-family:var(--display);font-weight:500;font-size:clamp(30px,5.2vw,46px);line-height:1;margin:6px 0 0;color:var(--ink)}
-  .greet{font-family:var(--display);font-weight:500;font-size:clamp(30px,5.2vw,46px);line-height:1;margin:0;color:var(--ink)}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,5.2vw,46px);line-height:1;margin:6px 0 0;color:var(--ink);letter-spacing:-.01em}
+  .greet{font-family:var(--display);font-weight:700;font-size:clamp(30px,5.2vw,46px);line-height:1;margin:0;color:var(--ink);letter-spacing:-.01em}
   .motiva{font-family:var(--sans);font-weight:300;font-size:clamp(14px,1.8vw,16px);line-height:1.5;color:var(--ink-2);margin:16px 0 0;max-width:46ch}
   #view-home .today{margin-top:clamp(30px,4vw,44px)}
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -63,11 +82,15 @@
   .today-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--hair)}
   .td{display:flex;align-items:center;gap:14px;padding:15px 2px;border-bottom:1px solid var(--hair-soft)}
   .td-dot{width:9px;height:9px;border-radius:50%;background:var(--amber);flex:none}
-  .td-name{font-family:var(--display);font-weight:500;font-size:15px;color:var(--ink)}
-  .td-sub{font-size:12.5px;color:var(--ink-3);margin-top:2px}
+  .td-name{font-family:var(--display);font-weight:600;font-size:15px;color:var(--ink)}
+  .td-sub{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+  .td,.aviso,.recent-row{margin-inline:-10px;padding-inline:10px;border-radius:var(--r-sm);transition:background .18s}
+  .td:hover,.aviso:hover,.recent-row:hover{background:var(--panel-2)}
+  .notif-row{transition:background .18s;border-radius:8px}
+  .notif-row:hover{background:var(--panel-2)}
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hair-soft);border:1px solid var(--hair-soft);margin-top:clamp(28px,4vw,42px)}
   .stat{background:var(--paper);padding:20px}
-  .stat .n{font-family:var(--display);font-weight:500;font-size:clamp(26px,3.6vw,34px);color:var(--ink);font-variant-numeric:tabular-nums}
+  .stat .n{font-family:var(--display);font-weight:700;font-size:clamp(26px,3.6vw,34px);color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
   .stat .n.amber{color:var(--amber)}.stat .n.red{color:var(--red)}
   .stat .k{font-size:12px;color:var(--ink-2);margin-top:4px}
 
@@ -87,25 +110,54 @@
   .back{background:none;border:none;font-family:var(--sans);font-size:13px;color:var(--ink-2);cursor:pointer;padding:8px 0;margin-top:clamp(24px,4vw,40px);transition:color .2s}
   .back::before{content:"‹ ";font-size:16px}
   .back:hover{color:var(--ink)}
-  .page-title{font-family:var(--display);font-weight:500;font-size:clamp(26px,4.4vw,38px);color:var(--ink);margin:8px 0 clamp(26px,4vw,40px)}
+  .page-title{font-family:var(--display);font-weight:700;font-size:clamp(26px,4.4vw,38px);color:var(--ink);margin:8px 0 clamp(26px,4vw,40px);letter-spacing:-.01em}
   @media (prefers-reduced-motion:reduce){.view{animation:none}}
 
   /* central de projetos */
-  .filters{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:22px}
-  .filter{font-family:var(--sans);font-size:12.5px;letter-spacing:.04em;color:var(--ink-3);background:none;border:none;cursor:pointer;padding:6px 2px;position:relative;transition:color .2s}
-  .filter::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--fc,var(--ink-3));display:inline-block;margin-right:8px;vertical-align:1px;opacity:.5;transition:opacity .2s}
-  .filter[aria-selected="true"]{color:var(--fc,var(--ink))}
-  .filter[aria-selected="true"]::before{opacity:1}
-  .filter[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:var(--fc,var(--ink))}
-  .proj{display:grid;grid-template-columns:1.5fr 1.3fr auto;gap:20px;align-items:center;padding:16px 16px 16px 15px;margin-bottom:6px;border-left:3px solid transparent;border-radius:0 8px 8px 0}
-  .proj[data-status="andamento"]{background:#FBF5E7;border-left-color:var(--amber)}
-  .proj[data-status="concluido"]{background:#EDF3EB;border-left-color:var(--green)}
-  .proj[data-status="pausado"]{background:#F1F1EF;border-left-color:var(--gray)}
-  .proj[data-status="cancelado"]{background:#F7ECEA;border-left-color:var(--red)}
-  .proj-obra{font-family:var(--display);font-weight:500;font-size:16px;color:var(--ink)}
-  .proj-cli{font-size:12.5px;color:var(--ink-3);margin-top:3px}
-  .proj-etapa{font-size:12px;color:var(--ink-2);margin-bottom:8px}
-  .proj-etapa b{color:var(--ink);font-weight:500}
+  /* ===== abas segmentadas — padrão ÚNICO (só a selecionada fica clara) ===== */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:22px}
+  .filter,.ptab,.wk-btn,.sortbtn{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:500;font-size:12.5px;letter-spacing:.02em;color:var(--ink-3);background:transparent;border:1px solid transparent;border-radius:50px;padding:8px 14px;cursor:pointer;white-space:nowrap;position:relative;transition:color .2s,border-color .2s,box-shadow .2s,background .2s}
+  .filter::before,.ptab::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--fc,var(--ink-3));opacity:.55;transition:opacity .2s}
+  .filter:hover,.ptab:hover,.wk-btn:hover,.sortbtn:hover{color:var(--ink-2);background:var(--panel-2)}
+  .filter[aria-selected="true"],.ptab[aria-selected="true"],.wk-btn[aria-selected="true"],.sortbtn[aria-selected="true"]{color:var(--ink);background:var(--panel);border-color:var(--hair);box-shadow:var(--shadow-sm)}
+  .filter[aria-selected="true"]::before,.ptab[aria-selected="true"]::before{opacity:1}
+  /* cartão do projeto — mesmo padrão da central do administrador */
+  .projs-head{display:grid;grid-template-columns:1.8fr 1.5fr .7fr 132px;gap:20px;padding:0 18px 12px;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .projs-head span:last-child{text-align:right}
+  @media(max-width:860px){.projs-head{display:none}}
+  .proj{display:grid;grid-template-columns:1.8fr 1.5fr .7fr 132px;gap:20px;align-items:center;padding:16px 18px;margin-bottom:12px;background:var(--panel);border:1px solid var(--hair-soft);border-left:3px solid var(--gray);border-radius:var(--r);box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .12s,border-color .2s}
+  .proj:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .proj[data-status="andamento"]{border-left-color:var(--amber)}
+  .proj[data-status="concluido"]{border-left-color:var(--green)}
+  .proj[data-status="pausado"]{border-left-color:var(--gray)}
+  .proj[data-status="cancelado"]{border-left-color:var(--red)}
+  .proj-main{display:flex;align-items:center;gap:14px;min-width:0}
+  .proj-thumb{flex:none;width:58px;height:58px;border-radius:12px;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:21px;overflow:hidden}
+  .proj-thumb img{width:100%;height:100%;object-fit:cover}
+  .proj-info{min-width:0}
+  .proj-obra{font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .proj-loc{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-3);margin-top:4px}
+  .proj-loc svg{width:12px;height:12px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7}
+  .proj-cli{font-size:12.5px;color:var(--ink-2);margin-top:5px}
+  .proj-cli b{color:var(--ink);font-weight:600}
+  .proj-etapa{font-size:12.5px;color:var(--ink-2);margin-bottom:9px}
+  .proj-etapa b{color:var(--ink);font-weight:600}
+  .pbar{height:8px;border-radius:50px;background:var(--panel-2);overflow:hidden}
+  .pbar-fill{height:100%;border-radius:50px;background:var(--go);transition:width .5s cubic-bezier(.22,.61,.36,1)}
+  .proj-tasks{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-2);margin-top:8px}
+  .proj-tasks svg{width:13px;height:13px;color:var(--go);flex:none;fill:none;stroke:currentColor;stroke-width:2}
+  .proj-prog{text-align:center}
+  .proj-pct{font-family:var(--display);font-weight:700;font-size:26px;color:var(--go);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .proj-prog-lbl{font-size:11px;color:var(--ink-3);margin-top:3px}
+  .proj-actions{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+  .proj-status-badge{display:flex;align-items:center;justify-content:flex-end}
+  .proj-btns{display:flex;flex-direction:column;gap:6px}
+  @media(max-width:860px){
+    .proj{grid-template-columns:1fr;gap:14px}
+    .proj-actions{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+    .proj-status-badge{justify-content:flex-start}
+    .proj-prog{text-align:left}
+  }
   .mini-bar{display:flex;align-items:center;gap:10px}
   .mini-track{flex:1;height:6px;border-radius:50px;background:var(--panel-2);overflow:hidden;min-width:70px}
   .mini-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,#9a948d,#414141)}
@@ -134,7 +186,8 @@
   .etapa-prazo{display:flex;gap:30px;margin:16px 0 2px;flex-wrap:wrap}
   .pz{display:flex;flex-direction:column;gap:8px}
   .pz label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
-  .pz input{font-family:var(--sans);font-size:14px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 4px;color-scheme:light}
+  .pz input{font-family:var(--sans);font-size:14px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 4px}
+  select option{background:var(--panel);color:var(--ink)}
   .pz input:focus{outline:none;border-bottom-color:var(--ink)}
   .check{list-style:none;margin:14px 0 0;padding:0}
   .check li{padding:6px 0}
@@ -154,20 +207,23 @@
   .etapa-status.gray{background:var(--gray)}
   .note{font-size:12.5px;color:var(--ink-2)}
   /* kanban minhas tarefas */
-  .kanban{display:flex;gap:14px;overflow-x:auto;padding:4px 0 10px}
-  .kcol{flex:0 0 200px;background:var(--panel);border-radius:10px;padding:12px 11px 10px;display:flex;flex-direction:column;border-top:3px solid var(--kc,var(--gray))}
-  .kcol-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 4px 12px}
-  .kcol-title{font-family:var(--sans);font-weight:500;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
-  .kcol-n{font-family:var(--display);font-size:13px;color:var(--ink-3)}
-  .kcard{background:#fff;border:1px solid var(--hair-soft);border-left:3px solid var(--kc,var(--gray));border-radius:8px;padding:12px 13px;margin-bottom:10px;cursor:pointer;transition:box-shadow .18s}
-  .kcard:hover{box-shadow:0 2px 10px rgba(65,65,65,.08)}
-  .kcard-t{font-family:var(--display);font-weight:500;font-size:14px;color:var(--ink);line-height:1.3}
+  .kanban{display:flex;gap:16px;overflow-x:auto;padding:4px 4px 16px;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--hair) transparent}
+  .kanban::-webkit-scrollbar{height:8px}
+  .kanban::-webkit-scrollbar-thumb{background:var(--hair);border-radius:8px}
+  .kanban::-webkit-scrollbar-track{background:transparent}
+  .kcol{flex:0 0 208px;scroll-snap-align:start;background:var(--panel-2);border:1px solid var(--hair-soft);border-radius:var(--r);padding:14px 12px 8px;display:flex;flex-direction:column;border-top:3px solid var(--kc,var(--gray));min-height:120px}
+  .kcol-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 2px 14px}
+  .kcol-title{font-family:var(--sans);font-weight:600;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+  .kcol-n{font-family:var(--sans);font-weight:600;font-size:11px;color:var(--ink-2);background:var(--panel);border:1px solid var(--hair-soft);border-radius:20px;min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+  .kcard{background:var(--panel);border:1px solid var(--hair-soft);border-left:3px solid var(--kc,var(--gray));border-radius:var(--r-sm);padding:12px 13px;margin-bottom:10px;cursor:pointer;box-shadow:var(--shadow-sm);transition:box-shadow .18s,transform .12s}
+  .kcard:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .kcard-t{font-family:var(--display);font-weight:600;font-size:14px;color:var(--ink);line-height:1.3}
   .kcard-m{font-size:11.5px;color:var(--ink-3);margin-top:5px}
   .kcard-tag{display:inline-block;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);border:1px solid var(--hair);border-radius:50px;padding:1px 8px;margin-left:8px}
   .kcard-chk{font-size:11px;color:var(--ink-2);margin-top:8px;font-variant-numeric:tabular-nums}
   .kempty{font-size:12px;color:var(--ink-3);padding:4px 4px 8px}
   /* modelos de etapa */
-  .mdl{background:var(--panel);border-radius:10px;padding:clamp(18px,2.4vw,24px);margin-bottom:16px;max-width:660px}
+  .mdl{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:clamp(18px,2.4vw,24px);margin-bottom:16px;max-width:660px}
   .mdl-h{font-family:var(--display);font-weight:500;font-size:16px;color:var(--ink);margin:0 0 12px}
   .mdl-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--hair-soft)}
   .mdl-item input{flex:1;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid transparent;padding:4px 2px}
@@ -180,8 +236,8 @@
   .colabs{margin:0 0 clamp(28px,4vw,40px)}
   .colabs-label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin:0 0 14px}
   .chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
-  .chip{display:inline-flex;align-items:center;gap:9px;background:#F1F0ED;border-radius:50px;padding:6px 8px 6px 6px;font-size:13.5px;color:var(--ink)}
-  .chip .av{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:10.5px;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:500;flex:none}
+  .chip{display:inline-flex;align-items:center;gap:9px;background:var(--panel-2);border-radius:50px;padding:6px 8px 6px 6px;font-size:13.5px;color:var(--ink)}
+  .chip .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;font-size:10.5px;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:500;flex:none}
   .chip button{background:none;border:none;color:var(--ink-3);cursor:pointer;font-size:17px;line-height:1;padding:0 6px 0 2px;transition:color .2s}
   .chip button:hover{color:var(--ink)}
   .colab-add select{font-family:var(--sans);font-size:14px;color:var(--ink-2);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 4px;cursor:pointer}
@@ -207,10 +263,7 @@
   .tl-proj{font-size:12.5px;color:var(--ink-3);margin-top:3px}
   .now{font-family:var(--sans);font-weight:500;font-size:10.5px;color:#fff;background:var(--amber);padding:2px 9px;border-radius:50px;margin-left:9px;letter-spacing:.04em;vertical-align:middle}
   /* seletor de semana + faixa de dias */
-  .week-toggle{display:flex;gap:18px;margin-bottom:22px}
-  .wk-btn{font-family:var(--sans);font-size:13px;letter-spacing:.04em;color:var(--ink-3);background:none;border:none;cursor:pointer;padding:6px 2px;position:relative;transition:color .2s}
-  .wk-btn[aria-selected="true"]{color:var(--ink)}
-  .wk-btn[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink)}
+  .week-toggle{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
   /* gantt semanal */
   .gantt{border:1px solid var(--hair-soft);overflow-x:auto}
   .g-head,.g-row{display:grid;grid-template-columns:150px 1fr;min-width:600px}
@@ -220,9 +273,9 @@
   .g-day{padding:9px 2px 11px;text-align:center;border-left:1px solid var(--hair)}
   .g-day .dow{display:block;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);line-height:1}
   .g-day .dnum{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;margin-top:6px;font-family:var(--display);font-weight:500;font-size:13px;color:var(--ink);line-height:1}
-  .g-day.today .dnum{background:var(--ink);color:#fff}
+  .g-day.today .dnum{background:var(--ink);color:var(--panel)}
   .g-row{border-bottom:1px solid var(--hair-soft)}
-  .g-row:nth-child(even){background:#FAFAF8}
+  .g-row:nth-child(even){background:var(--panel-2)}
   .g-name{border-left:3px solid var(--slate)}
   .g-row:nth-child(3) .g-name{border-left-color:var(--green)}
   .g-row:nth-child(4) .g-name{border-left-color:var(--amber)}
@@ -256,18 +309,14 @@
   .parc-cat{font-size:12.5px;color:var(--ink-3);margin-top:2px}
   .parc-contact{font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
   /* parceiros: abas de categoria + tabelas */
-  .ptabs{display:flex;gap:22px;flex-wrap:nowrap;overflow-x:auto;margin-bottom:26px}
-  .ptab{font-family:var(--sans);font-size:13px;letter-spacing:.03em;color:var(--ink-3);background:none;border:none;cursor:pointer;padding:6px 2px;position:relative;transition:color .2s;white-space:nowrap;flex:none}
-  .ptab::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--fc,var(--ink-3));display:inline-block;margin-right:8px;vertical-align:1px;opacity:.5;transition:opacity .2s}
-  .ptab[aria-selected="true"]{color:var(--fc,var(--ink))}
-  .ptab[aria-selected="true"]::before{opacity:1}
-  .ptab[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:var(--fc,var(--ink))}
+  .ptabs{display:flex;gap:8px;flex-wrap:wrap;align-items:center;overflow-x:auto;margin-bottom:26px}
+  .ptab{flex:none}
   .ptable-wrap{overflow-x:auto}
   .ptable{width:100%;border-collapse:collapse;min-width:780px}
   .ptable th{font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);text-align:left;padding:0 16px 12px 0;border-bottom:1px solid var(--hair);white-space:nowrap}
   .ptable td{font-size:13.5px;color:var(--ink);padding:14px 16px 14px 0;border-bottom:1px solid var(--hair-soft);vertical-align:top}
   .ptable td small{color:var(--ink-3);display:block;margin-top:2px}
-  .ptable tbody tr:nth-child(even) td{background:#F4F3F0}
+  .ptable tbody tr:nth-child(even) td{background:var(--panel-2)}
   .ptable .num{font-variant-numeric:tabular-nums;white-space:nowrap}
   .ptable .lk{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair)}
   .ptable .lk:hover{border-bottom-color:var(--ink)}
@@ -320,7 +369,7 @@
   .np-attach{position:relative;overflow:hidden;flex:none;white-space:nowrap}
   .np-attach input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
   .np-doc.filed .np-attach{border-color:var(--green);color:var(--green)}
-  .np-panel{background:var(--panel);border-radius:10px;padding:clamp(20px,3vw,28px);margin-bottom:20px;max-width:660px}
+  .np-panel{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:clamp(20px,3vw,28px);margin-bottom:20px;max-width:660px}
   .np-panel .np-field{max-width:none;margin-bottom:26px}
   .np-panel .np-field:last-child{margin-bottom:0}
   .ro{font-size:15px;color:var(--ink);padding:9px 2px;border-bottom:1px solid var(--hair-soft)}
@@ -331,7 +380,7 @@
   #view-projeto.editing .pj-edit-only{display:inline-flex!important}
   .pj-info input:disabled,.pj-info select:disabled{color:var(--ink);opacity:1;-webkit-text-fill-color:var(--ink);border-bottom-color:transparent;cursor:default;background:transparent}
   .pj-info select:disabled{appearance:none;-webkit-appearance:none;-moz-appearance:none}
-  .etapa-remove{margin-top:18px;font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);background:none;border:1px solid var(--hair);border-radius:50px;padding:8px 16px;cursor:pointer;align-items:center;gap:6px}
+  .etapa-remove{margin-top:18px}
   .etapa-remove:hover{border-color:var(--red)}
   /* rótulo "etapas" igual aos rótulos de campo + nuances de cinza */
   .sec-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 16px}
@@ -341,7 +390,7 @@
   #view-projeto.editing .etapa-head{padding-right:112px}
   .etapa-tools{position:absolute;top:50%;transform:translateY(-50%);right:12px;display:none;gap:4px;z-index:2}
   #view-projeto.editing .etapa-tools{display:flex}
-  .etapa-move{width:26px;height:26px;border:1px solid var(--hair);background:#fff;border-radius:6px;color:var(--ink-2);cursor:pointer;font-size:13px;line-height:1;transition:border-color .2s,color .2s}
+  .etapa-move{width:26px;height:26px;border:1px solid var(--hair);background:var(--panel);border-radius:6px;color:var(--ink-2);cursor:pointer;font-size:13px;line-height:1;transition:border-color .2s,color .2s}
   .etapa-move:hover{border-color:var(--ink);color:var(--ink)}
   .etapa-termo{font-size:11px;color:var(--ink-3);margin-top:4px}
   .etapa-termo b{color:var(--ink-2);font-weight:500}
@@ -354,23 +403,54 @@
   #view-projeto .etapa-chev{width:9px;height:9px;border:solid var(--ink-3);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);transition:transform .2s,border-color .2s}
   #view-projeto .etapa-head:hover .etapa-chev{border-color:var(--ink);transform:rotate(-45deg) translate(1px,1px)}
   #etapa-screen-body{margin-top:4px}
-  #etapa-screen-body .etapa-pad{padding:0}
+  #etapa-screen-body .etapa-pad{padding:0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-areas:"dados check" "doc check" "acoes acoes";gap:18px;align-items:start;max-width:1000px}
+  /* tela da etapa organizada em cards (padrão da central) */
+  .es-card{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:clamp(18px,2.4vw,24px);min-width:0}
+  .es-card[data-sec="dados"]{grid-area:dados}
+  .es-card[data-sec="check"]{grid-area:check}
+  .es-card[data-sec="doc"]{grid-area:doc}
+  .es-card[data-sec="acoes"]{grid-area:acoes;padding:14px clamp(18px,2.4vw,24px)}
+  .es-card-h{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--hair-soft)}
+  .es-card[data-sec="acoes"] .es-card-h{display:none}
+  .es-card[data-sec="acoes"] .es-card-body{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .es-card .etapa-ctrl{margin-top:0}
+  .es-card .etapa-remove{margin-top:0;margin-left:auto}
+  .es-card .np-field{max-width:none!important;margin-bottom:12px!important}
+  .es-card .np-field input{font-size:15px;color:var(--ink)}
+  .es-card .etapa-termo{display:inline-flex;align-items:center;background:var(--panel-2);color:var(--ink-2);border-radius:50px;padding:5px 12px;font-size:11.5px;margin:0 0 6px}
+  .es-card .etapa-termo b{color:var(--ink);font-weight:500}
+  .es-card .edit-block{max-width:none!important;margin:14px 0 0!important}
+  .es-card .etapa-prazo{margin:18px 0 0;gap:22px}
+  .es-card .pz{flex:1;min-width:140px}
+  .es-card .pz input{width:100%;color:var(--ink)}
+  .es-card .check{margin:0}
+  .es-card .check li{padding:10px 0;border-bottom:1px solid var(--hair-soft)}
+  .es-card .check li:last-child{border-bottom:none}
+  .es-card .check label{font-size:14px;color:var(--ink)}
+  .es-card .check input:checked ~ span{color:var(--ink-2)}
+  .es-card .check-count{display:inline-flex;margin-top:14px;font-size:11.5px;font-weight:500;color:var(--ink-2);background:var(--panel-2);border-radius:50px;padding:4px 11px}
+  .es-card .chk-add{margin-top:14px;width:100%}
+  .es-card .chk-add input{flex:1;min-width:150px;font-family:var(--sans);font-weight:300;font-size:14px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 2px}
+  .es-card .etapa-doc{margin:0!important;max-width:none!important}
+  .es-card .etapa-doc>label{display:none!important}
+  @media(max-width:820px){#etapa-screen-body .etapa-pad{grid-template-columns:1fr;grid-template-areas:"dados" "check" "doc" "acoes"}}
   #etapa-screen.anim{animation:fade .42s cubic-bezier(.22,.61,.36,1) both}
   @media (prefers-reduced-motion:reduce){#etapa-screen.anim{animation:none}}
 
   /* barra de abas + tela inicial + tema (mesmo do adm) */
-  .sidebar{position:fixed;top:0;left:0;bottom:0;width:66px;background:var(--brand);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:6px;z-index:50;transition:background .4s}
-  .sidebar svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-  .side-logo{font-family:var(--sans);font-weight:600;font-size:16px;letter-spacing:.05em;color:var(--brand-on);margin-bottom:16px}
-  .side-tabs{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;width:100%;overflow-y:auto}
-  .sidebar .tab{width:44px;height:44px;padding:0;border:none;display:flex;align-items:center;justify-content:center;border-radius:12px;color:rgba(255,255,255,.72);text-decoration:none;transition:background .18s,color .18s}
-  .sidebar .tab:hover{background:rgba(255,255,255,.12);color:#fff}
-  .sidebar .tab[aria-current="true"]{background:rgba(255,255,255,.18);color:#fff;border:none}
-  .side-exit{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;color:rgba(255,255,255,.72);margin-top:6px;text-decoration:none}
-  .side-exit:hover{background:rgba(255,255,255,.12);color:#fff}
-  .side-bell{position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:none;border:none;color:rgba(255,255,255,.72);cursor:pointer;margin-bottom:8px}
-  .side-bell:hover{background:rgba(255,255,255,.12);color:#fff}
-  .notif-badge{position:absolute;top:6px;right:6px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--red);color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;font-family:var(--sans)}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:66px;background:var(--brand);display:flex;flex-direction:column;align-items:stretch;padding:16px 0;gap:6px;z-index:60;overflow:hidden;transition:width .22s cubic-bezier(.22,.61,.36,1),background .4s,box-shadow .22s}
+  .sidebar:hover{width:214px;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+  .sidebar svg{width:21px;height:21px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .side-logo{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.05em;color:var(--brand-on);margin:0 0 16px;height:28px;display:flex;align-items:center;padding-left:23px}
+  .side-tabs{display:flex;flex-direction:column;align-items:stretch;gap:6px;flex:1;width:100%;overflow-x:hidden;overflow-y:auto}
+  .sidebar .tab,.side-bell,.side-exit{position:relative;display:flex;align-items:center;gap:14px;height:44px;margin:0 8px;padding:0 0 0 15px;border:none;border-radius:12px;background:none;color:rgba(255,255,255,.66);text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .18s,color .18s}
+  .sidebar .tab::after,.side-bell::after,.side-exit::after{content:attr(aria-label);font-family:var(--sans);font-weight:500;font-size:13.5px;letter-spacing:.01em;opacity:0;transition:opacity .16s;pointer-events:none}
+  .sidebar:hover .tab::after,.sidebar:hover .side-bell::after,.sidebar:hover .side-exit::after{opacity:1}
+  .sidebar .tab:hover,.side-bell:hover,.side-exit:hover{background:rgba(255,255,255,.1);color:#fff}
+  .sidebar .tab[aria-current="true"]{background:rgba(255,255,255,.15);color:#fff}
+  .sidebar .tab[aria-current="true"]::before{content:"";position:absolute;left:-8px;top:50%;transform:translateY(-50%);width:3px;height:24px;border-radius:0 3px 3px 0;background:var(--gold)}
+  .notif-badge{position:absolute;top:6px;left:27px;right:auto;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--red);color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;font-family:var(--sans);box-shadow:0 0 0 2px var(--brand)}
+  @media(prefers-reduced-motion:reduce){.sidebar{transition:background .4s}}
   .notif-panel{position:fixed;left:74px;bottom:16px;top:auto;width:330px;max-width:calc(100vw - 90px);max-height:80vh;overflow:auto;background:var(--panel);border:1px solid var(--hair);border-radius:14px;box-shadow:0 16px 54px rgba(0,0,0,.2);z-index:70}
   .notif-head{font-family:var(--display);font-weight:600;font-size:14.5px;color:var(--ink);padding:14px 16px 10px}
   .notif-list{list-style:none;margin:0;padding:0 6px 8px}
@@ -386,16 +466,25 @@
   .tab[aria-current="true"]{color:var(--ink);border-bottom-color:var(--accent)}
   .home-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(20px,3vw,32px);margin-top:clamp(22px,4vw,36px)}
   @media(max-width:820px){.home-grid{grid-template-columns:1fr}}
-  .home-grid-b{grid-template-columns:1.6fr 1fr;margin-top:clamp(20px,3vw,28px)!important}
+  .home-grid-b{grid-template-columns:1.4fr 1fr;margin-top:clamp(20px,3vw,28px)!important}
   @media(max-width:820px){.home-grid-b{grid-template-columns:1fr}}
   .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(10px,2vw,18px)}
   @media(max-width:820px){.stat-cards{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:460px){.stat-cards{grid-template-columns:1fr}}
-  .stat-card{display:flex;flex-direction:column;gap:9px;background:var(--panel);border:1px solid var(--hair-soft);border-radius:14px;padding:18px 18px 15px;text-decoration:none;color:inherit;transition:box-shadow .2s,transform .15s}
-  .stat-card:hover{box-shadow:0 8px 26px rgba(0,0,0,.08);transform:translateY(-1px)}
-  .stat-lbl{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
-  .stat-num{font-family:var(--display);font-weight:600;font-size:clamp(30px,4vw,40px);color:var(--ink);line-height:1}
-  .stat-link{font-size:12.5px;color:var(--ink-2)}
+  .stat-card{position:relative;display:flex;flex-direction:column;gap:8px;background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);padding:18px 18px 16px;text-decoration:none;color:inherit;box-shadow:var(--shadow-sm);overflow:hidden;transition:box-shadow .22s,transform .18s,border-color .22s}
+  .stat-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity .22s}
+  .stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--hair)}
+  .stat-card:hover::before{opacity:1}
+  .stat-ico{position:absolute;top:15px;right:15px;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+  .stat-ico svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .st-ico-ev{background:rgba(94,125,87,.13);color:var(--green)}
+  .st-ico-tk{background:rgba(192,138,30,.14);color:var(--amber)}
+  .st-ico-pj{background:rgba(95,124,138,.14);color:var(--slate)}
+  .st-ico-pz{background:rgba(170,86,74,.13);color:var(--red)}
+  .stat-lbl{font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);max-width:calc(100% - 42px);line-height:1.3;min-height:2.6em}
+  .stat-num{font-family:var(--display);font-weight:500;font-size:clamp(22px,2.4vw,28px);color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+  .stat-link{font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:5px;margin-top:auto;padding-top:4px}
+  .stat-card:hover .stat-link{color:var(--ink)}
   .recent-list{list-style:none;margin:8px 0 0;padding:0}
   .recent-row{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--hair-soft);font-size:13.5px;color:var(--ink)}
   .recent-row:last-child{border-bottom:none}
@@ -406,8 +495,8 @@
   .theme-dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--hair);cursor:pointer;padding:0;transition:transform .15s,border-color .15s,box-shadow .15s}
   .theme-dot:hover{transform:scale(1.08)}
   .theme-dot[aria-current="true"]{border-color:var(--ink);box-shadow:0 0 0 3px var(--panel),0 0 0 4px var(--ink)}
-  .card{background:var(--panel);border-radius:12px;padding:clamp(20px,3vw,28px);transition:background .4s}
-  .card h3{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 16px}
+  .card{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);padding:clamp(20px,3vw,28px);box-shadow:var(--shadow-sm);transition:background .4s,box-shadow .25s,border-color .25s}
+  .card h3{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 16px}
   .card .today-list{border-top:none}
   .card .td:first-child{border-top:none}
   .avisos{list-style:none;margin:0;padding:0}
@@ -487,15 +576,15 @@
 <nav class="sidebar" aria-label="Seções">
   <span class="side-logo">IM</span>
   <div class="side-tabs" id="tabbar">
-    <a class="tab" href="#inicio" data-view="home" title="início" aria-label="início"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a>
-    <a class="tab" href="#tarefas" data-view="tarefas" title="minhas tarefas" aria-label="minhas tarefas"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8.5 12l2.2 2.2L15.6 9.4"/></svg></a>
-    <a class="tab" href="#proj" data-view="proj" title="projetos" aria-label="projetos"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a>
-    <a class="tab" href="#agenda" data-view="agenda" title="agenda" aria-label="agenda"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></a>
-    <a class="tab" href="#novo" data-view="novo" title="novo projeto" aria-label="novo projeto"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></a>
-    <a class="tab" href="#modelos" data-view="modelos" title="modelo" aria-label="modelo"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg></a>
+    <a class="tab" href="#inicio" data-view="home" title="Início" aria-label="Início"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a>
+    <a class="tab" href="#tarefas" data-view="tarefas" title="Minhas tarefas" aria-label="Minhas tarefas"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8.5 12l2.2 2.2L15.6 9.4"/></svg></a>
+    <a class="tab" href="#proj" data-view="proj" title="Projetos" aria-label="Projetos"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a>
+    <a class="tab" href="#agenda" data-view="agenda" title="Agenda" aria-label="Agenda"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></a>
+    <a class="tab" href="#novo" data-view="novo" title="Novo projeto" aria-label="Novo projeto"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></a>
+    <a class="tab" href="#modelos" data-view="modelos" title="Modelo" aria-label="Modelo"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg></a>
   </div>
-  <button class="side-bell" id="notif-bell" title="notificações" aria-label="notificações" style="margin-top:auto"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="notif-badge" id="notif-badge" hidden></span></button>
-  <a class="side-exit" href="#" id="exit" title="sair" aria-label="sair" style="margin-top:0"><svg viewBox="0 0 24 24"><path d="M15 12H4"/><path d="M8 8l-4 4 4 4"/><path d="M12 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg></a>
+  <button class="side-bell" id="notif-bell" title="Notificações" aria-label="Notificações" style="margin-top:auto"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="notif-badge" id="notif-badge" hidden></span></button>
+  <a class="side-exit" href="#" id="exit" title="Sair" aria-label="Sair" style="margin-top:0"><svg viewBox="0 0 24 24"><path d="M15 12H4"/><path d="M8 8l-4 4 4 4"/><path d="M12 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg></a>
 </nav>
 <div class="notif-panel" id="notif-panel" hidden>
   <div class="notif-head">notificações</div>
@@ -512,10 +601,10 @@
     </section>
 
     <div class="stat-cards">
-      <a class="stat-card" href="#agenda"><span class="stat-lbl">eventos de hoje</span><span class="stat-num" id="st-eventos">—</span><span class="stat-link">ver agenda →</span></a>
-      <a class="stat-card" href="#tarefas"><span class="stat-lbl">tarefas pendentes</span><span class="stat-num" id="st-tarefas">—</span><span class="stat-link">ver tarefas →</span></a>
-      <a class="stat-card" href="#proj"><span class="stat-lbl">projetos em andamento</span><span class="stat-num" id="st-projetos">—</span><span class="stat-link">ver projetos →</span></a>
-      <a class="stat-card" href="#agenda"><span class="stat-lbl">prazos próximos</span><span class="stat-num" id="st-prazos">—</span><span class="stat-link">ver prazos →</span></a>
+      <a class="stat-card" href="#agenda"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></span><span class="stat-lbl">eventos de hoje</span><span class="stat-num" id="st-eventos">—</span><span class="stat-link">Ver agenda →</span></a>
+      <a class="stat-card" href="#tarefas"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8.5 12l2.2 2.2L15.5 9"/></svg></span><span class="stat-lbl">tarefas pendentes</span><span class="stat-num" id="st-tarefas">—</span><span class="stat-link">Ver tarefas →</span></a>
+      <a class="stat-card" href="#proj"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="stat-lbl">projetos em andamento</span><span class="stat-num" id="st-projetos">—</span><span class="stat-link">Ver projetos →</span></a>
+      <a class="stat-card" href="#agenda"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><span class="stat-lbl">prazos próximos</span><span class="stat-num" id="st-prazos">—</span><span class="stat-link">Ver prazos →</span></a>
     </div>
 
     <div class="home-grid">
@@ -526,7 +615,7 @@
       <section class="card">
         <h3>avisos</h3>
         <ul class="avisos" id="avisos"></ul>
-        <div class="aviso-add"><input id="aviso-input" type="text" placeholder="Novo aviso para a equipe…"><button class="pill ghost sm" type="button" id="aviso-add-btn">publicar</button></div>
+        <div class="aviso-add"><input id="aviso-input" type="text" placeholder="Novo aviso para a equipe…"><button class="pill ghost sm" type="button" id="aviso-add-btn"><svg viewBox="0 0 24 24"><path d="M4 12l16-7-7 16-2-7z"/></svg>publicar</button></div>
       </section>
     </div>
 
@@ -544,10 +633,10 @@
 
   <!-- MINHAS TAREFAS (kanban) -->
   <section class="view" id="view-tarefas" hidden>
-    <button class="back" type="button" data-home>voltar</button>
+    <button class="back" type="button" data-home>Voltar</button>
     <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
-      <h2 class="page-title">minhas tarefas</h2>
-      <button class="pill solid sm" type="button" id="nova-tarefa" style="margin-bottom:clamp(20px,3vw,30px)">+ nova tarefa</button>
+      <h2 class="page-title">Minhas tarefas</h2>
+      <button class="pill solid sm" type="button" id="nova-tarefa" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>nova tarefa</button>
     </div>
     <p class="proj-note">Suas etapas nos projetos e tarefas avulsas, por situação. O cartão de etapa entra sozinho na coluna certa pelo check-list. Toque num cartão para abrir/editar.</p>
     <div class="kanban" id="kanban"></div>
@@ -555,32 +644,34 @@
 
   <!-- MODELO -->
   <section class="view" id="view-modelos" hidden>
-    <button class="back" type="button" data-home>voltar</button>
-    <h2 class="page-title">modelo</h2>
+    <button class="back" type="button" data-home>Voltar</button>
+    <h2 class="page-title">Modelo</h2>
     <p class="proj-note">Modelos padrão usados ao <b>criar um projeto</b> e nas etapas e documentos de todos os projetos. Toque num modelo para expandir e editar o check-list. Você pode <b>criar</b> uma etapa que não está na lista e <b>excluir</b> as que não usa (sincronizado com o administrador).</p>
 
     <p class="sec-label">etapas</p>
     <div id="modelos-list"></div>
-    <div class="aviso-add" style="max-width:660px;margin-top:6px"><input id="novo-modelo-input" type="text" placeholder="Nome da nova etapa-modelo…"><button class="pill solid sm" type="button" id="novo-modelo-btn">+ criar etapa</button></div>
+    <div class="aviso-add" style="max-width:660px;margin-top:6px"><input id="novo-modelo-input" type="text" placeholder="Nome da nova etapa-modelo…"><button class="pill solid sm" type="button" id="novo-modelo-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>criar etapa</button></div>
 
     <p class="sec-label" style="margin-top:clamp(30px,4vw,44px)">documentos</p>
     <p class="proj-note" style="margin-top:-6px">Documentos que o colaborador anexa em cada projeto (o <b>Contrato</b> é do administrador). Editar aqui muda as opções em "novo projeto".</p>
     <div class="mdl" style="max-width:660px">
       <ul class="mdl-docs" id="modelo-docs" style="list-style:none;margin:0;padding:0"></ul>
-      <div class="aviso-add" style="margin-top:12px"><input id="novo-doc-input" type="text" placeholder="Novo documento…"><button class="pill ghost sm" type="button" id="novo-doc-btn">adicionar</button></div>
+      <div class="aviso-add" style="margin-top:12px"><input id="novo-doc-input" type="text" placeholder="Novo documento…"><button class="pill ghost sm" type="button" id="novo-doc-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button></div>
     </div>
   </section>
 
   <!-- CENTRAL DE PROJETOS -->
   <section class="view" id="view-proj" hidden>
-    <button class="back" type="button" data-home>voltar</button>
-    <h2 class="page-title">central de projetos</h2>
+    <button class="back" type="button" data-home>Voltar</button>
+    <h2 class="page-title">Central de projetos</h2>
+    <p class="proj-note" style="margin-top:-14px">Acompanhe os projetos do escritório e seu progresso atual.</p>
     <div class="filters" role="tablist" aria-label="Filtrar projetos">
-      <button class="filter" role="tab" aria-selected="true" data-filter="andamento" style="--fc:var(--amber)">em andamento</button>
-      <button class="filter" role="tab" aria-selected="false" data-filter="concluido" style="--fc:var(--green)">concluído</button>
-      <button class="filter" role="tab" aria-selected="false" data-filter="pausado" style="--fc:var(--gray)">pausado</button>
-      <button class="filter" role="tab" aria-selected="false" data-filter="cancelado" style="--fc:var(--red)">cancelado</button>
+      <button class="filter" role="tab" aria-selected="true" data-filter="andamento" style="--fc:var(--amber)">Em andamento</button>
+      <button class="filter" role="tab" aria-selected="false" data-filter="concluido" style="--fc:var(--green)">Concluído</button>
+      <button class="filter" role="tab" aria-selected="false" data-filter="pausado" style="--fc:var(--gray)">Pausado</button>
+      <button class="filter" role="tab" aria-selected="false" data-filter="cancelado" style="--fc:var(--red)">Cancelado</button>
     </div>
+    <div class="projs-head" aria-hidden="true"><span>projeto / cliente</span><span>etapa atual</span><span>progresso</span><span>ações</span></div>
     <div class="projs" id="projs"></div>
     <p class="proj-cli" id="empty" hidden style="padding:18px 2px">Nenhum projeto neste filtro.</p>
   </section>
@@ -588,7 +679,7 @@
   <!-- PÁGINA DA OBRA -->
   <section class="view" id="view-projeto" hidden>
    <div id="projeto-index">
-    <button class="back" type="button" data-home>voltar</button>
+    <button class="back" type="button" data-home>Voltar</button>
     <h2 class="page-title">Residência Jurerê</h2>
     <p class="proj-note">As <b>informações</b> e as <b>etapas</b> podem ser editadas aqui. Toque em uma etapa para abri-la em sua própria tela. O status de cada etapa é calculado automaticamente (concluído / em andamento / atrasado) e alimenta a <b>agenda</b> e a central de projetos.</p>
     <div class="form-grid pj-info" style="max-width:660px;margin-bottom:clamp(28px,4vw,42px)">
@@ -661,7 +752,7 @@
       <div class="np-field" id="ae-nome-wrap" hidden><label>Nome da etapa (deste projeto)</label><input id="ae-nome" type="text" placeholder="Ex.: Compatibilização"></div>
       <div class="np-field"><label>Termo da etapa</label><select id="ae-termo"><option value="nenhum">Sem termo</option><option value="entrega">Termo de finalização e entrega</option><option value="aceite">Termo de finalização, entrega e aceite de etapa</option></select></div>
       <div class="np-field" id="ae-libera-wrap"><label>Liberação do arquivo ao cliente</label><select id="ae-libera"><option value="livre">Libera independente de aceite</option><option value="aceite">Só libera após o aceite do termo</option></select></div>
-      <button class="pill solid sm" type="button" id="ae-add">adicionar etapa</button>
+      <button class="pill solid sm" type="button" id="ae-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar etapa</button>
     </div>
 
     <p class="sec-label" style="margin-top:clamp(30px,4vw,44px)">documentos do cliente</p>
@@ -669,32 +760,32 @@
     <div class="np-panel" style="max-width:660px">
       <ul class="np-docs" id="pj-docs">
         <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Contrato</div></div><span class="np-doc-state">anexado pelo administrador</span></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Alvará de construção</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach pj-edit-only">anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Arquitetônico Legal Deferido</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach pj-edit-only">anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Hidrossanitário Deferido</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach pj-edit-only">anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Hidro</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach pj-edit-only">anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Prefeitura</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach pj-edit-only">anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Alvará de construção</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach pj-edit-only"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Arquitetônico Legal Deferido</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach pj-edit-only"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Hidrossanitário Deferido</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach pj-edit-only"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Hidro</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach pj-edit-only"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Prefeitura</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach pj-edit-only"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
       </ul>
       <div class="edit-block" style="margin-top:14px">
         <label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:8px">Adicionar documento</label>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
           <select id="ad-modelo" style="flex:1;min-width:200px;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select>
           <input id="ad-nome" type="text" hidden placeholder="Nome do documento" style="flex:1;min-width:200px;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px">
-          <button class="pill ghost sm" type="button" id="ad-add">adicionar</button>
+          <button class="pill ghost sm" type="button" id="ad-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button>
         </div>
       </div>
     </div>
 
     <div class="pj-actions">
-      <button class="pill solid" type="button" id="pj-editar">editar</button>
-      <button class="pill ghost sm pj-edit-only" type="button" id="add-etapa">+ adicionar etapa</button>
-      <button class="pill solid pj-edit-only" type="button" id="pj-concluir">concluir</button>
+      <button class="pill solid" type="button" id="pj-editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 5l4 4"/></svg>editar</button>
+      <button class="pill ghost sm pj-edit-only" type="button" id="add-etapa"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar etapa</button>
+      <button class="pill solid pj-edit-only" type="button" id="pj-concluir"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>concluir</button>
     </div>
    </div>
 
    <!-- tela dedicada de uma etapa -->
    <div id="etapa-screen" hidden>
-     <button class="back" type="button" id="etapa-back">voltar ao projeto</button>
+     <button class="back" type="button" id="etapa-back">Voltar ao projeto</button>
      <h2 class="page-title" id="etapa-screen-title">Etapa</h2>
      <p class="proj-note" id="etapa-screen-meta">Residência Jurerê · etapa do projeto</p>
      <div id="etapa-screen-body"></div>
@@ -703,11 +794,11 @@
 
   <!-- AGENDA -->
   <section class="view" id="view-agenda" hidden>
-    <button class="back" type="button" data-home>voltar</button>
-    <h2 class="page-title">agenda</h2>
+    <button class="back" type="button" data-home>Voltar</button>
+    <h2 class="page-title">Agenda</h2>
     <div class="week-toggle" role="tablist" aria-label="Semana">
-      <button class="wk-btn" role="tab" data-week="0" aria-selected="true">esta semana</button>
-      <button class="wk-btn" role="tab" data-week="1" aria-selected="false">próxima semana</button>
+      <button class="wk-btn" role="tab" data-week="0" aria-selected="true">Esta semana</button>
+      <button class="wk-btn" role="tab" data-week="1" aria-selected="false">Próxima semana</button>
     </div>
     <div class="gantt" id="gantt"></div>
     <div class="gantt-legend"><span><span class="lg green"></span>concluído</span><span><span class="lg amber"></span>em andamento</span><span><span class="lg red"></span>atrasado</span></div>
@@ -717,8 +808,8 @@
 
   <!-- NOVO CLIENTE -->
   <section class="view" id="view-novo" hidden>
-    <button class="back" type="button" data-home>voltar</button>
-    <h2 class="page-title">novo projeto</h2>
+    <button class="back" type="button" data-home>Voltar</button>
+    <h2 class="page-title">Novo projeto</h2>
     <p class="proj-note">Vincule o projeto a um cliente <b>já cadastrado</b> e selecione as etapas do contrato.
       As etapas escolhidas entram na <b>central de projetos</b> e na <b>linha do tempo de acompanhamento</b> do cliente.</p>
 
@@ -771,7 +862,7 @@
       </div>
 
       <div class="form-actions">
-        <button class="pill solid" type="submit">criar projeto</button>
+        <button class="pill solid" type="submit"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>criar projeto</button>
         <span class="note" id="note-projeto"></span>
       </div>
     </form>
@@ -795,12 +886,12 @@
     </div>
     <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 8px">check-list</p>
     <ul id="tk-check" class="check" style="list-style:none;padding:0;margin:0 0 10px"></ul>
-    <div style="display:flex;gap:8px;margin-bottom:20px"><input id="tk-newitem" type="text" placeholder="Novo item…" style="flex:1;font-family:var(--sans);font-size:14px;background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 2px"><button class="pill ghost sm" type="button" id="tk-additem">adicionar</button></div>
+    <div style="display:flex;gap:8px;margin-bottom:20px"><input id="tk-newitem" type="text" placeholder="Novo item…" style="flex:1;font-family:var(--sans);font-size:14px;background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 2px"><button class="pill ghost sm" type="button" id="tk-additem"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:22px;padding-top:20px;border-top:1px solid var(--hair-soft)">
-      <button class="pill solid sm" type="button" id="tk-salvar">salvar tarefa</button>
-      <button class="pill sm" type="button" id="tk-concluir" style="background:var(--green);border:1px solid var(--green);color:#fff">concluir tarefa</button>
-      <button class="pill ghost sm" type="button" id="tk-excluir" style="color:var(--red);border-color:#e6c9c4">excluir</button>
-      <button class="pill ghost sm" type="button" id="tk-fechar" style="margin-left:auto">fechar</button>
+      <button class="pill solid sm" type="button" id="tk-salvar"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar tarefa</button>
+      <button class="pill sm" type="button" id="tk-concluir" style="background:var(--green);border:1px solid var(--green);color:#fff"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>concluir tarefa</button>
+      <button class="pill ghost sm" type="button" id="tk-excluir" style="color:var(--red);border-color:#e6c9c4"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button>
+      <button class="pill ghost sm" type="button" id="tk-fechar" style="margin-left:auto"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>fechar</button>
     </div>
   </div>
 </div>
@@ -808,6 +899,21 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
+<script>
+  /* Confirmação própria (o confirm() nativo pode ser bloqueado pelo navegador). */
+  function imConfirm(msg){
+    return new Promise(function(resolve){
+      var ov=document.createElement('div'); ov.className='imc-ov';
+      ov.innerHTML='<div class="imc-box"><div class="imc-msg"></div><div class="imc-acts"><button type="button" class="pill ghost sm imc-no"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>cancelar</button><button type="button" class="pbtn danger imc-yes"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>confirmar</button></div></div>';
+      ov.querySelector('.imc-msg').textContent=msg;
+      document.body.appendChild(ov);
+      function done(v){ try{ov.remove();}catch(e){} resolve(v); }
+      ov.querySelector('.imc-no').addEventListener('click',function(){ done(false); });
+      ov.querySelector('.imc-yes').addEventListener('click',function(){ done(true); });
+      ov.addEventListener('click',function(e){ if(e.target===ov) done(false); });
+    });
+  }
+</script>
 <script>
   (async function(){
     try{ await exigirAcesso(['colaborador']); }catch(e){ location.href='login.html'; return; }
@@ -966,16 +1072,44 @@
       var pad=currentInner&&currentInner.querySelector('.etapa-pad');
       if(!pad) return;
       etapaBody.appendChild(pad);
+      layoutEtapaCards(pad);
       var nm=et.querySelector('.etapa-name'); if(nm) etapaTitle.textContent=nm.textContent;
       var badge=et.querySelector('.etapa-status');
-      if(etapaMeta) etapaMeta.textContent=(obraNomeAtual||'projeto')+(badge?(' · '+badge.textContent):'');
+      paintEtapaMeta(badge?(badge.classList.contains('green')?'green':(badge.classList.contains('red')?'red':(badge.classList.contains('gray')?'gray':'amber'))):'', badge?badge.textContent:'');
       projetoIndex.hidden=true; etapaScreen.hidden=false;
       etapaScreen.classList.remove('anim'); void etapaScreen.offsetWidth; etapaScreen.classList.add('anim');
       window.scrollTo(0,0);
     }
+    /* organiza os campos da etapa em cards só enquanto a tela está aberta (desfaz ao fechar) */
+    var ES_SECS=[['dados','Dados da etapa'],['check','Check-list'],['doc','Documento de conclusão (PDF)'],['acoes','Ações']];
+    function paintEtapaMeta(st, txt){
+      if(!etapaMeta) return; etapaMeta.textContent=obraNomeAtual||'projeto';
+      if(txt){ var sp=document.createElement('span'); sp.className='state '+(st||'amber'); sp.style.marginLeft='12px'; sp.textContent=txt; etapaMeta.appendChild(sp); }
+    }
+    function esSecOf(n){ var c=n.classList; if(!c) return 'dados';
+      if(c.contains('check')||c.contains('check-count')||c.contains('chk-add')) return 'check';
+      if(c.contains('etapa-doc')) return 'doc';
+      if(c.contains('etapa-ctrl')||c.contains('etapa-remove')) return 'acoes';
+      return 'dados'; }
+    function layoutEtapaCards(pad){
+      if(!pad||pad.querySelector(':scope > .es-card')) return;
+      var kids=[].slice.call(pad.children); pad._esOrder=kids; var bodies={};
+      ES_SECS.forEach(function(s){ var card=document.createElement('section'); card.className='es-card'; card.setAttribute('data-sec',s[0]);
+        card.innerHTML='<h3 class="es-card-h">'+s[1]+'</h3><div class="es-card-body"></div>'; pad.appendChild(card); bodies[s[0]]=card.querySelector('.es-card-body'); });
+      kids.forEach(function(n){ bodies[esSecOf(n)].appendChild(n); });
+    }
+    function unlayoutEtapaCards(pad){
+      if(!pad) return;
+      var cards=[].slice.call(pad.querySelectorAll(':scope > .es-card')); if(!cards.length) return;
+      var rest=[]; cards.forEach(function(c){ var b=c.querySelector('.es-card-body'); if(b) [].forEach.call(b.children,function(n){ rest.push(n); }); });
+      (pad._esOrder||[]).forEach(function(n){ if(rest.indexOf(n)>=0) pad.appendChild(n); });
+      rest.forEach(function(n){ if(n.parentNode!==pad) pad.appendChild(n); });
+      cards.forEach(function(c){ c.remove(); });
+    }
     function closeEtapa(putBack){
       if(!etapaScreen) return;
       var pad=etapaBody.querySelector('.etapa-pad');
+      unlayoutEtapaCards(pad);
       if(pad && putBack!==false && currentInner){ currentInner.appendChild(pad); }
       else if(pad){ pad.parentNode.removeChild(pad); }
       etapaScreen.hidden=true; if(projetoIndex) projetoIndex.hidden=false;
@@ -1025,7 +1159,7 @@
       if(badge){ badge.className='etapa-status '+st; badge.textContent=txt; }
       var count=scope.querySelector('.check-count'); if(count) count.textContent=done+' de '+total+' itens';
       et._kcol=kcol; et._done=done; et._total=total;
-      if(currentEtapa===et && etapaMeta){ etapaMeta.textContent=(obraNomeAtual||'projeto')+' · '+txt; }
+      if(currentEtapa===et) paintEtapaMeta(st, txt);
       if(et.dataset.sync==='jurere-fachada') syncJurere(st==='gray'?'amber':st, txt);
     }
     function wireColabs(box){
@@ -1043,7 +1177,7 @@
     }
     function addItemRemove(li,et){ if(li.querySelector('.chk-rm')) return; var lbl=li.querySelector('label'); if(lbl) lbl.classList.add('lbl'); var rm=document.createElement('button'); rm.type='button'; rm.className='chk-rm pj-edit-only'; rm.textContent='×'; rm.addEventListener('click',function(){ li.remove(); recomputeEtapa(et); kanbanSync(); }); li.appendChild(rm); }
     function applyModelo(et){ var nm=et.querySelector('.etapa-name').textContent.trim(); var tpl=ETAPA_MODELOS[nm]; var note=scopeOf(et).querySelector('[data-mdl-note]'); if(!tpl){ if(note) note.textContent='Sem modelo cadastrado para "'+nm+'".'; return; } var ul=checkOf(et); ul.innerHTML=''; tpl.forEach(function(t){ var li=document.createElement('li'); li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; li.querySelector('span').textContent=t; addItemRemove(li,et); ul.appendChild(li); }); if(note) note.textContent='Modelo aplicado ('+tpl.length+' itens).'; recomputeEtapa(et); kanbanSync(); }
-    function paintPause(btn,et){ btn.textContent=(et.dataset.paused==='1')?'retomar etapa':'pausar etapa'; }
+    function paintPause(btn,et){ btn.innerHTML=(et.dataset.paused==='1')?'<svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>retomar etapa':'<svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg>pausar etapa'; }
     function ensureCheckEditor(et){
       var ul=et.querySelector('.check'); if(!ul) return;
       [].forEach.call(ul.querySelectorAll('li'),function(li){ addItemRemove(li,et); });
@@ -1051,12 +1185,12 @@
       var cc=et.querySelector('.check-count');
       var wrap=document.createElement('div'); wrap.className='chk-add pj-edit-only';
       var inp=document.createElement('input'); inp.type='text'; inp.placeholder='Novo item do check-list…';
-      var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.textContent='adicionar item';
+      var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar item';
       function doAdd(){ var v=inp.value.trim(); if(!v) return; var li=document.createElement('li'); li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; li.querySelector('span').textContent=v; addItemRemove(li,et); ul.appendChild(li); inp.value=''; recomputeEtapa(et); kanbanSync(); }
       add.addEventListener('click',doAdd); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();doAdd();} });
       wrap.appendChild(inp); wrap.appendChild(add);
       var ctrl=document.createElement('div'); ctrl.className='etapa-ctrl';
-      var mdl=document.createElement('button'); mdl.type='button'; mdl.className='pill ghost sm pj-edit-only'; mdl.textContent='aplicar modelo'; mdl.addEventListener('click',function(){ applyModelo(et); });
+      var mdl=document.createElement('button'); mdl.type='button'; mdl.className='pill ghost sm pj-edit-only'; mdl.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg>aplicar modelo'; mdl.addEventListener('click',function(){ applyModelo(et); });
       var pause=document.createElement('button'); pause.type='button'; pause.className='pill ghost sm'; paintPause(pause,et); pause.addEventListener('click',function(){ et.dataset.paused=(et.dataset.paused==='1')?'':'1'; paintPause(pause,et); recomputeEtapa(et); kanbanSync(); });
       var note=document.createElement('span'); note.className='note'; note.setAttribute('data-mdl-note','');
       ctrl.appendChild(mdl); ctrl.appendChild(pause); ctrl.appendChild(note);
@@ -1064,7 +1198,7 @@
     }
     function addRemove(et){
       var pad=et.querySelector('.etapa-pad'); if(!pad || pad.querySelector('.etapa-remove')) return;
-      var b=document.createElement('button'); b.type='button'; b.className='etapa-remove pj-edit-only'; b.textContent='remover etapa';
+      var b=document.createElement('button'); b.type='button'; b.className='pbtn danger pj-edit-only etapa-remove'; b.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover etapa';
       b.addEventListener('click',function(){ if(currentEtapa===et){ closeEtapa(false); } et.remove(); kanbanSync(); });
       pad.appendChild(b);
     }
@@ -1254,7 +1388,7 @@
     }
     var tkSalvarBtn=document.getElementById('tk-salvar'); if(tkSalvarBtn) tkSalvarBtn.addEventListener('click',tkSalvar);
     var tkConcluir=document.getElementById('tk-concluir'); if(tkConcluir) tkConcluir.addEventListener('click',function(){ if(tkCur){ tkCur.col='concluido'; tkCur.kanban=''; if(tkKanban) tkKanban.value=''; tkSalvar(); } });
-    var tkExcluir=document.getElementById('tk-excluir'); if(tkExcluir) tkExcluir.addEventListener('click',function(){ if(!tkCur) return; if(tkNew){ closeTkModal(); return; } if(confirm('Excluir esta tarefa?')){ var id=tkCur.id; TASKS_COLAB=TASKS_COLAB.filter(function(x){return x.id!==id;}); sb.from('tarefas').delete().eq('id',id).then(function(){}); renderKanban(); closeTkModal(); } });
+    var tkExcluir=document.getElementById('tk-excluir'); if(tkExcluir) tkExcluir.addEventListener('click',function(){ if(!tkCur) return; if(tkNew){ closeTkModal(); return; } imConfirm('Excluir esta tarefa?').then(function(ok){ if(!ok||!tkCur) return; var id=tkCur.id; TASKS_COLAB=TASKS_COLAB.filter(function(x){return x.id!==id;}); sb.from('tarefas').delete().eq('id',id).then(function(){}); renderKanban(); closeTkModal(); }); });
     var tkFechar=document.getElementById('tk-fechar'); if(tkFechar) tkFechar.addEventListener('click',closeTkModal);
     if(tkModal) tkModal.addEventListener('click',function(e){ if(e.target===tkModal) closeTkModal(); });
     var btnNovaTarefa=document.getElementById('nova-tarefa'); if(btnNovaTarefa) btnNovaTarefa.addEventListener('click',function(){ novaTarefaColab('afazer'); });
@@ -1318,7 +1452,7 @@
         });
         var addRow=document.createElement('div'); addRow.className='mdl-add';
         var ai=document.createElement('input'); ai.type='text'; ai.placeholder='Novo item padrão…';
-        var ab=document.createElement('button'); ab.type='button'; ab.className='pill ghost sm'; ab.textContent='adicionar';
+        var ab=document.createElement('button'); ab.type='button'; ab.className='pill ghost sm'; ab.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar';
         function doAdd(){ var v=ai.value.trim(); if(!v) return; ETAPA_MODELOS[nome].push(v); renderModelos(); keepOpen(nome); }
         ab.addEventListener('click',doAdd); ai.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();doAdd();} });
         addRow.appendChild(ai); addRow.appendChild(ab); inner.appendChild(addRow);
@@ -1468,16 +1602,16 @@
     if(avisoInput) avisoInput.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();addAviso();} });
 
     var THEMES=[
-      {key:'atual',name:'Atual',sub:'branco e grafite',brand:'#414141',on:'#fff',tint:'#FFFFFF',panel:'#F5F4F1',panel2:'#EFEEEB',accent:'#414141',sw:'linear-gradient(90deg,#414141 50%,#FFFFFF 50%)'},
+      {key:'atual',name:'Atual',sub:'off-white e grafite',brand:'#37352F',on:'#fff',tint:'#F6F5F1',panel:'#FFFFFF',panel2:'#F0EEE8',accent:'#AF853A',sw:'linear-gradient(90deg,#37352F 50%,#F6F5F1 50%)'},
       {key:'marrom',name:'Marrom-luxo',sub:'terroso e sóbrio',brand:'#6E4B3A',on:'#fff',tint:'#F6F1ED',panel:'#EFE6DF',panel2:'#E7DACF',accent:'#8A5A42',sw:'linear-gradient(90deg,#6E4B3A 50%,#C9A98F 50%)'},
       {key:'rosa',name:'Rosé',sub:'rosa suave',brand:'#A85C74',on:'#fff',tint:'#FAF1F4',panel:'#F1E2E8',panel2:'#EAD3DC',accent:'#C27690',sw:'linear-gradient(90deg,#A85C74 50%,#DDA9BA 50%)'},
       {key:'primavera',name:'Folhagem de Primavera',sub:'verde-oliva',brand:'#7E8C4F',on:'#fff',tint:'#F2F4EC',panel:'#E9EDDD',panel2:'#DFE4CE',accent:'#8A9A5B',sw:'linear-gradient(90deg,#7E8C4F 50%,#BFC79A 50%)'},
       {key:'conforto',name:'Conforto',sub:'cinza-azulado',brand:'#6F8288',on:'#fff',tint:'#EEF2F3',panel:'#E4EAEB',panel2:'#D8E0E1',accent:'#8FA3A9',sw:'linear-gradient(90deg,#6F8288 50%,#B7C6C9 50%)'},
       {key:'sandalo',name:'Sândalo',sub:'areia quente',brand:'#A98B54',on:'#fff',tint:'#F7F3EA',panel:'#EFE7D5',panel2:'#E7DCC4',accent:'#C1A063',sw:'linear-gradient(90deg,#A98B54 50%,#DAC79A 50%)'},
-      {key:'escuro',name:'Modo escuro',sub:'fundo preto',brand:'#0e0e0e',on:'#fff',tint:'#121212',panel:'#1c1c1c',panel2:'#242424',accent:'#8FA3A9',ink:'#ededed',ink2:'#b7b7b7',ink3:'#8a8a8a',hair:'#3a3a3a',hairsoft:'#2b2b2b',sw:'linear-gradient(90deg,#0e0e0e 50%,#3a3a3a 50%)'}
+      {key:'escuro',name:'Modo escuro',sub:'fundo preto',brand:'#0e0e0e',on:'#fff',tint:'#121212',panel:'#1c1c1c',panel2:'#242424',paper:'#1c1c1c',btn:'#ECEAE5',btnOn:'#161616',accent:'#C9A24B',ink:'#ededed',ink2:'#b7b7b7',ink3:'#8f8f8f',hair:'#3a3a3a',hairsoft:'#2f2f2f',sw:'linear-gradient(90deg,#0e0e0e 50%,#3a3a3a 50%)'}
     ];
     var themesEl=document.getElementById('themes');
-    function applyTheme(t){ var r=document.documentElement.style; r.setProperty('--brand',t.brand); r.setProperty('--brand-on',t.on); r.setProperty('--tint',t.tint); r.setProperty('--panel',t.panel); r.setProperty('--panel-2',t.panel2); r.setProperty('--accent',t.accent); r.setProperty('--ink',t.ink||'#414141'); r.setProperty('--ink-2',t.ink2||'#717171'); r.setProperty('--ink-3',t.ink3||'#a3a3a3'); r.setProperty('--hair',t.hair||'#D0D0D0'); r.setProperty('--hair-soft',t.hairsoft||'#ECECEC'); document.body.style.background='var(--tint)'; try{localStorage.setItem('im-theme',t.key);}catch(e){} if(themesEl) themesEl.querySelectorAll('.theme-dot').forEach(function(b){ b.setAttribute('aria-current', b.dataset.key===t.key?'true':'false'); }); }
+    function applyTheme(t){ var r=document.documentElement.style; r.setProperty('--brand',t.brand); r.setProperty('--brand-on',t.on); r.setProperty('--tint',t.tint); r.setProperty('--panel',t.panel); r.setProperty('--panel-2',t.panel2); r.setProperty('--accent',t.accent); r.setProperty('--paper',t.paper||'#FFFFFF'); r.setProperty('--btn',t.btn||t.brand); r.setProperty('--btn-on',t.btnOn||t.on); r.setProperty('color-scheme', t.key==='escuro'?'dark':'light'); r.setProperty('--ink',t.ink||'#33322F'); r.setProperty('--ink-2',t.ink2||'#6A6862'); r.setProperty('--ink-3',t.ink3||'#9A968E'); r.setProperty('--hair',t.hair||'#DCD9D2'); r.setProperty('--hair-soft',t.hairsoft||'#ECE9E3'); document.body.style.background='var(--tint)'; try{localStorage.setItem('im-theme',t.key);}catch(e){} if(themesEl) themesEl.querySelectorAll('.theme-dot').forEach(function(b){ b.setAttribute('aria-current', b.dataset.key===t.key?'true':'false'); }); }
     function renderThemes(){ if(!themesEl) return; themesEl.innerHTML=''; THEMES.forEach(function(t){ var b=document.createElement('button'); b.type='button'; b.className='theme-dot'; b.dataset.key=t.key; b.title=t.name; b.setAttribute('aria-label',t.name); b.style.background=t.sw; b.addEventListener('click',function(){ applyTheme(t); }); themesEl.appendChild(b); }); }
     renderThemes();
     var saved='atual'; try{ saved=localStorage.getItem('im-theme')||'atual'; }catch(e){}
@@ -1498,7 +1632,8 @@
     async function renderCentralColab(){
       var projsEl=document.getElementById('projs'); if(!projsEl) return;
       projsEl.innerHTML='<p class="proj-cli" style="padding:14px 2px">carregando…</p>';
-      var res=await sb.from('projetos').select('id,nome,status,arquivado,clientes(nome,cidade),etapas(nome,ordem,status)');
+      var res=await sb.from('projetos').select('id,nome,status,arquivado,imagem_path,clientes(nome,cidade),etapas(nome,ordem,status)');
+      if(res.error){ res=await sb.from('projetos').select('id,nome,status,arquivado,clientes(nome,cidade),etapas(nome,ordem,status)'); }
       if(res.error){ res=await sb.from('projetos').select('id,nome,status,clientes(nome,cidade),etapas(nome,ordem,status)'); }
       if(res.error){ projsEl.innerHTML='<p class="proj-cli" style="padding:14px 2px">Erro ao carregar projetos.</p>'; return; }
       var rows=(res.data||[]).filter(function(p){ return !p.arquivado; });
@@ -1512,11 +1647,17 @@
         var st=p.status||'andamento';
         var stCls=st==='concluido'?'green':(st==='pausado'?'gray':(st==='cancelado'?'red':'amber'));
         var stTxt=st==='concluido'?'concluído':(st==='pausado'?'pausado':(st==='cancelado'?'cancelado':'em andamento'));
-        var cli=p.clientes?(ce(p.clientes.nome)+(p.clientes.cidade?(' · '+ce(p.clientes.cidade)):'')):'';
+        var cliNome=p.clientes?ce(p.clientes.nome||''):'', cidade=(p.clientes&&p.clientes.cidade)?ce(p.clientes.cidade):'';
+        var ini=(String(p.nome||'').trim().charAt(0)||'·').toUpperCase();
+        var thumb=ce(ini); if(p.imagem_path){ try{ var pu=sb.storage.from('projeto-capas').getPublicUrl(p.imagem_path); if(pu&&pu.data&&pu.data.publicUrl) thumb='<img src="'+ce(pu.data.publicUrl).replace(/"/g,'&quot;')+'" alt="">'; }catch(e){} }
+        var loc=cidade?'<div class="proj-loc"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>'+cidade+'</div>':'';
+        var cliLine=cliNome?'<div class="proj-cli"><b>Cliente:</b> '+cliNome+'</div>':'';
+        var tasks=total?(done+' de '+total+' '+(total===1?'etapa concluída':'etapas concluídas')):'sem etapas cadastradas';
         var card=document.createElement('div'); card.className='proj'; card.dataset.status=st;
-        card.innerHTML='<div><div class="proj-obra">'+ce(p.nome)+'</div><div class="proj-cli">'+cli+'</div></div>'
-          +'<div><div class="proj-etapa">etapa atual — <b>'+ce(etapaNome)+'</b></div><div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:'+pct+'%"></div></div><span class="mini-pct">'+pct+'%</span></div></div>'
-          +'<div class="proj-end"><span class="state '+stCls+'">'+stTxt+'</span><button class="pill ghost sm" type="button" data-abrir="'+p.id+'">abrir</button></div>';
+        card.innerHTML='<div class="proj-main"><div class="proj-thumb" aria-hidden="true">'+thumb+'</div><div class="proj-info"><div class="proj-obra">'+ce(p.nome)+'</div>'+loc+cliLine+'</div></div>'
+          +'<div class="proj-stage"><div class="proj-etapa">etapa atual — <b>'+ce(etapaNome)+'</b></div><div class="pbar"><div class="pbar-fill" style="width:'+pct+'%"></div></div><div class="proj-tasks"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>'+tasks+'</div></div>'
+          +'<div class="proj-prog"><div class="proj-pct">'+pct+'%</div><div class="proj-prog-lbl">do projeto</div></div>'
+          +'<div class="proj-actions"><div class="proj-status-badge"><span class="state '+stCls+'">'+stTxt+'</span></div><div class="proj-btns"><button class="pbtn" type="button" data-abrir="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>abrir</button></div></div>';
         projsEl.appendChild(card);
       });
       if(!rows.length){ projsEl.innerHTML='<p class="proj-cli" style="padding:14px 2px">Nenhum projeto cadastrado ainda.</p>'; }
@@ -1621,13 +1762,13 @@
       box.innerHTML='<label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:8px">Documento de conclusão (PDF)</label>'
         +'<div class="doc-state" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">'
         + (temDoc
-            ? '<button type="button" class="doc-ver" style="background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:14px;color:var(--ink);padding:0;border-bottom:1px solid var(--hair)">📄 '+ce(nome||'documento.pdf')+'</button><button type="button" class="doc-rm pj-edit-only" style="background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:12px;color:var(--ink-3)">remover</button>'
+            ? '<button type="button" class="doc-ver" style="background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:14px;color:var(--ink);padding:0;border-bottom:1px solid var(--hair)">📄 '+ce(nome||'documento.pdf')+'</button><button type="button" class="doc-rm pj-edit-only pbtn danger"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button>'
             : '<span class="note" style="color:var(--ink-3);margin:0">Nenhum documento anexado.</span>')
         +'</div>'
-        +'<div class="pj-edit-only" style="margin-top:10px"><button type="button" class="pill ghost sm doc-add">'+(temDoc?'trocar PDF':'anexar PDF')+'</button></div>'
+        +'<div class="pj-edit-only" style="margin-top:10px"><button type="button" class="pill ghost sm doc-add"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>'+(temDoc?'trocar PDF':'anexar PDF')+'</button></div>'
         +'<input type="file" accept="application/pdf" class="doc-file" hidden>'
         +'<p class="doc-msg note" style="margin:8px 0 0;color:var(--ink-3)"></p>';
-      pad.appendChild(box);
+      (pad.querySelector(':scope > .es-card[data-sec="doc"] .es-card-body')||pad).appendChild(box);
       var fileIn=box.querySelector('.doc-file'), addBtn=box.querySelector('.doc-add'), msg=box.querySelector('.doc-msg');
       var verBtn=box.querySelector('.doc-ver'), rmBtn=box.querySelector('.doc-rm');
       if(addBtn) addBtn.addEventListener('click',function(){ fileIn.click(); });
@@ -1637,7 +1778,7 @@
         uploadDocEtapa(pad, eid, f, msg);
       });
       if(verBtn) verBtn.addEventListener('click',function(){ verDocEtapa(path, msg); });
-      if(rmBtn) rmBtn.addEventListener('click',function(){ if(confirm('Remover o documento desta etapa?')) removerDocEtapa(pad, eid, path, msg); });
+      if(rmBtn) rmBtn.addEventListener('click',function(){ imConfirm('Remover o documento desta etapa?').then(function(ok){ if(ok) removerDocEtapa(pad, eid, path, msg); }); });
     }
     async function uploadDocEtapa(pad, eid, file, msg){
       if(!obraId){ if(msg) msg.textContent='Abra o projeto antes de anexar.'; return; }
@@ -1687,13 +1828,13 @@
       var ver=temArq?'<button type="button" class="np-doc-ver" style="background:none;border:none;padding:0;margin-top:4px;cursor:pointer;color:var(--green);font-size:12.5px;border-bottom:1px solid var(--hair)">📄 '+ce(row.arquivo_nome||'arquivo.pdf')+'</button>':'';
       var main='<div class="np-doc-main"><div class="np-doc-name">'+ce(tipo)+'</div>'+ver+'</div>';
       var state='<span class="np-doc-state">'+(temArq?'anexado':'aguardando anexo')+'</span>';
-      var attach='<label class="pill ghost sm np-attach pj-edit-only">'+(temArq?'trocar':'anexar')+'<input type="file" accept="application/pdf" hidden></label>';
-      var rm=temArq?'<button type="button" class="np-doc-rm pj-edit-only" title="Remover">×</button>':'';
+      var attach='<label class="pill ghost sm np-attach pj-edit-only"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>'+(temArq?'trocar':'anexar')+'<input type="file" accept="application/pdf" hidden></label>';
+      var rm=temArq?'<button type="button" class="pbtn danger np-doc-rm pj-edit-only" title="Remover"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button>':'';
       li.innerHTML=main+state+attach+rm;
       var fileIn=li.querySelector('input[type=file]');
       if(fileIn) fileIn.addEventListener('change',function(){ var f=fileIn.files&&fileIn.files[0]; if(!f) return; if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){ alert('Envie um PDF.'); return; } uploadDocProjetoColab(tipo, f, li); });
       var vb=li.querySelector('.np-doc-ver'); if(vb) vb.addEventListener('click',function(){ verDocProjetoColab(row.arquivo_path); });
-      var rmb=li.querySelector('.np-doc-rm'); if(rmb) rmb.addEventListener('click',function(){ if(confirm('Remover "'+tipo+'"?')) removerDocProjetoColab(tipo, row); });
+      var rmb=li.querySelector('.np-doc-rm'); if(rmb) rmb.addEventListener('click',function(){ imConfirm('Remover "'+tipo+'"?').then(function(ok){ if(ok) removerDocProjetoColab(tipo, row); }); });
       return li;
     }
     async function uploadDocProjetoColab(tipo, file, li){

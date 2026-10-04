@@ -49,6 +49,10 @@
       <a class="lk" href="login.html">‹ voltar ao acesso</a>
     </div>
   </main>
+<script>
+  /* o link do e-mail pode chegar com um aviso de erro (vencido ou já usado) */
+  var LINK_ERRO = /error(_code|_description)?=/.test(location.hash+location.search);
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
@@ -60,7 +64,9 @@
   sb.auth.onAuthStateChange(function(event, session){ if(session) temSessao=true; });
   (async function(){
     try{ var s=(await sb.auth.getSession()).data.session; if(s) temSessao=true;
-      if(!temSessao){ msg.className='msg err'; msg.textContent='Abra esta página pelo link que enviamos no e-mail de redefinição.'; }
+      if(!temSessao){ msg.className='msg err'; msg.textContent = LINK_ERRO
+        ? 'Este link expirou ou já foi usado. Volte ao acesso, digite seu e-mail e clique em "Esqueci minha senha" para receber um novo.'
+        : 'Abra esta página pelo link que enviamos no e-mail de redefinição.'; }
     }catch(e){}
   })();
 

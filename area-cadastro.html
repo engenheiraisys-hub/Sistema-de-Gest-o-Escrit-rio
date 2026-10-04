@@ -267,6 +267,6 @@
     });
     document.getElementById('done-again').addEventListener('click',function(){ form.reset(); done.classList.remove('show'); form.style.display=''; note.textContent=''; setRole(current); });
     var pl=document.getElementById('privacy-link');
-    if(pl) pl.addEventListener('click',function(e){ e.preventDefault(); note.className='note ok'; note.textContent='Protótipo — a Política de Privacidade completa (LGPD) abriria em uma página do escritório.'; });
+    if(pl) pl.addEventListener('click',function(e){ e.preventDefault(); note.className='note ok'; note.textContent='A Política de Privacidade completa ainda não está publicada nesta página. Em caso de dúvida, fale com o escritório.'; });
   })();
 </script>
