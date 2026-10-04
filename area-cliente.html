@@ -361,27 +361,225 @@
     .row .rv{min-width:80px}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  /* =====================================================================
+     LAYOUT PADRÃO DO SISTEMA (igual administrador e colaborador):
+     menu lateral, cartões brancos sobre fundo off-white, botões com ícone.
+     ===================================================================== */
+  :root{--gray:#8f8f8f;--go:#6E7C46;--wrap:1120px}
+  /* menu lateral */
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:66px;background:var(--brand);display:flex;flex-direction:column;align-items:stretch;padding:16px 0;gap:6px;z-index:60;overflow:hidden;transition:width .22s cubic-bezier(.22,.61,.36,1),background .4s,box-shadow .22s}
+  .sidebar:hover{width:214px;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+  .sidebar svg{width:21px;height:21px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .side-logo{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.05em;color:var(--brand-on);margin:0 0 16px;height:28px;display:flex;align-items:center;padding-left:23px}
+  .side-tabs{display:flex;flex-direction:column;align-items:stretch;gap:6px;flex:1;width:100%;overflow-x:hidden;overflow-y:auto}
+  .sidebar .tab,.side-exit{position:relative;display:flex;align-items:center;gap:14px;height:44px;margin:0 8px;padding:0 0 0 15px;border:none;border-radius:12px;background:none;color:rgba(255,255,255,.66);text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .18s,color .18s}
+  .sidebar .tab::after,.side-exit::after{content:attr(aria-label);font-family:var(--sans);font-weight:500;font-size:13.5px;letter-spacing:.01em;opacity:0;transition:opacity .16s;pointer-events:none}
+  .sidebar:hover .tab::after,.sidebar:hover .side-exit::after{opacity:1}
+  .sidebar .tab:hover,.side-exit:hover{background:rgba(255,255,255,.1);color:#fff}
+  .sidebar .tab[aria-current="true"]{background:rgba(255,255,255,.15);color:#fff;border-bottom-color:transparent}
+  .sidebar .tab[aria-current="true"]::before{content:"";position:absolute;left:-8px;top:50%;transform:translateY(-50%);width:3px;height:24px;border-radius:0 3px 3px 0;background:var(--gold)}
+  body{padding-left:66px}
+  @media(max-width:640px){ .sidebar{width:54px} body{padding-left:54px} .sidebar .tab,.side-exit{width:40px;height:40px;padding-left:10px} .sidebar svg{width:19px;height:19px} }
+  @media(prefers-reduced-motion:reduce){.sidebar{transition:background .4s}}
+  .wrap{padding-bottom:20px}
+
+  /* botões */
+  .pill.solid{background:var(--btn,var(--brand));color:var(--btn-on,var(--brand-on));border-color:var(--btn,var(--brand))}
+  .pill.solid:hover{filter:brightness(1.12);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+  .pbtn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);background:var(--panel);border:1px solid var(--hair);border-radius:8px;padding:7px 11px;cursor:pointer;text-decoration:none;white-space:nowrap;transition:background .18s,color .18s,border-color .18s}
+  .pbtn svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .pbtn:hover,.obra:hover .pbtn{color:var(--ink);border-color:var(--ink-3);background:var(--panel-2)}
+  .tl-doc{display:inline-flex;align-items:center;gap:7px;border-radius:9px;background:var(--panel);color:var(--ink-2);font-size:12px;padding:7px 12px}
+  .tl-doc:hover{border-color:var(--ink-3);color:var(--ink);background:var(--panel-2)}
+  .lk-recibo{border:1px solid var(--hair);border-radius:8px;padding:5px 10px;background:var(--panel);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+  .lk-recibo:hover{border-color:var(--ink-3);background:var(--panel-2)}
+
+  /* início: saudação, 4 cartões e grade */
+  .greet{font-family:var(--display);font-weight:700;font-size:clamp(30px,5.2vw,46px);line-height:1;margin:0;color:var(--ink);letter-spacing:-.01em}
+  .motiva{font-family:var(--sans);font-weight:300;font-size:clamp(14px,1.8vw,16px);line-height:1.5;color:var(--ink-2);margin:16px 0 0;max-width:52ch}
+  #view-inicio.anim .welcome{animation:riseIn .55s cubic-bezier(.22,.61,.36,1) .05s both}
+  .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(18px,2.5vw,26px)}
+  @media(max-width:820px){.stat-cards{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:460px){.stat-cards{grid-template-columns:1fr}}
+  .stat-card{position:relative;display:flex;flex-direction:column;gap:8px;background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);padding:18px 18px 16px;text-decoration:none;color:inherit;box-shadow:var(--shadow-sm);overflow:hidden;transition:box-shadow .22s,transform .18s,border-color .22s}
+  .stat-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity .22s}
+  .stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--hair)}
+  .stat-card:hover::before{opacity:1}
+  .stat-ico{position:absolute;top:15px;right:15px;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+  .stat-ico svg,.acc-ico svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .st-ico-ev{background:rgba(94,125,87,.13);color:var(--green)}
+  .st-ico-tk{background:rgba(192,138,30,.14);color:var(--amber)}
+  .st-ico-pj{background:rgba(95,124,138,.14);color:var(--slate)}
+  .st-ico-pz{background:rgba(170,86,74,.13);color:var(--red)}
+  .stat-lbl{font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);max-width:calc(100% - 42px);line-height:1.3;min-height:2.6em}
+  .stat-num{font-family:var(--display);font-weight:500;font-size:clamp(22px,2.4vw,28px);color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+  .stat-link{font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:5px;margin-top:auto;padding-top:4px}
+  .stat-card:hover .stat-link{color:var(--ink)}
+  .home-grid{margin-top:clamp(20px,3vw,28px);align-items:start}
+  .home-col{display:flex;flex-direction:column;gap:clamp(20px,3vw,28px);min-width:0}
+  .themes{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .theme-dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--hair);cursor:pointer;padding:0;transition:transform .15s,border-color .15s,box-shadow .15s}
+  .theme-dot:hover{transform:scale(1.08)}
+  .theme-dot[aria-current="true"]{border-color:var(--ink);box-shadow:0 0 0 3px var(--panel),0 0 0 4px var(--ink)}
+
+  /* meus projetos: mesmo cartão da central de projetos */
+  .page-title{font-family:var(--display);font-weight:700;font-size:clamp(26px,4.4vw,38px);color:var(--ink);margin:8px 0 clamp(16px,2.4vw,22px);letter-spacing:-.01em}
+  .proj-note{font-size:13.5px;color:var(--ink-2);line-height:1.65;margin:0 0 clamp(22px,3vw,32px);max-width:62ch}
+  .projs-head{display:grid;grid-template-columns:1.8fr 1.5fr .7fr 132px;gap:20px;padding:0 18px 12px;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .projs-head span:nth-child(3){text-align:center}
+  .projs-head span:last-child{text-align:right}
+  .obras{gap:0}
+  .obra{display:grid;grid-template-columns:1.8fr 1.5fr .7fr 132px;gap:20px;align-items:center;padding:16px 18px;margin-bottom:12px;background:var(--panel);border:1px solid var(--hair-soft);border-left:3px solid var(--gray);border-radius:var(--r);box-shadow:var(--shadow-sm);color:inherit;transition:box-shadow .2s,transform .12s,border-color .2s}
+  .obra:hover{background:var(--panel);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .obra[data-status="andamento"]{border-left-color:var(--amber)}
+  .obra[data-status="concluido"]{border-left-color:var(--green)}
+  .obra[data-status="pausado"]{border-left-color:var(--gray)}
+  .obra[data-status="cancelado"]{border-left-color:var(--red)}
+  .proj-main{display:flex;align-items:center;gap:14px;min-width:0}
+  .proj-thumb{flex:none;width:58px;height:58px;border-radius:12px;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:21px;overflow:hidden}
+  .obra-name{font-size:16px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .obra-sub{font-size:12px;margin-top:5px}
+  .obra-stage{font-size:12.5px;margin:0 0 9px}
+  .obra-stage b{font-weight:600}
+  .pbar{height:8px;border-radius:50px;background:var(--panel-2);overflow:hidden}
+  .pbar-fill{height:100%;border-radius:50px;background:var(--go);transition:width .5s cubic-bezier(.22,.61,.36,1)}
+  .proj-prog{text-align:center}
+  .proj-pct{font-family:var(--display);font-weight:700;font-size:26px;color:var(--go);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .proj-prog-lbl{font-size:11px;color:var(--ink-3);margin-top:3px}
+  .obra .pbtn{justify-self:end}
+  @media(max-width:860px){.projs-head{display:none}.obra{grid-template-columns:1fr;gap:14px}.proj-prog{text-align:left}.obra .pbtn{justify-self:start}}
+
+  /* projeto aberto: cabeçalho em cartão + seções em cartões */
+  .back{margin:0 0 8px}
+  .hero{padding:clamp(20px,3vw,28px);background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+  .title{font-size:clamp(26px,4.4vw,38px);line-height:1.1;letter-spacing:-.01em}
+  .meta{margin:10px 0 0;font-size:13.5px;line-height:1.6}
+  .meta b{font-weight:500}
+  .prog{margin-top:22px}
+  .prog-stage{font-size:12.5px}
+  .prog-stage b{font-weight:600}
+  .prog-bar-row{margin-top:10px}
+  .prog-track{height:8px}
+  .prog-fill{background:var(--go)}
+  .prog-badge{width:auto;height:auto;min-width:62px;border-radius:0;background:none;color:var(--go);justify-content:flex-end;font-weight:700;font-size:26px;line-height:1;letter-spacing:-.01em}
+  .accs{margin-top:18px;padding-bottom:20px}
+  .acc{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);margin-bottom:14px;overflow:hidden}
+  .acc:last-of-type{margin-bottom:0}
+  .acc-head{background:transparent;align-items:center;gap:14px;padding:16px clamp(18px,2.4vw,24px);transition:background .18s}
+  .acc-head:hover{background:var(--panel-2)}
+  .acc.open .acc-head{border-bottom:1px solid var(--hair-soft)}
+  .acc-ico{flex:none;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+  .acc-head .label{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:0;color:var(--ink)}
+  .acc-head .label::before{content:none}
+  .acc-hint{font-size:12.5px}
+  .acc-chev,.mini-chev{width:9px;height:9px;border:solid var(--ink-3);border-width:0 1.5px 1.5px 0;transform:rotate(45deg);transition:transform .25s}
+  .acc-chev::before,.acc-chev::after,.mini-chev::before,.mini-chev::after{display:none}
+  .acc.open .acc-chev,.fin-item.open .mini-chev{transform:rotate(-135deg)}
+  .acc-pad{padding:20px clamp(18px,2.4vw,24px) 26px}
+  .acomp-note{background:var(--panel-2);border-radius:var(--r-sm)}
+  /* linha do tempo e termos: fundos seguem o cartão (também no modo escuro) */
+  .dot,.step.current .dot{background:var(--panel)}
+  .cli-td .dot{background:var(--amber)}
+  .step.done .dot{background:var(--green)}
+  .step-name{font-size:15.5px}
+  .gate.accepted .gate-mark{background:var(--green);color:#fff}
+  .gate.pending .gate-mark{background:var(--panel);border:2px solid var(--amber)}
+  .gate.pending .gate-box{border-left-color:var(--amber)}
+  .gate.locked .gate-mark{background:var(--panel)}
+  .gate-label{font-weight:500}
+  .fin-item.c-slate{--c:var(--slate)}
+  .fin-k{font-size:15px}
+  .doc-name{font-size:14.5px}
+  /* janela do termo */
+  .modal-back{background:rgba(20,20,18,.45)}
+  .modal{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-md)}
+  .modal h3{font-weight:600;font-size:clamp(16px,2.2vw,19px);letter-spacing:.02em;text-transform:none}
+  .foot{margin-top:clamp(30px,5vw,60px)}
+  .foot-in{padding-top:24px}
+
+  /* início: os dois cartões da grade com a mesma altura; cores em faixa própria */
+  .home-grid{align-items:stretch}
+  #theme-card{margin-top:clamp(20px,3vw,28px);display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-top:18px;padding-bottom:18px}
+  #theme-card h3{margin:0}
+  #theme-card .themes{margin-top:0!important;margin-left:auto}
+
+  /* ===== acompanhamento e financeiro: resumo em blocos + lista com colunas ===== */
+  .state.green{color:var(--green)}.state.amber{color:var(--amber)}.state.red{color:var(--red)}.state.gray{color:var(--ink-3)}
+  .state.green::before,.state.amber::before,.state.red::before{background:currentColor;border-color:currentColor}
+  .mini-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 16px}
+  .fin-tiles{grid-template-columns:repeat(4,1fr)}
+  .mini-tile{background:var(--panel-2);border-left:3px solid var(--hair);border-radius:var(--r-sm);padding:14px 16px;min-width:0}
+  .mini-tile.t-green{border-left-color:var(--green)}.mini-tile.t-red{border-left-color:var(--red)}
+  .mini-k{display:block;font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .mini-tile b{display:block;margin-top:8px;font-family:var(--display);font-weight:600;font-size:18px;line-height:1.2;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+  .mini-tile small{display:block;margin-top:3px;font-size:11.5px;color:var(--ink-3)}
+  .acomp-note{margin:0 0 20px}
+  .sec-sub{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 12px}
+  .list-head{display:grid;gap:16px;padding:0 17px 10px 19px;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .tl-head,.step{grid-template-columns:34px minmax(0,1fr) 130px 230px}
+  .fin-head,.fin-r{grid-template-columns:minmax(0,1.6fr) 120px 120px 190px}
+  .tl-head span:last-child{text-align:right}
+  .timeline{display:flex;flex-direction:column;gap:8px}
+  .timeline::before{display:none}
+  .step,.step:last-child{display:grid;gap:16px;align-items:center;padding:12px 16px;border:1px solid var(--hair-soft);border-left:3px solid var(--gray);border-radius:var(--r-sm);background:var(--panel)}
+  .step.done{border-left-color:var(--green)}.step.current{border-left-color:var(--amber)}
+  .step-n{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:13px;background:var(--panel-2);color:var(--ink-2)}
+  .step.done .step-n{background:rgba(94,125,87,.15);color:var(--green)}
+  .step.current .step-n{background:rgba(192,138,30,.16);color:var(--amber)}
+  .step .step-name,.step.done .step-name,.step.current .step-name{font-family:var(--display);font-weight:600;font-size:14.5px;color:var(--ink);min-width:0}
+  .step.pending .step-name{font-family:var(--display);font-weight:600;font-size:14.5px;color:var(--ink-2);min-width:0}
+  .step-doc{margin:0;min-width:0;text-align:right}
+  .tl-doc{display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
+  .tl-doc-none,.tl-doc-locked{font-size:12px;color:var(--ink-3);font-style:normal}
+  .tl-empty{list-style:none;padding:14px 16px;color:var(--ink-3);font-size:13.5px}
+  .gate,.gate:last-child{margin:0 0 0 50px;padding:12px 16px;display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;align-items:center;border:1px dashed var(--hair);border-radius:var(--r-sm);background:var(--panel-2)}
+  .gate.pending{border-style:solid;border-color:var(--amber)}
+  .gate-mark{position:static;width:24px;height:24px;font-size:12px}
+  .gate.locked .gate-mark{border:1px solid var(--hair);background:var(--panel)}
+  .gate-box,.gate.pending .gate-box{border-left:none;padding:0;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:16px;align-items:center}
+  .gate-label{grid-column:1;font-size:13.5px;font-weight:600;letter-spacing:0}
+  .gate-text{grid-column:1;margin-top:3px;font-size:12.5px;line-height:1.5;max-width:none}
+  .gate-box .pill{grid-column:2;grid-row:1 / span 2;margin-top:0}
+  .fin-bar{display:flex;align-items:center;gap:14px;margin:0 0 24px}
+  .fin-bar .pbar{flex:1}
+  .fin-bar span{font-size:12.5px;color:var(--ink-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .fin-rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .fin-r{display:grid;gap:16px;align-items:center;padding:12px 16px 12px 18px;border:1px solid var(--hair-soft);border-radius:var(--r-sm);background:var(--panel);font-size:14px}
+  .fr-k{color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .fr-d{color:var(--ink-2);font-size:13px}
+  .fr-v{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+  .fr-st{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .fin-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:16px}
+  .acc-pad .note:empty{display:none}
+  /* janela do recibo (na própria página) */
+  .recibo-box{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-md);width:min(840px,100%);height:min(92vh,1040px);display:flex;flex-direction:column;overflow:hidden}
+  .recibo-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--hair-soft)}
+  .recibo-t{font-family:var(--display);font-weight:600;font-size:15px;color:var(--ink);margin-right:auto}
+  #recibo-frame{flex:1;width:100%;border:0;background:#F2F1EE}
+  @media(max-width:820px){
+    .mini-tiles,.fin-tiles{grid-template-columns:1fr 1fr}
+    .tl-head,.fin-head{display:none}
+    .step,.step:last-child{grid-template-columns:34px minmax(0,1fr);row-gap:8px}
+    .step .state,.step-doc{grid-column:2;text-align:left}
+    .gate,.gate:last-child{margin-left:0}
+    .gate-box,.gate.pending .gate-box{grid-template-columns:1fr}
+    .gate-box .pill{grid-column:1;grid-row:auto;margin-top:10px;justify-self:start}
+    .fin-r{grid-template-columns:1fr auto;row-gap:6px}
+  }
+  @media(max-width:460px){.mini-tiles,.fin-tiles{grid-template-columns:1fr}}
 </style>
 
-<header class="top">
-  <div class="top-in">
-    <div class="top-l">
-      <span class="wm">IM</span>
-      <span class="top-div" aria-hidden="true"></span>
-      <span class="top-sec" id="top-sec">área do cliente</span>
-    </div>
-    <div class="top-r">
-      <span class="who" id="who">Marina Andrade</span>
-      <a class="exit" href="#" id="exit">sair</a>
-    </div>
-  </div>
-</header>
+<header class="top" hidden><span class="top-sec" id="top-sec">área do cliente</span><span class="who" id="who"></span></header>
 
-<nav class="tabbar" aria-label="Seções">
-  <div class="tabbar-in" id="tabbar">
-    <a class="tab" href="#inicio" data-view="inicio">início</a>
-    <a class="tab" href="#projetos" data-view="projetos">meus projetos</a>
+<!-- menu lateral (mesmo padrão do administrador e do colaborador) -->
+<nav class="sidebar" aria-label="Seções">
+  <span class="side-logo">IM</span>
+  <div class="side-tabs" id="tabbar">
+    <a class="tab" href="#inicio" data-view="inicio" title="Início" aria-label="Início"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a>
+    <a class="tab" href="#projetos" data-view="projetos" title="Meus projetos" aria-label="Meus projetos"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a>
   </div>
+  <a class="side-exit" href="#" id="exit" title="Sair" aria-label="Sair" style="margin-top:auto"><svg viewBox="0 0 24 24"><path d="M15 12H4"/><path d="M8 8l-4 4 4 4"/><path d="M12 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg></a>
 </nav>
 
 <div class="wrap">
@@ -389,53 +587,39 @@
   <!-- INÍCIO -->
   <section class="view" id="view-inicio">
     <section class="welcome">
-      <p class="welcome-hello" id="greet">Olá, Marina</p>
-      <h1 class="welcome-title">Bem-vinda de volta</h1>
-      <p class="welcome-sub" id="motiva">Acompanhe aqui o andamento dos seus projetos com o escritório.</p>
+      <h1 class="greet" id="greet">Olá</h1>
+      <p class="motiva" id="motiva">Acompanhe aqui o andamento dos seus projetos com o escritório.</p>
     </section>
+
+    <div class="stat-cards">
+      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="stat-lbl">meus projetos</span><span class="stat-num" id="st-projetos">—</span><span class="stat-link">Ver projetos →</span></a>
+      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8.5 12l2.2 2.2L15.5 9"/></svg></span><span class="stat-lbl">etapas concluídas</span><span class="stat-num" id="st-etapas">—</span><span class="stat-link">Ver andamento →</span></a>
+      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 5l4 4"/></svg></span><span class="stat-lbl">termos aguardando aceite</span><span class="stat-num" id="st-termos">—</span><span class="stat-link">Ver termos →</span></a>
+      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><span class="stat-lbl">parcelas em aberto</span><span class="stat-num" id="st-parcelas">—</span><span class="stat-link">Ver financeiro →</span></a>
+    </div>
+
     <div class="home-grid">
       <section class="card">
         <h3>seu acompanhamento</h3>
-        <ul class="clist">
-          <li class="cli-td"><span class="dot"></span><div><div class="nm">Residência Jurerê · estudo de fachada</div><div class="sb">em andamento · previsão 30 set</div></div></li>
-          <li class="cli-td"><span class="dot"></span><div><div class="nm">Termo de aceite — estudo de fachada</div><div class="sb">aguardando seu aceite</div></div></li>
-          <li class="cli-td"><span class="dot"></span><div><div class="nm">Reforma Apartamento Centro · levantamento</div><div class="sb">iniciando</div></div></li>
-        </ul>
+        <ul class="clist"></ul>
       </section>
       <section class="card">
         <h3>avisos do escritório</h3>
         <ul class="avisos" id="avisos"></ul>
       </section>
     </div>
+    <section class="card" id="theme-card">
+      <h3>cores do ambiente</h3>
+      <div class="themes" id="themes"></div>
+    </section>
   </section>
 
   <!-- MEUS PROJETOS (LISTA DE OBRAS) -->
   <section class="view" id="view-home" hidden>
-    <section class="welcome">
-      <h1 class="welcome-title">Olá, Marina</h1>
-      <p class="welcome-sub">Estes são os seus projetos com o escritório. Toque em um para acompanhar.</p>
-    </section>
-    <p class="sec-title" style="margin:clamp(30px,4vw,44px) 0 18px">seus projetos</p>
-    <div class="obras">
-      <a class="obra" href="#obra-jurere">
-        <div class="obra-info">
-          <div class="obra-name">Residência Jurerê</div>
-          <div class="obra-sub">Jurerê Internacional · contrato nº 2026-014</div>
-          <div class="obra-stage">etapa atual — <b>estudo de fachada</b></div>
-        </div>
-        <div class="obra-prog"><div class="obra-track"><i style="width:45%"></i></div><span class="obra-pct">45%</span></div>
-        <span class="obra-arrow" aria-hidden="true">→</span>
-      </a>
-      <a class="obra" href="#obra-centro">
-        <div class="obra-info">
-          <div class="obra-name">Reforma Apartamento Centro</div>
-          <div class="obra-sub">Centro · contrato nº 2026-022</div>
-          <div class="obra-stage">etapa atual — <b>levantamento</b></div>
-        </div>
-        <div class="obra-prog"><div class="obra-track"><i style="width:15%"></i></div><span class="obra-pct">15%</span></div>
-        <span class="obra-arrow" aria-hidden="true">→</span>
-      </a>
-    </div>
+    <h2 class="page-title">Meus projetos</h2>
+    <p class="proj-note">Estes são os seus projetos com o escritório. Toque em um para acompanhar as etapas, o financeiro e os documentos.</p>
+    <div class="projs-head"><span>Projeto</span><span>Etapa atual</span><span>Progresso</span><span>Ações</span></div>
+    <div class="obras"></div>
   </section>
 
   <!-- OBRA (DETALHE) -->
@@ -463,174 +647,59 @@
     <!-- ACOMPANHAMENTO -->
     <div class="acc" data-acc>
       <button class="acc-head" aria-expanded="false" aria-controls="p-acomp">
+        <span class="acc-ico st-ico-ev" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8.5 12l2.2 2.2L15.5 9"/></svg></span>
         <span class="label">Acompanhamento</span>
         <span class="acc-hint">estudo de fachada · 1 aceite pendente</span>
         <span class="acc-chev" aria-hidden="true"></span>
       </button>
       <div class="acc-body"><div class="acc-inner"><div class="acc-pad" id="p-acomp">
-        <p class="acomp-note">As etapas exibidas aqui são exatamente as que o escritório incluiu no contrato deste projeto. Os arquivos de <b>Pré-projeto</b>, <b>Estudo preliminar</b> e <b>Estudo de fachada</b> ficam livres para download. A partir do <b>Projeto legal</b>, o arquivo de cada etapa só é liberado após o aceite do <b>termo de finalização e entrega</b> daquela etapa.</p>
-        <ul class="timeline">
-          <li class="step done"><span class="dot"></span>
-            <div class="step-name"><span class="step-num">ETAPA 1</span>Pré-projeto</div>
-            <div class="step-meta">concluído · 18 mar 2026</div>
-            <button class="pill ghost sm file"><span class="ftag">PDF</span> pre-projeto.pdf</button>
-          </li>
-          <li class="step done"><span class="dot"></span>
-            <div class="step-name"><span class="step-num">ETAPA 2</span>Estudo preliminar</div>
-            <div class="step-meta">concluído · 09 abr 2026</div>
-            <button class="pill ghost sm file"><span class="ftag">PDF</span> estudo-preliminar.pdf</button>
-          </li>
-
-          <li class="gate accepted" data-termo="aceite"><span class="gate-mark" aria-hidden="true">✓</span>
-            <div class="gate-box">
-              <div class="gate-label">termo de aceite — estudo preliminar</div>
-              <div class="gate-text">Você aprovou esta etapa em 10 abr 2026, liberando o estudo de fachada.</div>
-              <button class="pill ghost sm gate-btn" data-gate="ver">ver termo aceito</button>
-            </div>
-          </li>
-
-          <li class="step current"><span class="dot"></span>
-            <div class="step-name"><span class="step-num">ETAPA 3</span>Estudo de fachada <span class="now">em andamento</span></div>
-            <div class="step-meta">previsão de entrega · 30 set 2026</div>
-            <button class="pill ghost sm file"><span class="ftag">JPG</span> estudo-fachada-previa.jpg</button>
-          </li>
-
-          <li class="gate pending" data-termo="aceite"><span class="gate-mark" aria-hidden="true"></span>
-            <div class="gate-box">
-              <div class="gate-label">termo de aceite — estudo de fachada</div>
-              <div class="gate-text">Ao concluir o estudo de fachada, assine para autorizar a continuidade e liberar o projeto legal.</div>
-              <button class="pill solid sm gate-btn" data-gate="assinar">aceitar termo</button>
-            </div>
-          </li>
-
-          <li class="step pending"><span class="dot"></span>
-            <div class="step-name"><span class="step-num">ETAPA 4</span>Projeto legal · aprovação na prefeitura</div>
-            <div class="step-meta">a iniciar</div>
-            <button class="pill ghost sm file" disabled><span class="ftag">🔒</span> liberar com o termo de entrega</button></li>
-          <li class="gate locked" data-termo="entrega"><span class="gate-mark" aria-hidden="true"></span>
-            <div class="gate-box">
-              <div class="gate-label">termo de entrega — projeto legal</div>
-              <div class="gate-text">Disponível quando esta etapa for concluída e entregue.</div>
-              <button class="pill ghost sm gate-btn" data-gate="preview">ver termo</button>
-            </div></li>
-
-          <li class="step pending"><span class="dot"></span>
-            <div class="step-name"><span class="step-num">ETAPA 5</span>Projeto executivo</div><div class="step-meta">a iniciar</div>
-            <button class="pill ghost sm file" disabled><span class="ftag">🔒</span> liberar com o termo de entrega</button></li>
-          <li class="gate locked" data-termo="entrega"><span class="gate-mark" aria-hidden="true"></span>
-            <div class="gate-box">
-              <div class="gate-label">termo de entrega — projeto executivo</div>
-              <div class="gate-text">Disponível quando esta etapa for concluída e entregue.</div>
-              <button class="pill ghost sm gate-btn" data-gate="preview">ver termo</button>
-            </div></li>
-
-          <li class="step pending"><span class="dot"></span>
-            <div class="step-name"><span class="step-num">ETAPA 6</span>Hidrossanitário</div><div class="step-meta">a iniciar</div>
-            <button class="pill ghost sm file" disabled><span class="ftag">🔒</span> liberar com o termo de entrega</button></li>
-          <li class="gate locked" data-termo="entrega"><span class="gate-mark" aria-hidden="true"></span>
-            <div class="gate-box">
-              <div class="gate-label">termo de entrega — hidrossanitário</div>
-              <div class="gate-text">Disponível quando esta etapa for concluída e entregue.</div>
-              <button class="pill ghost sm gate-btn" data-gate="preview">ver termo</button>
-            </div></li>
-
-          <li class="step pending"><span class="dot"></span>
-            <div class="step-name"><span class="step-num">ETAPA 7</span>Elétrico</div><div class="step-meta">a iniciar</div>
-            <button class="pill ghost sm file" disabled><span class="ftag">🔒</span> liberar com o termo de entrega</button></li>
-          <li class="gate locked" data-termo="entrega"><span class="gate-mark" aria-hidden="true"></span>
-            <div class="gate-box">
-              <div class="gate-label">termo de entrega — elétrico</div>
-              <div class="gate-text">Disponível quando esta etapa for concluída e entregue.</div>
-              <button class="pill ghost sm gate-btn" data-gate="preview">ver termo</button>
-            </div></li>
-
-          <li class="step pending"><span class="dot"></span>
-            <div class="step-name"><span class="step-num">ETAPA 8</span>Estrutural</div><div class="step-meta">a iniciar</div>
-            <button class="pill ghost sm file" disabled><span class="ftag">🔒</span> liberar com o termo de entrega</button></li>
-          <li class="gate locked" data-termo="entrega"><span class="gate-mark" aria-hidden="true"></span>
-            <div class="gate-box">
-              <div class="gate-label">termo de entrega — estrutural</div>
-              <div class="gate-text">Disponível quando esta etapa for concluída e entregue.</div>
-              <button class="pill ghost sm gate-btn" data-gate="preview">ver termo</button>
-            </div></li>
-
-          <li class="step pending"><span class="dot"></span>
-            <div class="step-name"><span class="step-num">ETAPA 9</span>Preventivo</div><div class="step-meta">a iniciar</div>
-            <button class="pill ghost sm file" disabled><span class="ftag">🔒</span> liberar com o termo de entrega</button></li>
-          <li class="gate locked" data-termo="entrega"><span class="gate-mark" aria-hidden="true"></span>
-            <div class="gate-box">
-              <div class="gate-label">termo de entrega — preventivo</div>
-              <div class="gate-text">Disponível quando esta etapa for concluída e entregue.</div>
-              <button class="pill ghost sm gate-btn" data-gate="preview">ver termo</button>
-            </div></li>
-        </ul>
+        <div class="mini-tiles">
+          <div class="mini-tile"><span class="mini-k">Etapas concluídas</span><b id="ac-t-feitas">—</b></div>
+          <div class="mini-tile"><span class="mini-k">Etapa atual</span><b id="ac-t-atual">—</b></div>
+          <div class="mini-tile"><span class="mini-k">Aceites pendentes</span><b id="ac-t-pend">—</b></div>
+        </div>
+        <p class="acomp-note">Estas são as etapas do contrato deste projeto, na ordem de execução. O documento de cada etapa fica disponível para baixar quando o escritório anexar; nas etapas com <b>termo</b>, ele é liberado depois do seu aceite.</p>
+        <div class="list-head tl-head"><span>Nº</span><span>Etapa</span><span>Situação</span><span>Documento</span></div>
+        <ul class="timeline"></ul>
         <p class="note" id="note-acomp"></p>
       </div></div></div>
     </div>
 
-    <!-- FINANCEIRO -->
+<!-- FINANCEIRO -->
     <div class="acc" data-acc>
       <button class="acc-head" aria-expanded="false" aria-controls="p-fin">
+        <span class="acc-ico st-ico-tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3.5-4 3 2.5L19 8"/></svg></span>
         <span class="label">Financeiro</span>
         <span class="acc-hint">60% pago</span>
         <span class="acc-chev" aria-hidden="true"></span>
       </button>
       <div class="acc-body"><div class="acc-inner"><div class="acc-pad" id="p-fin">
-        <div class="fin-list">
-          <div class="fin-item c-amber">
-            <div class="fin-row"><span class="fin-k">contrato</span><span class="fin-v">R$ 48.000</span><span></span></div>
-          </div>
+        <div class="mini-tiles fin-tiles">
+          <div class="mini-tile"><span class="mini-k">Valor do contrato</span><b id="fin-t-contrato">R$ —</b></div>
+          <div class="mini-tile t-green"><span class="mini-k">Pago</span><b id="fin-t-pago">R$ 0</b><small id="fin-t-pago-pct">0% do contrato</small></div>
+          <div class="mini-tile t-red"><span class="mini-k">A pagar</span><b id="fin-t-apagar">R$ 0</b><small id="fin-t-apagar-pct">0% do contrato</small></div>
+          <div class="mini-tile"><span class="mini-k">Próxima parcela</span><b id="fin-t-prox">—</b><small id="fin-t-prox-d"></small></div>
+        </div>
+        <div class="fin-bar"><div class="pbar"><div class="pbar-fill" id="fin-bar-fill" style="width:0%"></div></div><span id="fin-bar-txt">0% pago</span></div>
 
-          <div class="fin-item c-green" data-sub>
-            <button class="fin-row fin-toggle" aria-expanded="false" aria-controls="fin-pago">
-              <span class="fin-k">pago <em>· 60%</em></span>
-              <span class="fin-v">R$ 28.800</span>
-              <span class="mini-chev" aria-hidden="true"></span>
-            </button>
-            <div class="fin-body"><div class="fin-inner"><div class="fin-pad" id="fin-pago">
-              <ul class="rows">
-                <li class="row"><span class="rk">entrada</span><span class="rv">R$ 9.600</span><span class="state done">pago · 15 mar</span></li>
-                <li class="row"><span class="rk">parcela 2 · jun</span><span class="rv">R$ 9.600</span><span class="state done">pago · 05 jun</span></li>
-                <li class="row"><span class="rk">parcela 3 · ago</span><span class="rv">R$ 9.600</span><span class="state done">pago · 05 ago</span></li>
-              </ul>
-              <div style="margin-top:18px"><button class="pill ghost sm" id="recibos"><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>baixar recibos</button></div>
-              <p class="note" id="note-fin"></p>
-            </div></div></div>
-          </div>
+        <p class="sec-sub">Parcelas do contrato</p>
+        <div class="list-head fin-head"><span>Parcela</span><span>Vencimento</span><span>Valor</span><span>Situação</span></div>
+        <ul class="fin-rows" id="fin-rows"></ul>
+        <div class="fin-actions"><button class="pill ghost sm" id="recibos" type="button"><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>baixar recibos</button><span class="note" id="note-fin" style="margin:0"></span></div>
 
-          <div class="fin-item c-red" data-sub>
-            <button class="fin-row fin-toggle" aria-expanded="false" aria-controls="fin-apagar">
-              <span class="fin-k">a pagar <em>· 40%</em></span>
-              <span class="fin-v">R$ 19.200</span>
-              <span class="mini-chev" aria-hidden="true"></span>
-            </button>
-            <div class="fin-body"><div class="fin-inner"><div class="fin-pad" id="fin-apagar">
-              <p class="fin-next">próxima parcela — <b>R$ 9.600 · vence 05 out 2026</b></p>
-              <ul class="rows">
-                <li class="row"><span class="rk">parcela 4 · out</span><span class="rv">R$ 9.600</span><span class="state prog">a vencer</span></li>
-                <li class="row"><span class="rk">parcela 5 · dez</span><span class="rv">R$ 9.600</span><span class="state">futura</span></li>
-              </ul>
-            </div></div></div>
-          </div>
-
-          <div class="fin-item c-slate" data-sub id="extras-item" hidden>
-            <button class="fin-row fin-toggle" aria-expanded="false" aria-controls="fin-extras">
-              <span class="fin-k">serviços extras</span>
-              <span class="fin-v">R$ 0</span>
-              <span class="mini-chev" aria-hidden="true"></span>
-            </button>
-            <div class="fin-body"><div class="fin-inner"><div class="fin-pad" id="fin-extras">
-              <p class="note" style="margin:0 0 12px">Serviços fora do contrato (consultorias, adicionais).</p>
-              <ul class="rows"></ul>
-            </div></div></div>
-          </div>
+        <div id="extras-item" hidden>
+          <p class="sec-sub" style="margin-top:28px">Serviços extras <span id="fin-t-extras" style="color:var(--ink-3);font-weight:400;letter-spacing:0;text-transform:none"></span></p>
+          <p class="note" style="margin:0 0 12px">Serviços fora do contrato (consultorias, adicionais).</p>
+          <div class="list-head fin-head"><span>Serviço</span><span>Data</span><span>Valor</span><span>Situação</span></div>
+          <ul class="fin-rows" id="fin-extras"></ul>
         </div>
       </div></div></div>
     </div>
 
-    <!-- DOCUMENTOS -->
+<!-- DOCUMENTOS -->
     <div class="acc" data-acc>
       <button class="acc-head" aria-expanded="false" aria-controls="p-docs">
+        <span class="acc-ico st-ico-pj" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h6"/></svg></span>
         <span class="label">Documentos</span>
         <span class="acc-hint">6 documentos</span>
         <span class="acc-chev" aria-hidden="true"></span>
@@ -823,7 +892,7 @@
 
     /* ---------------- tela inicial: saudação, avisos, tema ---------------- */
     var greetEl=document.getElementById('greet');
-    if(greetEl){ var gh=new Date().getHours(); greetEl.textContent=(gh<12?'Bom dia':(gh<18?'Boa tarde':'Boa noite'))+', Marina'; }
+    if(greetEl){ var gh=new Date().getHours(); greetEl.textContent=(gh<12?'Bom dia':(gh<18?'Boa tarde':'Boa noite')); }
     /* relógio flip */
     (function(){
       var ch=document.querySelector('[data-fc="h"]'),cm=document.querySelector('[data-fc="m"]'),cs=document.querySelector('[data-fc="s"]'),dEl=document.getElementById('fc-date');
@@ -868,26 +937,35 @@
     function renderTimeline(etapas){
       var ul=document.querySelector('#p-acomp .timeline'); if(!ul) return;
       var ord=(etapas||[]).slice().sort(etOrd);
-      if(!ord.length){ ul.innerHTML='<li class="step pending"><div class="step-name">Nenhuma etapa cadastrada ainda.</div></li>'; return; }
+      // resumo no cabeçalho da seção: etapa atual + aceites pendentes (dados reais)
+      (function(){ var hEl=ul.closest('.acc'); hEl=hEl&&hEl.querySelector('.acc-hint'); if(!hEl) return;
+        var at=etAtual(ord), pend=ord.filter(function(e){ return (e.termo==='aceite'||e.termo==='entrega') && e.status==='concluida' && !e.termo_aceito; }).length;
+        hEl.textContent=(ord.length?(at?at.nome:'entregue'):'sem etapas')+(pend?(' · '+pend+(pend===1?' aceite pendente':' aceites pendentes')):'');
+        var setT=function(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; };
+        setT('ac-t-feitas', ord.filter(function(e){return e.status==='concluida';}).length+' de '+ord.length);
+        setT('ac-t-atual', ord.length?(at?at.nome:'Entregue'):'—'); setT('ac-t-pend', pend); })();
+      var tlHead=document.querySelector('#p-acomp .tl-head'); if(tlHead) tlHead.hidden=!ord.length;
+      if(!ord.length){ ul.innerHTML='<li class="tl-empty">Nenhuma etapa cadastrada ainda.</li>'; return; }
       var html='';
       ord.forEach(function(e,i){
         var cls=e.status==='concluida'?'done':(e.status==='andamento'?'current':'pending');
-        var meta=e.status==='concluida'?'concluído':(e.status==='andamento'?'em andamento':'a iniciar');
-        var now=e.status==='andamento'?' <span class="now">em andamento</span>':'';
+        var meta=e.status==='concluida'?'Concluída':(e.status==='andamento'?'Em andamento':'A iniciar');
+        var stCls=e.status==='concluida'?'green':(e.status==='andamento'?'amber':'gray');
         var termoEt=e.termo||'nenhum';
         var travadoPorTermo=(termoEt==='aceite'||termoEt==='entrega') && !e.termo_aceito;
-        var docLink='';
+        var docLink='<span class="tl-doc-none">ainda não anexado</span>';
         if(e.documento_path){
           docLink = travadoPorTermo
-            ? '<div class="step-doc"><span class="tl-doc-locked">🔒 documento liberado após aceitar o termo</span></div>'
-            : '<div class="step-doc"><button type="button" class="tl-doc" data-doc="'+e.documento_path+'">📄 '+(e.documento_nome||'baixar documento')+'</button></div>';
+            ? '<span class="tl-doc-locked">liberado após o aceite do termo</span>'
+            : '<button type="button" class="tl-doc" data-doc="'+e.documento_path+'" title="'+ceC(e.documento_nome||'baixar documento')+'">📄 '+ceC(e.documento_nome||'baixar documento')+'</button>';
         }
-        html+='<li class="step '+cls+'"><span class="dot"></span>'
-          +'<div class="step-name"><span class="step-num">ETAPA '+(i+1)+'</span>'+e.nome+now+'</div>'
-          +'<div class="step-meta">'+meta+'</div>'+docLink+'</li>';
+        html+='<li class="step '+cls+'"><span class="step-n">'+(i+1)+'</span>'
+          +'<div class="step-name">'+e.nome+'</div>'
+          +'<span class="state '+stCls+'">'+meta+'</span>'
+          +'<div class="step-doc">'+docLink+'</div></li>';
         var termo=e.termo||'nenhum';
         if(termo==='aceite'||termo==='entrega'){
-          var lab=termo==='aceite'?'termo de aceite':'termo de entrega';
+          var lab=termo==='aceite'?'Termo de aceite':'Termo de entrega';
           if(e.termo_aceito){
             var por=e.termo_aceito_por||CLIENT;
             var quando=e.termo_aceito_em? new Date(e.termo_aceito_em).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}) : '';
@@ -972,32 +1050,41 @@
       var apagar=parc.filter(function(x){return x.status!=='pago';}).reduce(function(s,x){return s+(Number(x.valor)||0);},0);
       var base=contrato||(pago+apagar)||0;
       var pctPago=base?Math.round(pago/base*100):0, pctAp=base?Math.round(apagar/base*100):0;
-      var cEl=pad.querySelector('.fin-item.c-amber .fin-v'); if(cEl) cEl.textContent=fmtBRLc(contrato!=null?contrato:base);
-      var pg=pad.querySelector('.fin-item.c-green');
-      if(pg){ pg.querySelector('.fin-k').innerHTML='pago <em>· '+pctPago+'%</em>'; pg.querySelector('.fin-v').textContent=fmtBRLc(pago);
-        var ulP=document.querySelector('#fin-pago .rows'); if(ulP){ var pagos=parc.filter(function(x){return x.status==='pago';});
-          ulP.innerHTML=pagos.length?pagos.map(function(x){ var d=x.pago_em||x.vencimento; return '<li class="row"><span class="rk">'+(x.descricao||'parcela')+'</span><span class="rv">'+fmtBRLc(x.valor)+'</span><span class="state done">pago'+(d?(' · '+fmtDatac(d)):'')+'</span></li>'; }).join(''):'<li class="row"><span class="rk">Nenhuma parcela paga ainda.</span><span></span><span></span></li>'; } }
-      var ap=pad.querySelector('.fin-item.c-red');
-      if(ap){ ap.querySelector('.fin-k').innerHTML='a pagar <em>· '+pctAp+'%</em>'; ap.querySelector('.fin-v').textContent=fmtBRLc(apagar);
-        var abertos=parc.filter(function(x){return x.status!=='pago';}).slice().sort(function(a,b){return (a.vencimento||'').localeCompare(b.vencimento||'');});
-        var nx=document.querySelector('#fin-apagar .fin-next'); if(nx){ nx.innerHTML=abertos.length?('próxima parcela — <b>'+fmtBRLc(abertos[0].valor)+(abertos[0].vencimento?(' · vence '+fmtDatac(abertos[0].vencimento)):'')+'</b>'):'Nenhuma parcela em aberto.'; }
-        var ulA=document.querySelector('#fin-apagar .rows'); if(ulA){ ulA.innerHTML=abertos.map(function(x){ var venc=x.vencimento?new Date(x.vencimento+'T00:00:00'):null; var late=venc&&venc<new Date(); return '<li class="row"><span class="rk">'+(x.descricao||'parcela')+'</span><span class="rv">'+fmtBRLc(x.valor)+'</span><span class="state '+(late?'':'prog')+'">'+(late?'vencido':'a vencer')+(x.vencimento?(' · '+fmtDatac(x.vencimento)):'')+'</span></li>'; }).join(''); } }
+      // resumo (4 blocos) + barra + lista única de parcelas — mesmos dados de antes, só a apresentação mudou
+      var setF=function(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; };
+      setF('fin-t-contrato', fmtBRLc(contrato!=null?contrato:base));
+      setF('fin-t-pago', fmtBRLc(pago)); setF('fin-t-pago-pct', pctPago+'% do contrato');
+      setF('fin-t-apagar', fmtBRLc(apagar)); setF('fin-t-apagar-pct', pctAp+'% do contrato');
+      var abertos=parc.filter(function(x){return x.status!=='pago';}).slice().sort(function(a,b){return (a.vencimento||'').localeCompare(b.vencimento||'');});
+      setF('fin-t-prox', abertos.length?fmtBRLc(abertos[0].valor):'—');
+      setF('fin-t-prox-d', abertos.length?(abertos[0].vencimento?('vence em '+fmtDatac(abertos[0].vencimento)):'sem vencimento definido'):'nenhuma parcela em aberto');
+      var bf=document.getElementById('fin-bar-fill'); if(bf) bf.style.width=Math.min(100,pctPago)+'%';
+      setF('fin-bar-txt', pctPago+'% pago');
+      var ulR=document.getElementById('fin-rows');
+      if(ulR){
+        var ordP=parc.slice().sort(function(a,b){ return ((a.ordem||0)-(b.ordem||0)) || (a.vencimento||'').localeCompare(b.vencimento||''); });
+        ulR.innerHTML=ordP.length?ordP.map(function(x){
+          var pg=(x.status==='pago'); var venc=x.vencimento?new Date(x.vencimento+'T00:00:00'):null; var late=!pg&&venc&&venc<new Date();
+          var st=pg?('<span class="state green">Pago'+(x.pago_em?(' em '+fmtDatac(x.pago_em)):'')+'</span>'):(late?'<span class="state red">Vencida</span>':'<span class="state amber">A vencer</span>');
+          return '<li class="fin-r"><span class="fr-k">'+ceC(x.descricao||'parcela')+'</span><span class="fr-d">'+(x.vencimento?fmtDatac(x.vencimento):'—')+'</span><span class="fr-v">'+fmtBRLc(x.valor)+'</span><span class="fr-st">'+st+'</span></li>';
+        }).join(''):'<li class="tl-empty">Nenhuma parcela cadastrada ainda.</li>';
+      }
+      var finHead=pad.querySelector('.fin-head'); if(finHead) finHead.hidden=!parc.length;
       // serviços extras (recebimentos vinculados ao projeto — fora do contrato)
       var extras=o.extras||[];
       var exItem=document.getElementById('extras-item');
       if(exItem){
+        exItem.hidden=!extras.length;
         if(extras.length){
-          exItem.hidden=false;
           var totEx=extras.reduce(function(s,x){return s+(Number(x.valor)||0);},0);
-          var vEx=exItem.querySelector('.fin-v'); if(vEx) vEx.textContent=fmtBRLc(totEx);
-          var ulE=document.querySelector('#fin-extras .rows');
+          setF('fin-t-extras','· total '+fmtBRLc(totEx));
+          var ulE=document.getElementById('fin-extras');
           if(ulE){ ulE.innerHTML=extras.slice().sort(function(a,b){return (a.data||'').localeCompare(b.data||'');}).map(function(x){
             var recebido=(x.status==='recebido');
-            var quando=x.data?(' · '+fmtDatac(x.data)):'';
             var recibo=recebido?('<button class="lk-recibo" type="button" data-recibo-extra="'+x.id+'">recibo</button>'):'';
-            return '<li class="row"><span class="rk">'+(x.descricao||'serviço extra')+'</span><span class="rv">'+fmtBRLc(x.valor)+'</span><span class="state '+(recebido?'done':'prog')+'">'+(recebido?'recebido':'a receber')+quando+'</span>'+recibo+'</li>';
+            return '<li class="fin-r"><span class="fr-k">'+ceC(x.descricao||'serviço extra')+'</span><span class="fr-d">'+(x.data?fmtDatac(x.data):'—')+'</span><span class="fr-v">'+fmtBRLc(x.valor)+'</span><span class="fr-st"><span class="state '+(recebido?'green':'amber')+'">'+(recebido?'Recebido':'A receber')+'</span>'+recibo+'</span></li>';
           }).join(''); }
-        } else { exItem.hidden=true; }
+        }
       }
       var hint=pad.closest('.acc'); hint=hint&&hint.querySelector('.acc-hint'); if(hint) hint.textContent=pctPago+'% pago';
     }
@@ -1037,17 +1124,15 @@
         +'<div class="body">'
         +'<div class="title">Recibo de pagamento</div>'
         +'<div class="sub">Referente às parcelas quitadas do projeto abaixo.</div>'
-        +'<div class="meta"><div><div class="k">Cliente</div><div class="v">'+(CLIENT||'—')+'</div></div><div><div class="k">Projeto</div><div class="v">'+o.title+'</div></div><div><div class="k">Emitido em</div><div class="v">'+hoje+'</div></div></div>'
+        +'<div class="meta"><div><div class="k">Cliente</div><div class="v">'+(CLIENT||'—')+'</div></div><div><div class="k">Projeto</div><div class="v">'+o.title+'</div></div>'+(o.contrato?('<div><div class="k">Contrato nº</div><div class="v">'+ceC(o.contrato)+'</div></div>'):'')+'<div><div class="k">Emitido em</div><div class="v">'+hoje+'</div></div></div>'
         +'<table><thead><tr><th>Descrição</th><th>Pago em</th><th class="r">Valor</th></tr></thead><tbody>'+linhas+'</tbody>'
         +'<tfoot><tr><td colspan="2">Total pago</td><td class="r">'+fmtBRLc(total)+'</td></tr></tfoot></table>'
         +'<div class="ft">Documento gerado pela ferramenta de gestão da Isys Mattos — Engenharia e Arquitetura.<br>Este recibo comprova os pagamentos das parcelas listadas acima, referentes ao projeto indicado.</div>'
         +'</div></div>'
         +'<scr'+'ipt>function tw(el){var r=document.createRange();r.selectNodeContents(el);return r.getBoundingClientRect().width;}function fit(){var wm=document.querySelector(".wm"),tg=document.querySelector(".tg");if(!wm||!tg)return;var target=tw(wm);tg.style.letterSpacing="0px";var n=tw(tg),chars=(tg.textContent||"").length||1;var ls=(target-n)/chars;tg.style.letterSpacing=ls+"px";var a=tw(tg);if(Math.abs(a-n)>0.5){ls=ls*(target-n)/(a-n);tg.style.letterSpacing=ls+"px";}}function go(){fit();setTimeout(function(){window.print();},500);}if(document.fonts&&document.fonts.ready){document.fonts.ready.then(go);}else{window.onload=go;}</scr'+'ipt>'
         +'</body></html>';
-      var w=window.open('','_blank');
-      if(!w){ if(nf) nf.textContent='Permita pop-ups/nova aba para abrir o recibo.'; return; }
-      w.document.open(); w.document.write(html); w.document.close();
-      if(nf) nf.textContent='Recibo aberto em nova aba — use "Salvar como PDF" na janela de impressão.';
+      if(nf) nf.textContent='';
+      abrirRecibo(html);
     }
     // Recibo de um SERVIÇO EXTRA (recebimento avulso vinculado ao projeto).
     function gerarReciboExtra(o,x){
@@ -1090,9 +1175,29 @@
         +'</div></div>'
         +'<scr'+'ipt>function tw(el){var r=document.createRange();r.selectNodeContents(el);return r.getBoundingClientRect().width;}function fit(){var wm=document.querySelector(".wm"),tg=document.querySelector(".tg");if(!wm||!tg)return;var target=tw(wm);tg.style.letterSpacing="0px";var n=tw(tg),chars=(tg.textContent||"").length||1;var ls=(target-n)/chars;tg.style.letterSpacing=ls+"px";var a=tw(tg);if(Math.abs(a-n)>0.5){ls=ls*(target-n)/(a-n);tg.style.letterSpacing=ls+"px";}}function go(){fit();setTimeout(function(){window.print();},500);}if(document.fonts&&document.fonts.ready){document.fonts.ready.then(go);}else{window.onload=go;}</scr'+'ipt>'
         +'</body></html>';
-      var w=window.open('','_blank');
-      if(!w){ var nf=document.getElementById('note-fin'); if(nf) nf.textContent='Permita pop-ups/nova aba para abrir o recibo.'; return; }
-      w.document.open(); w.document.write(html); w.document.close();
+      abrirRecibo(html);
+    }
+    /* Mostra o recibo numa janela da própria página (não depende de pop-up/nova aba, que o navegador pode bloquear).
+       O botão "imprimir / salvar em PDF" abre a impressão só do recibo. */
+    function abrirRecibo(html){
+      var back=document.getElementById('recibo-back');
+      if(!back){
+        back=document.createElement('div'); back.id='recibo-back'; back.className='modal-back'; back.style.zIndex='80';
+        back.innerHTML='<div class="recibo-box" role="dialog" aria-modal="true" aria-label="Recibo">'
+          +'<div class="recibo-bar"><span class="recibo-t">Recibo</span>'
+          +'<button class="pill solid sm" type="button" id="recibo-print"><svg viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v6H7z"/></svg>imprimir / salvar em PDF</button>'
+          +'<button class="pill ghost sm" type="button" id="recibo-close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>fechar</button></div>'
+          +'<iframe id="recibo-frame" title="Recibo"></iframe></div>';
+        document.body.appendChild(back);
+        var fechar=function(){ back.classList.remove('open'); document.body.style.overflow=''; };
+        back.addEventListener('click',function(e){ if(e.target===back) fechar(); });
+        back.querySelector('#recibo-close').addEventListener('click',fechar);
+        back.querySelector('#recibo-print').addEventListener('click',function(){ var fr=document.getElementById('recibo-frame'); try{ fr.contentWindow.focus(); fr.contentWindow.print(); }catch(e){} });
+        document.addEventListener('keydown',function(e){ if(e.key==='Escape' && back.classList.contains('open')) fechar(); });
+      }
+      // sem impressão automática: o cliente vê o recibo e imprime/salva quando quiser
+      document.getElementById('recibo-frame').srcdoc=html.replace('setTimeout(function(){window.print();},500);','');
+      back.classList.add('open'); document.body.style.overflow='hidden';
     }
     // limpa os dados de exemplo do protótipo (só dados reais devem aparecer)
     function limparExemplosCliente(){
@@ -1157,9 +1262,24 @@
       if(obrasWrap){
         obrasWrap.innerHTML=projetos.map(function(p){
           var ets=(p.etapas||[]).slice().sort(etOrd), at=etAtual(ets), pct=etPct(ets);
-          return '<a class="obra" href="#obra-'+p.id+'"><div class="obra-info"><div class="obra-name">'+p.nome+'</div><div class="obra-sub">'+stTxtProj(p.status)+'</div><div class="obra-stage">etapa atual — <b>'+(at?at.nome:(ets.length?'entregue':'—'))+'</b></div></div><div class="obra-prog"><div class="obra-track"><i style="width:'+pct+'%"></i></div><span class="obra-pct">'+pct+'%</span></div><span class="obra-arrow" aria-hidden="true">→</span></a>';
+          var st=(p.status==='concluido'||p.status==='pausado'||p.status==='cancelado')?p.status:'andamento';
+          var ini=((p.nome||'?').trim().charAt(0)||'?').toUpperCase();
+          return '<a class="obra" data-status="'+st+'" href="#obra-'+p.id+'">'
+            +'<div class="proj-main"><div class="proj-thumb">'+ini+'</div><div class="obra-info"><div class="obra-name">'+p.nome+'</div><div class="obra-sub">'+stTxtProj(p.status)+'</div></div></div>'
+            +'<div><div class="obra-stage">Etapa atual — <b>'+(at?at.nome:(ets.length?'entregue':'—'))+'</b></div><div class="pbar"><div class="pbar-fill" style="width:'+pct+'%"></div></div></div>'
+            +'<div class="proj-prog"><div class="proj-pct">'+pct+'%</div><div class="proj-prog-lbl">do projeto</div></div>'
+            +'<span class="pbtn"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>abrir</span></a>';
         }).join('')||'<p class="note" style="color:var(--ink-3)">Você ainda não tem projetos vinculados.</p>';
+        var ph=document.querySelector('#view-home .projs-head'); if(ph) ph.hidden=!projetos.length;
       }
+      // 4 cartões do início (mesmos dados já carregados acima)
+      (function(){
+        var ets=[], abertas=0; projetos.forEach(function(p){ ets=ets.concat(p.etapas||[]); (p.parcelas||[]).forEach(function(x){ if(x.status!=='pago') abertas++; }); });
+        var feitas=ets.filter(function(e){return e.status==='concluida';}).length;
+        var termos=ets.filter(function(e){ return (e.termo==='aceite'||e.termo==='entrega') && e.status==='concluida' && !e.termo_aceito; }).length;
+        var set=function(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; };
+        set('st-projetos',projetos.length); set('st-etapas',feitas+' de '+ets.length); set('st-termos',termos); set('st-parcelas',abertas);
+      })();
       // "seu acompanhamento" (início)
       var clist=document.querySelector('#view-inicio .clist');
       if(clist){
@@ -1176,21 +1296,27 @@
         });
         renderAvisos();
       }
+      // nº do contrato de cada projeto (consulta separada: a coluna pode ainda não existir no banco)
+      try{ var ids=projetos.map(function(p){return p.id;});
+        if(ids.length){ var rc=await sb.from('projetos').select('id,numero_contrato').in('id',ids);
+          if(rc&&!rc.error) (rc.data||[]).forEach(function(r){ if(OBRAS[r.id]) OBRAS[r.id].contrato=r.numero_contrato||''; }); }
+      }catch(e){}
       routeFromHash(); // re-renderiza a tela atual com os dados reais
     }
     carregarCliente();
 
     var THEMES=[
-      {key:'atual',name:'Atual',sub:'branco e grafite',brand:'#414141',on:'#fff',tint:'#FFFFFF',panel:'#F5F4F1',panel2:'#EFEEEB',accent:'#414141',sw:'linear-gradient(90deg,#414141 50%,#FFFFFF 50%)'},
+      {key:'atual',name:'Atual',sub:'off-white e grafite',brand:'#37352F',on:'#fff',tint:'#F6F5F1',panel:'#FFFFFF',panel2:'#F0EEE8',accent:'#AF853A',sw:'linear-gradient(90deg,#37352F 50%,#F6F5F1 50%)'},
       {key:'marrom',name:'Marrom-luxo',sub:'terroso e sóbrio',brand:'#6E4B3A',on:'#fff',tint:'#F6F1ED',panel:'#EFE6DF',panel2:'#E7DACF',accent:'#8A5A42',sw:'linear-gradient(90deg,#6E4B3A 50%,#C9A98F 50%)'},
       {key:'rosa',name:'Rosé',sub:'rosa suave',brand:'#A85C74',on:'#fff',tint:'#FAF1F4',panel:'#F1E2E8',panel2:'#EAD3DC',accent:'#C27690',sw:'linear-gradient(90deg,#A85C74 50%,#DDA9BA 50%)'},
       {key:'primavera',name:'Folhagem de Primavera',sub:'verde-oliva',brand:'#7E8C4F',on:'#fff',tint:'#F2F4EC',panel:'#E9EDDD',panel2:'#DFE4CE',accent:'#8A9A5B',sw:'linear-gradient(90deg,#7E8C4F 50%,#BFC79A 50%)'},
       {key:'conforto',name:'Conforto',sub:'cinza-azulado',brand:'#6F8288',on:'#fff',tint:'#EEF2F3',panel:'#E4EAEB',panel2:'#D8E0E1',accent:'#8FA3A9',sw:'linear-gradient(90deg,#6F8288 50%,#B7C6C9 50%)'},
-      {key:'sandalo',name:'Sândalo',sub:'areia quente',brand:'#A98B54',on:'#fff',tint:'#F7F3EA',panel:'#EFE7D5',panel2:'#E7DCC4',accent:'#C1A063',sw:'linear-gradient(90deg,#A98B54 50%,#DAC79A 50%)'}
+      {key:'sandalo',name:'Sândalo',sub:'areia quente',brand:'#A98B54',on:'#fff',tint:'#F7F3EA',panel:'#EFE7D5',panel2:'#E7DCC4',accent:'#C1A063',sw:'linear-gradient(90deg,#A98B54 50%,#DAC79A 50%)'},
+      {key:'escuro',name:'Modo escuro',sub:'fundo preto',brand:'#0e0e0e',on:'#fff',tint:'#121212',panel:'#1c1c1c',panel2:'#242424',paper:'#1c1c1c',btn:'#ECEAE5',btnOn:'#161616',accent:'#C9A24B',ink:'#ededed',ink2:'#b7b7b7',ink3:'#8f8f8f',hair:'#3a3a3a',hairsoft:'#2f2f2f',sw:'linear-gradient(90deg,#0e0e0e 50%,#3a3a3a 50%)'}
     ];
     var themesEl=document.getElementById('themes');
-    function applyTheme(t){ var r=document.documentElement.style; r.setProperty('--brand',t.brand); r.setProperty('--brand-on',t.on); r.setProperty('--tint',t.tint); r.setProperty('--panel',t.panel); r.setProperty('--panel-2',t.panel2); r.setProperty('--accent',t.accent); try{localStorage.setItem('im-theme',t.key);}catch(e){} if(themesEl) themesEl.querySelectorAll('.theme').forEach(function(b){ b.setAttribute('aria-current', b.dataset.key===t.key?'true':'false'); }); }
-    if(themesEl){ THEMES.forEach(function(t){ var b=document.createElement('button'); b.type='button'; b.className='theme'; b.dataset.key=t.key; b.innerHTML='<span class="theme-sw" style="background:'+t.sw+'"></span><div><div class="theme-name">'+t.name+'</div><div class="theme-sub">'+t.sub+'</div></div><span class="theme-check">✓</span>'; b.addEventListener('click',function(){ applyTheme(t); }); themesEl.appendChild(b); }); }
+    function applyTheme(t){ var r=document.documentElement.style; r.setProperty('--brand',t.brand); r.setProperty('--brand-on',t.on); r.setProperty('--tint',t.tint); r.setProperty('--panel',t.panel); r.setProperty('--panel-2',t.panel2); r.setProperty('--accent',t.accent); r.setProperty('--paper',t.paper||'#FFFFFF'); r.setProperty('--btn',t.btn||t.brand); r.setProperty('--btn-on',t.btnOn||t.on); r.setProperty('color-scheme', t.key==='escuro'?'dark':'light'); r.setProperty('--ink',t.ink||'#33322F'); r.setProperty('--ink-2',t.ink2||'#6A6862'); r.setProperty('--ink-3',t.ink3||'#9A968E'); r.setProperty('--hair',t.hair||'#DCD9D2'); r.setProperty('--hair-soft',t.hairsoft||'#ECE9E3'); document.body.style.background='var(--tint)'; try{localStorage.setItem('im-theme',t.key);}catch(e){} if(themesEl) themesEl.querySelectorAll('.theme-dot').forEach(function(b){ b.setAttribute('aria-current', b.dataset.key===t.key?'true':'false'); }); }
+    if(themesEl){ THEMES.forEach(function(t){ var b=document.createElement('button'); b.type='button'; b.className='theme-dot'; b.dataset.key=t.key; b.title=t.name; b.setAttribute('aria-label',t.name); b.style.background=t.sw; b.addEventListener('click',function(){ applyTheme(t); }); themesEl.appendChild(b); }); }
     var saved='atual'; try{ saved=localStorage.getItem('im-theme')||'atual'; }catch(e){}
     applyTheme(THEMES.filter(function(t){return t.key===saved;})[0]||THEMES[0]);
   })();
