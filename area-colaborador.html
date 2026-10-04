@@ -133,7 +133,7 @@
   .proj[data-status="pausado"]{border-left-color:var(--gray)}
   .proj[data-status="cancelado"]{border-left-color:var(--red)}
   .proj-main{display:flex;align-items:center;gap:14px;min-width:0}
-  .proj-thumb{flex:none;width:58px;height:58px;border-radius:12px;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:21px;overflow:hidden}
+  .proj-thumb{flex:none;width:88px;height:88px;border-radius:14px;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:30px;overflow:hidden}
   .proj-thumb img{width:100%;height:100%;object-fit:cover}
   .proj-info{min-width:0}
   .proj-obra{font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -713,8 +713,8 @@
     <div class="form-grid pj-info" style="max-width:660px;margin-bottom:clamp(28px,4vw,42px)">
       <div class="field"><label>Cliente</label><div class="ro">Marina Andrade <small>· gerenciado pelo administrador</small></div></div>
       <div class="field"><label>Nº do contrato</label><input id="obra-contrato-input" type="text" placeholder="Ex.: 2026-030"></div>
-      <div class="field"><label>Nome da obra</label><input type="text" value="Residência Jurerê"></div>
-      <div class="field"><label>Tipo</label><select><option>Unifamiliar</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
+      <div class="field"><label>Nome da obra</label><input id="obra-nome-input" type="text"></div>
+      <div class="field"><label>Tipo</label><select id="obra-tipo-sel"><option value="">—</option><option>Unifamiliar</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
     </div>
     <p class="sec-label">etapas</p>
 
@@ -910,7 +910,7 @@
 
 </div>
 
-<div class="foot"><div class="foot-in">Isys Mattos · engenharia . arquitetura</div></div>
+<div class="foot"><div class="foot-in">ISYS MATTOS · engenharia . arquitetura</div></div>
 
 <!-- MODAL de tarefa avulsa do colaborador -->
 <div id="tk-modal" hidden style="position:fixed;inset:0;z-index:60;background:rgba(65,65,65,.28);display:flex;align-items:center;justify-content:center;padding:20px">
@@ -1308,6 +1308,16 @@
       ci.addEventListener('change',async function(){ if(typeof obraId==='undefined'||!obraId) return;
         var r=await sb.from('projetos').update({ numero_contrato:(ci.value||'').trim()||null }).eq('id',obraId);
         if(r&&r.error) alert('Erro ao salvar o nº do contrato: '+r.error.message); });
+      // nome da obra e tipo: também gravam ao alterar
+      var ni=document.getElementById('obra-nome-input'), ts=document.getElementById('obra-tipo-sel');
+      if(ni) ni.addEventListener('change',async function(){ if(typeof obraId==='undefined'||!obraId) return;
+        var nome=(ni.value||'').trim(); if(!nome){ ni.value=(typeof obraNomeAtual!=='undefined'&&obraNomeAtual)||''; return; }
+        var r=await sb.from('projetos').update({ nome:nome }).eq('id',obraId);
+        if(r&&r.error){ alert('Erro ao salvar o nome da obra: '+r.error.message); return; }
+        if(typeof obraNomeAtual!=='undefined') obraNomeAtual=nome; var t=document.querySelector('#view-projeto .page-title'); if(t) t.textContent=nome; });
+      if(ts) ts.addEventListener('change',async function(){ if(typeof obraId==='undefined'||!obraId) return;
+        var r=await sb.from('projetos').update({ tipo:ts.value||null }).eq('id',obraId);
+        if(r&&r.error) alert('O tipo não foi guardado: peça ao administrador para rodar o arquivo sql-projeto-tipo.sql no Supabase.'); });
     })();
 
     /* anexar documentos do cliente na página da obra (modo editar) — mesmos que o cliente baixa */
@@ -1358,6 +1368,8 @@
       // nº do contrato digitado no formulário (gravado à parte: a coluna pode ainda não existir no banco)
       var numContrato=(((document.getElementById('np-contrato')||{}).value)||'').trim();
       if(numContrato){ try{ await sb.from('projetos').update({ numero_contrato:numContrato }).eq('id',pr.data.id); }catch(e){} }
+      var tipoNovo=(((document.getElementById('np-tipo')||{}).value)||'').trim();
+      if(tipoNovo){ try{ await sb.from('projetos').update({ tipo:tipoNovo }).eq('id',pr.data.id); }catch(e){} }
       var ets=etapas.map(function(t,i){ return { projeto_id:pr.data.id, nome:t, ordem:i, status:'a_fazer',
         checklist:(typeof ETAPA_MODELOS!=='undefined'&&ETAPA_MODELOS[t]?ETAPA_MODELOS[t].map(function(x){return {texto:x,feito:false};}):[]) }; });
       var er=await sb.from('etapas').insert(ets);
@@ -1735,7 +1747,10 @@
       var nomeInput=document.querySelectorAll('#view-projeto .pj-info input')[1]; if(nomeInput) nomeInput.value=p.nome;
       // nº do contrato (informações): consulta separada — coluna criada pelo sql-numero-contrato.sql
       (function(){ var fc=document.getElementById('obra-contrato-input'); if(!fc) return; fc.value=''; var pid=p.id;
-        sb.from('projetos').select('numero_contrato').eq('id',pid).single().then(function(r){ if(r&&!r.error&&r.data&&String(obraId)===String(pid)) fc.value=r.data.numero_contrato||''; }); })();
+        sb.from('projetos').select('numero_contrato').eq('id',pid).single().then(function(r){ if(r&&!r.error&&r.data&&String(obraId)===String(pid)) fc.value=r.data.numero_contrato||''; });
+        // tipo: coluna criada pelo sql-projeto-tipo.sql (se ainda não existir, o campo fica em "—")
+        var ts=document.getElementById('obra-tipo-sel'); if(ts){ ts.value='';
+          sb.from('projetos').select('tipo').eq('id',pid).single().then(function(r){ if(r&&!r.error&&r.data&&String(obraId)===String(pid)) ts.value=r.data.tipo||''; }); } })();
       var wrap=document.getElementById('etapas'); if(!wrap) return; wrap.innerHTML='';
       (p.etapas||[]).slice().sort(function(a,b){return (a.ordem||0)-(b.ordem||0);}).forEach(function(e){
         var cl=Array.isArray(e.checklist)?e.checklist:[];

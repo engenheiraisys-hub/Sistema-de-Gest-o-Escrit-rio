@@ -437,7 +437,7 @@
   .obra[data-status="pausado"]{border-left-color:var(--gray)}
   .obra[data-status="cancelado"]{border-left-color:var(--red)}
   .proj-main{display:flex;align-items:center;gap:14px;min-width:0}
-  .proj-thumb{flex:none;width:58px;height:58px;border-radius:12px;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:21px;overflow:hidden}
+  .proj-thumb{flex:none;width:88px;height:88px;border-radius:14px;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:30px;overflow:hidden}
   .obra-name{font-size:16px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .obra-sub{font-size:12px;margin-top:5px}
   .obra-stage{font-size:12.5px;margin:0 0 9px}
@@ -552,6 +552,21 @@
   .fr-st{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .fin-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:16px}
   .acc-pad .note:empty{display:none}
+  /* cabeçalho do projeto aberto: imagem + dados + situação, depois etapa atual e progresso */
+  .hero-top{display:flex;align-items:center;gap:18px}
+  .hero-thumb{flex:none;width:88px;height:88px;border-radius:14px;background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:30px;overflow:hidden}
+  .hero-thumb img,.proj-thumb img{width:100%;height:100%;object-fit:cover}
+  .hero-info{flex:1;min-width:0}
+  .hero .title{font-size:clamp(22px,3.2vw,30px);line-height:1.15}
+  .hero .meta{display:flex;flex-wrap:wrap;gap:4px 20px;margin:8px 0 0;font-size:13px;line-height:1.5;color:var(--ink-2)}
+  .hero .meta b{color:var(--ink);font-weight:500}
+  .hero-top > .state{flex:none;align-self:flex-start;margin-top:6px;font-size:12.5px}
+  .hero .prog{margin-top:20px;padding-top:18px;border-top:1px solid var(--hair-soft)}
+  .prog-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+  .prog-stage{font-size:13px}
+  .prog-pct{font-size:12px;color:var(--ink-3);white-space:nowrap}
+  .prog-pct .prog-badge{display:inline;min-width:0;font-size:20px;margin-right:4px}
+  @media(max-width:560px){.hero-top{flex-wrap:wrap}.hero-thumb{width:64px;height:64px;font-size:24px}.hero-top > .state{order:3;width:100%;margin-top:0}}
   /* janela do recibo (na própria página) */
   .recibo-box{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-md);width:min(840px,100%);height:min(92vh,1040px);display:flex;flex-direction:column;overflow:hidden}
   .recibo-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--hair-soft)}
@@ -626,19 +641,19 @@
   <section class="view" id="view-obra" hidden>
     <button class="back" type="button" data-home>Voltar</button>
     <section class="hero">
-      <h1 class="title" id="obra-title">Residência Jurerê</h1>
-      <div class="meta" id="obra-meta">
-        <div><b>Jurerê Internacional</b>, Florianópolis</div>
-        <div>contrato nº 2026-014 &nbsp; · &nbsp; início mar/2026</div>
+      <!-- cabeçalho do projeto: imagem + nome/dados + situação; abaixo, etapa atual e progresso -->
+      <div class="hero-top">
+        <div class="hero-thumb" id="obra-thumb"></div>
+        <div class="hero-info">
+          <h1 class="title" id="obra-title"></h1>
+          <div class="meta" id="obra-meta"></div>
+        </div>
+        <span class="state" id="obra-status"></span>
       </div>
-
       <div class="prog">
-        <span class="prog-stage" id="obra-stage">etapa atual — <b>estudo de fachada</b></span>
-      <div class="prog-bar-row">
+        <div class="prog-head"><span class="prog-stage" id="obra-stage"></span><span class="prog-pct"><b class="prog-badge">0%</b> do projeto</span></div>
         <div class="prog-track"><div class="prog-fill"></div></div>
-        <div class="prog-badge">45%</div>
       </div>
-    </div>
   </section>
 
   <!-- abas -->
@@ -717,7 +732,7 @@
 
 <div class="foot">
   <div class="foot-in">
-    <span>Isys Mattos · engenharia . arquitetura</span>
+    <span>ISYS MATTOS · engenharia . arquitetura</span>
   </div>
 </div>
 
@@ -761,7 +776,9 @@
         var o=OBRAS[key];
         if(o){
           document.getElementById('obra-title').textContent=o.title;
-          document.getElementById('obra-meta').innerHTML=o.meta;
+          document.getElementById('obra-meta').innerHTML='<span>Cliente · <b>'+ceC(o.cliente||'—')+'</b></span>'+(o.contrato?('<span>Contrato nº <b>'+ceC(o.contrato)+'</b></span>'):'');
+          var th=document.getElementById('obra-thumb'); if(th) th.innerHTML=o.img?('<img src="'+o.img+'" alt="">'):ceC(((o.title||'?').trim().charAt(0)||'?').toUpperCase());
+          var stEl=document.getElementById('obra-status'); if(stEl){ var sk=o.status||'andamento'; stEl.className='state '+(sk==='concluido'?'green':(sk==='cancelado'?'red':(sk==='pausado'?'gray':'amber'))); stEl.textContent=sk==='concluido'?'Concluído':(sk==='cancelado'?'Cancelado':(sk==='pausado'?'Pausado':'Em andamento')); }
           document.getElementById('obra-stage').innerHTML=o.stage;
           if(topSec) topSec.textContent='área do cliente · '+o.title;
           if(typeof renderTimeline==='function') renderTimeline(o.etapas||[]);
@@ -1255,7 +1272,7 @@
       OBRAS={};
       projetos.forEach(function(p){
         var ets=(p.etapas||[]).slice().sort(etOrd), at=etAtual(ets);
-        OBRAS[p.id]={ title:p.nome, meta:'<div><b>'+(c.nome||'')+'</b></div><div>'+stTxtProj(p.status)+'</div>', stage:'etapa atual — <b>'+(at?at.nome:(ets.length?'entregue':'—'))+'</b>', pct:etPct(ets), etapas:ets, valor:p.valor_contrato, parcelas:p.parcelas||[], extras:p.recebimentos||[] };
+        OBRAS[p.id]={ title:p.nome, cliente:c.nome||'', status:p.status, meta:'<div><b>'+(c.nome||'')+'</b></div><div>'+stTxtProj(p.status)+'</div>', stage:'Etapa atual — <b>'+(at?at.nome:(ets.length?'entregue':'—'))+'</b>', pct:etPct(ets), etapas:ets, valor:p.valor_contrato, parcelas:p.parcelas||[], extras:p.recebimentos||[] };
       });
       // "meus projetos"
       var obrasWrap=document.querySelector('#view-home .obras');
@@ -1299,7 +1316,13 @@
       // nº do contrato de cada projeto (consulta separada: a coluna pode ainda não existir no banco)
       try{ var ids=projetos.map(function(p){return p.id;});
         if(ids.length){ var rc=await sb.from('projetos').select('id,numero_contrato').in('id',ids);
-          if(rc&&!rc.error) (rc.data||[]).forEach(function(r){ if(OBRAS[r.id]) OBRAS[r.id].contrato=r.numero_contrato||''; }); }
+          if(rc&&!rc.error) (rc.data||[]).forEach(function(r){ if(OBRAS[r.id]) OBRAS[r.id].contrato=r.numero_contrato||''; });
+          // imagem do projeto (mesma da central): consulta à parte, pois a coluna pode não existir
+          var ri=await sb.from('projetos').select('id,imagem_path').in('id',ids);
+          if(ri&&!ri.error) (ri.data||[]).forEach(function(r){ if(!r.imagem_path||!OBRAS[r.id]) return;
+            var u=sb.storage.from('projeto-capas').getPublicUrl(r.imagem_path); u=u&&u.data&&u.data.publicUrl; if(!u) return;
+            OBRAS[r.id].img=u;
+            var a=document.querySelector('#view-home .obra[href="#obra-'+r.id+'"] .proj-thumb'); if(a) a.innerHTML='<img src="'+u+'" alt="">'; }); }
       }catch(e){}
       routeFromHash(); // re-renderiza a tela atual com os dados reais
     }
