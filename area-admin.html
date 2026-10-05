@@ -1530,7 +1530,9 @@
         <div class="field"><label>E-mail</label><input id="c-email" type="email"></div>
         <div class="field"><label>Telefone</label><input id="c-fone" type="text"></div>
         <div class="field"><label>CPF</label><input id="c-cpf" type="text"></div>
-        <div class="field full"><label>Endereço</label><input id="c-end" type="text"></div>
+        <div class="field"><label>Data de nascimento</label><input id="c-nasc" type="date"></div>
+        <div class="field"><label>CEP</label><input id="c-cep" type="text" placeholder="00000-000"></div>
+        <div class="field"><label>Endereço</label><input id="c-end" type="text"></div>
       </div>
     </div>
 
@@ -2954,6 +2956,7 @@
       cg('colab-name').textContent=m?m.nome:'Novo colaborador';
       cg('colab-meta').textContent=m?(m.role+' · '+m.proj+' projeto'+(m.proj===1?'':'s')+' ativo'+(m.proj===1?'':'s')):'Preencha os dados do novo colaborador.';
       cg('c-nome').value=m?m.nome:''; cg('c-role').value=m?m.role:''; cg('c-email').value=m?m.email:''; cg('c-fone').value=m?m.fone:''; cg('c-cpf').value=m?m.cpf:''; cg('c-end').value=m?m.end:'';
+      if(cg('c-cep')) cg('c-cep').value=m?(m.cep||''):''; if(cg('c-nasc')) cg('c-nasc').value=m?(m.nascimento||''):'';
       cg('c-banco').value=m?m.banco:''; cg('c-tipo').value=m?(m.tipo||'Corrente'):'Corrente'; cg('c-ag').value=m?m.ag:''; cg('c-conta').value=m?m.conta:''; cg('c-pix').value=m?m.pix:'';
       cg('colab-note').textContent='';
       var cdel=cg('colab-del'); if(cdel) cdel.hidden=!(m&&m.key); // só para colaborador já cadastrado
@@ -3017,14 +3020,14 @@
       var v=function(id){return cg(id).value.trim();};
       var role=v('c-role')||'Colaborador';
       var rk=/titular/i.test(role)?'titular':(/projet/i.test(role)?'projetista':(/estag/i.test(role)?'estagiaria':'arquiteta'));
-      var data={nome:v('c-nome')||'Novo colaborador',role:role,rk:rk,email:v('c-email'),fone:v('c-fone'),cpf:v('c-cpf'),end:v('c-end'),banco:v('c-banco'),tipo:cg('c-tipo').value,ag:v('c-ag'),conta:v('c-conta'),pix:v('c-pix')};
+      var data={nome:v('c-nome')||'Novo colaborador',role:role,rk:rk,email:v('c-email'),fone:v('c-fone'),cpf:v('c-cpf'),end:v('c-end'),cep:v('c-cep'),nascimento:cg('c-nasc').value||'',banco:v('c-banco'),tipo:cg('c-tipo').value,ag:v('c-ag'),conta:v('c-conta'),pix:v('c-pix')};
       if(editingColab){ for(var k in data){ editingColab[k]=data[k]; } }
       else { data.proj=0; TEAMD.push(data); if(TEAM.indexOf(data.nome)<0) TEAM.push(data.nome); editingColab=data; }
       renderTeam();
       cg('colab-name').textContent=data.nome;
       // colaborador real (tem key = id do perfil): grava no banco
       if(editingColab && editingColab.key){
-        sb.from('perfis').update({ nome:data.nome, funcao:data.role, email:data.email, telefone:data.fone, cpf:data.cpf, endereco:data.end, banco:data.banco, conta_tipo:data.tipo, agencia:data.ag, conta:data.conta, pix:data.pix }).eq('id',editingColab.key).then(function(r){
+        sb.from('perfis').update({ nome:data.nome, funcao:data.role, email:data.email, telefone:data.fone, cpf:data.cpf, endereco:data.end, cep:data.cep, nascimento:data.nascimento||null, banco:data.banco, conta_tipo:data.tipo, agencia:data.ag, conta:data.conta, pix:data.pix }).eq('id',editingColab.key).then(function(r){
           cg('colab-note').textContent = (r&&r.error) ? ('Erro ao salvar: '+r.error.message) : 'Dados salvos. ✓';
           if(!(r&&r.error) && typeof carregarColabs==='function') carregarColabs();
         });
