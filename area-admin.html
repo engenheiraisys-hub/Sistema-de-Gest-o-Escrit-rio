@@ -1,8 +1,33 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}  /* financeiro: valores com centavos cabem numa linha só nos 4 cartões */
   #fc-contratos,#fc-recebido,#fc-areceber,#fc-vencido{font-size:clamp(16px,1.65vw,21px);white-space:nowrap}
   /* check-list com itens e subitens */
-  .check li.sub{padding-left:30px}
-  .check li.grp > .lbl span,.check li.grp > label span{font-weight:500;color:var(--ink)}
+  /* item com subitens = faixa de grupo (título em destaque, contagem e seta); subitens recuados com uma guia à esquerda */
+  .check li.grp{display:flex;align-items:center;gap:10px;background:var(--panel-2);border-radius:var(--r-sm);padding:9px 12px!important;margin-top:10px;border-bottom:none!important}
+  .check li.grp:first-child{margin-top:0}
+  .check li.grp > .lbl,.check li.grp > label{flex:1;min-width:0}
+  .check li.grp > .lbl span,.check li.grp > label span{font-weight:600;color:var(--ink)}
+  /* itens sem subitens têm o mesmo destaque (faixa) dos itens que expandem — só nos check-lists das etapas */
+  .etapa .check li:not(.sub):not(.grp),.es-card .check li:not(.sub):not(.grp){display:flex;align-items:center;gap:10px;background:var(--panel-2);border-radius:var(--r-sm);padding:9px 12px!important;margin-top:10px;border-bottom:none!important}
+  .etapa .check li:not(.sub):not(.grp):first-child,.es-card .check li:not(.sub):not(.grp):first-child{margin-top:0}
+  .etapa .check li:not(.sub):not(.grp) > .lbl,.es-card .check li:not(.sub):not(.grp) > .lbl,.etapa .check li:not(.sub):not(.grp) > label,.es-card .check li:not(.sub):not(.grp) > label{flex:1;min-width:0}
+  .etapa .check li:not(.sub):not(.grp) > .lbl span,.es-card .check li:not(.sub):not(.grp) > .lbl span,.etapa .check li:not(.sub):not(.grp) > label span,.es-card .check li:not(.sub):not(.grp) > label span{font-weight:600;color:var(--ink)}
+  .check li.sub{margin-left:21px;padding-left:16px!important;border-left:2px solid var(--hair-soft)}
+  .check li.sub .lbl span,.check li.sub label span{font-size:13.5px;color:var(--ink-2)}
+  .check li.oculto{display:none!important}
+  .grp-n{flex:none;font-size:11px;font-weight:600;color:var(--ink-2);background:var(--panel);border:1px solid var(--hair-soft);border-radius:50px;padding:2px 9px;font-variant-numeric:tabular-nums}
+  .grp-n.ok{color:var(--green);border-color:rgba(94,125,87,.4)}
+  .grp-tg{flex:none;width:26px;height:26px;border:none;background:none;cursor:pointer;position:relative;border-radius:6px;padding:0}
+  .grp-tg:hover{background:var(--panel)}
+  .grp-tg::before{content:"";position:absolute;left:8px;top:10px;width:8px;height:8px;border:solid var(--ink-3);border-width:0 1.5px 1.5px 0;transform:rotate(-135deg);transition:transform .2s}
+  .check li.fechado > .grp-tg::before{transform:rotate(45deg);top:6px}
+  /* cartão do check-list recolhível na tela da etapa */
+  .es-card-h.es-tg{display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+  .es-card-n{margin-left:auto;font-weight:500;letter-spacing:0;text-transform:none;font-size:12px;color:var(--ink-3)}
+  .es-card-chev{width:9px;height:9px;flex:none;border:solid var(--ink-3);border-width:0 1.5px 1.5px 0;transform:rotate(-135deg);transition:transform .25s;margin:5px 4px 0 2px}
+  .es-card.fechado .es-card-chev{transform:rotate(45deg);margin-top:-4px}
+  .es-card.fechado > .es-card-body{display:none}
+  .es-card.fechado > .es-card-h{margin-bottom:0;padding-bottom:0;border-bottom:none}
+
   .mdl-item.sub{padding-left:28px}
   .mdl-item .pbtn{flex:none;padding:5px 9px}
   .chk-add .pill{white-space:nowrap}
@@ -283,7 +308,7 @@
   #view-projeto .etapa-chev{width:9px;height:9px;border:solid var(--ink-3);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);transition:transform .2s,border-color .2s}
   #view-projeto .etapa-head:hover .etapa-chev{border-color:var(--ink);transform:rotate(-45deg) translate(1px,1px)}
   #etapa-screen-body{margin-top:4px}
-  #etapa-screen-body .etapa-pad{padding:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);grid-template-areas:"dados check" "doc acoes";gap:18px;align-items:stretch;max-width:1000px}
+  #etapa-screen-body .etapa-pad{padding:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"dados" "check" "doc" "acoes";gap:16px;max-width:820px}
   /* tela da etapa organizada em cards (padrão da central) */
   .es-card{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:clamp(18px,2.4vw,24px);min-width:0}
   .es-card[data-sec="dados"]{grid-area:dados}
@@ -1773,6 +1798,17 @@
       ES_SECS.forEach(function(s){ var card=document.createElement('section'); card.className='es-card'; card.setAttribute('data-sec',s[0]);
         card.innerHTML='<h3 class="es-card-h">'+s[1]+'</h3><div class="es-card-body"></div>'; pad.appendChild(card); bodies[s[0]]=card.querySelector('.es-card-body'); });
       kids.forEach(function(n){ bodies[esSecOf(n)].appendChild(n); });
+      // cartão do check-list recolhível: o cabeçalho mostra "x de y itens"; listas longas já abrem recolhidas
+      var cc=pad.querySelector(':scope > .es-card[data-sec="check"]');
+      if(cc){ var h=cc.querySelector('.es-card-h'); h.classList.add('es-tg'); h.setAttribute('role','button'); h.tabIndex=0; h.title='Mostrar ou ocultar o check-list';
+        var nEl=document.createElement('span'); nEl.className='es-card-n'; h.appendChild(nEl); var chev=document.createElement('span'); chev.className='es-card-chev'; chev.setAttribute('aria-hidden','true'); h.appendChild(chev);
+        var pinta=function(){ var c=cc.querySelector('.check-count'); nEl.textContent=c?c.textContent:''; };
+        if(cc.querySelectorAll('.check li').length>12) cc.classList.add('fechado');
+        h.addEventListener('click',function(){ cc.classList.toggle('fechado'); pinta(); });
+        h.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); h.click(); } });
+        cc.addEventListener('change',function(){ setTimeout(pinta,0); }); cc.addEventListener('click',function(){ setTimeout(pinta,40); });
+        setTimeout(pinta,0); setTimeout(pinta,400);
+      }
     }
     function unlayoutEtapaCards(pad){
       if(!pad) return;
@@ -1814,8 +1850,28 @@
        marcar o item marca todos os subitens, e ele se marca sozinho quando todos estiverem feitos. */
     function mdlSub(s){ return typeof s==='string' && s.charAt(0)==='\t'; }
     function mdlTxt(s){ return (''+s).replace(/^\t/,''); }
-    function marcarGrupos(ul){ if(!ul) return; var lis=[].slice.call(ul.children);
-      lis.forEach(function(li,i){ var nx=lis[i+1]; li.classList.toggle('grp', !li.classList.contains('sub') && !!nx && nx.classList.contains('sub')); }); }
+    // Marca os itens que têm subitens como "grupo": contagem (feitos/total), seta para recolher e subitens ocultos quando fechado.
+    function marcarGrupos(ul){ if(!ul) return; var lis=[].slice.call(ul.children); var longa=lis.length>25;
+      lis.forEach(function(li,i){
+        var nx=lis[i+1]; var eh=!li.classList.contains('sub') && !!nx && nx.classList.contains('sub');
+        li.classList.toggle('grp',eh);
+        var n=li.querySelector(':scope > .grp-n'), tg=li.querySelector(':scope > .grp-tg');
+        if(!eh){ if(n) n.remove(); if(tg) tg.remove(); li.classList.remove('fechado'); return; }
+        var subs=[]; for(var j=i+1;j<lis.length&&lis[j].classList.contains('sub');j++) subs.push(lis[j]);
+        var feitos=subs.filter(function(s){ var c=s.querySelector('input[type=checkbox]'); return c&&c.checked; }).length;
+        if(!n){ n=document.createElement('span'); n.className='grp-n'; li.insertBefore(n, li.querySelector(':scope > .chk-rm')); }
+        n.textContent=feitos+'/'+subs.length; n.classList.toggle('ok',feitos===subs.length);
+        if(!tg){ tg=document.createElement('button'); tg.type='button'; tg.className='grp-tg'; tg.title='Mostrar ou ocultar os subitens'; tg.setAttribute('aria-label','Mostrar ou ocultar os subitens');
+          tg.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); li.classList.toggle('fechado'); marcarGrupos(li.parentNode); });
+          li.insertBefore(tg, n.nextSibling);
+          if(longa) li.classList.add('fechado'); // listas longas começam com os grupos recolhidos
+        }
+        var fechado=li.classList.contains('fechado'); subs.forEach(function(s){ s.classList.toggle('oculto',fechado); });
+      });
+      // subitem sem item acima (ou cujo item deixou de ser grupo) nunca fica oculto
+      lis.forEach(function(li,i){ if(li.classList.contains('sub')){ var p=i; while(p>=0&&lis[p].classList.contains('sub')) p--; if(p<0) li.classList.remove('oculto'); } else if(!li.classList.contains('grp')) li.classList.remove('oculto'); });
+    }
+    function abrirGrupoDe(li){ var p=li; while(p&&p.classList.contains('sub')) p=p.previousElementSibling; if(p) p.classList.remove('fechado'); }
     function syncGrupo(ul,alvo){ if(!ul||!alvo||alvo.type!=='checkbox') return;
       var li=alvo.closest('li'); if(!li||li.parentNode!==ul) return;
       var lis=[].slice.call(ul.children), i=lis.indexOf(li), cb=function(x){ return x.querySelector('input[type=checkbox]'); };
@@ -1942,7 +1998,7 @@
       var wrap=document.createElement('div'); wrap.className='chk-add pj-edit-only';
       var inp=document.createElement('input'); inp.type='text'; inp.placeholder='Novo item do check-list…';
       var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>adicionar item';
-      function doAdd(sub){ var v=inp.value.trim(); if(!v) return; var li=document.createElement('li'); if(sub===true) li.className='sub'; li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; li.querySelector('span').textContent=v; addItemRemove(li,et); ul.appendChild(li); marcarGrupos(ul); ul.dispatchEvent(new Event('change',{bubbles:true})); inp.value=''; recomputeEtapa(et); kanbanSync(); }
+      function doAdd(sub){ var v=inp.value.trim(); if(!v) return; var li=document.createElement('li'); if(sub===true) li.className='sub'; li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; li.querySelector('span').textContent=v; addItemRemove(li,et); ul.appendChild(li); abrirGrupoDe(li); marcarGrupos(ul); ul.dispatchEvent(new Event('change',{bubbles:true})); inp.value=''; recomputeEtapa(et); kanbanSync(); }
       add.addEventListener('click',doAdd); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();doAdd();} });
       wrap.appendChild(inp); wrap.appendChild(add);
       var addS=document.createElement('button'); addS.type='button'; addS.className='pill ghost sm'; addS.title='Adiciona como subitem do último item da lista'; addS.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5v8h13"/><path d="M14 9l4 4-4 4"/></svg>adicionar subitem'; addS.addEventListener('click',function(){ doAdd(true); }); wrap.appendChild(addS);
@@ -1979,7 +2035,7 @@
     }
     function wireEtapa(et){
       var head=et.querySelector('.etapa-head'); if(head&&!head._wired){ head._wired=1; head.addEventListener('click',function(){ openEtapa(et); }); }
-      var checkUl=et.querySelector('.check'); if(checkUl&&!checkUl._wired){ checkUl._wired=1; checkUl.addEventListener('change',function(e){ syncGrupo(checkUl,e.target); recomputeEtapa(et); kanbanSync(); }); marcarGrupos(checkUl); }
+      var checkUl=et.querySelector('.check'); if(checkUl&&!checkUl._wired){ checkUl._wired=1; checkUl.addEventListener('change',function(e){ syncGrupo(checkUl,e.target); marcarGrupos(checkUl); recomputeEtapa(et); kanbanSync(); }); marcarGrupos(checkUl); }
       et.querySelectorAll('.etapa-prazo input').forEach(function(inp){ if(!inp._wired){ inp._wired=1; inp.addEventListener('change',function(){ recomputeEtapa(et); }); } });
       var box=et.querySelector('.colabs'); if(box && !box._colwired){ box._colwired=1; wireColabs(box); }
       ensureCheckEditor(et);
