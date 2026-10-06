@@ -1054,7 +1054,7 @@
         }catch(err){ if(n) n.textContent='Erro ao abrir o documento.'; }
       });
     })();
-    function fmtBRLc(n){ if(n==null||n==='') return 'R$ —'; return 'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:0}); }
+    function fmtBRLc(n){ if(n==null||n==='') return 'R$ —'; return 'R$ '+(Number(n)||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); } // sempre com vírgula e centavos
     function fmtDatac(d){ if(!d) return ''; try{ return new Date(d+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}); }catch(e){ return d; } }
     // Financeiro do cliente (contrato / pago / a pagar) a partir das parcelas reais.
     var obraAtualCli=null;

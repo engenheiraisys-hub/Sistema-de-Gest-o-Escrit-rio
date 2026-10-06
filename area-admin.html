@@ -1,4 +1,12 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}  /* financeiro: valores com centavos cabem numa linha só nos 4 cartões */
+  #fc-contratos,#fc-recebido,#fc-areceber,#fc-vencido{font-size:clamp(16px,1.65vw,21px);white-space:nowrap}
+  /* check-list com itens e subitens */
+  .check li.sub{padding-left:30px}
+  .check li.grp > .lbl span,.check li.grp > label span{font-weight:500;color:var(--ink)}
+  .mdl-item.sub{padding-left:28px}
+  .mdl-item .pbtn{flex:none;padding:5px 9px}
+  .chk-add .pill{white-space:nowrap}
+</style></head><body>
 <title>Área do Administrador</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -967,7 +975,7 @@
     <div class="adm-panel">
       <p class="adm-note" style="margin:0 0 18px">Os valores ficam no projeto (um cliente pode ter vários). Isto alimenta a aba <b>financeiro</b> da Área do Cliente; o colaborador não vê estes valores.</p>
       <div class="fin-top">
-        <div class="field"><label>Valor do contrato</label><input id="f-total" type="text" value="R$ 78.000,00"></div>
+        <div class="field"><label>Valor do contrato</label><input id="f-total" type="text" inputmode="decimal" value="R$ "></div>
         <div class="field"><label>Forma de pagamento</label><select id="f-forma"></select></div>      </div>
       <ul class="parcelas" id="parcelas"></ul>
       <div class="form-actions"><button class="pill ghost sm pj-edit-only" type="button" id="add-parcela"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar parcela</button><button class="pill solid sm pj-edit-only" type="button" id="salvar-financeiro"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar financeiro</button><span class="note" id="fin-note"></span></div>
@@ -1800,6 +1808,72 @@
       'Preventivo':['Projeto preventivo','Aprovação no Corpo de Bombeiros'],
       'Pós-projeto':['Entrega final dos arquivos','Esclarecimento de dúvidas','Encerramento do contrato']
     };
+    /* ---- check-list com ITENS e SUBITENS ----
+       Nos modelos, um subitem é o texto começando com TAB ('\t'); no banco, a entrada leva sub:true;
+       na tela, a linha (li) leva a classe "sub". O item que tem subitens funciona como grupo:
+       marcar o item marca todos os subitens, e ele se marca sozinho quando todos estiverem feitos. */
+    function mdlSub(s){ return typeof s==='string' && s.charAt(0)==='\t'; }
+    function mdlTxt(s){ return (''+s).replace(/^\t/,''); }
+    function marcarGrupos(ul){ if(!ul) return; var lis=[].slice.call(ul.children);
+      lis.forEach(function(li,i){ var nx=lis[i+1]; li.classList.toggle('grp', !li.classList.contains('sub') && !!nx && nx.classList.contains('sub')); }); }
+    function syncGrupo(ul,alvo){ if(!ul||!alvo||alvo.type!=='checkbox') return;
+      var li=alvo.closest('li'); if(!li||li.parentNode!==ul) return;
+      var lis=[].slice.call(ul.children), i=lis.indexOf(li), cb=function(x){ return x.querySelector('input[type=checkbox]'); };
+      if(li.classList.contains('sub')){
+        var p=i; while(p>=0&&lis[p].classList.contains('sub')) p--; if(p<0) return;
+        var subs=[]; for(var j=p+1;j<lis.length&&lis[j].classList.contains('sub');j++) subs.push(lis[j]);
+        var pc=cb(lis[p]); if(pc) pc.checked=subs.every(function(s){ var c=cb(s); return c&&c.checked; });
+      } else { for(var k=i+1;k<lis.length&&lis[k].classList.contains('sub');k++){ var c2=cb(lis[k]); if(c2) c2.checked=alvo.checked; } }
+    }
+    /* Projeto legal: check-list da prefeitura (por prancha), com itens e subitens */
+    (function(){
+      var g=[
+        ['Prancha 1 · Identificação e termos',['Declaração de responsabilidade técnica e do proprietário','Nome do proprietário / CPF-CNPJ','Nome do autor do projeto / registro profissional','Inscrição imobiliária','Uso do projeto / tipologia','Número de loteamento aprovado (se houver)']],
+        ['Prancha 1 · Planta de situação',['Nome das vias de acesso','Via hierarquizada indicada','Distância até via hierarquizada','Norte','Localização do lote no contexto urbano']],
+        ['Prancha 1 · Parâmetros urbanísticos',['Zoneamento do terreno','Uso pretendido','Coeficiente de aproveitamento básico / utilizado','Taxa de ocupação máxima / utilizada','Taxa de impermeabilização máxima / utilizada','Incentivos urbanísticos (quando aplicável)']],
+        ['Prancha 1 · Planta de áreas permeáveis',['Delimitação das áreas permeáveis','Tipo de material / vegetação','Área permeável efetiva','Percentual de permeabilidade do terreno']],
+        ['Prancha 2 · Terreno / lote',['Limite do terreno','Novo alinhamento do terreno','Dimensões conforme topográfico','Eixo da via','Atingimento viário','Terreno remanescente']],
+        ['Prancha 2 · Implantação da edificação',['Afastamento frontal','Afastamentos laterais','Afastamento de fundos','Distância entre unidades (se multifamiliar/geminado)','Dimensão do pavimento implantado','Projeção dos pavimentos superiores','Projeção de sacadas','Projeção de beirais']],
+        ['Prancha 2 · Urbanização externa',['Calçada','Rebaixo de pedestres','Rebaixo de veículos','Distância da esquina','Acessos de pedestres','Acessos de veículos']],
+        ['Prancha 2 · Elementos obrigatórios',['Depósito temporário de lixo','Medidores de água e luz','Muros / gradis / portões com alturas','Jardins / canteiros / arborização']],
+        ['Prancha 3 · Plantas baixas — informações gerais',['Nome de todos os ambientes','Área de cada ambiente','Área construída total do pavimento','Escala 1:100 (modelo padrão)']],
+        ['Prancha 3 · Cotas / dimensões',['Dimensão total do terreno remanescente','Dimensão do pavimento','Afastamentos prediais','Cotas internas relevantes','Largura de rampas','Distância de rampas']],
+        ['Prancha 3 · Níveis',['Nível acabado da laje/piso','Cotas do terreno original','Níveis de rua','Desníveis internos/externos']],
+        ['Prancha 3 · Elementos construtivos',['Escadas','Rampas com inclinação (%)','Vagas de automóveis','Projeção de pavimentos superiores','Perímetro da laje']],
+        ['Prancha 4 · Cobertura',['Projeção do telhado','Projeção de beirais','Projeção de sacadas','Telhados independentes (quando houver)','Terraços / guarda-corpo']],
+        ['Prancha 4 · Reservatórios',['Área do reservatório','Identificação por unidade','Localização na cobertura']],
+        ['Prancha 5 · Cortes — níveis obrigatórios',['Nível da rua','Nível natural do terreno','Nível de cada pavimento','Nível da cobertura','Nível do reservatório']],
+        ['Prancha 5 · Alturas obrigatórias',['Altura entre pisos acabados (A*)','Altura de fachada (HF)','Altura de cumeeira','Altura de muros laterais (B*)','Altura de gradis (C*)']],
+        ['Prancha 5 · Representação técnica',['Perfil do terreno natural','Perfil do terreno modificado','Relação com via pública','Telhados independentes','Cortes AA / BB / CC completos']],
+        ['Pontos de atenção (baseado no modelo enviado)',['Depósito temporário de lixo','Medidores individualizados','Largura dos rebaixos de calçada','Distância até esquina','Altura de muros/gradis','Indicação do terreno natural nos cortes','Atingimento viário / novo alinhamento','Área permeável efetiva','Sobreposição da TO dos pavimentos','Memória de cálculo de outorga/incentivos (quando aplicável)']],
+        ['Conferência final · Urbanisticamente aprovado',['Índices corretos','Recuos','Permeabilidade','Zoneamento']],
+        ['Conferência final · Implantação correta',['Lote / via / acessos / calçada / rebaixos']],
+        ['Conferência final · Volume legal da edificação',['Alturas','Cumeeira','Fachada','Ocupação real']]
+      ];
+      var lista=[]; g.forEach(function(x){ lista.push(x[0]); x[1].forEach(function(s){ lista.push('\t'+s); }); });
+      // itens que já existiam no modelo continuam ao final
+      ETAPA_MODELOS['Projeto legal']=lista.concat(ETAPA_MODELOS['Projeto legal']||[]);
+      // o mesmo check-list (o PDF é "Executivo / Projeto legal") também no modelo Projeto executivo
+      ETAPA_MODELOS['Projeto executivo']=lista.concat(ETAPA_MODELOS['Projeto executivo']||[]);
+    })();
+    /* Hidrossanitário: check-list do projeto complementar de hidráulica, com itens e subitens */
+    (function(){
+      var g=[
+        ['Elementos gráficos gerais',['Plantas baixas: representação de todos os pavimentos com o traçado das tubulações','Esquemas isométricos: desenhos em perspectiva (geralmente 30°) de cada ambiente molhado (banheiros, cozinhas, áreas de serviço) para visualização das alturas e conexões','Cortes e detalhes: detalhamento de áreas críticas, como passagens de tubos em vigas ou encontros complexos de tubulações','Prumadas (esquema vertical): desenho em corte de todo o edifício mostrando a descida das colunas de água e subida de ventilação']],
+        ['Sistema de água fria e água quente',['Locação de pontos: altura e posição exata de cada ponto de utilização (chuveiro, torneira, descarga)','Dimensionamento: indicação dos diâmetros nominais (DN) de todos os trechos de tubulação','Barrilete: detalhamento da saída do reservatório superior, incluindo registros de manutenção','Sistema de aquecimento: detalhes de instalação de aquecedores (gás, solar ou elétrico) e isolamento térmico nas tubulações de água quente','Válvulas e registros: posicionamento de registros de pressão e de gaveta em todos os ambientes']],
+        ['Sistema de esgoto sanitário e ventilação',['Traçado e declividade: indicação da inclinação mínima das tubulações (geralmente 1% para tubos ≥ 100mm e 2% para tubos < 100mm)','Caixas de inspeção e gordura: localização, cotas de fundo e tampa, e material','Tubos de queda: localização exata das descidas de esgoto','Sistema de ventilação: detalhamento das colunas de ventilação para evitar o rompimento do fecho hídrico e o mau cheiro']],
+        ['Águas pluviais (chuva)',['Calhas e condutores: dimensionamento e posicionamento de calhas, coletores horizontais e descidas pluviais','Caixas de areia e ralos: detalhamento dos pontos de captação em terraços, varandas e quintais','Reuso (opcional): caso exista, detalhamento do sistema de filtragem e armazenamento de água de chuva']],
+        ['Documentação técnica e especificações',['Legenda de símbolos: identificação clara de cada símbolo usado no desenho','Memorial descritivo: texto explicando as premissas do projeto e normas seguidas (NBR 5626, NBR 8160, etc.)','Memorial de cálculo: cálculos de perda de carga, pressão e vazão','Lista de materiais: quantitativo detalhado de tubos, conexões, registros e acessórios','Notas de execução: instruções específicas sobre testes de estanqueidade e proteção das tubulações']],
+        ['Residência unifamiliar',['Entrada de água: detalhamento do cavalete (padrão da concessionária local)','Reservatório superior: detalhe da base da caixa d\'água, extravasor (ladrão) e limpeza','Tratamento local (se necessário): se não houver rede de esgoto, incluir detalhamento de fossa séptica, filtro anaeróbio e sumidouro','Sistema de irrigação: pontos de torneira de jardim e, se houver, automação para áreas verdes']],
+        ['Residências geminadas',['Setorização de medição (individualização): cada unidade deve ter seu próprio hidrômetro; o projeto deve mostrar o abrigo de medidores','Independência de redes: garantir que a tubulação de esgoto de uma casa não passe por baixo da fundação da outra (evita problemas jurídicos e de manutenção)','Ramais de ventilação independentes: para evitar que o retorno de gases de uma unidade afete a outra','Abastecimento de emergência: caso as caixas d\'água sejam compartilhadas (raro, mas ocorre), detalhar a divisão exata do volume para cada unidade']],
+        ['Edificações multifamiliares (prédios)',['Barrilete de incêndio: em prédios, o projeto de hidráulica deve prever a reserva técnica de incêndio e a descida para os hidrantes','Estação de recalque: detalhamento do reservatório inferior (cisterna) e das bombas que levarão a água até o topo','Redutores de pressão: em prédios altos, o uso de válvulas redutoras de pressão (VRP) nos pavimentos inferiores para evitar o rompimento de tubos','Shafts técnicos: detalhamento das aberturas verticais para passagem das prumadas e janelas de inspeção em cada andar','Esgoto com queda amortecida: uso de conexões específicas para reduzir a velocidade e o ruído da queda de dejetos em grandes alturas','Drenagem de ar-condicionado: rede específica para coletar o condensado de todas as unidades, evitando o "pinga-pinga" nas fachadas']],
+        ['Pranchas',['01 · Planta do térreo com todos os sistemas','02 · Esquema vertical de água','03 · Esquema vertical de esgoto','04 · Detalhes (caixa d\'água, caixa de passagem, caixa de areia, caixa de gordura)','Informações do selo (IPTU, nome, CPF, endereço, uso da edificação)']]
+      ];
+      var lista=[]; g.forEach(function(x){ lista.push(x[0]); x[1].forEach(function(s){ lista.push('\t'+s); }); });
+      // itens que já existiam no modelo continuam ao final
+      ETAPA_MODELOS['Hidrossanitário']=lista.concat(ETAPA_MODELOS['Hidrossanitário']||[]);
+    })();
+
 
     /* ---------------- motor de etapas ---------------- */
     var HOJE=new Date(2026,8,18); HOJE.setHours(0,0,0,0);
@@ -1847,7 +1921,7 @@
       if(li.querySelector('.chk-rm')) return;
       var lbl=li.querySelector('label'); if(lbl) lbl.classList.add('lbl');
       var rm=document.createElement('button'); rm.type='button'; rm.className='chk-rm pj-edit-only'; rm.textContent='×';
-      rm.addEventListener('click',function(){ li.remove(); recomputeEtapa(et); kanbanSync(); });
+      rm.addEventListener('click',function(){ var u=li.parentNode; li.remove(); marcarGrupos(u); recomputeEtapa(et); kanbanSync(); if(u) u.dispatchEvent(new Event('change',{bubbles:true})); });
       li.appendChild(rm);
     }
     function applyModelo(et){
@@ -1855,7 +1929,7 @@
       var tpl=ETAPA_MODELOS[nm]; var note=scopeOf(et).querySelector('[data-mdl-note]');
       if(!tpl){ if(note) note.textContent='Sem modelo cadastrado para "'+nm+'".'; return; }
       var ul=checkOf(et); ul.innerHTML='';
-      tpl.forEach(function(t){ var li=document.createElement('li'); li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; li.querySelector('span').textContent=t; addItemRemove(li,et); ul.appendChild(li); });
+      tpl.forEach(function(t){ var li=document.createElement('li'); li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; if(mdlSub(t)) li.className='sub'; li.querySelector('span').textContent=mdlTxt(t); addItemRemove(li,et); ul.appendChild(li); }); marcarGrupos(ul); ul.dispatchEvent(new Event('change',{bubbles:true}));
       if(note) note.textContent='Modelo aplicado ('+tpl.length+' itens).';
       recomputeEtapa(et); kanbanSync();
     }
@@ -1868,9 +1942,10 @@
       var wrap=document.createElement('div'); wrap.className='chk-add pj-edit-only';
       var inp=document.createElement('input'); inp.type='text'; inp.placeholder='Novo item do check-list…';
       var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>adicionar item';
-      function doAdd(){ var v=inp.value.trim(); if(!v) return; var li=document.createElement('li'); li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; li.querySelector('span').textContent=v; addItemRemove(li,et); ul.appendChild(li); inp.value=''; recomputeEtapa(et); kanbanSync(); }
+      function doAdd(sub){ var v=inp.value.trim(); if(!v) return; var li=document.createElement('li'); if(sub===true) li.className='sub'; li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; li.querySelector('span').textContent=v; addItemRemove(li,et); ul.appendChild(li); marcarGrupos(ul); ul.dispatchEvent(new Event('change',{bubbles:true})); inp.value=''; recomputeEtapa(et); kanbanSync(); }
       add.addEventListener('click',doAdd); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();doAdd();} });
       wrap.appendChild(inp); wrap.appendChild(add);
+      var addS=document.createElement('button'); addS.type='button'; addS.className='pill ghost sm'; addS.title='Adiciona como subitem do último item da lista'; addS.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5v8h13"/><path d="M14 9l4 4-4 4"/></svg>adicionar subitem'; addS.addEventListener('click',function(){ doAdd(true); }); wrap.appendChild(addS);
       var ctrl=document.createElement('div'); ctrl.className='etapa-ctrl';
       var mdl=document.createElement('button'); mdl.type='button'; mdl.className='pill ghost sm pj-edit-only'; mdl.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg>aplicar modelo'; mdl.addEventListener('click',function(){ applyModelo(et); });
       var pause=document.createElement('button'); pause.type='button'; pause.className='pill ghost sm'; paintPause(pause,et); pause.addEventListener('click',function(){ et.dataset.paused=(et.dataset.paused==='1')?'':'1'; paintPause(pause,et); recomputeEtapa(et); kanbanSync(); });
@@ -1884,18 +1959,27 @@
       b.addEventListener('click',function(){ if(currentEtapa===et){ closeEtapa(false); } et.remove(); kanbanSync(); });
       pad.appendChild(b);
     }
+    // grava no banco a ordem das etapas como está na tela (chamado ao mover com ↑ ↓)
+    async function salvarOrdemEtapas(){
+      try{
+        var els=[].slice.call(etapasWrap.querySelectorAll('.etapa'));
+        var rs=await Promise.all(els.map(function(el,i){ return el.dataset.eid ? sb.from('etapas').update({ ordem:i }).eq('id',el.dataset.eid) : Promise.resolve(null); }));
+        var falha=rs.filter(function(r){ return r&&r.error; })[0];
+        if(falha) alert('A nova ordem das etapas não foi salva: '+falha.error.message);
+      }catch(e){ alert('A nova ordem das etapas não foi salva: '+(e&&e.message||e)); }
+    }
     function addMoveTools(et){
       if(et.querySelector('.etapa-tools')) return;
       var tools=document.createElement('div'); tools.className='etapa-tools';
       var up=document.createElement('button'); up.type='button'; up.className='etapa-move'; up.textContent='↑'; up.title='Mover para cima';
       var dn=document.createElement('button'); dn.type='button'; dn.className='etapa-move'; dn.textContent='↓'; dn.title='Mover para baixo';
-      up.addEventListener('click',function(e){ e.stopPropagation(); var p=et.previousElementSibling; if(p&&p.classList.contains('etapa')){ etapasWrap.insertBefore(et,p); kanbanSync(); } });
-      dn.addEventListener('click',function(e){ e.stopPropagation(); var n=et.nextElementSibling; if(n&&n.classList.contains('etapa')){ etapasWrap.insertBefore(n,et); kanbanSync(); } });
+      up.addEventListener('click',function(e){ e.stopPropagation(); var p=et.previousElementSibling; if(p&&p.classList.contains('etapa')){ etapasWrap.insertBefore(et,p); kanbanSync(); salvarOrdemEtapas(); } });
+      dn.addEventListener('click',function(e){ e.stopPropagation(); var n=et.nextElementSibling; if(n&&n.classList.contains('etapa')){ etapasWrap.insertBefore(n,et); kanbanSync(); salvarOrdemEtapas(); } });
       tools.appendChild(up); tools.appendChild(dn); et.appendChild(tools);
     }
     function wireEtapa(et){
       var head=et.querySelector('.etapa-head'); if(head&&!head._wired){ head._wired=1; head.addEventListener('click',function(){ openEtapa(et); }); }
-      var checkUl=et.querySelector('.check'); if(checkUl&&!checkUl._wired){ checkUl._wired=1; checkUl.addEventListener('change',function(){ recomputeEtapa(et); kanbanSync(); }); }
+      var checkUl=et.querySelector('.check'); if(checkUl&&!checkUl._wired){ checkUl._wired=1; checkUl.addEventListener('change',function(e){ syncGrupo(checkUl,e.target); recomputeEtapa(et); kanbanSync(); }); marcarGrupos(checkUl); }
       et.querySelectorAll('.etapa-prazo input').forEach(function(inp){ if(!inp._wired){ inp._wired=1; inp.addEventListener('change',function(){ recomputeEtapa(et); }); } });
       var box=et.querySelector('.colabs'); if(box && !box._colwired){ box._colwired=1; wireColabs(box); }
       ensureCheckEditor(et);
@@ -1909,7 +1993,7 @@
       var termoNome=(termo==='aceite'?'Termo de finalização, entrega e aceite':(termo==='entrega'?'Termo de finalização e entrega':'Sem termo'));
       var termoTxt=termoNome+' · '+(libera==='aceite'?'libera após aceite':'libera direto');
       var list=(items&&items.length?items:['Item 1']);
-      var checks=list.map(function(t){ return '<li><label class="lbl"><input type="checkbox"><span>'+(''+t).replace(/</g,'&lt;')+'</span></label></li>'; }).join('');
+      var checks=list.map(function(t){ return '<li'+(mdlSub(t)?' class="sub"':'')+'><label class="lbl"><input type="checkbox"><span>'+mdlTxt(''+t).replace(/</g,'&lt;')+'</span></label></li>'; }).join('');
       el.innerHTML=
         '<button class="etapa-head" type="button" aria-expanded="false"><div class="etapa-name">'+(''+name).replace(/</g,'&lt;')+'</div><span class="etapa-status">…</span><span class="etapa-chev" aria-hidden="true"></span></button>'
         +'<div class="etapa-body"><div class="etapa-inner"><div class="etapa-pad">'
@@ -1984,7 +2068,7 @@
       obraNomeAtual=p.nome;
       if(typeof setCover==='function') setCover(p.imagem_path, p.nome);
       // financeiro do projeto
-      var ftot=document.getElementById('f-total'); if(ftot) ftot.value = (p.valor_contrato!=null) ? ('R$ '+p.valor_contrato) : 'R$ ';
+      var ftot=document.getElementById('f-total'); if(ftot) ftot.value = (p.valor_contrato!=null) ? fmtBRL2(p.valor_contrato) : 'R$ ';
       // nº do contrato (campo de "informações"): consulta separada — coluna criada pelo sql-numero-contrato.sql
       (function(){ var fc=document.getElementById('obra-contrato-input'), ts=document.getElementById('obra-tipo-sel'); var pid=p.id;
         if(fc) fc.value=''; if(ts) ts.value='';
@@ -1995,7 +2079,7 @@
         sb.from('projetos').select('tipo').eq('id',pid).single().then(function(r){ if(ts&&r&&!r.error&&r.data&&String(obraId)===String(pid)) ts.value=r.data.tipo||''; }); })();
       if(typeof fillFormaOptions==='function') fillFormaOptions(p.forma_pagamento||'');
       var parcEl=document.getElementById('parcelas');
-      if(parcEl){ parcEl.innerHTML=''; (p.parcelas||[]).slice().sort(function(a,b){return (a.ordem||0)-(b.ordem||0);}).forEach(function(pc){ parcEl.appendChild(parcelaRow({ id:pc.id, desc:pc.descricao||'', valor:(pc.valor!=null?String(pc.valor):''), venc:pc.vencimento||'', pago:pc.pago_em||'', st:pc.status||'a_pagar' })); }); }
+      if(parcEl){ parcEl.innerHTML=''; (p.parcelas||[]).slice().sort(function(a,b){return (a.ordem||0)-(b.ordem||0);}).forEach(function(pc){ parcEl.appendChild(parcelaRow({ id:pc.id, desc:pc.descricao||'', valor:(pc.valor!=null?fmtBRL2(pc.valor):'R$ '), venc:pc.vencimento||'', pago:pc.pago_em||'', st:pc.status||'a_pagar' })); }); }
       var fnote=document.getElementById('fin-note'); if(fnote) fnote.textContent='';
       // serviços extras (recebimentos avulsos vinculados a este projeto)
       var exWrap=document.getElementById('extras-wrap'), exEl=document.getElementById('extras-projeto');
@@ -2026,7 +2110,7 @@
       (p.etapas||[]).slice().sort(byOrdemEt).forEach(function(e){
         var cl=Array.isArray(e.checklist)?e.checklist:[];
         var termo=e.termo||'nenhum';
-        var el=buildEtapaEl(e.nome, cl.map(function(it){return it.texto;}), termo, termo==='aceite'?'aceite':'direto');
+        var el=buildEtapaEl(e.nome, cl.map(function(it){return (it.sub?'\t':'')+it.texto;}), termo, termo==='aceite'?'aceite':'direto');
         el.dataset.eid=e.id; el.dataset.termo=termo; el.dataset.concl=(e.status==='concluida')?'1':'';
         var _colabsOld=el.querySelector('.colabs'); if(_colabsOld) _colabsOld.remove(); // remove o responsável genérico do protótipo
         var boxes=el.querySelectorAll('.check li input[type=checkbox]');
@@ -2124,7 +2208,7 @@
     async function salvarEtapaObra(et){
       if(!et||!et.dataset||!et.dataset.eid) return;
       var scope=(typeof scopeOf==='function')?scopeOf(et):et;
-      var checklist=[].map.call(scope.querySelectorAll('.check li'),function(li){ var cb=li.querySelector('input[type=checkbox]'); var sp=li.querySelector('span'); return { texto: sp?sp.textContent:'', feito: cb?cb.checked:false }; });
+      var checklist=[].map.call(scope.querySelectorAll('.check li'),function(li){ var cb=li.querySelector('input[type=checkbox]'); var sp=li.querySelector('span'); var o={ texto: sp?sp.textContent:'', feito: cb?cb.checked:false }; if(li.classList.contains('sub')) o.sub=true; return o; });
       var done=checklist.filter(function(x){return x.feito;}).length;
       var status=checklist.length?(done===checklist.length?'concluida':(done>0?'andamento':'a_fazer')):'a_fazer';
       var ini=scope.querySelector('.pz-ini'), fim=scope.querySelector('.pz-fim');
@@ -2221,7 +2305,7 @@
         var box=document.createElement('div'); box.className='mdl'; box.setAttribute('data-nome',nome);
         var row=document.createElement('div'); row.className='mdl-row';
         var head=document.createElement('button'); head.type='button'; head.className='mdl-head';
-        head.innerHTML='<span class="mdl-h">'+nome+'</span><span class="mdl-count">'+ETAPA_MODELOS[nome].length+' itens</span><span class="mdl-chev" aria-hidden="true"></span>';
+        head.innerHTML='<span class="mdl-h">'+nome+'</span><span class="mdl-count">'+ETAPA_MODELOS[nome].filter(function(x){ return !mdlSub(x); }).length+' itens'+(ETAPA_MODELOS[nome].some(mdlSub)?(' + '+ETAPA_MODELOS[nome].filter(mdlSub).length+' subitens'):'')+'</span><span class="mdl-chev" aria-hidden="true"></span>';
         head.addEventListener('click',function(){ box.classList.toggle('open'); });
         var delx=document.createElement('button'); delx.type='button'; delx.className='pbtn danger'; delx.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir'; delx.title='Excluir esta etapa-modelo';
         delx.addEventListener('click',function(){ delete ETAPA_MODELOS[nome]; renderModelos(); renderNovoOpts(); });
@@ -2230,18 +2314,22 @@
         var inner=document.createElement('div'); inner.className='mdl-inner';
         ETAPA_MODELOS[nome].forEach(function(item,idx){
           var row=document.createElement('div'); row.className='mdl-item';
-          var inp=document.createElement('input'); inp.type='text'; inp.value=item;
-          inp.addEventListener('input',function(){ ETAPA_MODELOS[nome][idx]=inp.value; });
+          var inp=document.createElement('input'); inp.type='text'; inp.value=mdlTxt(item); if(mdlSub(item)) row.className='mdl-item sub';
+          inp.addEventListener('input',function(){ ETAPA_MODELOS[nome][idx]=(mdlSub(ETAPA_MODELOS[nome][idx])?'\t':'')+inp.value; });
           var rm=document.createElement('button'); rm.type='button'; rm.className='chk-rm'; rm.textContent='×';
           rm.addEventListener('click',function(){ ETAPA_MODELOS[nome].splice(idx,1); renderModelos(); keepOpen(nome); });
-          row.appendChild(inp); row.appendChild(rm); inner.appendChild(row);
+          var tg=document.createElement('button'); tg.type='button'; tg.className='pbtn'; tg.title=mdlSub(item)?'Tornar item principal':'Tornar subitem do item acima';
+          tg.innerHTML=mdlSub(item)?'<svg viewBox="0 0 24 24"><path d="M19 12H7"/><path d="M11 8l-4 4 4 4"/><path d="M4 5v14"/></svg>item':'<svg viewBox="0 0 24 24"><path d="M5 12h12"/><path d="M13 8l4 4-4 4"/><path d="M20 5v14"/></svg>sub';
+          tg.addEventListener('click',function(){ var cur=ETAPA_MODELOS[nome][idx]; ETAPA_MODELOS[nome][idx]=mdlSub(cur)?mdlTxt(cur):('\t'+cur); renderModelos(); keepOpen(nome); });
+          row.appendChild(inp); row.appendChild(tg); row.appendChild(rm); inner.appendChild(row);
         });
         var addRow=document.createElement('div'); addRow.className='mdl-add';
         var ai=document.createElement('input'); ai.type='text'; ai.placeholder='Novo item padrão…';
         var ab=document.createElement('button'); ab.type='button'; ab.className='pill ghost sm'; ab.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar';
-        function doAdd(){ var v=ai.value.trim(); if(!v) return; ETAPA_MODELOS[nome].push(v); renderModelos(); keepOpen(nome); }
+        function doAdd(sub){ var v=ai.value.trim(); if(!v) return; ETAPA_MODELOS[nome].push((sub===true?'\t':'')+v); renderModelos(); keepOpen(nome); }
         ab.addEventListener('click',doAdd); ai.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();doAdd();} });
-        addRow.appendChild(ai); addRow.appendChild(ab); inner.appendChild(addRow);
+        addRow.appendChild(ai); addRow.appendChild(ab);
+        var abS=document.createElement('button'); abS.type='button'; abS.className='pill ghost sm'; abS.title='Adiciona como subitem do último item'; abS.innerHTML='<svg viewBox="0 0 24 24"><path d="M5 5v8h13"/><path d="M14 9l4 4-4 4"/></svg>subitem'; abS.addEventListener('click',function(){ doAdd(true); }); addRow.appendChild(abS); inner.appendChild(addRow);
         body.appendChild(inner); box.appendChild(body);
         modelosList.appendChild(box);
       });
@@ -2285,10 +2373,24 @@
     var addEtapaBtn=document.getElementById('add-etapa'), addEtapaBox=document.getElementById('add-etapa-box');
     if(addEtapaBtn) addEtapaBtn.addEventListener('click',function(){ fillAeModelo(); if(aeNomeWrap) aeNomeWrap.hidden=(aeModelo.value!=='__new__'); if(aeLiberaWrap) aeLiberaWrap.hidden=(aeTermo.value==='nenhum'); addEtapaBox.hidden=!addEtapaBox.hidden; });
     var aeAdd=document.getElementById('ae-add');
-    if(aeAdd) aeAdd.addEventListener('click',function(){
+    if(aeAdd) aeAdd.addEventListener('click',async function(){
       var mv=aeModelo.value, termo=aeTermo.value, libera=document.getElementById('ae-libera').value, name, items;
       if(termo==='nenhum') libera='livre';
       if(mv==='__new__'){ name=(document.getElementById('ae-nome').value||'').trim()||'Nova etapa'; items=[]; } else { name=mv; items=(ETAPA_MODELOS[mv]||[]).slice(); }
+      // projeto real: grava a nova etapa no banco e recarrega o projeto, para ela vir com os controles reais
+      // (responsável escolhido entre a equipe cadastrada, termo, situação no painel e documento)
+      var pid=(typeof obraId!=='undefined')?obraId:null;
+      if(pid){
+        var mx=await sb.from('etapas').select('ordem').eq('projeto_id',pid).order('ordem',{ascending:false}).limit(1);
+        var ordem=(mx&&!mx.error&&mx.data&&mx.data[0]&&mx.data[0].ordem!=null)?(mx.data[0].ordem+1):etapasWrap.querySelectorAll('.etapa').length;
+        var ins=await sb.from('etapas').insert({ projeto_id:pid, nome:name, ordem:ordem, status:'a_fazer', termo:termo, checklist:items.map(function(x){ return mdlSub(x)?{texto:mdlTxt(x),feito:false,sub:true}:{texto:x,feito:false}; }) });
+        if(ins.error){ alert('Erro ao adicionar a etapa: '+ins.error.message); return; }
+        addEtapaBox.hidden=true; var an0=document.getElementById('ae-nome'); if(an0) an0.value='';
+        var recarrega=(typeof fillObra==='function')?fillObra:((typeof fillObraColab==='function')?fillObraColab:null);
+        if(recarrega){ await recarrega(); if(typeof setEdit==='function') setEdit(true); }
+        if(typeof kanbanSync==='function') kanbanSync();
+        return;
+      }
       var el=buildEtapaEl(name,items,termo,libera); etapasWrap.appendChild(el); wireEtapa(el);
       addEtapaBox.hidden=true; var an=document.getElementById('ae-nome'); if(an) an.value=''; kanbanSync();
     });
@@ -2390,7 +2492,7 @@
       var li=document.createElement('li'); li.className='parcela'; if(p.id) li.dataset.pid=p.id;
       li.innerHTML=
         '<div class="field"><label>Descrição</label><select class="p-desc">'+descOptions(p.desc)+'</select></div>'
-        +'<div class="field"><label>Valor</label><input type="text" class="p-valor" value="'+(p.valor||'')+'"></div>'
+        +'<div class="field"><label>Valor</label><input type="text" class="p-valor" inputmode="decimal" value="'+(p.valor||'R$ ')+'"></div>'
         +'<div class="field"><label>Vencimento</label><input type="date" class="p-venc" value="'+(p.venc||'')+'"></div>'
         +'<div class="field"><label>Pago em</label><input type="date" class="p-pago" value="'+(p.pago||'')+'"></div>'
         +'<div class="field p-status"><label>Status</label><select class="p-st"><option value="a_pagar"'+(p.st!=='pago'?' selected':'')+'>a pagar</option><option value="pago"'+(p.st==='pago'?' selected':'')+'>pago</option></select></div>'
@@ -2408,7 +2510,23 @@
       syncPago();
       return li;
     }
-    function parseBRL(s){ s=(''+(s||'')).replace(/[^\d,]/g,'').replace(/\./g,'').replace(',','.'); var n=parseFloat(s); return isNaN(n)?null:n; }
+    /* ---- dinheiro: sempre "R$ 1.234,56" (ponto no milhar, vírgula nos centavos) ---- */
+    function parseBRL(s){
+      s=(''+(s||'')).replace(/[^\d.,]/g,'');
+      // "1234.56" (ponto como decimal, sem vírgula) continua valendo 1234,56; nos demais casos ponto é milhar
+      if(!(s.indexOf(',')<0 && /^\d+\.\d{1,2}$/.test(s))) s=s.replace(/\./g,'').replace(',','.');
+      var n=parseFloat(s); return isNaN(n)?null:n;
+    }
+    function fmtBRL2(n){ n=Number(n); if(!isFinite(n)) n=0; return 'R$ '+n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+    // campos de valor: o "R$" fica fixo no início e, ao sair do campo, o valor é escrito com vírgula e centavos
+    (function(){
+      var SEL='#f-total,#np-valor,.p-valor,.ct-v,#pg-v,#rb-v';
+      function ehValor(el){ return !!(el&&el.matches&&el.matches(SEL)); }
+      document.addEventListener('focusin',function(e){ var el=e.target; if(!ehValor(el)) return; if(!/^R\$ /.test(el.value)) el.value='R$ '+el.value.replace(/^\s*R?\$?\s*/,''); });
+      document.addEventListener('input',function(e){ var el=e.target; if(!ehValor(el)) return;
+        var novo='R$ '+el.value.replace(/^\s*R?\$?\s*/,'').replace(/[^\d.,]/g,''); if(el.value!==novo) el.value=novo; });
+      document.addEventListener('focusout',function(e){ var el=e.target; if(!ehValor(el)) return; var n=parseBRL(el.value); el.value=(n==null)?'R$ ':fmtBRL2(n); });
+    })();
     var addParcela=document.getElementById('add-parcela');
     if(addParcela) addParcela.addEventListener('click',function(){ if(parcelasEl) parcelasEl.appendChild(parcelaRow({desc:'',valor:'',venc:'',st:'a_pagar'})); });
     var salvarFin=document.getElementById('salvar-financeiro');
@@ -2809,7 +2927,7 @@
       var tipoNovo=(((document.getElementById('np-tipo')||{}).value)||'').trim();
       if(tipoNovo){ try{ await sb.from('projetos').update({ tipo:tipoNovo }).eq('id',pr.data.id); }catch(e){} }
       var etapas=etapasSel.map(function(t,i){ return { projeto_id:pr.data.id, nome:t, ordem:i, status:'a_fazer',
-        checklist:(typeof ETAPA_MODELOS!=='undefined'&&ETAPA_MODELOS[t]?ETAPA_MODELOS[t].map(function(x){return {texto:x,feito:false};}):[]) }; });
+        checklist:(typeof ETAPA_MODELOS!=='undefined'&&ETAPA_MODELOS[t]?ETAPA_MODELOS[t].map(function(x){ return mdlSub(x)?{texto:mdlTxt(x),feito:false,sub:true}:{texto:x,feito:false}; }):[]) }; });
       var er=await sb.from('etapas').insert(etapas);
       if(er.error){ n.textContent='Projeto criado, mas erro nas etapas: '+er.error.message; return; }
       // parcelas lançadas no novo projeto (ficam linkadas ao projeto)
@@ -2825,6 +2943,8 @@
       n.textContent='Projeto criado no banco (com valor e parcelas). ✓';
       if(typeof logAtividade==='function') logAtividade('criou o projeto '+obra);
       document.getElementById('np-obra').value=''; npCli.value=''; if(document.getElementById('np-valor')) document.getElementById('np-valor').value='R$ ';
+      // limpa também nº do contrato e tipo, para não sobrarem no próximo cadastro
+      ['np-contrato','np-tipo'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
       if(npParcelas){ npParcelas.innerHTML=''; npParcelas.appendChild(parcelaRow({desc:'Entrada',valor:'R$ ',venc:'',st:'a_pagar'})); }
       formProjeto.querySelectorAll('#np-etapas input:checked, #np-docsel input:checked').forEach(function(i){ i.checked=false; });
       if(typeof renderCentral==='function') renderCentral();
@@ -3106,7 +3226,7 @@
         });
       });
     })();
-    function fmt(n){ return 'R$ '+Math.round(n).toLocaleString('pt-BR'); }
+    function fmt(n){ return fmtBRL2(n); }
     function imConfirm(msg, rotulo){ // rotulo (opcional): confirmação que não é exclusão, ex.: "confirmar"
       return new Promise(function(resolve){
         var ov=document.createElement('div'); ov.className='imc-ov';
@@ -3248,7 +3368,7 @@
     function ctRow(p){
       var row=document.createElement('div'); row.className='parcela ct-row';
       row.innerHTML='<div class="field"><label>Descrição</label><input class="ct-d" type="text" value="'+(p.d||'')+'"></div>'
-        +'<div class="field"><label>Valor (R$)</label><input class="ct-v" type="text" value="'+(p.v||'')+'"></div>'
+        +'<div class="field"><label>Valor</label><input class="ct-v" type="text" inputmode="decimal" value="'+((p.v!=null&&p.v!=='')?fmtBRL2(p.v):'R$ ')+'"></div>'
         +'<div class="field"><label>Vencimento</label><input class="ct-venc" type="date" value="'+(p.venc||'')+'"></div>'
         +'<div class="field p-status"><label>Status</label><select class="ct-st"><option'+(p.st==='pago'?' selected':'')+'>pago</option><option'+(p.st==='a vencer'?' selected':'')+'>a vencer</option><option'+(p.st==='vencido'?' selected':'')+'>vencido</option></select></div>'
         +'<button type="button" class="p-rm" aria-label="remover">×</button>';
@@ -3271,7 +3391,7 @@
     renderFin();
     var novoPag=document.getElementById('novo-pagamento');
     if(novoPag) novoPag.addEventListener('click',function(){
-      openModal('<div class="field"><label>Para</label><input id="pg-para" type="text" placeholder="Colaborador ou fornecedor"></div><div class="field"><label>Referente</label><input id="pg-ref" type="text" placeholder="Ex.: pró-labore · setembro"></div><div class="field"><label>Vencimento</label><input id="pg-venc" type="date"></div><div class="field"><label>Valor (R$)</label><input id="pg-v" type="text" placeholder="0,00"></div><div class="field"><label>Status</label><select id="pg-st"><option>a vencer</option><option>pago</option><option>vencido</option></select></div>','Novo pagamento','pagamento');
+      openModal('<div class="field"><label>Para</label><input id="pg-para" type="text" placeholder="Colaborador ou fornecedor"></div><div class="field"><label>Referente</label><input id="pg-ref" type="text" placeholder="Ex.: pró-labore · setembro"></div><div class="field"><label>Vencimento</label><input id="pg-venc" type="date"></div><div class="field"><label>Valor</label><input id="pg-v" type="text" inputmode="decimal" value="R$ "></div><div class="field"><label>Status</label><select id="pg-st"><option>a vencer</option><option>pago</option><option>vencido</option></select></div>','Novo pagamento','pagamento');
     });
     var PROJ_OPTS=[];
     async function openRecebimento(){
@@ -3281,7 +3401,7 @@
         +'<div class="field full"><label>Descrição</label><input id="rb-desc" type="text" placeholder="Ex.: Consultoria, serviço extra, projeto avulso…"></div>'
         +'<div class="field full"><label>Cliente</label><select id="rb-cli"></select><input id="rb-cli-nome" type="text" placeholder="Nome do cliente" style="margin-top:8px;display:none"></div>'
         +'<div class="field full"><label>Projeto</label><select id="rb-proj"></select><input id="rb-proj-nome" type="text" placeholder="Nome do projeto" style="margin-top:8px;display:none"></div>'
-        +'<div class="field"><label>Valor (R$)</label><input id="rb-v" type="text" placeholder="0,00"></div>'
+        +'<div class="field"><label>Valor</label><input id="rb-v" type="text" inputmode="decimal" value="R$ "></div>'
         +'<div class="field"><label>Data</label><input id="rb-data" type="date"></div>'
         +'<div class="field"><label>Status</label><select id="rb-st"><option value="recebido">recebido</option><option value="a_receber">a receber</option></select></div>';
       openModal(html,'Novo recebimento','recebimento');
