@@ -628,6 +628,13 @@
   /* "não se aplica": o item continua na lista, apagado, e não conta no andamento */
   .chk-na{flex:none;font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.06em;line-height:1;color:var(--ink-3);background:none;border:1px solid var(--hair);border-radius:6px;padding:4px 6px;cursor:pointer;transition:color .15s,background .15s,border-color .15s}
   .chk-na:hover{color:var(--ink);border-color:var(--ink-3)}
+  /* setas para mudar a ordem (modelo e check-list da etapa) */
+  .mdl-mv,.chk-mv{flex:none;width:24px;height:24px;padding:0;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--hair);border-radius:6px;color:var(--ink-2);cursor:pointer;transition:color .15s,border-color .15s}
+  .mdl-mv{display:inline-flex}
+  .mdl-mv svg,.chk-mv svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .mdl-mv:hover,.chk-mv:hover{color:var(--ink);border-color:var(--ink-3)}
+  #view-projeto.editing .chk-mv{display:inline-flex}
+  .mdl-mv + .mdl-mv,.chk-mv + .chk-mv{margin-left:-6px}
   .check li.na > .chk-na{color:#fff;background:var(--gray);border-color:var(--gray)}
   .check li.na > .lbl span,.check li.na > label span{color:var(--ink-3)!important;font-style:italic;text-decoration:none!important;font-weight:400!important}
   .check li.na > .lbl span::after,.check li.na > label span::after{content:" — não se aplica";font-size:11.5px}
@@ -648,6 +655,15 @@
 
   .mdl-item.sub{padding-left:28px}
   .mdl-item .pbtn{flex:none;padding:5px 9px}
+  /* aba Modelo: item = faixa em destaque (negrito); subitem = recuado, com guia e "cotovelo" à esquerda */
+  .mdl-inner .mdl-item{border-bottom:none}
+  .mdl-inner .mdl-item:not(.sub){background:var(--panel-2);border-radius:var(--r-sm);padding:7px 10px 7px 12px;margin-top:10px}
+  .mdl-inner .mdl-item:not(.sub):first-child{margin-top:0}
+  .mdl-inner .mdl-item:not(.sub) input{font-weight:600;color:var(--ink)}
+  .mdl-inner .mdl-item.sub{margin-left:22px;padding:5px 10px 5px 12px;border-left:2px solid var(--hair-soft)}
+  .mdl-inner .mdl-item.sub::before{content:"";flex:none;width:9px;height:9px;margin:-7px 0 0 -2px;border-left:1.5px solid var(--ink-3);border-bottom:1.5px solid var(--ink-3);border-radius:0 0 0 4px;opacity:.7}
+  .mdl-inner .mdl-item.sub input{font-size:13.5px;font-weight:300;color:var(--ink-2)}
+  .mdl-inner .mdl-add{margin-top:14px;padding-top:12px;border-top:1px solid var(--hair-soft)}
   .chk-add .pill{white-space:nowrap}
 
   /* ===== clientes e arquivos (mesmas telas do administrador) ===== */
@@ -761,6 +777,7 @@
   <section class="view" id="view-modelos" hidden>
     <button class="back" type="button" data-home>Voltar</button>
     <h2 class="page-title">Modelo</h2>
+    <p class="note" id="mdl-save-note" style="margin:-8px 0 14px;min-height:1.2em"></p>
     <p class="proj-note">Modelos padrão usados ao <b>criar um projeto</b> e nas etapas e documentos de todos os projetos. Toque num modelo para expandir e editar o check-list. Você pode <b>criar</b> uma etapa que não está na lista e <b>excluir</b> as que não usa (sincronizado com o administrador).</p>
 
     <p class="sec-label">etapas</p>
@@ -1424,6 +1441,31 @@
       lis.forEach(function(li,i){ if(li.classList.contains('sub')){ var p=i; while(p>=0&&lis[p].classList.contains('sub')) p--; if(p<0) li.classList.remove('oculto'); } else if(!li.classList.contains('grp')) li.classList.remove('oculto'); });
     }
     function abrirGrupoDe(li){ var p=li; while(p&&p.classList.contains('sub')) p=p.previousElementSibling; if(p) p.classList.remove('fechado'); }
+    // Muda a ordem na aba Modelo. Item (com seus subitens) troca de lugar com o item vizinho; subitem só anda dentro do seu item.
+    function mdlMover(nome, idx, dir){
+      var a=ETAPA_MODELOS[nome]; if(!a||idx<0||idx>=a.length) return;
+      if(mdlSub(a[idx])){ var j=idx+dir; if(j<0||j>=a.length||!mdlSub(a[j])) return; var tmp=a[idx]; a[idx]=a[j]; a[j]=tmp; }
+      else {
+        var fim=idx+1; while(fim<a.length&&mdlSub(a[fim])) fim++;
+        var bloco=a.slice(idx,fim);
+        if(dir<0){ if(idx===0) return; var ini=idx-1; while(ini>0&&mdlSub(a[ini])) ini--; a.splice(idx,bloco.length); Array.prototype.splice.apply(a,[ini,0].concat(bloco)); }
+        else { if(fim>=a.length) return; var fim2=fim+1; while(fim2<a.length&&mdlSub(a[fim2])) fim2++; a.splice(idx,bloco.length); Array.prototype.splice.apply(a,[idx+(fim2-fim),0].concat(bloco)); }
+      }
+      renderModelos(); if(typeof keepOpen==='function') keepOpen(nome);
+    }
+    // Muda a ordem no check-list de uma etapa do projeto (mesma regra) e grava.
+    function moverChk(li, dir, et){
+      var ul=li.parentNode; if(!ul) return;
+      if(li.classList.contains('sub')){
+        var alvo=dir<0?li.previousElementSibling:li.nextElementSibling; if(!alvo||!alvo.classList.contains('sub')) return;
+        if(dir<0) ul.insertBefore(li,alvo); else ul.insertBefore(alvo,li);
+      } else {
+        var bloco=[li], n=li.nextElementSibling; while(n&&n.classList.contains('sub')){ bloco.push(n); n=n.nextElementSibling; }
+        if(dir<0){ var p=li.previousElementSibling; if(!p) return; while(p.classList.contains('sub')&&p.previousElementSibling) p=p.previousElementSibling; bloco.forEach(function(x){ ul.insertBefore(x,p); }); }
+        else { if(!n) return; var depois=n.nextElementSibling; while(depois&&depois.classList.contains('sub')) depois=depois.nextElementSibling; bloco.forEach(function(x){ ul.insertBefore(x,depois); }); }
+      }
+      marcarGrupos(ul); recomputeEtapa(et); ul.dispatchEvent(new Event('change',{bubbles:true})); // grava no banco
+    }
     // Liga/desliga "não se aplica" num item. Num item com subitens, os subitens acompanham.
     function toggleNA(li, et){
       var ul=li.parentNode; if(!ul) return; var on=!li.classList.contains('na');
@@ -1642,7 +1684,10 @@
       // "N/A" = não se aplica a este projeto: o item fica na lista, mas não conta no andamento
       var na=document.createElement('button'); na.type='button'; na.className='chk-na'; na.textContent='N/A'; na.title='Não se aplica a este projeto (não conta no andamento)'; na.setAttribute('aria-label','Não se aplica');
       na.addEventListener('click',function(){ toggleNA(li,et); });
-      li.appendChild(na); li.appendChild(rm); }
+      // setas de ordem (só em modo editar)
+      var mkCm=function(dir){ var mb=document.createElement('button'); mb.type='button'; mb.className='chk-mv pj-edit-only'; mb.title=dir<0?'Mover para cima':'Mover para baixo'; mb.setAttribute('aria-label',mb.title);
+        mb.innerHTML=dir<0?'<svg viewBox="0 0 24 24"><path d="M6 14l6-6 6 6"/></svg>':'<svg viewBox="0 0 24 24"><path d="M6 10l6 6 6-6"/></svg>'; mb.addEventListener('click',function(){ moverChk(li,dir,et); }); return mb; };
+      li.appendChild(mkCm(-1)); li.appendChild(mkCm(1)); li.appendChild(na); li.appendChild(rm); }
     function applyModelo(et){ var nm=et.querySelector('.etapa-name').textContent.trim(); var tpl=ETAPA_MODELOS[nm]; var note=scopeOf(et).querySelector('[data-mdl-note]'); if(!tpl){ if(note) note.textContent='Sem modelo cadastrado para "'+nm+'".'; return; } var ul=checkOf(et); ul.innerHTML=''; tpl.forEach(function(t){ var li=document.createElement('li'); li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; if(mdlSub(t)) li.className='sub'; li.querySelector('span').textContent=mdlTxt(t); addItemRemove(li,et); ul.appendChild(li); }); marcarGrupos(ul); ul.dispatchEvent(new Event('change',{bubbles:true})); if(note) note.textContent='Modelo aplicado ('+tpl.length+' itens).'; recomputeEtapa(et); kanbanSync(); }
     function paintPause(btn,et){ btn.innerHTML=(et.dataset.paused==='1')?'<svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>retomar etapa':'<svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg>pausar etapa'; }
     function ensureCheckEditor(et){
@@ -1950,7 +1995,10 @@
           var tg=document.createElement('button'); tg.type='button'; tg.className='pbtn'; tg.title=mdlSub(item)?'Tornar item principal':'Tornar subitem do item acima';
           tg.innerHTML=mdlSub(item)?'<svg viewBox="0 0 24 24"><path d="M19 12H7"/><path d="M11 8l-4 4 4 4"/><path d="M4 5v14"/></svg>item':'<svg viewBox="0 0 24 24"><path d="M5 12h12"/><path d="M13 8l4 4-4 4"/><path d="M20 5v14"/></svg>sub';
           tg.addEventListener('click',function(){ var cur=ETAPA_MODELOS[nome][idx]; ETAPA_MODELOS[nome][idx]=mdlSub(cur)?mdlTxt(cur):('\t'+cur); renderModelos(); keepOpen(nome); });
-          row.appendChild(inp); row.appendChild(tg); row.appendChild(rm); inner.appendChild(row);
+          // setas para mudar a ordem (item leva os subitens junto; subitem anda dentro do próprio item)
+          var mkMv=function(dir){ var mb=document.createElement('button'); mb.type='button'; mb.className='mdl-mv'; mb.title=dir<0?'Mover para cima':'Mover para baixo'; mb.setAttribute('aria-label',mb.title);
+            mb.innerHTML=dir<0?'<svg viewBox="0 0 24 24"><path d="M6 14l6-6 6 6"/></svg>':'<svg viewBox="0 0 24 24"><path d="M6 10l6 6 6-6"/></svg>'; mb.addEventListener('click',function(){ mdlMover(nome,idx,dir); }); return mb; };
+          row.appendChild(inp); row.appendChild(mkMv(-1)); row.appendChild(mkMv(1)); row.appendChild(tg); row.appendChild(rm); inner.appendChild(row);
         });
         var addRow=document.createElement('div'); addRow.className='mdl-add';
         var ai=document.createElement('input'); ai.type='text'; ai.placeholder='Novo item padrão…';
@@ -1989,6 +2037,47 @@
       if(npDocselBox){ npDocselBox.innerHTML=DOC_MODELO.map(function(n){ return '<label class="np-check"><input type="checkbox" value="'+esc(n)+'"><span>'+n+'</span></label>'; }).join(''); }
     }
     renderModelos(); renderModeloDocs(); renderNovoOpts();
+    /* ---- modelos GRAVADOS no banco (tabela "modelos"): o que for editado na aba Modelo vale para
+            administrador e colaboradores e continua depois de recarregar a página.
+            As listas escritas no código acima são só o ponto de partida, enquanto nada foi gravado. ---- */
+    var MODELOS_PRONTO=false, mdlSaveT=null, MDL_OK='Modelo salvo. ✓';
+    function mdlNota(txt){ var n=document.getElementById('mdl-save-note'); if(n) n.textContent=txt||''; }
+    function modelosParaBanco(){ return Object.keys(ETAPA_MODELOS).map(function(nome){ return { nome:nome, itens:(ETAPA_MODELOS[nome]||[]).map(function(x){ return mdlSub(x)?{t:mdlTxt(x),sub:true}:{t:String(x)}; }) }; }); }
+    async function salvarModelos(){
+      try{
+        var agora=new Date().toISOString();
+        var r=await sb.from('modelos').upsert([{ chave:'etapas', dados:modelosParaBanco(), atualizado_em:agora },{ chave:'documentos', dados:DOC_MODELO.slice(), atualizado_em:agora }],{ onConflict:'chave' });
+        if(r&&r.error){ mdlNota('As alterações do modelo NÃO estão sendo salvas: rode uma vez o arquivo sql-modelos.sql no Supabase. Detalhe: '+r.error.message); return; }
+        mdlNota(MDL_OK); setTimeout(function(){ var n=document.getElementById('mdl-save-note'); if(n&&n.textContent===MDL_OK) n.textContent=''; },2500);
+      }catch(e){ mdlNota('Erro ao salvar o modelo: '+(e&&e.message||e)); }
+    }
+    function agendarSalvarModelos(){ if(!MODELOS_PRONTO) return; clearTimeout(mdlSaveT); mdlNota('Salvando…'); mdlSaveT=setTimeout(salvarModelos,700); }
+    // toda alteração que redesenha as listas (criar, excluir, adicionar, remover, item/subitem) agenda a gravação
+    (function(){ var rM=renderModelos, rD=renderModeloDocs;
+      renderModelos=function(){ rM.apply(this,arguments); agendarSalvarModelos(); };
+      renderModeloDocs=function(){ rD.apply(this,arguments); agendarSalvarModelos(); };
+      // digitar num item já existente também grava
+      var vm=document.getElementById('view-modelos'); if(vm) vm.addEventListener('input',function(e){ if(e.target&&e.target.closest&&e.target.closest('.mdl-item')) agendarSalvarModelos(); });
+    })();
+    async function carregarModelos(){
+      try{
+        var r=await sb.from('modelos').select('chave,dados');
+        if(r&&!r.error){
+          var mudou=false;
+          (r.data||[]).forEach(function(row){
+            if(row.chave==='etapas' && Array.isArray(row.dados)){
+              Object.keys(ETAPA_MODELOS).forEach(function(k){ delete ETAPA_MODELOS[k]; });
+              row.dados.forEach(function(m){ if(m&&m.nome) ETAPA_MODELOS[m.nome]=(m.itens||[]).map(function(i){ return ((i&&i.sub)?'\t':'')+String((i&&i.t)||''); }); });
+              mudou=true;
+            }
+            if(row.chave==='documentos' && Array.isArray(row.dados)){ DOC_MODELO.length=0; row.dados.forEach(function(d){ DOC_MODELO.push(String(d)); }); mudou=true; }
+          });
+          if(mudou){ renderModelos(); renderModeloDocs(); renderNovoOpts(); if(typeof fillAdModelo==='function') fillAdModelo(); }
+        }
+      }catch(e){}
+      MODELOS_PRONTO=true; // só a partir daqui as alterações passam a ser gravadas
+    }
+    carregarModelos();
 
     /* adicionar etapa (do modelo ou nova) com termo + reordenar; adicionar documento */
     var aeModelo=document.getElementById('ae-modelo'), aeNomeWrap=document.getElementById('ae-nome-wrap');
@@ -2092,7 +2181,7 @@
       await ensureMeuId(); var out=[]; var hoje=new Date(); hoje.setHours(0,0,0,0); var ht=hoje.getTime();
       try{ var re=await sb.from('etapas').select('id,nome,status,prazo_fim,responsavel_id,projetos(nome)'); (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)!==String(MEU_ID)) return; if(e.status==='concluida') return; var obra=e.projetos?(' · '+e.projetos.nome):''; out.push({id:'et-resp-'+e.id, texto:'Você é responsável pela etapa "'+e.nome+'"'+obra, when:'', ico:'📌'}); if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f<ht) out.push({id:'et-atr-'+e.id, texto:'Sua etapa "'+e.nome+'" está atrasada'+obra, when:e.prazo_fim, ico:'⏰'}); else if(f===ht) out.push({id:'et-hoje-'+e.id, texto:'A etapa "'+e.nome+'" vence hoje'+obra, when:e.prazo_fim, ico:'📅'}); } }); }catch(e){}
       try{ var rt=await sb.from('tarefas').select('id,title,col,chk,kanban,data_fim,responsavel_id'); (rt&&rt.data?rt.data:[]).forEach(function(t){ if(String(t.responsavel_id)!==String(MEU_ID)) return; var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); if(concl) return; out.push({id:'tk-resp-'+t.id, texto:'Você tem a tarefa "'+t.title+'"', when:'', ico:'📌'}); if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f<ht) out.push({id:'tk-atr-'+t.id, texto:'Sua tarefa "'+t.title+'" está atrasada', when:t.data_fim, ico:'⏰'}); else if(f===ht) out.push({id:'tk-hoje-'+t.id, texto:'A tarefa "'+t.title+'" vence hoje', when:t.data_fim, ico:'📅'}); } }); }catch(e){}
-      out.sort(function(a,b){ return new Date(b.when||0)-new Date(a.when||0); }); return out;
+      /* so desta semana (zera toda segunda-feira, 0h) e no maximo 6, as mais recentes; o que continua atrasado segue aparecendo */ var seg=new Date(); seg.setHours(0,0,0,0); seg.setDate(seg.getDate()-((seg.getDay()+6)%7)); var segT=seg.getTime(); out=out.filter(function(n){ if(!n.when) return true; if(/-atr-/.test(n.id)) return true; var t=new Date(/^\d{4}-\d{2}-\d{2}$/.test(n.when)?(n.when+'T00:00:00'):n.when).getTime(); return isNaN(t)||t>=segT; }); out.sort(function(a,b){ return new Date(b.when||0)-new Date(a.when||0); }); return out.slice(0,6);
     }
     function renderNotifPanel(){ var ul=document.getElementById('notif-list'); if(!ul) return; ul.innerHTML = NOTIFS.length ? NOTIFS.map(function(n){ return '<li class="notif-row"><span class="nt-ico">'+n.ico+'</span><span>'+ce(n.texto)+'</span><span class="nt-when">'+(n.when?ageTxt(diasDe(n.when)):'')+'</span></li>'; }).join('') : '<li class="notif-row"><span style="color:var(--ink-3)">Sem notificações no momento.</span></li>'; }
     async function refreshNotifs(){ NOTIFS=await computeNotifs(); var seen=notifSeen(); var unread=NOTIFS.filter(function(n){ return seen.indexOf(n.id)<0; }).length; var badge=document.getElementById('notif-badge'); if(badge){ if(unread>0){ badge.textContent=unread>9?'9+':unread; badge.hidden=false; } else badge.hidden=true; } }
