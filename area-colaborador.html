@@ -106,7 +106,7 @@
   .menu-item:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
 
   /* páginas internas */
-  .view.anim:not(#view-home){animation:fade .42s cubic-bezier(.22,.61,.36,1) both}
+  .view.anim:not(#view-home){animation:fade .42s cubic-bezier(.22,.61,.36,1) backwards}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .back{background:none;border:none;font-family:var(--sans);font-size:13px;color:var(--ink-2);cursor:pointer;padding:8px 0;margin-top:clamp(24px,4vw,40px);transition:color .2s}
   .back::before{content:"‹ ";font-size:16px}
@@ -440,7 +440,7 @@
   .es-card .doc-msg:empty{display:none}
   .es-card .etapa-doc>label{display:none!important}
   @media(max-width:820px){#etapa-screen-body .etapa-pad{grid-template-columns:1fr;grid-template-areas:"dados" "check" "doc" "acoes"}}
-  #etapa-screen.anim{animation:fade .42s cubic-bezier(.22,.61,.36,1) both}
+  #etapa-screen.anim{animation:fade .42s cubic-bezier(.22,.61,.36,1) backwards}
   @media (prefers-reduced-motion:reduce){#etapa-screen.anim{animation:none}}
 
   /* barra de abas + tela inicial + tema (mesmo do adm) */
@@ -474,6 +474,19 @@
   @media(max-width:820px){.home-grid{grid-template-columns:1fr}}
   .home-grid-b{grid-template-columns:1.4fr 1fr;margin-top:clamp(20px,3vw,28px)!important}
   @media(max-width:820px){.home-grid-b{grid-template-columns:1fr}}
+  /* início: 4 cartões numa grade só — esquerda: agenda + registro; direita: avisos (ocupa o espaço) + cores (faixa baixa) */
+  .home-quad{grid-template-columns:1.4fr 1fr;grid-template-rows:auto 1fr auto;grid-template-areas:"agenda avisos" "registro avisos" "registro cores";align-items:stretch}
+  .hq-agenda{grid-area:agenda}
+  .hq-registro{grid-area:registro}
+  .hq-avisos{grid-area:avisos;display:flex;flex-direction:column;min-height:0}
+  .hq-avisos .avisos{max-height:320px;overflow-y:auto;overflow-x:hidden;padding-right:4px}
+  .hq-avisos .avisos .aviso{margin-inline:0;padding-inline:4px}
+  .hq-avisos .aviso-add{margin-top:auto;padding-top:14px}
+  .hq-cores{grid-area:cores;padding-top:16px;padding-bottom:16px}
+  .hq-cores h3{margin:0 0 12px}
+  .hq-cores .themes{gap:9px}
+  .hq-cores .theme-dot{width:27px;height:27px}
+  @media(max-width:820px){.home-quad{grid-template-columns:1fr;grid-template-rows:none;grid-template-areas:"agenda" "avisos" "registro" "cores"}}
   .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(10px,2vw,18px)}
   @media(max-width:820px){.stat-cards{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:460px){.stat-cards{grid-template-columns:1fr}}
@@ -491,7 +504,8 @@
   .stat-num{font-family:var(--display);font-weight:500;font-size:clamp(22px,2.4vw,28px);color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
   .stat-link{font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:5px;margin-top:auto;padding-top:4px}
   .stat-card:hover .stat-link{color:var(--ink)}
-  .recent-list{list-style:none;margin:8px 0 0;padding:0}
+  .recent-list{list-style:none;margin:8px 0 0;padding:0 6px 0 0;max-height:330px;overflow-y:auto;overflow-x:hidden}
+  .recent-list .recent-row{margin-inline:0;padding-inline:4px}
   .recent-row{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--hair-soft);font-size:13.5px;color:var(--ink)}
   .recent-row:last-child{border-bottom:none}
   .recent-row .rc-ico{flex:none;color:var(--ink-3);margin-top:1px}
@@ -611,6 +625,13 @@
   .check li.sub{margin-left:21px;padding-left:16px!important;border-left:2px solid var(--hair-soft)}
   .check li.sub .lbl span,.check li.sub label span{font-size:13.5px;color:var(--ink-2)}
   .check li.oculto{display:none!important}
+  /* "não se aplica": o item continua na lista, apagado, e não conta no andamento */
+  .chk-na{flex:none;font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.06em;line-height:1;color:var(--ink-3);background:none;border:1px solid var(--hair);border-radius:6px;padding:4px 6px;cursor:pointer;transition:color .15s,background .15s,border-color .15s}
+  .chk-na:hover{color:var(--ink);border-color:var(--ink-3)}
+  .check li.na > .chk-na{color:#fff;background:var(--gray);border-color:var(--gray)}
+  .check li.na > .lbl span,.check li.na > label span{color:var(--ink-3)!important;font-style:italic;text-decoration:none!important;font-weight:400!important}
+  .check li.na > .lbl span::after,.check li.na > label span::after{content:" — não se aplica";font-size:11.5px}
+  .check li.na input[type=checkbox]{opacity:.3}
   .grp-n{flex:none;font-size:11px;font-weight:600;color:var(--ink-2);background:var(--panel);border:1px solid var(--hair-soft);border-radius:50px;padding:2px 9px;font-variant-numeric:tabular-nums}
   .grp-n.ok{color:var(--green);border-color:rgba(94,125,87,.4)}
   .grp-tg{flex:none;width:26px;height:26px;border:none;background:none;cursor:pointer;position:relative;border-radius:6px;padding:0}
@@ -628,6 +649,41 @@
   .mdl-item.sub{padding-left:28px}
   .mdl-item .pbtn{flex:none;padding:5px 9px}
   .chk-add .pill{white-space:nowrap}
+
+  /* ===== clientes e arquivos (mesmas telas do administrador) ===== */
+  .page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .adm-panel{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:clamp(20px,3vw,28px);margin-bottom:clamp(20px,3vw,30px);max-width:720px}
+  .adm-row{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:15px 0;border-bottom:1px solid var(--hair-soft)}
+  .adm-row:last-child{border-bottom:none}
+  .adm-k{font-size:14.5px;color:var(--ink)}
+  .adm-k small{display:block;font-size:12px;color:var(--ink-3);margin-top:3px}
+  .adm-note{font-size:12.5px;color:var(--ink-2);line-height:1.55;margin:14px 0 0}
+  .dob{display:grid;grid-template-columns:1fr 2fr 1fr;gap:12px}
+  .cli-tools{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}
+  .cli-sort{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .cli-sort .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-right:4px}
+  .cli-search{flex:1;min-width:200px;max-width:320px;font-family:var(--sans);font-weight:300;font-size:15px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:9px 2px}
+  .cli-search::placeholder{color:var(--ink-3)}
+  .cli-search:focus{outline:none;border-bottom-color:var(--ink)}
+  .cli-list{margin-top:4px}
+  .list-head.cli-head{display:grid;gap:20px;padding:0 19px 12px 22px;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .list-head.cli-head span:last-child{text-align:right}
+  .cli{display:grid;gap:20px;align-items:center;width:100%;text-align:left;background:var(--panel);border:1px solid var(--hair-soft);border-left:3px solid var(--gray);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;cursor:pointer;font-family:inherit;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .12s,border-color .2s}
+  .cli-head,.cli{grid-template-columns:1.5fr 1.2fr 190px}
+  .cli[data-membro="1"]{border-left-color:var(--green)}
+  .cli[data-membro="0"]{border-left-color:var(--amber)}
+  .cli:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .cli-name{font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink)}
+  .cli-sub{font-size:12.5px;color:var(--ink-2);margin-top:3px}
+  .cli-obras{font-size:12.5px;color:var(--ink-2)}
+  .cli-end{display:flex;align-items:center;gap:16px;justify-content:flex-end}
+  .cli-chev{width:9px;height:9px;flex:none;border:solid var(--ink-3);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);transition:transform .2s,border-color .2s}
+  .cli:hover .cli-chev{border-color:var(--ink);transform:rotate(-45deg) translate(1px,1px)}
+  .link-box{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
+  .link-url{font-family:var(--sans);font-size:13.5px;color:var(--ink);background:var(--panel-2);border:1px solid var(--hair);border-radius:8px;padding:11px 14px;flex:1;min-width:240px;overflow:auto;white-space:nowrap}
+  #view-cliente input:disabled,#view-cliente select:disabled{color:var(--ink);opacity:1;-webkit-text-fill-color:var(--ink);cursor:default}
+  #cli-senha:disabled{opacity:.4}
+  @media(max-width:860px){.cli-head{display:none}.cli{grid-template-columns:1fr}.cli-end{justify-content:flex-start}}
 </style>
 
 <header class="top" hidden><span class="top-sec" id="top-sec">área do colaborador</span><span class="who">Isys Mattos</span></header>
@@ -639,8 +695,10 @@
     <a class="tab" href="#tarefas" data-view="tarefas" title="Minhas tarefas" aria-label="Minhas tarefas"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8.5 12l2.2 2.2L15.6 9.4"/></svg></a>
     <a class="tab" href="#proj" data-view="proj" title="Projetos" aria-label="Projetos"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a>
     <a class="tab" href="#agenda" data-view="agenda" title="Agenda" aria-label="Agenda"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></a>
+    <a class="tab" href="#clientes" data-view="clientes" title="Clientes" aria-label="Clientes"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6.6a3 3 0 0 1 0 5.8"/><path d="M20.5 19a5.5 5.5 0 0 0-3.6-5.2"/></svg></a>
     <a class="tab" href="#novo" data-view="novo" title="Novo projeto" aria-label="Novo projeto"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></a>
     <a class="tab" href="#modelos" data-view="modelos" title="Modelo" aria-label="Modelo"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg></a>
+    <a class="tab" href="#arquivos" data-view="arquivos" title="Arquivos" aria-label="Arquivos"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11h14V8"/><path d="M10 12h4"/></svg></a>
   </div>
   <button class="side-bell" id="notif-bell" title="Notificações" aria-label="Notificações" style="margin-top:auto"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="notif-badge" id="notif-badge" hidden></span></button>
   <a class="side-exit" href="#" id="exit" title="Sair" aria-label="Sair" style="margin-top:0"><svg viewBox="0 0 24 24"><path d="M15 12H4"/><path d="M8 8l-4 4 4 4"/><path d="M12 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg></a>
@@ -666,26 +724,24 @@
       <a class="stat-card" href="#agenda"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><span class="stat-lbl">prazos próximos</span><span class="stat-num" id="st-prazos">—</span><span class="stat-link">Ver prazos →</span></a>
     </div>
 
-    <div class="home-grid">
-      <section class="card">
+    <!-- grade única: agenda e registro à esquerda; avisos (maior) e cores (menor) à direita, com as bordas alinhadas -->
+    <div class="home-grid home-quad">
+      <section class="card hq-agenda">
         <h3>sua agenda de hoje</h3>
         <ul class="today-list" id="today-list"></ul>
       </section>
-      <section class="card">
+      <section class="card hq-avisos">
         <h3>avisos</h3>
         <ul class="avisos" id="avisos"></ul>
         <div class="aviso-add"><input id="aviso-input" type="text" placeholder="Novo aviso para a equipe…"><button class="pill ghost sm" type="button" id="aviso-add-btn"><svg viewBox="0 0 24 24"><path d="M4 12l16-7-7 16-2-7z"/></svg>publicar</button></div>
       </section>
-    </div>
-
-    <div class="home-grid home-grid-b" style="margin-top:clamp(20px,3vw,28px)">
-      <section class="card">
-        <h3>registro de atividade</h3>
+      <section class="card hq-registro">
+        <h3>registro de atividade <span style="color:var(--ink-3);font-weight:400;letter-spacing:0;text-transform:none">· esta semana</span></h3>
         <ul class="recent-list" id="recent-list"></ul>
       </section>
-      <section class="card" id="theme-card">
+      <section class="card hq-cores" id="theme-card">
         <h3>cores do ambiente</h3>
-        <div class="themes" id="themes" style="margin-top:14px"></div>
+        <div class="themes" id="themes"></div>
       </section>
     </div>
   </section>
@@ -877,6 +933,119 @@
     </div>
   </section>
 
+  <!-- CLIENTES (mesma tela do administrador) -->
+  <section class="view" id="view-clientes" hidden>
+    <button class="back" type="button" data-home>Voltar</button>
+    <div class="page-head">
+      <h2 class="page-title">Clientes</h2>
+      <button class="pill solid sm" type="button" id="novo-cliente" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo cliente</button>
+    </div>
+
+    <div class="adm-panel" style="max-width:none">
+      <div class="adm-row" style="padding-top:0">
+        <div class="adm-k">Link de cadastro de novos clientes <small>compartilhe este link — quando o cliente preencher, ele entra na lista abaixo</small></div>
+        <div style="display:flex;gap:10px">
+          <button class="pill solid sm" type="button" id="gen-link"><svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5l1.6-1.6a4 4 0 0 1 5.7 5.7L16 12"/><path d="M13.5 17.5l-1.6 1.6a4 4 0 0 1-5.7-5.7L8 12"/></svg>gerar link</button>
+        </div>
+      </div>
+      <div class="link-box" id="link-box" hidden>
+        <span class="link-url" id="link-url"></span>
+        <button class="pill ghost sm" type="button" id="link-copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>copiar</button>
+      </div>
+      <p class="note" id="link-note" style="margin-top:10px"></p>
+    </div>
+
+    <div class="cli-tools">
+      <div class="cli-sort">
+        <span class="lbl">ordenar</span>
+        <button class="sortbtn" type="button" data-sort="cad" aria-selected="true">Cadastro</button>
+        <button class="sortbtn" type="button" data-sort="az" aria-selected="false">A–Z</button>
+      </div>
+      <input class="cli-search" id="cli-search" type="search" placeholder="Buscar cliente…" aria-label="Buscar cliente">
+    </div>
+
+    <div class="list-head cli-head" aria-hidden="true"><span>cliente / e-mail</span><span>obras</span><span>situação</span></div>
+    <div class="cli-list" id="cli-list"></div>
+    <p class="note" id="cli-empty" hidden style="padding:16px 6px">Nenhum cliente encontrado.</p>
+  </section>
+
+  <!-- DETALHE DO CLIENTE -->
+  <section class="view" id="view-cliente" hidden>
+    <button class="back" type="button" id="cli-back">Voltar aos clientes</button>
+    <h2 class="page-title" id="cli-name">Cliente</h2>
+    <p class="proj-note" id="cli-meta"></p>
+
+    <p class="sec-label">dados do cliente</p>
+    <div class="adm-panel">
+      <div class="form-grid">
+        <div class="field full"><label>Nome completo / Empresa</label><input id="d-nome" type="text"></div>
+        <div class="field full"><label>Data de nascimento</label>
+          <div class="dob">
+            <input id="d-dia" type="text" inputmode="numeric" maxlength="2" aria-label="Dia" placeholder="Dia">
+            <select id="d-mes" aria-label="Mês"><option value="">Mês</option><option>Janeiro</option><option>Fevereiro</option><option>Março</option><option>Abril</option><option>Maio</option><option>Junho</option><option>Julho</option><option>Agosto</option><option>Setembro</option><option>Outubro</option><option>Novembro</option><option>Dezembro</option></select>
+            <input id="d-ano" type="text" inputmode="numeric" maxlength="4" aria-label="Ano" placeholder="Ano">
+          </div>
+        </div>
+        <div class="field"><label>CPF / CNPJ</label><input id="d-doc" type="text"></div>
+        <div class="field"><label>RG</label><input id="d-rg" type="text"></div>
+        <div class="field"><label>Nacionalidade</label><input id="d-nac" type="text"></div>
+        <div class="field"><label>Profissão</label><input id="d-prof" type="text"></div>
+        <div class="field"><label>Estado civil</label><select id="d-ec"><option value="">Selecione…</option><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>União estável</option></select></div>
+        <div class="field"><label>Telefone</label><input id="d-fone" type="text"></div>
+        <div class="field full"><label>E-mail</label><input id="d-email" type="email"></div>
+        <div class="field"><label>País / região</label><select id="d-pais"><option>Brasil</option><option>Portugal</option><option>Argentina</option><option>Estados Unidos</option><option>Outro</option></select></div>
+        <div class="field"><label>Cidade</label><input id="d-cidade" type="text"></div>
+        <div class="field full"><label>Endereço</label><input id="d-end" type="text"></div>
+        <div class="field"><label>Código postal (CEP)</label><input id="d-cep" type="text"></div>
+      </div>
+      <p class="adm-note">Para alterar os dados, clique em <b>editar cadastro</b> no fim da página. Os valores de cada obra ficam no <b>projeto</b> (o cliente pode ter vários) e só o administrador os vê.</p>
+    </div>
+
+    <section class="card acc-card" id="cli-projs-card" style="max-width:720px;margin:0 0 clamp(20px,3vw,30px)">
+      <button class="acc-card-head" type="button" aria-expanded="false"><h3>projetos deste cliente <span id="cli-projs-count" style="color:var(--ink-3);font-weight:400;letter-spacing:0;text-transform:none">· 0</span></h3><span class="acc-card-chev" aria-hidden="true"></span></button>
+      <div class="acc-card-body"><div class="acc-card-inner">
+        <div id="cli-projs-list"></div>
+        <p class="note" id="cli-projs-empty">Nenhum projeto vinculado a este cliente.</p>
+      </div></div>
+    </section>
+
+    <p class="sec-label">acesso</p>
+    <div class="adm-panel">
+      <div class="adm-row" style="padding-top:0">
+        <div class="adm-k">Membro da área do cliente <small id="membro-sub"></small></div>
+        <button class="pill ghost sm" type="button" id="membro-toggle"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a6 6 0 0 1 11 0"/><path d="M18 9v6M15 12h6"/></svg>incluir como membro</button>
+      </div>
+      <div class="adm-row">
+        <div class="adm-k">Senha de acesso <small>defina uma senha para o cliente entrar (mín. 6)</small></div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <input id="cli-senha" type="text" placeholder="senha do cliente" autocomplete="off" style="border:none;border-bottom:1px solid var(--hair);padding:6px 2px;font-family:var(--sans);font-weight:300;font-size:14px;width:160px;color:var(--ink);background:transparent">
+          <button class="pill solid sm" type="button" id="senha-btn"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8"/><path d="M17 6l2 2"/></svg>definir acesso</button>
+        </div>
+      </div>
+      <div class="adm-row" style="border-bottom:none">
+        <div class="adm-k">Obras deste cliente <small id="cli-obras-sub"></small></div>
+        <a class="pill ghost sm" href="#proj"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>ver na central</a>
+      </div>
+      <p class="note" id="acesso-note" style="margin-top:10px"></p>
+    </div>
+
+    <div class="pj-actions">
+      <button class="pill solid sm" type="button" id="cli-editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 5l4 4"/></svg>editar cadastro</button>
+      <button class="pill solid sm" type="button" id="salvar-dados" hidden><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar dados</button>
+      <button class="pill ghost sm" type="button" id="excluir-cliente" style="color:var(--red);border-color:#e6c9c4"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir cliente</button>
+      <span class="note" id="dados-note"></span>
+    </div>
+  </section>
+
+  <!-- ARQUIVOS -->
+  <section class="view" id="view-arquivos" hidden>
+    <button class="back" type="button" data-home>Voltar</button>
+    <h2 class="page-title">Arquivos</h2>
+    <p class="proj-note">Projetos <b>arquivados</b> saem da central de projetos e da visão do cliente. Você pode restaurar a qualquer momento.</p>
+    <div id="arq-list"></div>
+    <p class="note" id="arq-empty" style="padding:16px 2px">Nenhum projeto arquivado ainda. Arquive um projeto pela central de projetos.</p>
+  </section>
+
   <!-- NOVO CLIENTE -->
   <section class="view" id="view-novo" hidden>
     <button class="back" type="button" data-home>Voltar</button>
@@ -997,9 +1166,9 @@
   })();
   (function(){
     /* roteador simples de páginas (via hash → o "voltar" do navegador funciona) */
-    var VIEWS={home:'view-home',inicio:'view-home',tarefas:'view-tarefas',proj:'view-proj',projeto:'view-projeto',agenda:'view-agenda',novo:'view-novo',modelos:'view-modelos'};
-    var TITLES={inicio:'início',tarefas:'minhas tarefas',proj:'central de projetos',projeto:'Residência Jurerê',agenda:'agenda',novo:'novo projeto',modelos:'modelo'};
-    var TABPARENT={home:'home',inicio:'home',tarefas:'tarefas',proj:'proj',projeto:'proj',agenda:'agenda',novo:'novo',modelos:'modelos'};
+    var VIEWS={home:'view-home',inicio:'view-home',tarefas:'view-tarefas',proj:'view-proj',projeto:'view-projeto',agenda:'view-agenda',novo:'view-novo',modelos:'view-modelos',clientes:'view-clientes',cliente:'view-cliente',arquivos:'view-arquivos'};
+    var TITLES={inicio:'início',tarefas:'minhas tarefas',proj:'central de projetos',projeto:'Residência Jurerê',agenda:'agenda',novo:'novo projeto',modelos:'modelo',clientes:'clientes',cliente:'cliente',arquivos:'arquivos'};
+    var TABPARENT={home:'home',inicio:'home',tarefas:'tarefas',proj:'proj',projeto:'proj',agenda:'agenda',novo:'novo',modelos:'modelos',clientes:'clientes',cliente:'clientes',arquivos:'arquivos'};
     var topSec=document.getElementById('top-sec');
     function show(name){
       if(name==='inicio') name='home';
@@ -1010,7 +1179,10 @@
       var par=TABPARENT[name]||'home'; document.querySelectorAll('#tabbar .tab').forEach(function(t){ t.setAttribute('aria-current', t.dataset.view===par?'true':'false'); });
       if(name==='agenda'){ if(typeof carregarAgenda==='function') carregarAgenda(); else if(typeof buildGantt==='function'){ var a=document.querySelector('.wk-btn[aria-selected="true"]'); buildGantt(a?a.dataset.week:'0'); } }
       if(name==='tarefas'){ if(typeof carregarEtapasKanban==='function') carregarEtapasKanban(); else if(typeof renderKanban==='function') renderKanban(); }
-      if(name==='proj' && typeof renderCentralColab==='function') renderCentralColab();
+      if((name==='proj'||name==='arquivos') && typeof renderCentralColab==='function') renderCentralColab();
+      if(name==='clientes' && typeof cliCarregar==='function') cliCarregar();
+      // ficha de cliente sem cliente escolhido (ex.: página recarregada): volta para a lista
+      if(name==='cliente' && typeof cliTemAberto==='function' && !cliTemAberto()){ location.hash='clientes'; return; }
       if(name==='projeto'){ if(!obraId){ try{ obraId=localStorage.getItem('im-obra-colab')||null; }catch(e){} } if(typeof fillObraColab==='function') fillObraColab(); }
       var tv=document.getElementById(VIEWS[name]); if(tv){ tv.classList.remove('anim'); void tv.offsetWidth; tv.classList.add('anim'); }
       window.scrollTo(0,0);
@@ -1230,15 +1402,17 @@
     function mdlTxt(s){ return (''+s).replace(/^\t/,''); }
     // Marca os itens que têm subitens como "grupo": contagem (feitos/total), seta para recolher e subitens ocultos quando fechado.
     function marcarGrupos(ul){ if(!ul) return; var lis=[].slice.call(ul.children); var longa=lis.length>25;
+      lis.forEach(function(li){ var c=li.querySelector('input[type=checkbox]'); if(c) c.disabled=li.classList.contains('na'); }); // "não se aplica" não pode ser marcado
       lis.forEach(function(li,i){
         var nx=lis[i+1]; var eh=!li.classList.contains('sub') && !!nx && nx.classList.contains('sub');
         li.classList.toggle('grp',eh);
         var n=li.querySelector(':scope > .grp-n'), tg=li.querySelector(':scope > .grp-tg');
         if(!eh){ if(n) n.remove(); if(tg) tg.remove(); li.classList.remove('fechado'); return; }
         var subs=[]; for(var j=i+1;j<lis.length&&lis[j].classList.contains('sub');j++) subs.push(lis[j]);
-        var feitos=subs.filter(function(s){ var c=s.querySelector('input[type=checkbox]'); return c&&c.checked; }).length;
+        var ap=subs.filter(function(s){ return !s.classList.contains('na'); });
+        var feitos=ap.filter(function(s){ var c=s.querySelector('input[type=checkbox]'); return c&&c.checked; }).length;
         if(!n){ n=document.createElement('span'); n.className='grp-n'; li.insertBefore(n, li.querySelector(':scope > .chk-rm')); }
-        n.textContent=feitos+'/'+subs.length; n.classList.toggle('ok',feitos===subs.length);
+        n.textContent=ap.length?(feitos+'/'+ap.length):'n/a'; n.classList.toggle('ok',ap.length>0&&feitos===ap.length);
         if(!tg){ tg=document.createElement('button'); tg.type='button'; tg.className='grp-tg'; tg.title='Mostrar ou ocultar os subitens'; tg.setAttribute('aria-label','Mostrar ou ocultar os subitens');
           tg.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); li.classList.toggle('fechado'); marcarGrupos(li.parentNode); });
           li.insertBefore(tg, n.nextSibling);
@@ -1250,14 +1424,29 @@
       lis.forEach(function(li,i){ if(li.classList.contains('sub')){ var p=i; while(p>=0&&lis[p].classList.contains('sub')) p--; if(p<0) li.classList.remove('oculto'); } else if(!li.classList.contains('grp')) li.classList.remove('oculto'); });
     }
     function abrirGrupoDe(li){ var p=li; while(p&&p.classList.contains('sub')) p=p.previousElementSibling; if(p) p.classList.remove('fechado'); }
+    // Liga/desliga "não se aplica" num item. Num item com subitens, os subitens acompanham.
+    function toggleNA(li, et){
+      var ul=li.parentNode; if(!ul) return; var on=!li.classList.contains('na');
+      var alvo=[li];
+      if(!li.classList.contains('sub')){ var nx=li.nextElementSibling; while(nx&&nx.classList.contains('sub')){ alvo.push(nx); nx=nx.nextElementSibling; } }
+      alvo.forEach(function(x){ x.classList.toggle('na',on); var c=x.querySelector('input[type=checkbox]'); if(c&&on) c.checked=false; });
+      if(li.classList.contains('sub')){ // o item "pai" volta a refletir só os subitens que se aplicam
+        var p=li.previousElementSibling; while(p&&p.classList.contains('sub')) p=p.previousElementSibling;
+        if(p&&!p.classList.contains('na')){ var subs=[], s=p.nextElementSibling; while(s&&s.classList.contains('sub')){ if(!s.classList.contains('na')) subs.push(s); s=s.nextElementSibling; }
+          var pc=p.querySelector('input[type=checkbox]'); if(pc) pc.checked=subs.length>0&&subs.every(function(q){ var c=q.querySelector('input[type=checkbox]'); return c&&c.checked; }); }
+      }
+      marcarGrupos(ul); recomputeEtapa(et); if(typeof kanbanSync==='function') kanbanSync();
+      ul.dispatchEvent(new Event('change',{bubbles:true})); // grava no banco
+    }
     function syncGrupo(ul,alvo){ if(!ul||!alvo||alvo.type!=='checkbox') return;
       var li=alvo.closest('li'); if(!li||li.parentNode!==ul) return;
       var lis=[].slice.call(ul.children), i=lis.indexOf(li), cb=function(x){ return x.querySelector('input[type=checkbox]'); };
       if(li.classList.contains('sub')){
         var p=i; while(p>=0&&lis[p].classList.contains('sub')) p--; if(p<0) return;
         var subs=[]; for(var j=p+1;j<lis.length&&lis[j].classList.contains('sub');j++) subs.push(lis[j]);
-        var pc=cb(lis[p]); if(pc) pc.checked=subs.every(function(s){ var c=cb(s); return c&&c.checked; });
-      } else { for(var k=i+1;k<lis.length&&lis[k].classList.contains('sub');k++){ var c2=cb(lis[k]); if(c2) c2.checked=alvo.checked; } }
+        var ap=subs.filter(function(s){ return !s.classList.contains('na'); });
+        var pc=cb(lis[p]); if(pc&&!lis[p].classList.contains('na')) pc.checked=ap.length>0&&ap.every(function(s){ var c=cb(s); return c&&c.checked; });
+      } else { for(var k=i+1;k<lis.length&&lis[k].classList.contains('sub');k++){ var c2=cb(lis[k]); if(c2&&!lis[k].classList.contains('na')) c2.checked=alvo.checked; } }
     }
     /* Projeto legal: check-list da prefeitura (por prancha), com itens e subitens */
     (function(){
@@ -1307,6 +1496,104 @@
       // itens que já existiam no modelo continuam ao final
       ETAPA_MODELOS['Hidrossanitário']=lista.concat(ETAPA_MODELOS['Hidrossanitário']||[]);
     })();
+    /* Pré-projeto: procedimentos iniciais (lista enviada pela Isys); os itens que já existiam continuam ao final */
+    ETAPA_MODELOS['Pré-projeto']=[
+      'Consulta ambiental',
+      'Viabilidade de construção',
+      'Solicitar matrícula, contrato de compra e venda',
+      'Formulário da Casan',
+      'Preenchimento da Declaração de Posse',
+      'Aviso da data de apresentação do EP',
+      'Solicitar o levantamento topográfico (se for o caso)',
+      'Solicitar o regimento interno do condomínio',
+      'Solicitar/coletar as informações sobre os eletrodomésticos e móveis que o cliente pretende usar',
+      'Solicitar/coletar as referências da estética pretendida pelo cliente',
+      'Fazer o briefing',
+      'Importar a memória de reunião inicial',
+      'Criar pasta do cliente no computador/servidor/nuvem',
+      'Estudar o briefing, informações e regimento interno do condomínio',
+      'Arquivar o contrato assinado',
+      'Solicitar o contrato assinado'
+    ]; // substitui os três itens antigos do modelo (a pedido)
+    /* Estudo de fachada: check-list enviado pela Isys (duas listas, na ordem das imagens); substitui os itens antigos */
+    ETAPA_MODELOS['Estudo de fachada']=[
+      'Pingadeiras de pedra nas platibandas',
+      'Pingadeiras de pedra nos muros',
+      'Textura de reboco na pintura',
+      'Vidro textura nas portas e janelas',
+      'Cortinas nas janelas e portas de vidro',
+      'Grama do enscape',
+      'HDR entardecer',
+      'Preset do enscape',
+      'Esfera de iluminação na cor laranja claro dentro dos cômodos',
+      'Renderização das imagens, sendo uma de cada posição',
+      'Bwc 02',
+      'Quarto 03',
+      'Bwc 03',
+      'Editar capa',
+      'Colocar uma imagem de cada ângulo',
+      'Verificar se a posição da imagem condiz com a descrição',
+      'Selecionar e inserir texturas',
+      'Selecionar e inserir referências',
+      'Inserir outros elementos',
+      'Inserir plantas',
+      'Inserir imagens 3D',
+      'Fazer moodboard, se necessário'
+    ];
+    /* Levantamento: check-list enviado pela Isys. Os itens "Categoria - medida" viraram item (categoria) + subitens; substitui os itens antigos */
+    (function(){
+      var g=[
+        ['Indicar norte',[]],
+        ['Área externa',['Dimensões do terreno','Altura e comprimentos dos muros','Locação de árvores importantes (se forem poucas)']],
+        ['Ambientes',['Geral e cada segmento de parede (seguir sentido horário a partir da porta)','Pilares aparentes (largura e profundidade)','Vigas (altura e profundidade)','Altura muretas / paredes mais baixas / batentes / guarda-corpos','Triangulação das medidas','Desníveis','Tamanho das peças grandes de revestimento do piso e parede','Escada (largura e altura degraus e patamares, e guarda-corpo)','Rampas (largura, altura, comprimento e guarda-corpo)','Pés-direitos (observar rebaixos)','Altura cumeeiras, calhas, tesouras e outros elementos']],
+        ['Esquadrias',['Largura e altura interna do vão e medida das folhas','Alizares','Sentido aberturas','Peitoril','Caixas de ar condicionado (altura, largura e peitoril)','Shafts (altura, largura e peitoril)']],
+        ['Cozinha, área de serviço e banheiros',['Balcões (largura, profundidade, altura e locação)','Cubas (largura e comprimento)','Eixos de registros','Eixos de ralos','Eixos de pontos de máquina de lavar','Eixos de peças sanitárias e chuveiros','Eixos de outros pontos (ducha, aquecedor...)']],
+        ['Instalações',['Identificação de pontos elétricos (interruptor ou tomada, com seções caso existam)','Eixos de pontos elétricos (horizontal e vertical)','Identificação das seções dos pontos de iluminação (caso existam)','Eixos de pontos de iluminação','Eixos dos pontos de gás','Eixos de pontos de antena (horizontal e vertical)','Eixos de pontos de telefone (horizontal e vertical)','Eixos de pontos de ar condicionado (horizontal e vertical)','Eixos de quadros de energia (horizontal e vertical)','Dimensões de quadros de energia']],
+        ['Dimensões dos móveis que serão mantidos',[]],
+        ['Dimensões dos eletrodomésticos que serão mantidos',[]],
+        ['Dimensões de outros itens importantes que serão mantidos',[]],
+        ['Fotos',['Geral do ambiente a partir de todos os cantos (seguir sentido horário a partir da porta)','Fazer vídeo mostrando entorno e passeando pelos ambientes internos (quando for o caso)','Piso','Teto (mostrando pontos de iluminação)','Pilares','Vigas','Tomadas escondidas','Detalhes e gerais da fachada','Entorno','Outros detalhes']]
+      ];
+      var lista=[]; g.forEach(function(x){ lista.push(x[0]); x[1].forEach(function(s){ lista.push('\t'+s); }); });
+      ETAPA_MODELOS['Levantamento']=lista;
+    })();
+    /* Estudo preliminar: check-list enviado pela Isys (quatro imagens, na ordem enviada); substitui os itens antigos */
+    ETAPA_MODELOS['Estudo preliminar']=[
+      'Inserir curvas de nível',
+      'Inserir e identificar limites e recuos do terreno',
+      'Se reforma, indicar elementos a construir (diferenciando o material das paredes, se alvenaria ou gesso)',
+      'Se reforma, indicar elementos a demolir',
+      'Indicar o sentido se for esquadria de correr',
+      'Representar agenciamento',
+      'Inserir e identificar muro e cerca viva e suas alturas',
+      'Inserir e identificar rebaixamento de meio-fio para acesso de veículos e PNE',
+      'Identificar logradouros, calçadas e terrenos confrontantes',
+      'Inserir e identificar depósito de lixo, central de gás e reservatórios inferior e superior com capacidade',
+      'Inserir vegetação',
+      'Esconder layout de mobiliário',
+      'Inserir piso tátil e direcional',
+      'Indicar e identificar acessos veículos e pedestres',
+      'Identificar bancos, jardineiras, etc.',
+      'Identificar meias paredes e suas alturas',
+      'Identificar vagas de estacionamento com numeração',
+      'Indicar inclinação de rampa e numeração dos degraus da escada',
+      'Indicar subida em escadas e rampas e de vazios com "X" e nome "vazio"',
+      'Indicar solo natural e sua área',
+      'Inserir nome e área dos ambientes',
+      'Indicar projeções com identificações de coberta, pavimentos, saques da volumetria, reservatórios, etc.',
+      'Indicar abertura nichos de produtos, com cota de esquadria e texto com seta',
+      'Indicar abertura acesso shafts, com cota de esquadrias e texto com seta',
+      'Indicar suportes de carga, caso haja paredes de drywall (suportes para móveis, bancadas, tvs, quadros, etc)',
+      'Indicar barrotes (com dimensões) em madeira no teto onde houver portas de correr ou elementos que precisem de sustentação pelo teto',
+      'Identificar elementos e materiais utilizados para esclarecer o desenho',
+      'Se reforma, indicar demolição de vergas',
+      'Se reforma, indicar nivelamento entre pisos (em caso de integração de varanda, subtração de área molhada, etc)',
+      'Se reforma, indicar se revestimento do piso será retirado ou se será "piso sobre piso"',
+      'Se reforma, indicar se haverá revestimento mantido nas áreas atrás dos armários (indicar ver detalhamento de ESP)',
+      'Se reforma, indicar descascamento de pilares, vigas e paredes, se houver',
+      'Se reforma, indicar com texto esquadrias retiradas/relocadas e novas',
+      'Se reforma, indicar com texto peças sanitárias retiradas/relocadas e novas'
+    ];
 
 
     /* ---------------- motor de etapas ---------------- */
@@ -1319,7 +1606,7 @@
     function checkOf(et){ return scopeOf(et).querySelector('.check'); }
     function recomputeEtapa(et){
       var scope=scopeOf(et);
-      var boxes=scope.querySelectorAll('.check input');
+      var boxes=scope.querySelectorAll('.check li:not(.na) input'); // itens "não se aplica" ficam fora da conta
       var total=boxes.length,done=0; [].forEach.call(boxes,function(b){if(b.checked)done++;});
       var allDone=(total>0&&done===total), started=done>0;
       var fim=scope.querySelector('.pz-fim');
@@ -1351,7 +1638,11 @@
       sel.addEventListener('change',function(){ if(sel.value){ list.push(sel.value); render(); } });
       render();
     }
-    function addItemRemove(li,et){ if(li.querySelector('.chk-rm')) return; var lbl=li.querySelector('label'); if(lbl) lbl.classList.add('lbl'); var rm=document.createElement('button'); rm.type='button'; rm.className='chk-rm pj-edit-only'; rm.textContent='×'; rm.addEventListener('click',function(){ var u=li.parentNode; li.remove(); marcarGrupos(u); recomputeEtapa(et); kanbanSync(); if(u) u.dispatchEvent(new Event('change',{bubbles:true})); }); li.appendChild(rm); }
+    function addItemRemove(li,et){ if(li.querySelector('.chk-rm')) return; var lbl=li.querySelector('label'); if(lbl) lbl.classList.add('lbl'); var rm=document.createElement('button'); rm.type='button'; rm.className='chk-rm pj-edit-only'; rm.textContent='×'; rm.addEventListener('click',function(){ var u=li.parentNode; li.remove(); marcarGrupos(u); recomputeEtapa(et); kanbanSync(); if(u) u.dispatchEvent(new Event('change',{bubbles:true})); });
+      // "N/A" = não se aplica a este projeto: o item fica na lista, mas não conta no andamento
+      var na=document.createElement('button'); na.type='button'; na.className='chk-na'; na.textContent='N/A'; na.title='Não se aplica a este projeto (não conta no andamento)'; na.setAttribute('aria-label','Não se aplica');
+      na.addEventListener('click',function(){ toggleNA(li,et); });
+      li.appendChild(na); li.appendChild(rm); }
     function applyModelo(et){ var nm=et.querySelector('.etapa-name').textContent.trim(); var tpl=ETAPA_MODELOS[nm]; var note=scopeOf(et).querySelector('[data-mdl-note]'); if(!tpl){ if(note) note.textContent='Sem modelo cadastrado para "'+nm+'".'; return; } var ul=checkOf(et); ul.innerHTML=''; tpl.forEach(function(t){ var li=document.createElement('li'); li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; if(mdlSub(t)) li.className='sub'; li.querySelector('span').textContent=mdlTxt(t); addItemRemove(li,et); ul.appendChild(li); }); marcarGrupos(ul); ul.dispatchEvent(new Event('change',{bubbles:true})); if(note) note.textContent='Modelo aplicado ('+tpl.length+' itens).'; recomputeEtapa(et); kanbanSync(); }
     function paintPause(btn,et){ btn.innerHTML=(et.dataset.paused==='1')?'<svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>retomar etapa':'<svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg>pausar etapa'; }
     function ensureCheckEditor(et){
@@ -1547,7 +1838,7 @@
     function etapaCards(){
       return (ETAPAS_KB||[]).filter(function(e){ return MEU_ID && String(e.responsavel_id)===String(MEU_ID); }).map(function(e){
         var cl=Array.isArray(e.checklist)?e.checklist:[];
-        var done=cl.filter(function(x){return x.feito;}).length, total=cl.length;
+        var clA=cl.filter(function(x){return !x.na;}); var done=clA.filter(function(x){return x.feito;}).length, total=clA.length;
         var col;
         if(e.kanban==='revisao'||e.kanban==='aprov'||e.kanban==='cliente'){ col=e.kanban; }
         else { col=(e.status==='concluida')?'concluido':((e.status==='andamento'||done>0)?'andamento':'afazer'); }
@@ -1740,7 +2031,11 @@
     if(adAdd) adAdd.addEventListener('click',async function(){
       var mv=adModelo.value, name = mv==='__new__' ? (adNome.value||'').trim() : mv;
       if(!name || name==='Contrato' || !obraId) return;
-      var ins=await sb.from('documentos').upsert({ projeto_id:obraId, tipo:name }, {onConflict:'projeto_id,tipo'});
+      // se o documento tinha sido excluído deste projeto, adicionar de novo só desfaz a exclusão
+      var ja=await sb.from('documentos').select('arquivo_nome').eq('projeto_id',obraId).eq('tipo',name).maybeSingle();
+      var ins=(ja&&ja.data&&ja.data.arquivo_nome===DOC_OCULTO)
+        ? await sb.from('documentos').update({ arquivo_nome:null, arquivo_path:null }).eq('projeto_id',obraId).eq('tipo',name)
+        : await sb.from('documentos').upsert({ projeto_id:obraId, tipo:name }, {onConflict:'projeto_id,tipo'});
       if(ins.error){ alert('Erro ao adicionar documento: '+ins.error.message); return; }
       if(adNome) adNome.value='';
       if(typeof renderDocsColab==='function') renderDocsColab();
@@ -1808,7 +2103,7 @@
     refreshNotifs(); setInterval(refreshNotifs, 120000);
     var MEU_NOME='';
     async function logAtividade(texto){ await ensureMeuId(); if(!MEU_ID) return; if(!MEU_NOME){ try{ var pf=await meuPerfil(); MEU_NOME=(pf&&pf.nome)||'Colaborador'; }catch(e){ MEU_NOME='Colaborador'; } } try{ sb.from('atividades').insert({texto:texto,autor_id:MEU_ID,autor_nome:MEU_NOME}).then(function(){ if(typeof renderRegistro==='function') renderRegistro(); }); }catch(e){} }
-    async function renderRegistro(){ var ul=document.getElementById('recent-list'); if(!ul) return; var itens=[]; try{ var r=await sb.from('atividades').select('texto,autor_nome,criado_em').order('criado_em',{ascending:false}).limit(12); itens=(r&&r.data?r.data:[]); }catch(e){} ul.innerHTML = itens.length ? itens.map(function(i){ return '<li class="recent-row"><span class="rc-ico">•</span><span>'+(i.autor_nome?'<b>'+ce(i.autor_nome)+'</b> ':'')+ce(i.texto)+'</span><span class="rc-when">'+ageTxt(diasDe(i.criado_em))+'</span></li>'; }).join('') : '<li class="recent-row"><span style="color:var(--ink-3)">Sem atividades registradas ainda.</span></li>'; }
+    async function renderRegistro(){ var ul=document.getElementById('recent-list'); if(!ul) return; var itens=[]; try{ var ini=new Date(); ini.setHours(0,0,0,0); ini.setDate(ini.getDate()-((ini.getDay()+6)%7)); /* segunda-feira, 0h: a lista zera a cada inicio de semana */ var r=await sb.from('atividades').select('texto,autor_nome,criado_em').gte('criado_em',ini.toISOString()).order('criado_em',{ascending:false}).limit(300); itens=(r&&r.data?r.data:[]); /* de toda a equipe, a mais recente em cima */ }catch(e){} ul.innerHTML = itens.length ? itens.map(function(i){ return '<li class="recent-row"><span class="rc-ico">•</span><span>'+(i.autor_nome?'<b>'+ce(i.autor_nome)+'</b> ':'')+ce(i.texto)+'</span><span class="rc-when">'+ageTxt(diasDe(i.criado_em))+'</span></li>'; }).join('') : '<li class="recent-row"><span style="color:var(--ink-3)">Sem atividades registradas nesta semana.</span></li>'; }
     async function renderStatsHomeColab(){ await ensureMeuId(); var hoje=new Date(); hoje.setHours(0,0,0,0); var ht=hoje.getTime(), lim7=ht+7*86400000; try{ var rp=await sb.from('projetos').select('status,arquivado'); var proj=(rp&&rp.data?rp.data:[]).filter(function(p){return !p.arquivado;}); var el=document.getElementById('st-projetos'); if(el) el.textContent=proj.filter(function(p){return (p.status||'andamento')==='andamento';}).length; }catch(e){} var pend=0,prazos=0; try{ var re=await sb.from('etapas').select('status,prazo_fim,responsavel_id'); (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)!==String(MEU_ID)) return; if(e.status!=='concluida') pend++; if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){} try{ var rt=await sb.from('tarefas').select('col,chk,kanban,data_fim'); (rt&&rt.data?rt.data:[]).forEach(function(t){ var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); if(!concl) pend++; if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){} var a=document.getElementById('st-tarefas'); if(a) a.textContent=pend; var b=document.getElementById('st-prazos'); if(b) b.textContent=prazos; }
     async function renderAgendaHoje(){
       var ul=document.getElementById('today-list'); if(!ul) return;
@@ -1862,9 +2157,13 @@
       if(res.error){ res=await sb.from('projetos').select('id,nome,status,arquivado,clientes(nome,cidade),etapas(nome,ordem,status)'); }
       if(res.error){ res=await sb.from('projetos').select('id,nome,status,clientes(nome,cidade),etapas(nome,ordem,status)'); }
       if(res.error){ projsEl.innerHTML='<p class="proj-cli" style="padding:14px 2px">Erro ao carregar projetos.</p>'; return; }
-      var rows=(res.data||[]).filter(function(p){ return !p.arquivado; });
-      projsEl.innerHTML='';
-      rows.forEach(function(p){
+      var todos=res.data||[];
+      var rows=todos.filter(function(p){ return !p.arquivado; });
+      var arqs=todos.filter(function(p){ return p.arquivado; });
+      var arqEl=document.getElementById('arq-list'), arqVazio=document.getElementById('arq-empty');
+      projsEl.innerHTML=''; if(arqEl) arqEl.innerHTML='';
+      todos.forEach(function(p){
+        var arquivado=!!p.arquivado; if(arquivado && !arqEl) return;
         var ets=(p.etapas||[]).slice().sort(function(a,b){return (a.ordem||0)-(b.ordem||0);});
         var total=ets.length, done=ets.filter(function(e){return e.status==='concluida';}).length;
         var pct=total?Math.round(done/total*100):0;
@@ -1883,13 +2182,204 @@
         card.innerHTML='<div class="proj-main"><div class="proj-thumb" aria-hidden="true">'+thumb+'</div><div class="proj-info"><div class="proj-obra">'+ce(p.nome)+'</div>'+loc+cliLine+'</div></div>'
           +'<div class="proj-stage"><div class="proj-etapa">etapa atual — <b>'+ce(etapaNome)+'</b></div><div class="pbar"><div class="pbar-fill" style="width:'+pct+'%"></div></div><div class="proj-tasks"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>'+tasks+'</div></div>'
           +'<div class="proj-prog"><div class="proj-pct">'+pct+'%</div><div class="proj-prog-lbl">do projeto</div></div>'
-          +'<div class="proj-actions"><div class="proj-status-badge"><span class="state '+stCls+'">'+stTxt+'</span></div><div class="proj-btns"><button class="pbtn" type="button" data-abrir="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>abrir</button></div></div>';
-        projsEl.appendChild(card);
+          +'<div class="proj-actions"><div class="proj-status-badge"><span class="state '+stCls+'">'+stTxt+'</span></div><div class="proj-btns">'
+            +(arquivado
+              ? '<button class="pbtn" type="button" data-restaurar="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>restaurar</button>'
+              : '<button class="pbtn" type="button" data-abrir="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>abrir</button>'
+                +'<button class="pbtn" type="button" data-arq="'+p.id+'"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11h14V8"/><path d="M10 12h4"/></svg>arquivar</button>')
+            +'</div></div>';
+        (arquivado?arqEl:projsEl).appendChild(card);
       });
+      if(arqVazio) arqVazio.hidden=arqs.length>0;
       if(!rows.length){ projsEl.innerHTML='<p class="proj-cli" style="padding:14px 2px">Nenhum projeto cadastrado ainda.</p>'; }
       applyFilter(currentFilter());
     }
-    (function(){ var projsEl=document.getElementById('projs'); if(projsEl) projsEl.addEventListener('click',function(e){ var b=e.target.closest('[data-abrir]'); if(!b) return; obraId=b.dataset.abrir; try{localStorage.setItem('im-obra-colab',obraId);}catch(e2){} location.hash='projeto'; }); })();
+    (function(){ var projsEl=document.getElementById('projs'); if(projsEl) projsEl.addEventListener('click',async function(e){
+        // arquivar: o projeto sai da central e vai para a aba Arquivos
+        var aq=e.target.closest('[data-arq]');
+        if(aq){ var up=await sb.from('projetos').update({arquivado:true}).eq('id',aq.dataset.arq);
+          if(up.error){ alert('Não foi possível arquivar: '+up.error.message); return; }
+          renderCentralColab(); return; }
+        var b=e.target.closest('[data-abrir]'); if(!b) return; obraId=b.dataset.abrir; try{localStorage.setItem('im-obra-colab',obraId);}catch(e2){} location.hash='projeto'; });
+      var arqEl=document.getElementById('arq-list'); if(arqEl) arqEl.addEventListener('click',async function(e){
+        var rb=e.target.closest('[data-restaurar]'); if(!rb) return;
+        var up=await sb.from('projetos').update({arquivado:false}).eq('id',rb.dataset.restaurar);
+        if(up.error){ alert('Não foi possível restaurar: '+up.error.message); return; }
+        renderCentralColab(); });
+    })();
+
+    /* ---------------- clientes (lista + ficha), igual à tela do administrador ---------------- */
+    var cliCarregar=null, cliTemAberto=function(){ return false; };
+    (function(){
+      var listEl=document.getElementById('cli-list'); if(!listEl) return;
+      var MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+      function h(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+      function dbToCli(r){
+        var d=r.nascimento?String(r.nascimento).split('-'):null;
+        return { key:r.id, nome:r.nome||'', email:r.email||'', fone:r.telefone||'', doc:r.cpf_cnpj||'—', rg:r.rg||'', nac:r.nacionalidade||'Brasileiro(a)', prof:r.profissao||'', ec:r.estado_civil||'',
+          dia:d?d[2]:'', mes:d?(MESES[parseInt(d[1],10)-1]||''):'', ano:d?d[0]:'', pais:r.pais||'Brasil', cidade:r.cidade||'', end:r.endereco||'', cep:r.cep||'', membro:!!r.membro, obras:[] };
+      }
+      function cliToDb(c){
+        var mi=MESES.indexOf(c.mes);
+        var nasc=(c.dia&&mi>=0&&c.ano)?(String(c.ano)+'-'+String(mi+1).padStart(2,'0')+'-'+String(c.dia).padStart(2,'0')):null;
+        return { nome:c.nome, email:c.email||null, telefone:c.fone||null, cpf_cnpj:(c.doc&&c.doc!=='—')?c.doc:null, rg:c.rg||null, nacionalidade:c.nac||null, profissao:c.prof||null, estado_civil:c.ec||null,
+          nascimento:nasc, pais:c.pais||null, cidade:c.cidade||null, endereco:c.end||null, cep:c.cep||null, membro:!!c.membro };
+      }
+      var CLIENTS=[], byKey={}, current=null, sortMode='cad';
+      var emptyEl=document.getElementById('cli-empty'), searchEl=document.getElementById('cli-search');
+      var g=function(id){ return document.getElementById(id); };
+      cliTemAberto=function(){ return !!current; };
+
+      function renderList(){
+        var q=((searchEl&&searchEl.value)||'').trim().toLowerCase();
+        var arr=CLIENTS.slice();
+        if(sortMode==='az') arr.sort(function(a,b){ return a.nome.localeCompare(b.nome,'pt'); }); else arr.sort(function(a,b){ return a.cad-b.cad; });
+        listEl.innerHTML=''; var shown=0;
+        arr.forEach(function(c){
+          if(q && c.nome.toLowerCase().indexOf(q)<0) return; shown++;
+          var b=document.createElement('button'); b.type='button'; b.className='cli'; b.setAttribute('data-membro',c.membro?'1':'0');
+          b.innerHTML='<div><div class="cli-name">'+h(c.nome)+'</div><div class="cli-sub">'+h(c.email)+'</div></div>'
+            +'<div class="cli-obras">'+c.obras.length+' obra'+(c.obras.length===1?'':'s')+(c.obras.length?(' · '+h(c.obras.join(', '))):'')+'</div>'
+            +'<div class="cli-end">'+(c.membro?'<span class="state green">membro</span>':'<span class="state amber">cadastro pendente</span>')+'<span class="cli-chev" aria-hidden="true"></span></div>';
+          b.addEventListener('click',function(){ openCliente(c.key); });
+          listEl.appendChild(b);
+        });
+        if(emptyEl) emptyEl.hidden=shown>0;
+      }
+      if(searchEl) searchEl.addEventListener('input',renderList);
+      document.querySelectorAll('#view-clientes .sortbtn').forEach(function(s){ s.addEventListener('click',function(){ document.querySelectorAll('#view-clientes .sortbtn').forEach(function(x){ x.setAttribute('aria-selected','false'); }); s.setAttribute('aria-selected','true'); sortMode=s.dataset.sort; renderList(); }); });
+
+      cliCarregar=async function(){
+        try{
+          var res=await sb.from('clientes').select('*').order('criado_em',{ascending:true});
+          if(res.error){ listEl.innerHTML='<p class="note" style="padding:14px 2px">Erro ao carregar clientes: '+h(res.error.message)+'</p>'; return; }
+          CLIENTS=(res.data||[]).map(dbToCli); CLIENTS.forEach(function(c,i){ c.cad=i; });
+          byKey={}; CLIENTS.forEach(function(c){ byKey[c.key]=c; });
+          try{ var pr=await sb.from('projetos').select('nome,cliente_id'); if(!pr.error) (pr.data||[]).forEach(function(p){ var c=byKey[p.cliente_id]; if(c) c.obras.push(p.nome); }); }catch(e){}
+          renderList();
+        }catch(e){}
+      };
+
+      /* link de cadastro */
+      var linkBox=g('link-box'), linkUrl=g('link-url');
+      g('gen-link').addEventListener('click',function(){ linkUrl.textContent=location.origin+'/area-cadastro.html#cliente'; linkBox.hidden=false; g('link-note').textContent='Link gerado — compartilhe com o novo cliente. Quando ele preencher o cadastro, aparece automaticamente na lista.'; });
+      g('link-copy').addEventListener('click',function(){ try{ navigator.clipboard&&navigator.clipboard.writeText(linkUrl.textContent); }catch(e){} g('link-note').textContent='Link copiado.'; });
+
+      /* ficha do cliente */
+      var CAMPOS=['d-nome','d-dia','d-mes','d-ano','d-doc','d-rg','d-nac','d-prof','d-ec','d-fone','d-email','d-pais','d-cidade','d-end','d-cep'];
+      var membroToggle=g('membro-toggle'), membroSub=g('membro-sub');
+      var ICO='<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a6 6 0 0 1 11 0"/>';
+      function paintMembro(c){
+        if(c.membro){ membroToggle.innerHTML=ICO+'<path d="M16 10l5 5M21 10l-5 5"/></svg>remover acesso'; membroSub.textContent='liberado para acessar a Área do Cliente'; }
+        else{ membroToggle.innerHTML=ICO+'<path d="M18 9v6M15 12h6"/></svg>incluir como membro'; membroSub.textContent='ainda não liberado — inclua para dar acesso'; }
+        var obras=c.obras||[];
+        g('cli-meta').innerHTML=(c.membro?'<span class="state green">membro</span>':'<span class="state amber">cadastro pendente</span>')+' · '+(obras.length?(obras.length+' obra'+(obras.length>1?'s':'')+' · '+h(obras.join(', '))):'sem obras ainda');
+        var os=g('cli-obras-sub'); if(os) os.textContent=obras.length?obras.join(', '):'nenhuma obra cadastrada';
+      }
+      function fillForm(c){ var v={ 'd-nome':c.nome,'d-dia':c.dia,'d-mes':c.mes,'d-ano':c.ano,'d-doc':c.doc,'d-rg':c.rg,'d-nac':c.nac||'Brasileiro(a)','d-prof':c.prof,'d-ec':c.ec,'d-fone':c.fone,'d-email':c.email,'d-pais':c.pais||'Brasil','d-cidade':c.cidade,'d-end':c.end,'d-cep':c.cep };
+        CAMPOS.forEach(function(id){ var el=g(id); if(el) el.value=(v[id]==null?'':v[id]); }); }
+      function setEdit(on){
+        CAMPOS.concat(['cli-senha','membro-toggle','senha-btn']).forEach(function(id){ var el=g(id); if(el) el.disabled=!on; });
+        g('cli-editar').hidden=on; g('salvar-dados').hidden=!on;
+      }
+      function abrirFicha(c, novo){
+        current=c; g('cli-name').textContent=novo?'Novo cliente':c.nome; fillForm(c); paintMembro(c);
+        g('acesso-note').textContent=''; g('dados-note').textContent=novo?'Preencha os dados e clique em salvar para incluir o cliente na lista.':''; g('cli-senha').value='';
+        carregarProjetos(); setEdit(!!novo);
+        if((location.hash||'')==='#cliente') show('cliente'); else location.hash='cliente';
+      }
+      function openCliente(key){ var c=byKey[key]; if(c) abrirFicha(c,false); }
+      g('novo-cliente').addEventListener('click',function(){ abrirFicha({key:'',nome:'',email:'',fone:'',doc:'',rg:'',nac:'Brasileiro(a)',prof:'',ec:'',dia:'',mes:'',ano:'',pais:'Brasil',cidade:'',cep:'',end:'',membro:false,obras:[],isNew:true}, true); });
+      g('cli-editar').addEventListener('click',function(){ setEdit(true); });
+      g('cli-back').addEventListener('click',function(){ location.hash='clientes'; });
+
+      g('membro-toggle').addEventListener('click',async function(){ if(!current) return; var an=g('acesso-note');
+        current.membro=!current.membro; paintMembro(current); renderList();
+        if(current.key && !current.isNew){ var up=await sb.from('clientes').update({ membro:current.membro }).eq('id',current.key);
+          if(up.error){ current.membro=!current.membro; paintMembro(current); renderList(); an.textContent='Erro ao salvar no banco: '+up.error.message; return; } }
+        an.textContent=current.membro?'Cliente incluído como membro — já acessa a Área do Cliente.':'Acesso removido.'; });
+
+      g('salvar-dados').addEventListener('click',async function(){ if(!current) return; var note=g('dados-note');
+        var gv=function(id){ var el=g(id); return el?el.value.trim():''; };
+        current.nome=gv('d-nome')||current.nome; current.dia=gv('d-dia'); current.mes=gv('d-mes'); current.ano=gv('d-ano');
+        current.doc=gv('d-doc'); current.rg=gv('d-rg'); current.nac=gv('d-nac'); current.prof=gv('d-prof'); current.ec=gv('d-ec');
+        current.fone=gv('d-fone'); current.email=gv('d-email'); current.pais=gv('d-pais'); current.cidade=gv('d-cidade'); current.end=gv('d-end'); current.cep=gv('d-cep');
+        if(current.isNew){
+          if(!current.nome){ note.textContent='Informe ao menos o nome do cliente.'; return; }
+          if(current.doc==='') current.doc='—';
+          note.textContent='Salvando…';
+          var ins=await sb.from('clientes').insert(cliToDb(current)).select().single();
+          if(ins.error){ note.textContent='Erro ao salvar: '+ins.error.message; return; }
+          current.key=ins.data.id; current.isNew=false; CLIENTS.push(current); current.cad=CLIENTS.length-1; byKey[current.key]=current;
+          if(typeof carregarClientesColab==='function') carregarClientesColab(); // lista de clientes do "novo projeto"
+        } else {
+          note.textContent='Salvando…';
+          var upd=await sb.from('clientes').update(cliToDb(current)).eq('id',current.key);
+          if(upd.error){ note.textContent='Erro ao salvar: '+upd.error.message; return; }
+        }
+        g('cli-name').textContent=current.nome; renderList(); setEdit(false); note.textContent='Dados salvos no banco. ✓'; });
+
+      /* criar o login do cliente: usa uma conexão temporária, para não derrubar a sessão de quem está logado */
+      var tempSb=null;
+      function getTempSb(){ if(!tempSb){ tempSb=window.supabase.createClient(window.SUPA.url, window.SUPA.anonKey, { auth:{ persistSession:false, autoRefreshToken:false, storageKey:'im-temp-signup' } }); } return tempSb; }
+      g('senha-btn').addEventListener('click',async function(){
+        var an=g('acesso-note');
+        if(!current || !current.key || current.isNew){ an.textContent='Salve o cadastro do cliente primeiro.'; return; }
+        var email=(current.email||'').trim(); if(!email){ an.textContent='O cliente precisa ter um e-mail no cadastro para criar o acesso.'; return; }
+        var senha=(g('cli-senha').value||'').trim(); if(senha.length<6){ an.textContent='Digite uma senha de pelo menos 6 caracteres.'; return; }
+        an.textContent='Criando acesso…';
+        try{
+          var t=getTempSb();
+          // o banco cria o perfil de "cliente" sozinho no cadastro (gatilho), a partir destes dados
+          var r=await t.auth.signUp({ email:email, password:senha, options:{ data:{ papel:'cliente', nome:current.nome } } });
+          if(r.error){ an.textContent='Erro ao criar acesso: '+r.error.message; return; }
+          var uid=(r.data&&r.data.user)?r.data.user.id:null;
+          if(!uid){ an.textContent='Não foi possível criar o login. Verifique se a confirmação de e-mail está DESLIGADA no Supabase.'; return; }
+          // o gatilho do banco cria uma segunda ficha (vazia) para o login novo: apaga essa e mantém a ficha que já existia
+          try{ await sb.from('clientes').delete().eq('perfil_id',uid).neq('id',current.key); }catch(e){}
+          var up=await sb.from('clientes').update({ perfil_id:uid, membro:true }).eq('id',current.key);
+          if(up.error){ an.textContent='Login criado, mas erro ao vincular ao cliente: '+up.error.message; return; }
+          current.membro=true; paintMembro(current); renderList(); g('cli-senha').value='';
+          an.textContent='Acesso criado! O cliente entra com o e-mail '+email+' e essa senha.';
+          try{ await t.auth.signOut(); }catch(e){}
+        }catch(e){ an.textContent='Erro: '+(e&&e.message||e); }
+      });
+
+      g('excluir-cliente').addEventListener('click',async function(){ if(!current) return;
+        if(current.isNew){ current=null; location.hash='clientes'; return; }
+        if(!(await imConfirm('Excluir o cliente "'+current.nome+'" e todos os seus projetos? Esta ação não pode ser desfeita.'))) return;
+        var pid=null; try{ var q=await sb.from('clientes').select('perfil_id').eq('id',current.key).single(); pid=q.data&&q.data.perfil_id; }catch(e){}
+        var d=await sb.from('clientes').delete().eq('id',current.key);
+        if(d.error){ alert('Erro ao excluir cliente: '+d.error.message); return; }
+        if(pid){ try{ await sb.from('perfis').delete().eq('id',pid); }catch(e){} } // só apaga o login se o banco permitir ao colaborador
+        current=null; if(typeof carregarClientesColab==='function') carregarClientesColab(); location.hash='clientes'; });
+
+      /* projetos do cliente (seção que abre e fecha) */
+      var card=g('cli-projs-card');
+      if(card){ var hd=card.querySelector('.acc-card-head'); if(hd) hd.addEventListener('click',function(){ var op=card.classList.toggle('open'); hd.setAttribute('aria-expanded',op?'true':'false'); }); }
+      async function carregarProjetos(){
+        var le=g('cli-projs-list'), ee=g('cli-projs-empty'), ce2=g('cli-projs-count'); if(!le) return;
+        if(card){ card.classList.remove('open'); var hh=card.querySelector('.acc-card-head'); if(hh) hh.setAttribute('aria-expanded','false'); }
+        le.innerHTML='';
+        if(!current || !current.key || current.isNew){ if(ee){ ee.hidden=false; ee.textContent='Salve o cliente para vincular projetos.'; } if(ce2) ce2.textContent='· 0'; return; }
+        var res=await sb.from('projetos').select('id,nome,status,etapas(status)').eq('cliente_id',current.key).order('criado_em',{ascending:true});
+        if(res.error){ if(ee){ ee.hidden=false; ee.textContent='Erro ao carregar: '+res.error.message; } return; }
+        var arr=res.data||[]; if(ce2) ce2.textContent='· '+arr.length;
+        if(!arr.length){ if(ee){ ee.hidden=false; ee.textContent='Nenhum projeto vinculado a este cliente.'; } return; }
+        if(ee) ee.hidden=true;
+        le.innerHTML=arr.map(function(p){
+          var ets=p.etapas||[], total=ets.length, done=ets.filter(function(e){ return e.status==='concluida'; }).length, pct=total?Math.round(done/total*100):0;
+          var st=p.status||'andamento', chip=st==='concluido'?'green':(st==='pausado'?'gray':(st==='cancelado'?'red':'amber')), chipt=st==='concluido'?'concluído':(st==='pausado'?'pausado':(st==='cancelado'?'cancelado':'em andamento'));
+          return '<button type="button" data-obra="'+p.id+'" style="width:100%;text-align:left;display:flex;align-items:center;gap:14px;background:var(--panel-2);border:none;border-radius:8px;padding:14px 16px;margin-bottom:8px;cursor:pointer;font-family:inherit">'
+            +'<span style="flex:1;font-family:var(--display);font-weight:500;font-size:15px;color:var(--ink)">'+h(p.nome)+'</span><span class="state '+chip+'">'+chipt+'</span>'
+            +'<span style="font-size:12px;color:var(--ink-3);min-width:38px;text-align:right">'+pct+'%</span></button>';
+        }).join('');
+      }
+      g('cli-projs-list').addEventListener('click',function(e){ var b=e.target.closest('[data-obra]'); if(!b) return; obraId=b.getAttribute('data-obra'); try{ localStorage.setItem('im-obra-colab',obraId); }catch(e2){} location.hash='projeto'; });
+
+      cliCarregar();
+      if((location.hash||'')==='#cliente') location.hash='clientes'; // página recarregada na ficha: volta para a lista
+    })();
 
     async function fillObraColab(){
       if(typeof resetEtapaScreen==='function') resetEtapaScreen();
@@ -1916,7 +2406,7 @@
         el.dataset.eid=e.id; el.dataset.termo=termo; el.dataset.concl=(e.status==='concluida')?'1':'';
         var _colabsOld=el.querySelector('.colabs'); if(_colabsOld) _colabsOld.remove(); // remove o responsável genérico do protótipo
         var boxes=el.querySelectorAll('.check li input[type=checkbox]');
-        cl.forEach(function(it,i){ if(boxes[i]) boxes[i].checked=!!it.feito; });
+        cl.forEach(function(it,i){ if(!boxes[i]) return; boxes[i].checked=!!it.feito&&!it.na; if(it.na){ var lna=boxes[i].closest('li'); if(lna) lna.classList.add('na'); } });
         var ini=el.querySelector('.pz-ini'), fim=el.querySelector('.pz-fim');
         if(ini) ini.value=e.prazo_inicio||''; if(fim) fim.value=e.prazo_fim||'';
         var pad=el.querySelector('.etapa-pad');
@@ -1950,9 +2440,10 @@
     async function salvarEtapaColab(et){
       if(!et||!et.dataset||!et.dataset.eid) return;
       var scope=(typeof scopeOf==='function')?scopeOf(et):et;
-      var checklist=[].map.call(scope.querySelectorAll('.check li'),function(li){ var cb=li.querySelector('input[type=checkbox]'); var sp=li.querySelector('span'); var o={ texto: sp?sp.textContent:'', feito: cb?cb.checked:false }; if(li.classList.contains('sub')) o.sub=true; return o; });
-      var done=checklist.filter(function(x){return x.feito;}).length;
-      var status=checklist.length?(done===checklist.length?'concluida':(done>0?'andamento':'a_fazer')):'a_fazer';
+      var checklist=[].map.call(scope.querySelectorAll('.check li'),function(li){ var cb=li.querySelector('input[type=checkbox]'); var sp=li.querySelector('span'); var o={ texto: sp?sp.textContent:'', feito: cb?cb.checked:false }; if(li.classList.contains('sub')) o.sub=true; if(li.classList.contains('na')){ o.na=true; o.feito=false; } return o; });
+      var aplic=checklist.filter(function(x){return !x.na;}); // "não se aplica" não conta no andamento
+      var done=aplic.filter(function(x){return x.feito;}).length;
+      var status=aplic.length?(done===aplic.length?'concluida':(done>0?'andamento':'a_fazer')):'a_fazer';
       var ini=scope.querySelector('.pz-ini'), fim=scope.querySelector('.pz-fim');
       var termoSel=scope.querySelector('.etapa-termo-sel'); var termo=termoSel?termoSel.value:(et.dataset.termo||'nenhum');
       var kanbanSel=scope.querySelector('.etapa-kanban-sel'); var kanbanVal=kanbanSel?(kanbanSel.value||null):undefined;
@@ -2051,8 +2542,22 @@
       var rows=(res&&!res.error)?(res.data||[]):[];
       var byTipo={}; rows.forEach(function(r){ byTipo[r.tipo]=r; });
       var tipos=DOCS_COLAB.slice(); rows.forEach(function(r){ if(r.tipo!=='Contrato' && tipos.indexOf(r.tipo)<0) tipos.push(r.tipo); });
+      tipos=tipos.filter(function(t){ return !(byTipo[t]&&byTipo[t].arquivo_nome===DOC_OCULTO); }); // documentos excluídos deste projeto não aparecem
       ul.innerHTML='';
       tipos.forEach(function(tipo){ ul.appendChild(docRowColab(tipo, byTipo[tipo])); });
+    }
+    // Documento EXCLUÍDO de um projeto: os da lista padrão ficam marcados no banco (para não reaparecerem); os criados só para o projeto são apagados.
+    var DOC_OCULTO='__excluido__';
+    async function excluirDocProjetoColab(tipo, row){
+      try{
+        if(row&&row.arquivo_path){ await sb.storage.from('projeto-docs').remove([row.arquivo_path]); }
+        var r;
+        if(DOCS_COLAB.indexOf(tipo)>=0) r=await sb.from('documentos').upsert({ projeto_id:obraId, tipo:tipo, arquivo_nome:DOC_OCULTO, arquivo_path:null }, {onConflict:'projeto_id,tipo'});
+        else r=await sb.from('documentos').delete().eq('projeto_id',obraId).eq('tipo',tipo);
+        if(r&&r.error){ alert('Erro ao excluir o documento: '+r.error.message); return; }
+        if(typeof logAtividade==='function') logAtividade('excluiu o documento "'+tipo+'" de '+(obraNomeAtual||'um projeto'));
+        renderDocsColab();
+      }catch(e){ alert('Erro ao excluir: '+(e&&e.message||e)); }
     }
     function docRowColab(tipo, row){
       var li=document.createElement('li'); li.className='np-doc'; li.dataset.tipo=tipo;
@@ -2061,12 +2566,15 @@
       var main='<div class="np-doc-main"><div class="np-doc-name">'+ce(tipo)+'</div>'+ver+'</div>';
       var state='<span class="np-doc-state">'+(temArq?'anexado':'aguardando anexo')+'</span>';
       var attach='<label class="pill ghost sm np-attach pj-edit-only"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>'+(temArq?'trocar':'anexar')+'<input type="file" accept="application/pdf" hidden></label>';
-      var rm=temArq?'<button type="button" class="pbtn danger np-doc-rm pj-edit-only" title="Remover"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button>':'';
-      li.innerHTML=main+state+attach+rm;
+      var rm=temArq?'<button type="button" class="pbtn danger np-doc-rm pj-edit-only" title="Remove só o PDF anexado; o documento continua na lista"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>remover PDF</button>':'';
+      // excluir o documento da lista deste projeto
+      var ex='<button type="button" class="pbtn danger np-doc-ex pj-edit-only" title="Excluir este documento do projeto"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button>';
+      li.innerHTML=main+state+attach+rm+ex;
       var fileIn=li.querySelector('input[type=file]');
       if(fileIn) fileIn.addEventListener('change',function(){ var f=fileIn.files&&fileIn.files[0]; if(!f) return; if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){ alert('Envie um PDF.'); return; } uploadDocProjetoColab(tipo, f, li); });
       var vb=li.querySelector('.np-doc-ver'); if(vb) vb.addEventListener('click',function(){ verDocProjetoColab(row.arquivo_path); });
-      var rmb=li.querySelector('.np-doc-rm'); if(rmb) rmb.addEventListener('click',function(){ imConfirm('Remover "'+tipo+'"?').then(function(ok){ if(ok) removerDocProjetoColab(tipo, row); }); });
+      var rmb=li.querySelector('.np-doc-rm'); if(rmb) rmb.addEventListener('click',function(){ imConfirm('Remover o PDF anexado em "'+tipo+'"? O documento continua na lista, aguardando novo anexo.').then(function(ok){ if(ok) removerDocProjetoColab(tipo, row); }); });
+      var exb=li.querySelector('.np-doc-ex'); if(exb) exb.addEventListener('click',function(){ imConfirm('Excluir o documento "'+tipo+'" deste projeto?'+(temArq?' O PDF anexado também será apagado.':'')+' Ele deixa de aparecer para a equipe e para o cliente.').then(function(ok){ if(ok) excluirDocProjetoColab(tipo, row); }); });
       return li;
     }
     async function uploadDocProjetoColab(tipo, file, li){
@@ -2086,7 +2594,7 @@
     async function removerDocProjetoColab(tipo, row){
       try{
         if(row&&row.arquivo_path){ await sb.storage.from('projeto-docs').remove([row.arquivo_path]); }
-        await sb.from('documentos').delete().eq('projeto_id',obraId).eq('tipo',tipo);
+        await sb.from('documentos').update({ arquivo_nome:null, arquivo_path:null }).eq('projeto_id',obraId).eq('tipo',tipo); // tira só o PDF; o documento continua na lista
         renderDocsColab();
       }catch(e){ alert('Erro ao remover: '+(e&&e.message||e)); }
     }

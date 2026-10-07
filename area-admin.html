@@ -14,6 +14,13 @@
   .check li.sub{margin-left:21px;padding-left:16px!important;border-left:2px solid var(--hair-soft)}
   .check li.sub .lbl span,.check li.sub label span{font-size:13.5px;color:var(--ink-2)}
   .check li.oculto{display:none!important}
+  /* "não se aplica": o item continua na lista, apagado, e não conta no andamento */
+  .chk-na{flex:none;font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.06em;line-height:1;color:var(--ink-3);background:none;border:1px solid var(--hair);border-radius:6px;padding:4px 6px;cursor:pointer;transition:color .15s,background .15s,border-color .15s}
+  .chk-na:hover{color:var(--ink);border-color:var(--ink-3)}
+  .check li.na > .chk-na{color:#fff;background:var(--gray);border-color:var(--gray)}
+  .check li.na > .lbl span,.check li.na > label span{color:var(--ink-3)!important;font-style:italic;text-decoration:none!important;font-weight:400!important}
+  .check li.na > .lbl span::after,.check li.na > label span::after{content:" — não se aplica";font-size:11.5px}
+  .check li.na input[type=checkbox]{opacity:.3}
   .grp-n{flex:none;font-size:11px;font-weight:600;color:var(--ink-2);background:var(--panel);border:1px solid var(--hair-soft);border-radius:50px;padding:2px 9px;font-variant-numeric:tabular-nums}
   .grp-n.ok{color:var(--green);border-color:rgba(94,125,87,.4)}
   .grp-tg{flex:none;width:26px;height:26px;border:none;background:none;cursor:pointer;position:relative;border-radius:6px;padding:0}
@@ -129,7 +136,7 @@
   .menu-item:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
 
   /* páginas internas */
-  .view.anim:not(#view-home){animation:fade .42s cubic-bezier(.22,.61,.36,1) both}
+  .view.anim:not(#view-home){animation:fade .42s cubic-bezier(.22,.61,.36,1) backwards}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .back{background:none;border:none;font-family:var(--sans);font-size:13px;color:var(--ink-2);cursor:pointer;padding:8px 0;margin-top:clamp(24px,4vw,40px);transition:color .2s}
   .back::before{content:"‹ ";font-size:16px}
@@ -343,7 +350,7 @@
   .es-card .doc-msg:empty{display:none}
   .es-card .etapa-doc>label{display:none!important}
   @media(max-width:820px){#etapa-screen-body .etapa-pad{grid-template-columns:1fr;grid-template-areas:"dados" "check" "doc" "acoes"}}
-  #etapa-screen.anim{animation:fade .42s cubic-bezier(.22,.61,.36,1) both}
+  #etapa-screen.anim{animation:fade .42s cubic-bezier(.22,.61,.36,1) backwards}
 
   /* painéis cinza genéricos */
   .adm-panel{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:clamp(20px,3vw,28px);margin-bottom:clamp(20px,3vw,30px);max-width:720px}
@@ -698,6 +705,19 @@
   @media(max-width:820px){.home-grid{grid-template-columns:1fr}}
   .home-grid-b{grid-template-columns:1.4fr 1fr;margin-top:clamp(20px,3vw,28px)!important}
   @media(max-width:820px){.home-grid-b{grid-template-columns:1fr}}
+  /* início: 4 cartões numa grade só — esquerda: agenda + registro; direita: avisos (ocupa o espaço) + cores (faixa baixa) */
+  .home-quad{grid-template-columns:1.4fr 1fr;grid-template-rows:auto 1fr auto;grid-template-areas:"agenda avisos" "registro avisos" "registro cores";align-items:stretch}
+  .hq-agenda{grid-area:agenda}
+  .hq-registro{grid-area:registro}
+  .hq-avisos{grid-area:avisos;display:flex;flex-direction:column;min-height:0}
+  .hq-avisos .avisos{max-height:320px;overflow-y:auto;overflow-x:hidden;padding-right:4px}
+  .hq-avisos .avisos .aviso{margin-inline:0;padding-inline:4px}
+  .hq-avisos .aviso-add{margin-top:auto;padding-top:14px}
+  .hq-cores{grid-area:cores;padding-top:16px;padding-bottom:16px}
+  .hq-cores h3{margin:0 0 12px}
+  .hq-cores .themes{gap:9px}
+  .hq-cores .theme-dot{width:27px;height:27px}
+  @media(max-width:820px){.home-quad{grid-template-columns:1fr;grid-template-rows:none;grid-template-areas:"agenda" "avisos" "registro" "cores"}}
   .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(10px,2vw,18px)}
   @media(max-width:820px){.stat-cards{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:460px){.stat-cards{grid-template-columns:1fr}}
@@ -718,7 +738,8 @@
   .stat-num{font-family:var(--display);font-weight:500;font-size:clamp(22px,2.4vw,28px);color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
   .stat-link{font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:5px;margin-top:auto;padding-top:4px}
   .stat-card:hover .stat-link{color:var(--ink)}
-  .recent-list{list-style:none;margin:8px 0 0;padding:0}
+  .recent-list{list-style:none;margin:8px 0 0;padding:0 6px 0 0;max-height:330px;overflow-y:auto;overflow-x:hidden}
+  .recent-list .recent-row{margin-inline:0;padding-inline:4px}
   .recent-row{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--hair-soft);font-size:13.5px;color:var(--ink)}
   .recent-row:last-child{border-bottom:none}
   .recent-row .rc-ico{flex:none;color:var(--ink-3);margin-top:1px}
@@ -910,26 +931,24 @@
       <a class="stat-card" href="#agenda"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><span class="stat-lbl">prazos próximos</span><span class="stat-num" id="st-prazos">—</span><span class="stat-link">Ver prazos →</span></a>
     </div>
 
-    <div class="home-grid">
-      <section class="card">
+    <!-- grade única: agenda e registro à esquerda; avisos (maior) e cores (menor) à direita, com as bordas alinhadas -->
+    <div class="home-grid home-quad">
+      <section class="card hq-agenda">
         <h3>sua agenda de hoje <a href="#agenda" style="float:right;font-size:12px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-2);text-decoration:none">Ver agenda completa</a></h3>
         <ul class="today-list" id="today-list"></ul>
       </section>
-      <section class="card">
+      <section class="card hq-avisos">
         <h3>avisos</h3>
         <ul class="avisos" id="avisos"></ul>
         <div class="aviso-add"><input id="aviso-input" type="text" placeholder="Novo aviso para a equipe…"><button class="pill ghost sm" type="button" id="aviso-add-btn"><svg viewBox="0 0 24 24"><path d="M4 12l16-7-7 16-2-7z"/></svg>publicar</button></div>
       </section>
-    </div>
-
-    <div class="home-grid home-grid-b" style="margin-top:clamp(20px,3vw,28px)">
-      <section class="card">
-        <h3>registro de atividade</h3>
+      <section class="card hq-registro">
+        <h3>registro de atividade <span style="color:var(--ink-3);font-weight:400;letter-spacing:0;text-transform:none">· esta semana</span></h3>
         <ul class="recent-list" id="recent-list"></ul>
       </section>
-      <section class="card" id="theme-card">
+      <section class="card hq-cores" id="theme-card">
         <h3>cores do ambiente</h3>
-        <div class="themes" id="themes" style="margin-top:14px"></div>
+        <div class="themes" id="themes"></div>
       </section>
     </div>
   </section>
@@ -1852,15 +1871,17 @@
     function mdlTxt(s){ return (''+s).replace(/^\t/,''); }
     // Marca os itens que têm subitens como "grupo": contagem (feitos/total), seta para recolher e subitens ocultos quando fechado.
     function marcarGrupos(ul){ if(!ul) return; var lis=[].slice.call(ul.children); var longa=lis.length>25;
+      lis.forEach(function(li){ var c=li.querySelector('input[type=checkbox]'); if(c) c.disabled=li.classList.contains('na'); }); // "não se aplica" não pode ser marcado
       lis.forEach(function(li,i){
         var nx=lis[i+1]; var eh=!li.classList.contains('sub') && !!nx && nx.classList.contains('sub');
         li.classList.toggle('grp',eh);
         var n=li.querySelector(':scope > .grp-n'), tg=li.querySelector(':scope > .grp-tg');
         if(!eh){ if(n) n.remove(); if(tg) tg.remove(); li.classList.remove('fechado'); return; }
         var subs=[]; for(var j=i+1;j<lis.length&&lis[j].classList.contains('sub');j++) subs.push(lis[j]);
-        var feitos=subs.filter(function(s){ var c=s.querySelector('input[type=checkbox]'); return c&&c.checked; }).length;
+        var ap=subs.filter(function(s){ return !s.classList.contains('na'); });
+        var feitos=ap.filter(function(s){ var c=s.querySelector('input[type=checkbox]'); return c&&c.checked; }).length;
         if(!n){ n=document.createElement('span'); n.className='grp-n'; li.insertBefore(n, li.querySelector(':scope > .chk-rm')); }
-        n.textContent=feitos+'/'+subs.length; n.classList.toggle('ok',feitos===subs.length);
+        n.textContent=ap.length?(feitos+'/'+ap.length):'n/a'; n.classList.toggle('ok',ap.length>0&&feitos===ap.length);
         if(!tg){ tg=document.createElement('button'); tg.type='button'; tg.className='grp-tg'; tg.title='Mostrar ou ocultar os subitens'; tg.setAttribute('aria-label','Mostrar ou ocultar os subitens');
           tg.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); li.classList.toggle('fechado'); marcarGrupos(li.parentNode); });
           li.insertBefore(tg, n.nextSibling);
@@ -1872,14 +1893,29 @@
       lis.forEach(function(li,i){ if(li.classList.contains('sub')){ var p=i; while(p>=0&&lis[p].classList.contains('sub')) p--; if(p<0) li.classList.remove('oculto'); } else if(!li.classList.contains('grp')) li.classList.remove('oculto'); });
     }
     function abrirGrupoDe(li){ var p=li; while(p&&p.classList.contains('sub')) p=p.previousElementSibling; if(p) p.classList.remove('fechado'); }
+    // Liga/desliga "não se aplica" num item. Num item com subitens, os subitens acompanham.
+    function toggleNA(li, et){
+      var ul=li.parentNode; if(!ul) return; var on=!li.classList.contains('na');
+      var alvo=[li];
+      if(!li.classList.contains('sub')){ var nx=li.nextElementSibling; while(nx&&nx.classList.contains('sub')){ alvo.push(nx); nx=nx.nextElementSibling; } }
+      alvo.forEach(function(x){ x.classList.toggle('na',on); var c=x.querySelector('input[type=checkbox]'); if(c&&on) c.checked=false; });
+      if(li.classList.contains('sub')){ // o item "pai" volta a refletir só os subitens que se aplicam
+        var p=li.previousElementSibling; while(p&&p.classList.contains('sub')) p=p.previousElementSibling;
+        if(p&&!p.classList.contains('na')){ var subs=[], s=p.nextElementSibling; while(s&&s.classList.contains('sub')){ if(!s.classList.contains('na')) subs.push(s); s=s.nextElementSibling; }
+          var pc=p.querySelector('input[type=checkbox]'); if(pc) pc.checked=subs.length>0&&subs.every(function(q){ var c=q.querySelector('input[type=checkbox]'); return c&&c.checked; }); }
+      }
+      marcarGrupos(ul); recomputeEtapa(et); if(typeof kanbanSync==='function') kanbanSync();
+      ul.dispatchEvent(new Event('change',{bubbles:true})); // grava no banco
+    }
     function syncGrupo(ul,alvo){ if(!ul||!alvo||alvo.type!=='checkbox') return;
       var li=alvo.closest('li'); if(!li||li.parentNode!==ul) return;
       var lis=[].slice.call(ul.children), i=lis.indexOf(li), cb=function(x){ return x.querySelector('input[type=checkbox]'); };
       if(li.classList.contains('sub')){
         var p=i; while(p>=0&&lis[p].classList.contains('sub')) p--; if(p<0) return;
         var subs=[]; for(var j=p+1;j<lis.length&&lis[j].classList.contains('sub');j++) subs.push(lis[j]);
-        var pc=cb(lis[p]); if(pc) pc.checked=subs.every(function(s){ var c=cb(s); return c&&c.checked; });
-      } else { for(var k=i+1;k<lis.length&&lis[k].classList.contains('sub');k++){ var c2=cb(lis[k]); if(c2) c2.checked=alvo.checked; } }
+        var ap=subs.filter(function(s){ return !s.classList.contains('na'); });
+        var pc=cb(lis[p]); if(pc&&!lis[p].classList.contains('na')) pc.checked=ap.length>0&&ap.every(function(s){ var c=cb(s); return c&&c.checked; });
+      } else { for(var k=i+1;k<lis.length&&lis[k].classList.contains('sub');k++){ var c2=cb(lis[k]); if(c2&&!lis[k].classList.contains('na')) c2.checked=alvo.checked; } }
     }
     /* Projeto legal: check-list da prefeitura (por prancha), com itens e subitens */
     (function(){
@@ -1929,6 +1965,104 @@
       // itens que já existiam no modelo continuam ao final
       ETAPA_MODELOS['Hidrossanitário']=lista.concat(ETAPA_MODELOS['Hidrossanitário']||[]);
     })();
+    /* Pré-projeto: procedimentos iniciais (lista enviada pela Isys); os itens que já existiam continuam ao final */
+    ETAPA_MODELOS['Pré-projeto']=[
+      'Consulta ambiental',
+      'Viabilidade de construção',
+      'Solicitar matrícula, contrato de compra e venda',
+      'Formulário da Casan',
+      'Preenchimento da Declaração de Posse',
+      'Aviso da data de apresentação do EP',
+      'Solicitar o levantamento topográfico (se for o caso)',
+      'Solicitar o regimento interno do condomínio',
+      'Solicitar/coletar as informações sobre os eletrodomésticos e móveis que o cliente pretende usar',
+      'Solicitar/coletar as referências da estética pretendida pelo cliente',
+      'Fazer o briefing',
+      'Importar a memória de reunião inicial',
+      'Criar pasta do cliente no computador/servidor/nuvem',
+      'Estudar o briefing, informações e regimento interno do condomínio',
+      'Arquivar o contrato assinado',
+      'Solicitar o contrato assinado'
+    ]; // substitui os três itens antigos do modelo (a pedido)
+    /* Estudo de fachada: check-list enviado pela Isys (duas listas, na ordem das imagens); substitui os itens antigos */
+    ETAPA_MODELOS['Estudo de fachada']=[
+      'Pingadeiras de pedra nas platibandas',
+      'Pingadeiras de pedra nos muros',
+      'Textura de reboco na pintura',
+      'Vidro textura nas portas e janelas',
+      'Cortinas nas janelas e portas de vidro',
+      'Grama do enscape',
+      'HDR entardecer',
+      'Preset do enscape',
+      'Esfera de iluminação na cor laranja claro dentro dos cômodos',
+      'Renderização das imagens, sendo uma de cada posição',
+      'Bwc 02',
+      'Quarto 03',
+      'Bwc 03',
+      'Editar capa',
+      'Colocar uma imagem de cada ângulo',
+      'Verificar se a posição da imagem condiz com a descrição',
+      'Selecionar e inserir texturas',
+      'Selecionar e inserir referências',
+      'Inserir outros elementos',
+      'Inserir plantas',
+      'Inserir imagens 3D',
+      'Fazer moodboard, se necessário'
+    ];
+    /* Levantamento: check-list enviado pela Isys. Os itens "Categoria - medida" viraram item (categoria) + subitens; substitui os itens antigos */
+    (function(){
+      var g=[
+        ['Indicar norte',[]],
+        ['Área externa',['Dimensões do terreno','Altura e comprimentos dos muros','Locação de árvores importantes (se forem poucas)']],
+        ['Ambientes',['Geral e cada segmento de parede (seguir sentido horário a partir da porta)','Pilares aparentes (largura e profundidade)','Vigas (altura e profundidade)','Altura muretas / paredes mais baixas / batentes / guarda-corpos','Triangulação das medidas','Desníveis','Tamanho das peças grandes de revestimento do piso e parede','Escada (largura e altura degraus e patamares, e guarda-corpo)','Rampas (largura, altura, comprimento e guarda-corpo)','Pés-direitos (observar rebaixos)','Altura cumeeiras, calhas, tesouras e outros elementos']],
+        ['Esquadrias',['Largura e altura interna do vão e medida das folhas','Alizares','Sentido aberturas','Peitoril','Caixas de ar condicionado (altura, largura e peitoril)','Shafts (altura, largura e peitoril)']],
+        ['Cozinha, área de serviço e banheiros',['Balcões (largura, profundidade, altura e locação)','Cubas (largura e comprimento)','Eixos de registros','Eixos de ralos','Eixos de pontos de máquina de lavar','Eixos de peças sanitárias e chuveiros','Eixos de outros pontos (ducha, aquecedor...)']],
+        ['Instalações',['Identificação de pontos elétricos (interruptor ou tomada, com seções caso existam)','Eixos de pontos elétricos (horizontal e vertical)','Identificação das seções dos pontos de iluminação (caso existam)','Eixos de pontos de iluminação','Eixos dos pontos de gás','Eixos de pontos de antena (horizontal e vertical)','Eixos de pontos de telefone (horizontal e vertical)','Eixos de pontos de ar condicionado (horizontal e vertical)','Eixos de quadros de energia (horizontal e vertical)','Dimensões de quadros de energia']],
+        ['Dimensões dos móveis que serão mantidos',[]],
+        ['Dimensões dos eletrodomésticos que serão mantidos',[]],
+        ['Dimensões de outros itens importantes que serão mantidos',[]],
+        ['Fotos',['Geral do ambiente a partir de todos os cantos (seguir sentido horário a partir da porta)','Fazer vídeo mostrando entorno e passeando pelos ambientes internos (quando for o caso)','Piso','Teto (mostrando pontos de iluminação)','Pilares','Vigas','Tomadas escondidas','Detalhes e gerais da fachada','Entorno','Outros detalhes']]
+      ];
+      var lista=[]; g.forEach(function(x){ lista.push(x[0]); x[1].forEach(function(s){ lista.push('\t'+s); }); });
+      ETAPA_MODELOS['Levantamento']=lista;
+    })();
+    /* Estudo preliminar: check-list enviado pela Isys (quatro imagens, na ordem enviada); substitui os itens antigos */
+    ETAPA_MODELOS['Estudo preliminar']=[
+      'Inserir curvas de nível',
+      'Inserir e identificar limites e recuos do terreno',
+      'Se reforma, indicar elementos a construir (diferenciando o material das paredes, se alvenaria ou gesso)',
+      'Se reforma, indicar elementos a demolir',
+      'Indicar o sentido se for esquadria de correr',
+      'Representar agenciamento',
+      'Inserir e identificar muro e cerca viva e suas alturas',
+      'Inserir e identificar rebaixamento de meio-fio para acesso de veículos e PNE',
+      'Identificar logradouros, calçadas e terrenos confrontantes',
+      'Inserir e identificar depósito de lixo, central de gás e reservatórios inferior e superior com capacidade',
+      'Inserir vegetação',
+      'Esconder layout de mobiliário',
+      'Inserir piso tátil e direcional',
+      'Indicar e identificar acessos veículos e pedestres',
+      'Identificar bancos, jardineiras, etc.',
+      'Identificar meias paredes e suas alturas',
+      'Identificar vagas de estacionamento com numeração',
+      'Indicar inclinação de rampa e numeração dos degraus da escada',
+      'Indicar subida em escadas e rampas e de vazios com "X" e nome "vazio"',
+      'Indicar solo natural e sua área',
+      'Inserir nome e área dos ambientes',
+      'Indicar projeções com identificações de coberta, pavimentos, saques da volumetria, reservatórios, etc.',
+      'Indicar abertura nichos de produtos, com cota de esquadria e texto com seta',
+      'Indicar abertura acesso shafts, com cota de esquadrias e texto com seta',
+      'Indicar suportes de carga, caso haja paredes de drywall (suportes para móveis, bancadas, tvs, quadros, etc)',
+      'Indicar barrotes (com dimensões) em madeira no teto onde houver portas de correr ou elementos que precisem de sustentação pelo teto',
+      'Identificar elementos e materiais utilizados para esclarecer o desenho',
+      'Se reforma, indicar demolição de vergas',
+      'Se reforma, indicar nivelamento entre pisos (em caso de integração de varanda, subtração de área molhada, etc)',
+      'Se reforma, indicar se revestimento do piso será retirado ou se será "piso sobre piso"',
+      'Se reforma, indicar se haverá revestimento mantido nas áreas atrás dos armários (indicar ver detalhamento de ESP)',
+      'Se reforma, indicar descascamento de pilares, vigas e paredes, se houver',
+      'Se reforma, indicar com texto esquadrias retiradas/relocadas e novas',
+      'Se reforma, indicar com texto peças sanitárias retiradas/relocadas e novas'
+    ];
 
 
     /* ---------------- motor de etapas ---------------- */
@@ -1942,7 +2076,7 @@
     function checkOf(et){ return scopeOf(et).querySelector('.check'); }
     function recomputeEtapa(et){
       var scope=scopeOf(et);
-      var boxes=scope.querySelectorAll('.check input');
+      var boxes=scope.querySelectorAll('.check li:not(.na) input'); // itens "não se aplica" ficam fora da conta
       var total=boxes.length,done=0; [].forEach.call(boxes,function(b){if(b.checked)done++;});
       var allDone=(total>0&&done===total), started=done>0;
       var fim=scope.querySelector('.pz-fim');
@@ -1978,7 +2112,10 @@
       var lbl=li.querySelector('label'); if(lbl) lbl.classList.add('lbl');
       var rm=document.createElement('button'); rm.type='button'; rm.className='chk-rm pj-edit-only'; rm.textContent='×';
       rm.addEventListener('click',function(){ var u=li.parentNode; li.remove(); marcarGrupos(u); recomputeEtapa(et); kanbanSync(); if(u) u.dispatchEvent(new Event('change',{bubbles:true})); });
-      li.appendChild(rm);
+      // "N/A" = não se aplica a este projeto: o item fica na lista, mas não conta no andamento
+      var na=document.createElement('button'); na.type='button'; na.className='chk-na'; na.textContent='N/A'; na.title='Não se aplica a este projeto (não conta no andamento)'; na.setAttribute('aria-label','Não se aplica');
+      na.addEventListener('click',function(){ toggleNA(li,et); });
+      li.appendChild(na); li.appendChild(rm);
     }
     function applyModelo(et){
       var nm=et.querySelector('.etapa-name').textContent.trim();
@@ -2170,7 +2307,7 @@
         el.dataset.eid=e.id; el.dataset.termo=termo; el.dataset.concl=(e.status==='concluida')?'1':'';
         var _colabsOld=el.querySelector('.colabs'); if(_colabsOld) _colabsOld.remove(); // remove o responsável genérico do protótipo
         var boxes=el.querySelectorAll('.check li input[type=checkbox]');
-        cl.forEach(function(it,i){ if(boxes[i]) boxes[i].checked=!!it.feito; });
+        cl.forEach(function(it,i){ if(!boxes[i]) return; boxes[i].checked=!!it.feito&&!it.na; if(it.na){ var lna=boxes[i].closest('li'); if(lna) lna.classList.add('na'); } });
         var ini=el.querySelector('.pz-ini'), fim=el.querySelector('.pz-fim');
         if(ini) ini.value=e.prazo_inicio||''; if(fim) fim.value=e.prazo_fim||'';
         // seletor de termo (aparece no modo editar)
@@ -2264,9 +2401,10 @@
     async function salvarEtapaObra(et){
       if(!et||!et.dataset||!et.dataset.eid) return;
       var scope=(typeof scopeOf==='function')?scopeOf(et):et;
-      var checklist=[].map.call(scope.querySelectorAll('.check li'),function(li){ var cb=li.querySelector('input[type=checkbox]'); var sp=li.querySelector('span'); var o={ texto: sp?sp.textContent:'', feito: cb?cb.checked:false }; if(li.classList.contains('sub')) o.sub=true; return o; });
-      var done=checklist.filter(function(x){return x.feito;}).length;
-      var status=checklist.length?(done===checklist.length?'concluida':(done>0?'andamento':'a_fazer')):'a_fazer';
+      var checklist=[].map.call(scope.querySelectorAll('.check li'),function(li){ var cb=li.querySelector('input[type=checkbox]'); var sp=li.querySelector('span'); var o={ texto: sp?sp.textContent:'', feito: cb?cb.checked:false }; if(li.classList.contains('sub')) o.sub=true; if(li.classList.contains('na')){ o.na=true; o.feito=false; } return o; });
+      var aplic=checklist.filter(function(x){return !x.na;}); // "não se aplica" não conta no andamento
+      var done=aplic.filter(function(x){return x.feito;}).length;
+      var status=aplic.length?(done===aplic.length?'concluida':(done>0?'andamento':'a_fazer')):'a_fazer';
       var ini=scope.querySelector('.pz-ini'), fim=scope.querySelector('.pz-fim');
       var termoSel=scope.querySelector('.etapa-termo-sel'); var termo=termoSel?termoSel.value:(et.dataset.termo||'nenhum');
       var kanbanSel=scope.querySelector('.etapa-kanban-sel'); var kanbanVal=kanbanSel?kanbanSel.value:(et.dataset.kanban||'');
@@ -2310,8 +2448,22 @@
       var rows=(res&&!res.error)?(res.data||[]):[];
       var byTipo={}; rows.forEach(function(r){ byTipo[r.tipo]=r; });
       var tipos=DOCS_PADRAO.slice(); rows.forEach(function(r){ if(tipos.indexOf(r.tipo)<0) tipos.push(r.tipo); });
+      tipos=tipos.filter(function(t){ return !(byTipo[t]&&byTipo[t].arquivo_nome===DOC_OCULTO); }); // documentos excluídos deste projeto não aparecem
       ul.innerHTML='';
       tipos.forEach(function(tipo){ ul.appendChild(docRowAdmin(tipo, byTipo[tipo])); });
+    }
+    // Documento EXCLUÍDO de um projeto: os da lista padrão ficam marcados no banco (para não reaparecerem); os criados só para o projeto são apagados.
+    var DOC_OCULTO='__excluido__';
+    async function excluirDocProjeto(tipo, row){
+      try{
+        if(row&&row.arquivo_path){ await sb.storage.from('projeto-docs').remove([row.arquivo_path]); }
+        var r;
+        if(DOCS_PADRAO.indexOf(tipo)>=0) r=await sb.from('documentos').upsert({ projeto_id:obraId, tipo:tipo, arquivo_nome:DOC_OCULTO, arquivo_path:null }, {onConflict:'projeto_id,tipo'});
+        else r=await sb.from('documentos').delete().eq('projeto_id',obraId).eq('tipo',tipo);
+        if(r&&r.error){ alert('Erro ao excluir o documento: '+r.error.message); return; }
+        if(typeof logAtividade==='function') logAtividade('excluiu o documento "'+tipo+'" de '+(obraNomeAtual||'um projeto'));
+        renderDocsAdmin();
+      }catch(e){ alert('Erro ao excluir: '+(e&&e.message||e)); }
     }
     function docRowAdmin(tipo, row){
       var li=document.createElement('li'); li.className='np-doc'; li.dataset.tipo=tipo;
@@ -2320,12 +2472,15 @@
       var main='<div class="np-doc-main"><div class="np-doc-name">'+ceDoc(tipo)+'</div>'+ver+'</div>';
       var state='<span class="np-doc-state">'+(temArq?'anexado':'aguardando anexo')+'</span>';
       var attach='<label class="pill ghost sm np-attach pj-edit-only"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>'+(temArq?'trocar':'anexar')+'<input type="file" accept="application/pdf" hidden></label>';
-      var rm=temArq?'<button type="button" class="pbtn danger np-doc-rm pj-edit-only" title="Remover"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button>':'';
-      li.innerHTML=main+state+attach+rm;
+      var rm=temArq?'<button type="button" class="pbtn danger np-doc-rm pj-edit-only" title="Remove só o PDF anexado; o documento continua na lista"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>remover PDF</button>':'';
+      // excluir o documento da lista deste projeto (o Contrato é fixo)
+      var ex=(tipo!=='Contrato')?'<button type="button" class="pbtn danger np-doc-ex pj-edit-only" title="Excluir este documento do projeto"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button>':'';
+      li.innerHTML=main+state+attach+rm+ex;
       var fileIn=li.querySelector('input[type=file]');
       if(fileIn) fileIn.addEventListener('change',function(){ var f=fileIn.files&&fileIn.files[0]; if(!f) return; if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){ alert('Envie um PDF.'); return; } uploadDocProjeto(tipo, f, li); });
       var vb=li.querySelector('.np-doc-ver'); if(vb) vb.addEventListener('click',function(){ verDocProjeto(row.arquivo_path); });
-      var rmb=li.querySelector('.np-doc-rm'); if(rmb) rmb.addEventListener('click',function(){ imConfirm('Remover "'+tipo+'"?').then(function(ok){ if(ok) removerDocProjeto(tipo, row); }); });
+      var rmb=li.querySelector('.np-doc-rm'); if(rmb) rmb.addEventListener('click',function(){ imConfirm('Remover o PDF anexado em "'+tipo+'"? O documento continua na lista, aguardando novo anexo.').then(function(ok){ if(ok) removerDocProjeto(tipo, row); }); });
+      var exb=li.querySelector('.np-doc-ex'); if(exb) exb.addEventListener('click',function(){ imConfirm('Excluir o documento "'+tipo+'" deste projeto?'+(temArq?' O PDF anexado também será apagado.':'')+' Ele deixa de aparecer para a equipe e para o cliente.').then(function(ok){ if(ok) excluirDocProjeto(tipo, row); }); });
       return li;
     }
     async function uploadDocProjeto(tipo, file, li){
@@ -2345,7 +2500,7 @@
     async function removerDocProjeto(tipo, row){
       try{
         if(row&&row.arquivo_path){ await sb.storage.from('projeto-docs').remove([row.arquivo_path]); }
-        await sb.from('documentos').delete().eq('projeto_id',obraId).eq('tipo',tipo);
+        await sb.from('documentos').update({ arquivo_nome:null, arquivo_path:null }).eq('projeto_id',obraId).eq('tipo',tipo); // tira só o PDF; o documento continua na lista
         renderDocsAdmin();
       }catch(e){ alert('Erro ao remover: '+(e&&e.message||e)); }
     }
@@ -2458,7 +2613,11 @@
     if(adAdd) adAdd.addEventListener('click',async function(){
       var mv=adModelo.value, name = mv==='__new__' ? (adNome.value||'').trim() : mv;
       if(!name||!obraId) return;
-      var ins=await sb.from('documentos').upsert({ projeto_id:obraId, tipo:name }, {onConflict:'projeto_id,tipo'});
+      // se o documento tinha sido excluído deste projeto, adicionar de novo só desfaz a exclusão
+      var ja=await sb.from('documentos').select('arquivo_nome').eq('projeto_id',obraId).eq('tipo',name).maybeSingle();
+      var ins=(ja&&ja.data&&ja.data.arquivo_nome===DOC_OCULTO)
+        ? await sb.from('documentos').update({ arquivo_nome:null, arquivo_path:null }).eq('projeto_id',obraId).eq('tipo',name)
+        : await sb.from('documentos').upsert({ projeto_id:obraId, tipo:name }, {onConflict:'projeto_id,tipo'});
       if(ins.error){ alert('Erro ao adicionar documento: '+ins.error.message); return; }
       if(adNome) adNome.value='';
       if(typeof renderDocsAdmin==='function') renderDocsAdmin();
@@ -2889,6 +3048,8 @@
         if(!uid){ an.textContent='Não foi possível criar o login. Verifique se a confirmação de e-mail está DESLIGADA no Supabase.'; return; }
         var pf=await sb.from('perfis').upsert({ id:uid, papel:'cliente', nome:current.nome });
         if(pf.error){ an.textContent='Login criado, mas erro ao definir o papel (rode o SQL das permissões de perfis): '+pf.error.message; return; }
+        // o gatilho do banco cria uma segunda ficha (vazia) para o login novo: apaga essa e mantém a ficha que já existia
+        try{ await sb.from('clientes').delete().eq('perfil_id',uid).neq('id',current.key); }catch(e){}
         var up=await sb.from('clientes').update({ perfil_id:uid, membro:true }).eq('id',current.key);
         if(up.error){ an.textContent='Login criado, mas erro ao vincular ao cliente: '+up.error.message; return; }
         current.membro=true; if(typeof paintMembro==='function') paintMembro(current); if(typeof renderList==='function') renderList();
@@ -3563,7 +3724,7 @@
     function etapaCards(){
       return (ETAPAS_KB||[]).filter(function(e){ return passaFiltro(KB_FILTRO, e.responsavel_id); }).map(function(e){
         var cl=Array.isArray(e.checklist)?e.checklist:[];
-        var done=cl.filter(function(x){return x.feito;}).length, total=cl.length;
+        var clA=cl.filter(function(x){return !x.na;}); var done=clA.filter(function(x){return x.feito;}).length, total=clA.length;
         var col;
         if(e.kanban==='revisao'||e.kanban==='aprov'||e.kanban==='cliente'){ col=e.kanban; }
         else { col=(e.status==='concluida')?'concluido':((e.status==='andamento'||done>0)?'andamento':'afazer'); }
@@ -3753,8 +3914,8 @@
     async function renderRegistro(){
       var ul=document.getElementById('recent-list'); if(!ul) return;
       var itens=[];
-      try{ var r=await sb.from('atividades').select('texto,autor_nome,criado_em').order('criado_em',{ascending:false}).limit(12); itens=(r&&r.data?r.data:[]); }catch(e){}
-      ul.innerHTML = itens.length ? itens.map(function(i){ return '<li class="recent-row"><span class="rc-ico">•</span><span>'+(i.autor_nome?'<b>'+ceDoc(i.autor_nome)+'</b> ':'')+ceDoc(i.texto)+'</span><span class="rc-when">'+ageTxt(diasDe(i.criado_em))+'</span></li>'; }).join('') : '<li class="recent-row"><span style="color:var(--ink-3)">Sem atividades registradas ainda.</span></li>';
+      try{ var ini=new Date(); ini.setHours(0,0,0,0); ini.setDate(ini.getDate()-((ini.getDay()+6)%7)); /* segunda-feira, 0h: a lista zera a cada inicio de semana */ var r=await sb.from('atividades').select('texto,autor_nome,criado_em').gte('criado_em',ini.toISOString()).order('criado_em',{ascending:false}).limit(300); itens=(r&&r.data?r.data:[]); /* de toda a equipe, a mais recente em cima */ }catch(e){}
+      ul.innerHTML = itens.length ? itens.map(function(i){ return '<li class="recent-row"><span class="rc-ico">•</span><span>'+(i.autor_nome?'<b>'+ceDoc(i.autor_nome)+'</b> ':'')+ceDoc(i.texto)+'</span><span class="rc-when">'+ageTxt(diasDe(i.criado_em))+'</span></li>'; }).join('') : '<li class="recent-row"><span style="color:var(--ink-3)">Sem atividades registradas nesta semana.</span></li>';
     }
     renderAgendaHoje(); renderStatsHome(); renderRegistro();
     /* ---------- notificações (sino) ---------- */

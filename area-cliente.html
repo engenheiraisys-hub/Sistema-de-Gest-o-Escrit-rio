@@ -99,10 +99,10 @@
   .aviso-main{flex:1;min-width:0}
   @keyframes riseIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
   .view{padding-top:clamp(24px,4vw,40px)}
-  #view-home.anim .welcome{animation:riseIn .55s cubic-bezier(.22,.61,.36,1) .05s both}
-  #view-home.anim .obras{animation:riseIn .55s cubic-bezier(.22,.61,.36,1) .18s both}
-  #view-obra.anim .hero{animation:riseIn .55s cubic-bezier(.22,.61,.36,1) .05s both}
-  #view-obra.anim .accs{animation:riseIn .55s cubic-bezier(.22,.61,.36,1) .18s both}
+  #view-home.anim .welcome{animation:riseIn .55s cubic-bezier(.22,.61,.36,1) .05s backwards}
+  #view-home.anim .obras{animation:riseIn .55s cubic-bezier(.22,.61,.36,1) .18s backwards}
+  #view-obra.anim .hero{animation:riseIn .55s cubic-bezier(.22,.61,.36,1) .05s backwards}
+  #view-obra.anim .accs{animation:riseIn .55s cubic-bezier(.22,.61,.36,1) .18s backwards}
   @media (prefers-reduced-motion:reduce){#view-home.anim .welcome,#view-home.anim .obras,#view-obra.anim .hero,#view-obra.anim .accs{animation:none}}
   /* boas-vindas + lista de obras */
   .welcome-hello{font-size:15px;color:var(--ink-2);margin:0}
@@ -398,7 +398,7 @@
   /* início: saudação, 4 cartões e grade */
   .greet{font-family:var(--display);font-weight:700;font-size:clamp(30px,5.2vw,46px);line-height:1;margin:0;color:var(--ink);letter-spacing:-.01em}
   .motiva{font-family:var(--sans);font-weight:300;font-size:clamp(14px,1.8vw,16px);line-height:1.5;color:var(--ink-2);margin:16px 0 0;max-width:52ch}
-  #view-inicio.anim .welcome{animation:riseIn .55s cubic-bezier(.22,.61,.36,1) .05s both}
+  #view-inicio.anim .welcome{animation:riseIn .55s cubic-bezier(.22,.61,.36,1) .05s backwards}
   .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(18px,2.5vw,26px)}
   @media(max-width:820px){.stat-cards{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:460px){.stat-cards{grid-template-columns:1fr}}
@@ -1030,6 +1030,7 @@
       try{ var res=await sb.from('documentos').select('tipo,arquivo_nome,arquivo_path').eq('projeto_id',projetoId); rows=(res&&!res.error)?(res.data||[]):[]; }catch(e){}
       var byTipo={}; rows.forEach(function(r){ byTipo[r.tipo]=r; });
       var tipos=DOCS_CLIENTE.slice(); rows.forEach(function(r){ if(tipos.indexOf(r.tipo)<0) tipos.push(r.tipo); });
+      tipos=tipos.filter(function(t){ return !(byTipo[t]&&byTipo[t].arquivo_nome==='__excluido__'); }); // documentos que o escritório excluiu deste projeto
       var attached=0;
       tipos.forEach(function(tipo){
         var row=byTipo[tipo], temArq=row&&row.arquivo_path; if(temArq) attached++;
@@ -1238,7 +1239,12 @@
     async function carregarCliente(){
       limparExemplosCliente();
       var u=(await sb.auth.getUser()).data.user; if(!u) return;
-      var res=await sb.from('clientes').select('id,nome,membro,projetos(id,nome,status,valor_contrato,forma_pagamento,etapas(id,nome,ordem,status,termo,termo_aceito,termo_aceito_em,termo_aceito_por,documento_nome,documento_path),parcelas(id,descricao,valor,vencimento,status,ordem,pago_em),recebimentos(id,descricao,valor,data,status))').eq('perfil_id',u.id).order('criado_em').limit(1);
+      // 1ª tentativa já traz "arquivado" (projeto arquivado pelo escritório não aparece para o cliente)
+      var res=await sb.from('clientes').select('id,nome,membro,projetos(id,nome,status,arquivado,valor_contrato,forma_pagamento,etapas(id,nome,ordem,status,termo,termo_aceito,termo_aceito_em,termo_aceito_por,documento_nome,documento_path),parcelas(id,descricao,valor,vencimento,status,ordem,pago_em),recebimentos(id,descricao,valor,data,status))').eq('perfil_id',u.id).order('criado_em').limit(1);
+      if(res.error){
+        // a coluna "arquivado" pode ainda não existir — tenta sem ela
+        res=await sb.from('clientes').select('id,nome,membro,projetos(id,nome,status,valor_contrato,forma_pagamento,etapas(id,nome,ordem,status,termo,termo_aceito,termo_aceito_em,termo_aceito_por,documento_nome,documento_path),parcelas(id,descricao,valor,vencimento,status,ordem,pago_em),recebimentos(id,descricao,valor,data,status))').eq('perfil_id',u.id).order('criado_em').limit(1);
+      }
       if(res.error){
         // recebimentos (serviços extras) podem ainda não estar acessíveis — tenta sem eles
         res=await sb.from('clientes').select('id,nome,membro,projetos(id,nome,status,valor_contrato,forma_pagamento,etapas(id,nome,ordem,status,termo,termo_aceito,termo_aceito_em,termo_aceito_por,documento_nome,documento_path),parcelas(id,descricao,valor,vencimento,status,ordem,pago_em))').eq('perfil_id',u.id).order('criado_em').limit(1);
@@ -1268,7 +1274,7 @@
       if(greetEl){ var gh=new Date().getHours(); greetEl.textContent=(gh<12?'Bom dia':(gh<18?'Boa tarde':'Boa noite'))+', '+primeiro; }
       var whoEl=document.getElementById('who'); if(whoEl) whoEl.textContent=c.nome||primeiro;
       document.querySelectorAll('.welcome-title').forEach(function(el){ if(/Olá/.test(el.textContent)) el.textContent='Olá, '+primeiro; });
-      var projetos=c.projetos||[];
+      var projetos=(c.projetos||[]).filter(function(p){ return !p.arquivado; }); // arquivados ficam fora da Área do Cliente
       OBRAS={};
       projetos.forEach(function(p){
         var ets=(p.etapas||[]).slice().sort(etOrd), at=etAtual(ets);
