@@ -769,7 +769,8 @@
       <h2 class="page-title">Minhas tarefas</h2>
       <button class="pill solid sm" type="button" id="nova-tarefa" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>nova tarefa</button>
     </div>
-    <p class="proj-note">Suas etapas nos projetos e tarefas avulsas, por situação. O cartão de etapa entra sozinho na coluna certa pelo check-list. Toque num cartão para abrir/editar.</p>
+    <p class="proj-note">Cartões avulsos e <b>etapas dos projetos por responsável</b>. Use o filtro para ver as suas, as de um colaborador ou de toda a equipe.</p>
+    <div style="margin:0 0 18px;max-width:320px"><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Mostrar tarefas de</label><select id="kanban-filtro" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
     <div class="kanban" id="kanban"></div>
   </section>
 
@@ -1133,6 +1134,10 @@
 <div id="tk-modal" hidden style="position:fixed;inset:0;z-index:60;background:rgba(65,65,65,.28);display:flex;align-items:center;justify-content:center;padding:20px">
   <div style="background:var(--paper);max-width:460px;width:100%;border-radius:12px;padding:26px;box-shadow:0 12px 50px rgba(65,65,65,.18);max-height:90vh;overflow:auto">
     <input id="tk-title" type="text" placeholder="Título da tarefa" style="width:100%;font-family:var(--display);font-weight:500;font-size:20px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 2px;margin-bottom:18px">
+    <label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Responsável</label>
+    <select id="tk-resp" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px;margin-bottom:18px"></select>
+    <label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Vínculo</label>
+    <input id="tk-link" type="text" placeholder="Projeto/obra (opcional)" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px;margin-bottom:18px">
     <label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Situação no painel</label>
     <select id="tk-kanban" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px;margin-bottom:18px">
       <option value="">Automática (segue o checklist)</option><option value="revisao">Revisão e retorno</option><option value="aprov">Aguardando aprovação ou docs</option><option value="cliente">Aguardando cliente</option>
@@ -1276,7 +1281,7 @@
         var st=(e.status==='concluida')?'green':((fim.getTime()<today.getTime())?'red':'amber');
         rows.push({obra:(e.projetos?e.projetos.nome:'projeto'),task:e.nome,s:s,e:ee,st:st});
       });
-      (TAREFAS_AG||[]).forEach(function(e){
+      (TAREFAS_AG||[]).filter(function(t){ return typeof MEU_ID==='undefined'||!MEU_ID||String(t.responsavel_id)===String(MEU_ID); }).forEach(function(e){
         if(!MEU_ID || String(e.responsavel_id)!==String(MEU_ID)) return;
         if(!e.data_inicio && !e.data_fim) return;
         var ini=e.data_inicio?new Date(e.data_inicio+'T00:00:00'):new Date(e.data_fim+'T00:00:00');
@@ -1871,7 +1876,7 @@
     ];
     var kanban=document.getElementById('kanban');
     var ETAPAS_KB=[], TASKS_COLAB=[], dragIdC=null;
-    async function carregarTarefasColab(){ try{ var res=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id,kanban,data_inicio,data_fim').order('criado_em',{ascending:true}); TASKS_COLAB=(res&&!res.error)?(res.data||[]).map(function(r){ return {id:r.id,title:r.title||'Sem título',meta:r.meta||'tarefa avulsa',col:r.col||'afazer',chk:Array.isArray(r.chk)?r.chk:[],kanban:r.kanban||'',data_inicio:r.data_inicio||'',data_fim:r.data_fim||''}; }):[]; }catch(e){ try{ var r2=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id').order('criado_em',{ascending:true}); TASKS_COLAB=(r2&&!r2.error)?(r2.data||[]).map(function(r){ return {id:r.id,title:r.title||'Sem título',meta:r.meta||'tarefa avulsa',col:r.col||'afazer',chk:Array.isArray(r.chk)?r.chk:[],kanban:'',data_inicio:'',data_fim:''}; }):[]; }catch(e2){ TASKS_COLAB=[]; } } }
+    async function carregarTarefasColab(){ try{ var res=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id,kanban,data_inicio,data_fim').order('criado_em',{ascending:true}); TASKS_COLAB=(res&&!res.error)?(res.data||[]).map(function(r){ return {id:r.id,title:r.title||'Sem título',meta:r.meta||'tarefa avulsa',col:r.col||'afazer',responsavel_id:r.responsavel_id||null,chk:Array.isArray(r.chk)?r.chk:[],kanban:r.kanban||'',data_inicio:r.data_inicio||'',data_fim:r.data_fim||''}; }):[]; }catch(e){ try{ var r2=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id').order('criado_em',{ascending:true}); TASKS_COLAB=(r2&&!r2.error)?(r2.data||[]).map(function(r){ return {id:r.id,title:r.title||'Sem título',meta:r.meta||'tarefa avulsa',col:r.col||'afazer',responsavel_id:r.responsavel_id||null,chk:Array.isArray(r.chk)?r.chk:[],kanban:'',data_inicio:'',data_fim:''}; }):[]; }catch(e2){ TASKS_COLAB=[]; } } }
     function efColC(t){ if(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente') return t.kanban; if(t.chk&&t.chk.length&&t.chk.every(function(i){return i.done;})) return 'concluido'; if(t.col==='concluido') return 'concluido'; if(t.chk&&t.chk.some(function(i){return i.done;})) return 'andamento'; return t.col||'afazer'; }
     function salvarTarefaColabFull(t){ if(!t||!t.id) return; sb.from('tarefas').update({title:t.title, col:t.col, chk:t.chk, kanban:t.kanban||null, data_inicio:t.data_inicio||null, data_fim:t.data_fim||null}).eq('id',t.id).then(function(){}); }
     async function carregarEtapasKanban(){
@@ -1880,21 +1885,36 @@
       await carregarTarefasColab();
       renderKanban();
     }
+    /* filtro "Mostrar tarefas de" + selo do responsável (igual ao admin) */
+    var KB_FILTRO='__me__';
+    function nomeResp(id){ var p=(EQUIPE||[]).filter(function(x){ return String(x.id)===String(id); })[0]; return p?(p.nome||''):''; }
+    function iniResp(id){ var n=nomeResp(id); if(!n) return ''; var p=n.trim().split(/\s+/); return (((p[0]||'')[0]||'')+((p[1]||'')[0]||'')).toUpperCase(); }
+    function corResp(id){ var pal=['#5F7C8A','#5E7D57','#C08A1E','#AA564A','#7a6a58','#8b7fa3','#6E4B3A','#A85C74']; var s=String(id||''),h=0; for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return pal[h%pal.length]; }
+    function badgeResp(id){ if(!id) return ''; return '<span class="kresp" title="'+ce(nomeResp(id)||'—')+'" style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:'+corResp(id)+';color:#fff;font-size:9.5px;font-weight:600;letter-spacing:.02em;flex:none">'+iniResp(id)+'</span>'; }
+    function passaFiltro(f, rid){ if(f==='') return true; if(f==='__me__') return String(rid)===String(MEU_ID); return String(rid)===String(f); }
+    function popularFiltroKb(){
+      var kf=document.getElementById('kanban-filtro'); if(!kf) return;
+      var opts='<option value="__me__">Só as minhas</option><option value="">Todos (equipe)</option>';
+      (EQUIPE||[]).forEach(function(p){ if(String(p.id)===String(MEU_ID)) return; opts+='<option value="'+p.id+'">'+ce(p.nome||'(sem nome)')+(p.papel==='admin'?' · admin':'')+'</option>'; });
+      kf.innerHTML=opts; kf.value=KB_FILTRO; if(kf.value!==KB_FILTRO){ KB_FILTRO='__me__'; kf.value=KB_FILTRO; }
+    }
+    (function(){ var kf=document.getElementById('kanban-filtro'); if(kf) kf.addEventListener('change',function(){ KB_FILTRO=kf.value; renderKanban(); }); })();
+    function tarefasFiltradas(){ return (TASKS_COLAB||[]).filter(function(t){ if(KB_FILTRO==='') return true; if(KB_FILTRO==='__me__') return !t.responsavel_id || String(t.responsavel_id)===String(MEU_ID); return String(t.responsavel_id)===String(KB_FILTRO); }); }
     function etapaCards(){
-      return (ETAPAS_KB||[]).filter(function(e){ return MEU_ID && String(e.responsavel_id)===String(MEU_ID); }).map(function(e){
+      return (ETAPAS_KB||[]).filter(function(e){ return MEU_ID && passaFiltro(KB_FILTRO, e.responsavel_id); }).map(function(e){
         var cl=Array.isArray(e.checklist)?e.checklist:[];
         var clA=cl.filter(function(x){return !x.na;}); var done=clA.filter(function(x){return x.feito;}).length, total=clA.length;
         var col;
         if(e.kanban==='revisao'||e.kanban==='aprov'||e.kanban==='cliente'){ col=e.kanban; }
         else { col=(e.status==='concluida')?'concluido':((e.status==='andamento'||done>0)?'andamento':'afazer'); }
-        return {projeto_id:e.projeto_id,title:e.nome,meta:(e.projetos?e.projetos.nome:'projeto'),col:col,done:done,total:total};
+        return {projeto_id:e.projeto_id,title:e.nome,meta:(e.projetos?e.projetos.nome:'projeto'),col:col,done:done,total:total,responsavel_id:e.responsavel_id||null};
       });
     }
     async function novaTarefaColab(col){
       await ensureMeuId();
       if(!MEU_ID){ alert('Recarregue a página e tente de novo.'); return; }
       var kb=(col==='revisao'||col==='aprov'||col==='cliente')?col:'';
-      openTkModal({id:null,title:'',kanban:kb,col:'afazer',chk:[],data_inicio:'',data_fim:''}, true);
+      openTkModal({id:null,title:'',meta:'',responsavel_id:MEU_ID,kanban:kb,col:'afazer',chk:[],data_inicio:'',data_fim:''}, true);
     }
     /* ---- modal de tarefa avulsa do colaborador (edita cópia; salvar grava; fechar descarta) ---- */
     var tkCur=null, tkOrig=null, tkNew=false;
@@ -1902,11 +1922,16 @@
     function tkRenderCheck(){ if(!tkCheck||!tkCur) return; tkCheck.innerHTML=''; (tkCur.chk||[]).forEach(function(it,idx){ var li=document.createElement('li'); li.style.cssText='display:flex;align-items:center;gap:8px;padding:5px 0'; var cb=document.createElement('input'); cb.type='checkbox'; cb.checked=!!it.done; cb.addEventListener('change',function(){ it.done=cb.checked; }); var sp=document.createElement('span'); sp.textContent=it.t; sp.style.flex='1'; var rm=document.createElement('button'); rm.type='button'; rm.textContent='×'; rm.style.cssText='background:none;border:none;color:var(--ink-3);cursor:pointer'; rm.addEventListener('click',function(){ tkCur.chk.splice(idx,1); tkRenderCheck(); }); li.appendChild(cb); li.appendChild(sp); li.appendChild(rm); tkCheck.appendChild(li); }); }
     function openTkModal(t, isNew){
       tkNew=!!isNew; tkOrig=isNew?null:t;
-      tkCur={ id:t.id, title:t.title||'', kanban:t.kanban||'', col:t.col||'afazer', data_inicio:t.data_inicio||'', data_fim:t.data_fim||'', chk:(t.chk||[]).map(function(i){return {t:i.t,done:!!i.done};}) };
+      tkCur={ id:t.id, title:t.title||'', meta:(t.meta&&t.meta!=='tarefa avulsa')?t.meta:'', responsavel_id:t.responsavel_id||null, kanban:t.kanban||'', col:t.col||'afazer', data_inicio:t.data_inicio||'', data_fim:t.data_fim||'', chk:(t.chk||[]).map(function(i){return {t:i.t,done:!!i.done};}) };
+      if(tkResp) tkResp.innerHTML=respOptions(tkCur.responsavel_id||''); if(tkLink) tkLink.value=tkCur.meta;
       if(tkTitle) tkTitle.value=tkCur.title; if(tkKanban) tkKanban.value=tkCur.kanban; if(tkIni) tkIni.value=tkCur.data_inicio; if(tkFim) tkFim.value=tkCur.data_fim;
       tkRenderCheck(); if(tkModal) tkModal.hidden=false;
     }
     function closeTkModal(){ if(tkModal) tkModal.hidden=true; tkCur=null; tkOrig=null; tkNew=false; }
+    var tkResp=document.getElementById('tk-resp'), tkLink=document.getElementById('tk-link');
+    if(tkResp) tkResp.addEventListener('change',function(){ if(tkCur) tkCur.responsavel_id=tkResp.value||null; });
+    if(tkLink) tkLink.addEventListener('input',function(){ if(tkCur) tkCur.meta=tkLink.value; });
+    function tkErro(e){ var m=(e&&e.message)||''; if(/row-level security|violates/i.test(m)) return 'Para atribuir tarefas a outra pessoa da equipe, rode antes o arquivo sql-tarefas-equipe.sql no Supabase.'; return 'Erro ao salvar: '+m; }
     if(tkTitle) tkTitle.addEventListener('input',function(){ if(tkCur) tkCur.title=tkTitle.value; });
     if(tkKanban) tkKanban.addEventListener('change',function(){ if(tkCur) tkCur.kanban=tkKanban.value; });
     if(tkIni) tkIni.addEventListener('change',function(){ if(tkCur) tkCur.data_inicio=tkIni.value||''; });
@@ -1918,15 +1943,17 @@
     async function tkSalvar(){
       if(!tkCur) return;
       tkCur.title=(tkCur.title||'').trim()||'Sem título';
+      var tkMeta=(tkCur.meta||'').trim()||'tarefa avulsa';
       if(tkNew){
         await ensureMeuId();
-        var res=await sb.from('tarefas').insert({title:tkCur.title,meta:'tarefa avulsa',col:tkCur.col,chk:tkCur.chk,responsavel_id:MEU_ID,kanban:tkCur.kanban||null,data_inicio:tkCur.data_inicio||null,data_fim:tkCur.data_fim||null}).select().single();
-        if(res.error){ alert('Erro ao salvar: '+res.error.message+'\\n(rodou os SQL de tarefas, responsável, situação e datas?)'); return; }
-        TASKS_COLAB.push({id:res.data.id,title:tkCur.title,meta:'tarefa avulsa',col:tkCur.col,chk:tkCur.chk,kanban:tkCur.kanban,data_inicio:tkCur.data_inicio,data_fim:tkCur.data_fim});
+        var res=await sb.from('tarefas').insert({title:tkCur.title,meta:tkMeta,col:tkCur.col,chk:tkCur.chk,responsavel_id:tkCur.responsavel_id||null,kanban:tkCur.kanban||null,data_inicio:tkCur.data_inicio||null,data_fim:tkCur.data_fim||null}).select().single();
+        if(res.error){ alert(tkErro(res.error)); return; }
+        TASKS_COLAB.push({id:res.data.id,title:tkCur.title,meta:tkMeta,col:tkCur.col,responsavel_id:tkCur.responsavel_id||null,chk:tkCur.chk,kanban:tkCur.kanban,data_inicio:tkCur.data_inicio,data_fim:tkCur.data_fim});
       } else if(tkOrig){
-        tkOrig.title=tkCur.title; tkOrig.kanban=tkCur.kanban; tkOrig.col=tkCur.col; tkOrig.chk=tkCur.chk; tkOrig.data_inicio=tkCur.data_inicio; tkOrig.data_fim=tkCur.data_fim;
-        var up=await sb.from('tarefas').update({title:tkOrig.title,col:tkOrig.col,chk:tkOrig.chk,kanban:tkOrig.kanban||null,data_inicio:tkOrig.data_inicio||null,data_fim:tkOrig.data_fim||null}).eq('id',tkOrig.id);
-        if(up.error){ alert('Erro ao salvar: '+up.error.message); return; }
+        var up=await sb.from('tarefas').update({title:tkCur.title,meta:tkMeta,col:tkCur.col,chk:tkCur.chk,responsavel_id:tkCur.responsavel_id||null,kanban:tkCur.kanban||null,data_inicio:tkCur.data_inicio||null,data_fim:tkCur.data_fim||null}).eq('id',tkOrig.id).select('id');
+        if(up.error){ alert(tkErro(up.error)); return; }
+        if(!up.data||!up.data.length){ alert(tkErro({message:'row-level security'})); return; }
+        tkOrig.title=tkCur.title; tkOrig.meta=tkMeta; tkOrig.responsavel_id=tkCur.responsavel_id||null; tkOrig.kanban=tkCur.kanban; tkOrig.col=tkCur.col; tkOrig.chk=tkCur.chk; tkOrig.data_inicio=tkCur.data_inicio; tkOrig.data_fim=tkCur.data_fim;
       }
       renderKanban(); closeTkModal();
     }
@@ -1942,19 +1969,19 @@
       KCOLS.forEach(function(c){
         var col=document.createElement('div'); col.className='kcol'; col.style.setProperty('--kc',c.color);
         var listE=etc.filter(function(t){return t.col===c.key;});
-        var listA=(TASKS_COLAB||[]).filter(function(t){return efColC(t)===c.key;});
+        var listA=tarefasFiltradas().filter(function(t){return efColC(t)===c.key;});
         col.innerHTML='<div class="kcol-head"><span class="kcol-title">'+c.label+'</span><span class="kcol-n">'+(listE.length+listA.length)+'</span></div>';
         if(!listE.length && !listA.length){ var e=document.createElement('div'); e.className='kempty'; e.textContent='—'; col.appendChild(e); }
         listE.forEach(function(t){
           var card=document.createElement('div'); card.className='kcard'; card.style.setProperty('--kc',c.color);
-          card.innerHTML='<div class="kcard-t">'+t.title+'</div><div class="kcard-m">'+t.meta+'<span class="kcard-tag">etapa</span></div><div class="kcard-chk">☑ '+t.done+'/'+t.total+'</div>';
+          card.innerHTML='<div class="kcard-t" style="display:flex;align-items:flex-start;gap:8px;justify-content:space-between"><span>'+t.title+'</span>'+badgeResp(t.responsavel_id)+'</div><div class="kcard-m">'+t.meta+'<span class="kcard-tag">etapa</span></div><div class="kcard-chk">☑ '+t.done+'/'+t.total+'</div>';
           card.addEventListener('click',function(){ obraId=t.projeto_id; try{localStorage.setItem('im-obra-colab',obraId);}catch(e){} location.hash='projeto'; });
           col.appendChild(card);
         });
         listA.forEach(function(t){
           var card=document.createElement('div'); card.className='kcard'; card.style.setProperty('--kc',c.color); card.setAttribute('draggable','true');
           var d=(t.chk||[]).filter(function(i){return i.done;}).length, tot=(t.chk||[]).length;
-          card.innerHTML='<div class="kcard-t">'+ce(t.title)+'</div><div class="kcard-m">tarefa avulsa <span class="kcard-tag">avulsa</span></div>'+(tot?('<div class="kcard-chk">☑ '+d+'/'+tot+'</div>'):'');
+          card.innerHTML='<div class="kcard-t" style="display:flex;align-items:flex-start;gap:8px;justify-content:space-between"><span>'+ce(t.title)+'</span>'+badgeResp(t.responsavel_id)+'</div><div class="kcard-m">'+ce(t.meta||'tarefa avulsa')+' <span class="kcard-tag">avulsa</span></div>'+(tot?('<div class="kcard-chk">☑ '+d+'/'+tot+'</div>'):'');
           card.addEventListener('click',function(){ if(card.dataset.dragged){ card.dataset.dragged=''; return; } openTkModal(t); });
           card.addEventListener('dragstart',function(){ dragIdC=t.id; card.classList.add('dragging'); });
           card.addEventListener('dragend',function(){ card.classList.remove('dragging'); card.dataset.dragged='1'; });
@@ -2193,7 +2220,7 @@
     var MEU_NOME='';
     async function logAtividade(texto){ await ensureMeuId(); if(!MEU_ID) return; if(!MEU_NOME){ try{ var pf=await meuPerfil(); MEU_NOME=(pf&&pf.nome)||'Colaborador'; }catch(e){ MEU_NOME='Colaborador'; } } try{ sb.from('atividades').insert({texto:texto,autor_id:MEU_ID,autor_nome:MEU_NOME}).then(function(){ if(typeof renderRegistro==='function') renderRegistro(); }); }catch(e){} }
     async function renderRegistro(){ var ul=document.getElementById('recent-list'); if(!ul) return; var itens=[]; try{ var ini=new Date(); ini.setHours(0,0,0,0); ini.setDate(ini.getDate()-((ini.getDay()+6)%7)); /* segunda-feira, 0h: a lista zera a cada inicio de semana */ var r=await sb.from('atividades').select('texto,autor_nome,criado_em').gte('criado_em',ini.toISOString()).order('criado_em',{ascending:false}).limit(300); itens=(r&&r.data?r.data:[]); /* de toda a equipe, a mais recente em cima */ }catch(e){} ul.innerHTML = itens.length ? itens.map(function(i){ return '<li class="recent-row"><span class="rc-ico">•</span><span>'+(i.autor_nome?'<b>'+ce(i.autor_nome)+'</b> ':'')+ce(i.texto)+'</span><span class="rc-when">'+ageTxt(diasDe(i.criado_em))+'</span></li>'; }).join('') : '<li class="recent-row"><span style="color:var(--ink-3)">Sem atividades registradas nesta semana.</span></li>'; }
-    async function renderStatsHomeColab(){ await ensureMeuId(); var hoje=new Date(); hoje.setHours(0,0,0,0); var ht=hoje.getTime(), lim7=ht+7*86400000; try{ var rp=await sb.from('projetos').select('status,arquivado'); var proj=(rp&&rp.data?rp.data:[]).filter(function(p){return !p.arquivado;}); var el=document.getElementById('st-projetos'); if(el) el.textContent=proj.filter(function(p){return (p.status||'andamento')==='andamento';}).length; }catch(e){} var pend=0,prazos=0; try{ var re=await sb.from('etapas').select('status,prazo_fim,responsavel_id'); (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)!==String(MEU_ID)) return; if(e.status!=='concluida') pend++; if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){} try{ var rt=await sb.from('tarefas').select('col,chk,kanban,data_fim'); (rt&&rt.data?rt.data:[]).forEach(function(t){ var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); if(!concl) pend++; if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){} var a=document.getElementById('st-tarefas'); if(a) a.textContent=pend; var b=document.getElementById('st-prazos'); if(b) b.textContent=prazos; }
+    async function renderStatsHomeColab(){ await ensureMeuId(); var hoje=new Date(); hoje.setHours(0,0,0,0); var ht=hoje.getTime(), lim7=ht+7*86400000; try{ var rp=await sb.from('projetos').select('status,arquivado'); var proj=(rp&&rp.data?rp.data:[]).filter(function(p){return !p.arquivado;}); var el=document.getElementById('st-projetos'); if(el) el.textContent=proj.filter(function(p){return (p.status||'andamento')==='andamento';}).length; }catch(e){} var pend=0,prazos=0; try{ var re=await sb.from('etapas').select('status,prazo_fim,responsavel_id'); (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)!==String(MEU_ID)) return; if(e.status!=='concluida') pend++; if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){} try{ var rt=await sb.from('tarefas').select('col,chk,kanban,data_fim,responsavel_id'); (rt&&rt.data?rt.data:[]).forEach(function(t){ if(String(t.responsavel_id)!==String(MEU_ID)) return; var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); if(!concl) pend++; if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){} var a=document.getElementById('st-tarefas'); if(a) a.textContent=pend; var b=document.getElementById('st-prazos'); if(b) b.textContent=prazos; }
     async function renderAgendaHoje(){
       var ul=document.getElementById('today-list'); if(!ul) return;
       await ensureMeuId();
@@ -2202,7 +2229,7 @@
       try{ var re=await sb.from('etapas').select('nome,status,prazo_inicio,prazo_fim,responsavel_id,projetos(nome)');
         (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)!==String(MEU_ID)) return; var fim=noPeriodo(e.prazo_inicio,e.prazo_fim); if(!fim) return; var stTxt=(e.status==='concluida')?'concluído':((fim.getTime()<ht)?'atrasado':'em andamento'); itens.push({nome:(e.projetos?e.projetos.nome:'projeto')+' · '+e.nome, sub:stTxt}); });
       }catch(e){}
-      try{ var rt=await sb.from('tarefas').select('title,data_inicio,data_fim'); (rt&&rt.data?rt.data:[]).forEach(function(t){ if(!noPeriodo(t.data_inicio,t.data_fim)) return; itens.push({nome:t.title||'tarefa', sub:'tarefa avulsa'}); }); }catch(e){}
+      try{ var rt=await sb.from('tarefas').select('title,data_inicio,data_fim,responsavel_id'); (rt&&rt.data?rt.data:[]).forEach(function(t){ if(String(t.responsavel_id)!==String(MEU_ID)) return; if(!noPeriodo(t.data_inicio,t.data_fim)) return; itens.push({nome:t.title||'tarefa', sub:'tarefa avulsa'}); }); }catch(e){}
       ul.innerHTML = itens.length ? itens.map(function(i){ return '<li class="td"><span class="td-dot"></span><div><div class="td-name">'+ce(i.nome)+'</div><div class="td-sub">'+i.sub+'</div></div></li>'; }).join('') : '<li class="td"><div><div class="td-sub" style="color:var(--ink-3)">Nada agendado para hoje.</div></div></li>';
       var ev=document.getElementById('st-eventos'); if(ev) ev.textContent=itens.length;
     }
@@ -2236,8 +2263,8 @@
     async function ensureMeuId(){ if(MEU_ID) return MEU_ID; try{ var u=(await sb.auth.getUser()).data.user; if(u) MEU_ID=u.id; }catch(e){} return MEU_ID; }
     ensureMeuId();
     async function carregarEquipe(){ try{ var res=await sb.from('perfis').select('id,nome,papel').in('papel',['admin','colaborador']).order('nome',{ascending:true}); EQUIPE=(res&&!res.error)?(res.data||[]):[]; }catch(e){ EQUIPE=[]; } }
-    carregarEquipe();
-    function respOptions(sel){ var o='<option value="">— sem responsável —</option>'; (EQUIPE||[]).forEach(function(p){ o+='<option value="'+p.id+'"'+(String(sel)===String(p.id)?' selected':'')+'>'+ce(p.nome||'(sem nome)')+(p.papel==='admin'?' · admin':'')+'</option>'; }); return o; }
+    carregarEquipe().then(async function(){ await ensureMeuId(); if(typeof popularFiltroKb==='function') popularFiltroKb(); if(typeof renderKanban==='function') renderKanban(); });
+    function respOptions(sel){ var o='<option value="">— sem responsável —</option>'; (EQUIPE||[]).forEach(function(p){ o+='<option value="'+p.id+'"'+(String(sel)===String(p.id)?' selected':'')+'>'+ce(p.nome||'(sem nome)')+(p.papel==='admin'?' · admin':'')+'</option>'; }); /* mantém o responsável já gravado mesmo se a lista da equipe não trouxer essa pessoa */ if(sel && !(EQUIPE||[]).some(function(p){ return String(p.id)===String(sel); })) o+='<option value="'+ce(sel)+'" selected>(responsável atual)</option>'; return o; }
     function ce(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
     async function renderCentralColab(){
       var projsEl=document.getElementById('projs'); if(!projsEl) return;
