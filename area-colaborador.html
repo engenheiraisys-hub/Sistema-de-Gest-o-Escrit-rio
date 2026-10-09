@@ -35,6 +35,74 @@
   .pbtn.danger{color:var(--red);border-color:#e6c9c4}
   .pbtn.danger:hover{color:#fff;background:var(--red);border-color:var(--red)}
   .tk-acts .pill{justify-content:center;width:100%;white-space:nowrap}
+  /* janela de tarefa: cabeçalho com o título e cada campo em sua caixa, com ícone e rótulo */
+  .tk-card{background:var(--paper);max-width:500px;width:100%;border-radius:var(--r);box-shadow:0 12px 50px rgba(65,65,65,.18);max-height:92vh;overflow:auto}
+  .tk-head{background:var(--tint);border-bottom:1px solid var(--hair-soft);border-radius:var(--r) var(--r) 0 0;padding:20px 24px 18px}
+  .tk-eyebrow{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+  .tk-body{padding:20px 24px 24px}
+  .tk-f{margin:0 0 16px}
+  .tk-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .tk-row .tk-f{min-width:0}
+  .tk-lbl{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 7px}
+  .tk-lbl svg,.tk-eyebrow svg{width:14px;height:14px;flex:none;fill:none;stroke:var(--gold);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .tk-in,.tk-title{width:100%;font-family:var(--sans);font-weight:400;font-size:14.5px;line-height:1.35;color:var(--ink);background:var(--panel);border:1px solid var(--hair);border-radius:var(--r-sm);padding:10px 12px;min-height:42px;transition:border-color .2s,box-shadow .2s}
+  .tk-in::placeholder,.tk-title::placeholder{color:var(--ink-3)}
+  .tk-in:focus,.tk-title:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(175,133,58,.16)}
+  select.tk-in{appearance:none;-webkit-appearance:none;-moz-appearance:none;cursor:pointer;padding-right:36px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239A968E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:14px}
+  .tk-title{display:block;font-family:var(--display);font-weight:500;font-size:18px;letter-spacing:0;margin:0;cursor:text}
+  .tk-sec{background:var(--tint);border:1px solid var(--hair-soft);border-radius:var(--r-sm);padding:14px 14px 12px}
+  .tk-sec .check{list-style:none;margin:0 0 10px!important;padding:0}
+  .tk-sec .check li{padding:8px 2px!important;border-bottom:1px solid var(--hair-soft)}
+  .tk-sec .check:empty::after{content:"Nenhum item ainda.";display:block;font-size:13px;color:var(--ink-3);padding:2px 2px 4px}
+  .tk-add{display:flex;gap:8px;align-items:center}
+  .tk-add .tk-in{flex:1;min-width:0}
+  .tk-add .pill{flex:none;white-space:nowrap}
+  @media(max-width:440px){ .tk-row{grid-template-columns:1fr;gap:0} }
+  /* novo projeto + página do projeto: cada campo em sua caixa, com rótulo e ícone */
+  :is(#view-novo,#view-projeto) :is(input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=hidden]),select,textarea){font-family:var(--sans)!important;font-weight:400!important;font-size:14.5px!important;color:var(--ink)!important;background-color:var(--panel)!important;border:1px solid var(--hair)!important;border-radius:var(--r-sm)!important;padding:9px 12px!important;min-height:42px;transition:border-color .2s,box-shadow .2s}
+  :is(#view-novo,#view-projeto) :is(input,select,textarea)::placeholder{color:var(--ink-3)}
+  :is(#view-novo,#view-projeto) :is(input:not([type=checkbox]):not([type=radio]):not([type=file]),select,textarea):focus{outline:none!important;border-color:var(--gold)!important;box-shadow:0 0 0 3px rgba(175,133,58,.16)}
+  :is(#view-novo,#view-projeto) select{appearance:none;-webkit-appearance:none;-moz-appearance:none;cursor:pointer;padding-right:36px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239A968E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 12px center!important;background-size:14px!important}
+  /* campo travado (fora do modo editar): caixa suave, só leitura */
+  :is(#view-novo,#view-projeto) :is(input:not([type=checkbox]):not([type=radio]):not([type=file]),select,textarea):disabled{background-color:var(--tint)!important;border-color:var(--hair-soft)!important;-webkit-text-fill-color:var(--ink);opacity:1;cursor:default}
+  :is(#view-novo,#view-projeto) select:disabled{background-image:none!important;padding-right:12px!important}
+  :is(#view-novo,#view-projeto) .field .ro{background:var(--tint);border:1px solid var(--hair-soft);border-radius:var(--r-sm);padding:10px 12px;min-height:42px;font-size:14.5px;font-weight:400}
+  :is(#view-novo,#view-projeto) :is(.field > label,.np-field > label,.pz > label){display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 7px}
+  :is(#view-novo,#view-projeto) :is(.field,.np-field) > label > svg{width:14px;height:14px;flex:none;fill:none;stroke:var(--gold);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  #view-projeto .pj-info{border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+  #view-projeto :is(.form-grid,.fin-top){gap:18px 20px}
+  /* novo projeto: blocos numerados com título */
+  #form-projeto{counter-reset:np}
+  #form-projeto .np-panel{counter-increment:np}
+  .np-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--display);font-weight:600;font-size:15.5px;color:var(--ink);margin:0 0 18px;padding-bottom:14px;border-bottom:1px solid var(--hair-soft)}
+  .np-num{width:24px;height:24px;flex:none;border-radius:50%;background:var(--brand);color:var(--brand-on);font-family:var(--sans);font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center}
+  .np-num::before{content:counter(np)}
+  .np-tag{font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.04em;color:var(--amber);border:1px solid currentColor;border-radius:50px;padding:2px 9px;margin-left:auto}
+  .np-h + .np-hint{margin:0 0 16px!important}
+  .np-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
+  .np-grid .np-field{margin:0!important;min-width:0}
+  .np-grid .np-field.full{grid-column:1 / -1}
+  .np-grid .np-hint{margin:8px 2px 0}
+  /* etapas e documentos: cada opção num cartão que marca quando selecionado */
+  :is(#view-novo,#view-projeto) .np-check{border:1px solid var(--hair);border-radius:var(--r-sm);background:var(--panel);padding:10px 12px;min-height:42px;font-size:14px;transition:border-color .2s,background .2s}
+  :is(#view-novo,#view-projeto) .np-check:hover{border-color:var(--ink-3)}
+  :is(#view-novo,#view-projeto) .np-check:has(input:checked){background:var(--tint);border-color:var(--ink-2);font-weight:400}
+  #view-novo .np-etapas{gap:10px 12px;margin-top:0}
+  #view-novo .np-docsel{grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:0}
+  /* parcelas: cada parcela num cartão, campos em 3 colunas */
+  :is(#view-novo,#view-projeto) .parcelas{margin:0}
+  :is(#view-novo,#view-projeto) .parcela{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:end;background:var(--tint);border:1px solid var(--hair-soft)!important;border-radius:var(--r-sm);padding:14px;margin:0 0 10px}
+  :is(#view-novo,#view-projeto) .parcela > :nth-child(1){order:1}
+  :is(#view-novo,#view-projeto) .parcela > :nth-child(2){order:2}
+  :is(#view-novo,#view-projeto) .parcela > :nth-child(5){order:3;align-self:end;padding:0}
+  :is(#view-novo,#view-projeto) .parcela > :nth-child(3){order:4}
+  :is(#view-novo,#view-projeto) .parcela > :nth-child(4){order:5}
+  :is(#view-novo,#view-projeto) .parcela > .p-rm{order:6;justify-self:end;align-self:end;width:42px;height:42px;border:1px solid var(--hair);border-radius:var(--r-sm);background:var(--panel);padding:0}
+  :is(#view-novo,#view-projeto) .parcela .field{min-width:0}
+  @media(max-width:620px){
+    .np-grid,#view-novo .np-docsel{grid-template-columns:1fr}
+    :is(#view-novo,#view-projeto) .parcela{grid-template-columns:1fr 1fr}
+  }
   .imc-ov{position:fixed;inset:0;background:rgba(20,18,15,.45);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
   .imc-box{background:var(--panel);border:1px solid var(--hair);border-radius:var(--r);box-shadow:var(--shadow-md);padding:22px 24px;max-width:380px;width:100%}
   .imc-msg{font-size:14.5px;color:var(--ink);line-height:1.5;margin-bottom:20px}
@@ -816,10 +884,10 @@
     <h2 class="page-title">Residência Jurerê</h2>
     <p class="proj-note">As <b>informações</b> e as <b>etapas</b> podem ser editadas aqui. Toque em uma etapa para abri-la em sua própria tela. O status de cada etapa é calculado automaticamente (concluído / em andamento / atrasado) e alimenta a <b>agenda</b> e a central de projetos.</p>
     <div class="form-grid pj-info" style="max-width:660px;margin-bottom:clamp(28px,4vw,42px)">
-      <div class="field"><label>Cliente</label><div class="ro">Marina Andrade <small>· gerenciado pelo administrador</small></div></div>
-      <div class="field"><label>Nº do contrato</label><input id="obra-contrato-input" type="text" placeholder="Ex.: 2026-030"></div>
-      <div class="field"><label>Nome da obra</label><input id="obra-nome-input" type="text"></div>
-      <div class="field"><label>Tipo</label><select id="obra-tipo-sel"><option value="">—</option><option>Unifamiliar</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
+      <div class="field"><label><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>Cliente</label><div class="ro">Marina Andrade <small>· gerenciado pelo administrador</small></div></div>
+      <div class="field"><label><svg viewBox="0 0 24 24"><path d="M6.500 3.500H14l4 4v13H6.500z"/><path d="M14 3.500v4h4M9.500 13h5M9.500 16.500h5"/></svg>Nº do contrato</label><input id="obra-contrato-input" type="text" placeholder="Ex.: 2026-030"></div>
+      <div class="field"><label><svg viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 10v9h12v-9"/></svg>Nome da obra</label><input id="obra-nome-input" type="text"></div>
+      <div class="field"><label><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Tipo</label><select id="obra-tipo-sel"><option value="">—</option><option>Unifamiliar</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
     </div>
     <p class="sec-label">etapas</p>
 
@@ -1073,21 +1141,23 @@
 
     <form id="form-projeto" novalidate>
       <div class="np-panel">
-      <div class="np-field">
-        <label for="np-cliente">Cliente</label>
+      <div class="np-h"><span class="np-num"></span>Dados do projeto</div>
+      <div class="np-grid">
+      <div class="np-field full">
+        <label for="np-cliente"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>Cliente</label>
         <select id="np-cliente">
           <option value="">Selecione o cliente…</option>
         </select>
         <p class="np-hint">O cadastro do cliente é feito pelo próprio cliente, por um link enviado pelo administrador. Aqui você apenas <b>seleciona</b> da lista — os dados do cliente são gerenciados só pelo administrador.</p>
       </div>
 
-      <div class="np-field">
-        <label for="np-obra">Nome da obra</label>
+      <div class="np-field full">
+        <label for="np-obra"><svg viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 10v9h12v-9"/></svg>Nome da obra</label>
         <input id="np-obra" type="text" placeholder="Ex.: Residência Jurerê">
       </div>
 
       <div class="np-field">
-        <label for="np-tipo">Tipo</label>
+        <label for="np-tipo"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Tipo</label>
         <select id="np-tipo">
           <option value="">Selecione o tipo…</option>
           <option>Unifamiliar</option>
@@ -1098,22 +1168,23 @@
       </div>
 
       <div class="np-field">
-        <label for="np-contrato">Nº do contrato</label>
+        <label for="np-contrato"><svg viewBox="0 0 24 24"><path d="M6.500 3.500H14l4 4v13H6.500z"/><path d="M14 3.500v4h4M9.500 13h5M9.500 16.500h5"/></svg>Nº do contrato</label>
         <input id="np-contrato" type="text" placeholder="Ex.: 2026-030">
+      </div>
       </div>
       </div>
 
       <div class="np-panel">
       <div class="np-field">
-        <label>Etapas do contrato</label>
-        <p class="np-hint" style="margin:0 0 10px">Definidas em <b>modelo</b> — adicionar/excluir lá reflete aqui.</p>
+        <div class="np-h"><span class="np-num"></span>Etapas do contrato</div>
+        <p class="np-hint">Definidas em <b>modelo</b> — adicionar/excluir lá reflete aqui.</p>
         <div class="np-etapas" id="np-etapas"></div>
       </div>
       </div>
 
       <div class="np-panel">
       <div class="np-field">
-        <label>Documentos do cliente</label>
+        <div class="np-h"><span class="np-num"></span>Documentos do cliente</div>
         <p class="np-hint">Assinale os documentos que este projeto terá (lista definida em <b>modelo</b>). Serão anexados na página da obra e ficam para o cliente baixar. O <b>Contrato</b> é anexado pelo administrador.</p>
         <div class="np-docsel" id="np-docsel"></div>
       </div>
@@ -1132,29 +1203,36 @@
 
 <!-- MODAL de tarefa avulsa do colaborador -->
 <div id="tk-modal" hidden style="position:fixed;inset:0;z-index:60;background:rgba(65,65,65,.28);display:flex;align-items:center;justify-content:center;padding:20px">
-  <div style="background:var(--paper);max-width:460px;width:100%;border-radius:12px;padding:26px;box-shadow:0 12px 50px rgba(65,65,65,.18);max-height:90vh;overflow:auto">
-    <input id="tk-title" type="text" placeholder="Título da tarefa" style="width:100%;font-family:var(--display);font-weight:500;font-size:20px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 2px;margin-bottom:18px">
-    <label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Responsável</label>
-    <select id="tk-resp" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px;margin-bottom:18px"></select>
-    <label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Vínculo</label>
-    <input id="tk-link" type="text" placeholder="Projeto/obra (opcional)" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px;margin-bottom:18px">
-    <label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Situação no painel</label>
-    <select id="tk-kanban" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px;margin-bottom:18px">
-      <option value="">Automática (segue o checklist)</option><option value="revisao">Revisão e retorno</option><option value="aprov">Aguardando aprovação ou docs</option><option value="cliente">Aguardando cliente</option>
-    </select>
-    <div style="display:flex;gap:16px;margin-bottom:18px">
-      <div style="flex:1"><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Início</label><input id="tk-ini" type="date" style="width:100%;font-family:var(--sans);font-size:14px;background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 2px"></div>
-      <div style="flex:1"><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Término</label><input id="tk-fim" type="date" style="width:100%;font-family:var(--sans);font-size:14px;background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 2px"></div>
+  <div class="tk-card">
+    <div class="tk-head">
+      <p class="tk-eyebrow"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>Tarefa</p>
+      <input id="tk-title" class="tk-title" type="text" placeholder="Título da tarefa">
     </div>
-    <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin:0 0 8px">check-list</p>
-    <ul id="tk-check" class="check" style="list-style:none;padding:0;margin:0 0 10px"></ul>
-    <div style="display:flex;gap:8px;margin-bottom:20px"><input id="tk-newitem" type="text" placeholder="Novo item…" style="flex:1;font-family:var(--sans);font-size:14px;background:transparent;border:none;border-bottom:1px solid var(--hair);padding:6px 2px"><button class="pill ghost sm" type="button" id="tk-additem"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button></div>
+    <div class="tk-body">
+    <div class="tk-f"><label class="tk-lbl" for="tk-resp"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>Responsável</label>
+      <select id="tk-resp" class="tk-in"></select></div>
+    <div class="tk-f"><label class="tk-lbl" for="tk-link"><svg viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6H9l2 2.5h8.5A1.5 1.5 0 0 1 21 10v7.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg>Vínculo</label>
+      <input id="tk-link" type="text" class="tk-in" placeholder="Projeto/obra (opcional)"></div>
+    <div class="tk-f"><label class="tk-lbl" for="tk-kanban"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="4.5" height="14" rx="1"/><rect x="9.75" y="5" width="4.5" height="9" rx="1"/><rect x="16" y="5" width="4.5" height="11.5" rx="1"/></svg>Situação no painel</label>
+      <select id="tk-kanban" class="tk-in">
+        <option value="">Automática (segue o checklist)</option><option value="revisao">Revisão e retorno</option><option value="aprov">Aguardando aprovação ou docs</option><option value="cliente">Aguardando cliente</option>
+      </select></div>
+    <div class="tk-row">
+      <div class="tk-f"><label class="tk-lbl" for="tk-ini"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>Início</label><input id="tk-ini" type="date" class="tk-in"></div>
+      <div class="tk-f"><label class="tk-lbl" for="tk-fim"><svg viewBox="0 0 24 24"><path d="M6 21V4M6 5h11l-2 3.5 2 3.5H6"/></svg>Término</label><input id="tk-fim" type="date" class="tk-in"></div>
+    </div>
+    <div class="tk-sec">
+      <p class="tk-lbl"><svg viewBox="0 0 24 24"><path d="M4 7l1.5 1.5L8 6M4 13l1.5 1.5L8 12M4 19l1.5 1.5L8 18M11.5 7H20M11.5 13H20M11.5 19H20"/></svg>Check-list</p>
+      <ul id="tk-check" class="check"></ul>
+      <div class="tk-add"><input id="tk-newitem" type="text" class="tk-in" placeholder="Novo item…"><button class="pill ghost sm" type="button" id="tk-additem"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button></div>
+    </div>
     <!-- ações em grade 2×2: salvar | concluir  ·  excluir | fechar (mesma largura, alinhados) -->
-    <div class="tk-acts" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px;padding-top:20px;border-top:1px solid var(--hair-soft)">
+    <div class="tk-acts" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;padding-top:20px;border-top:1px solid var(--hair-soft)">
       <button class="pill solid sm" type="button" id="tk-salvar"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar tarefa</button>
       <button class="pill sm" type="button" id="tk-concluir" style="background:var(--green);border:1px solid var(--green);color:#fff"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>concluir tarefa</button>
       <button class="pill ghost sm" type="button" id="tk-excluir" style="color:var(--red);border-color:#e6c9c4"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button>
       <button class="pill ghost sm" type="button" id="tk-fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>fechar</button>
+    </div>
     </div>
   </div>
 </div>
