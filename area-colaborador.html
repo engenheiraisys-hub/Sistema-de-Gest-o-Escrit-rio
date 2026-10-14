@@ -58,6 +58,18 @@
   .tk-add .tk-in{flex:1;min-width:0}
   .tk-add .pill{flex:none;white-space:nowrap}
   @media(max-width:440px){ .tk-row{grid-template-columns:1fr;gap:0} }
+  /* etiquetas das tarefas */
+  .kb-filtros{display:flex;gap:18px 26px;flex-wrap:wrap;margin:0 0 18px}
+  .kb-filtros > div{flex:1 1 220px;max-width:320px}
+  .etq{display:inline-flex;align-items:center;font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.02em;line-height:1.3;padding:3px 9px;border-radius:50px;color:#fff;background:var(--ec);border:1px solid var(--ec);white-space:nowrap}
+  .kcard-etq{display:flex;flex-wrap:wrap;gap:4px;margin:7px 0 3px}
+  .etq-pick{display:flex;flex-wrap:wrap;gap:7px}
+  /* todas com o fundo da cor da etiqueta; as não marcadas ficam esmaecidas e a marcada ganha o ✓ */
+  .etq-pick button{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:12.5px;font-weight:500;color:#fff;background:var(--ec);border:1px solid var(--ec);border-radius:50px;padding:6px 12px;cursor:pointer;opacity:.42;transition:opacity .15s,box-shadow .15s}
+  .etq-pick button:hover{opacity:.7}
+  .etq-pick button.on{opacity:1;font-weight:600;box-shadow:0 0 0 2px var(--paper),0 0 0 3px var(--ec)}
+  .etq-pick button.on::before{content:"✓";font-size:11px;line-height:1}
+  .etq-aviso{flex-basis:100%;font-size:12px;color:var(--red);margin:4px 0 0}
   /* novo projeto + página do projeto: cada campo em sua caixa, com rótulo e ícone */
   :is(#view-novo,#view-projeto) :is(input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=hidden]),select,textarea){font-family:var(--sans)!important;font-weight:400!important;font-size:14.5px!important;color:var(--ink)!important;background-color:var(--panel)!important;border:1px solid var(--hair)!important;border-radius:var(--r-sm)!important;padding:9px 12px!important;min-height:42px;transition:border-color .2s,box-shadow .2s}
   :is(#view-novo,#view-projeto) :is(input,select,textarea)::placeholder{color:var(--ink-3)}
@@ -251,7 +263,7 @@
   .etapa-inner{overflow:hidden;min-height:0}
   .etapa-pad{padding:0 2px 26px}
   .etapa-status{font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:50px;color:#fff;white-space:nowrap}
-  .etapa-status.green{background:var(--green)}.etapa-status.amber{background:var(--amber)}.etapa-status.red{background:var(--red)}
+  .etapa-status.slate{background:var(--slate)}.etapa-status.green{background:var(--green)}.etapa-status.amber{background:var(--amber)}.etapa-status.red{background:var(--red)}
   .etapa-prazo{display:flex;gap:30px;margin:16px 0 2px;flex-wrap:wrap}
   .pz{display:flex;flex-direction:column;gap:8px}
   .pz label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
@@ -356,10 +368,10 @@
   .g-name small{font-size:11.5px;color:var(--ink-3)}
   .g-cell{border-left:1px solid var(--hair-soft)}
   .g-bar{align-self:center;height:26px;border-radius:6px;display:flex;align-items:center;padding:0 10px;margin:8px 3px;font-size:11px;color:#fff;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:relative;z-index:1}
-  .g-bar.green{background:var(--green)}.g-bar.amber{background:var(--amber)}.g-bar.red{background:var(--red)}
+  .g-bar.slate{background:var(--slate)}.g-bar.green{background:var(--green)}.g-bar.amber{background:var(--amber)}.g-bar.red{background:var(--red)}
   .gantt-legend{margin-top:16px;display:flex;gap:18px;align-items:center;font-size:12px;color:var(--ink-3);flex-wrap:wrap}
   .gantt-legend .lg{width:12px;height:12px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px}
-  .gantt-legend .lg.green{background:var(--green)}.gantt-legend .lg.amber{background:var(--amber)}.gantt-legend .lg.red{background:var(--red)}
+  .gantt-legend .lg.slate{background:var(--slate)}.gantt-legend .lg.green{background:var(--green)}.gantt-legend .lg.amber{background:var(--amber)}.gantt-legend .lg.red{background:var(--red)}
   .g-day.holiday .dnum{color:var(--red)}
   .g-day.holiday .dow{color:var(--red)}
   .g-day.holiday.today .dnum{color:#fff}
@@ -838,7 +850,10 @@
       <button class="pill solid sm" type="button" id="nova-tarefa" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>nova tarefa</button>
     </div>
     <p class="proj-note">Cartões avulsos e <b>etapas dos projetos por responsável</b>. Use o filtro para ver as suas, as de um colaborador ou de toda a equipe.</p>
-    <div style="margin:0 0 18px;max-width:320px"><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Mostrar tarefas de</label><select id="kanban-filtro" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
+    <div class="kb-filtros">
+      <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Mostrar tarefas de</label><select id="kanban-filtro" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
+      <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Etiqueta</label><select id="kanban-etq" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
+    </div>
     <div class="kanban" id="kanban"></div>
   </section>
 
@@ -1011,7 +1026,7 @@
     </div>
     <div class="gantt" id="gantt"></div>
     <div class="ag-foot">
-      <div class="gantt-legend"><span><span class="lg green"></span>concluído</span><span><span class="lg amber"></span>em andamento</span><span><span class="lg red"></span>atrasado</span></div>
+      <div class="gantt-legend"><span><span class="lg green"></span>concluído</span><span><span class="lg amber"></span>em andamento</span><span><span class="lg red"></span>atrasado</span><span><span class="lg slate"></span>em revisão / aprovação</span></div>
       <div class="ag-fer">
         <p class="feriados"><span class="ico">●</span>Feriados nacionais aparecem em <b>vermelho</b> no calendário.</p>
         <ul class="feriados-list" id="feriados-list"></ul>
@@ -1211,6 +1226,8 @@
     <div class="tk-body">
     <div class="tk-f"><label class="tk-lbl" for="tk-resp"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>Responsável</label>
       <select id="tk-resp" class="tk-in"></select></div>
+    <div class="tk-f"><p class="tk-lbl"><svg viewBox="0 0 24 24"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.5 1.5 0 0 1 0 2.1l-6.2 6.2a1.5 1.5 0 0 1-2.1 0z"/><circle cx="8" cy="8" r="1.3"/></svg>Etiquetas</p>
+      <div class="etq-pick" id="tk-etq"></div></div>
     <div class="tk-f"><label class="tk-lbl" for="tk-link"><svg viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6H9l2 2.5h8.5A1.5 1.5 0 0 1 21 10v7.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg>Vínculo</label>
       <input id="tk-link" type="text" class="tk-in" placeholder="Projeto/obra (opcional)"></div>
     <div class="tk-f"><label class="tk-lbl" for="tk-kanban"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="4.5" height="14" rx="1"/><rect x="9.75" y="5" width="4.5" height="9" rx="1"/><rect x="16" y="5" width="4.5" height="11.5" rx="1"/></svg>Situação no painel</label>
@@ -1241,6 +1258,8 @@
 <script src="config.js"></script>
 <script src="app.js"></script>
 <script>
+  /* Em "Revisão e retorno" ou "Aguardando aprovação ou docs" a demanda já foi feita e espera análise: não conta como atrasada. */
+  window.emAnalise=function(k){ return k==='revisao'||k==='aprov'; };
   /* Confirmação própria (o confirm() nativo pode ser bloqueado pelo navegador). */
   function imConfirm(msg){
     return new Promise(function(resolve){
@@ -1328,7 +1347,7 @@
     function weekDays(offset){ var now=new Date(); now.setHours(0,0,0,0); var sun=new Date(now); sun.setDate(now.getDate()-now.getDay()+offset*7); var days=[]; for(var i=0;i<7;i++){ var d=new Date(sun); d.setDate(sun.getDate()+i); days.push(d); } return days; }
     async function carregarAgenda(){
       await ensureMeuId();
-      try{ var res=await sb.from('etapas').select('id,nome,status,prazo_inicio,prazo_fim,responsavel_id,projetos(nome)'); ETAPAS_AG=(res&&!res.error)?(res.data||[]):[]; }catch(e){ ETAPAS_AG=[]; }
+      try{ var res=await sb.from('etapas').select('id,nome,status,kanban,prazo_inicio,prazo_fim,responsavel_id,projetos(nome)'); ETAPAS_AG=(res&&!res.error)?(res.data||[]):[]; }catch(e){ ETAPAS_AG=[]; }
       try{ var rt=await sb.from('tarefas').select('id,title,col,chk,kanban,responsavel_id,data_inicio,data_fim'); TAREFAS_AG=(rt&&!rt.error)?(rt.data||[]):[]; }catch(e){ TAREFAS_AG=[]; }
       buildGantt(AG_WEEK);
       var flist=document.getElementById('feriados-list');
@@ -1356,7 +1375,7 @@
         ini.setHours(0,0,0,0); fim.setHours(0,0,0,0);
         if(fim.getTime()<wStart || ini.getTime()>wEnd) return;
         var s=Math.max(0,Math.round((ini.getTime()-wStart)/86400000)), ee=Math.min(6,Math.round((fim.getTime()-wStart)/86400000)); if(ee<s) ee=s;
-        var st=(e.status==='concluida')?'green':((fim.getTime()<today.getTime())?'red':'amber');
+        var st=(e.status==='concluida')?'green':(emAnalise(e.kanban)?'slate':((fim.getTime()<today.getTime())?'red':'amber'));
         rows.push({obra:(e.projetos?e.projetos.nome:'projeto'),task:e.nome,s:s,e:ee,st:st});
       });
       (TAREFAS_AG||[]).filter(function(t){ return typeof MEU_ID==='undefined'||!MEU_ID||String(t.responsavel_id)===String(MEU_ID); }).forEach(function(e){
@@ -1369,7 +1388,7 @@
         var s=Math.max(0,Math.round((ini.getTime()-wStart)/86400000)), ee=Math.min(6,Math.round((fim.getTime()-wStart)/86400000)); if(ee<s) ee=s;
         var chk=Array.isArray(e.chk)?e.chk:[]; var esp=(e.kanban==='revisao'||e.kanban==='aprov'||e.kanban==='cliente');
         var concl=(!esp && ((chk.length&&chk.every(function(i){return i.done;})) || e.col==='concluido'));
-        var st=concl?'green':((fim.getTime()<today.getTime())?'red':'amber');
+        var st=concl?'green':(emAnalise(e.kanban)?'slate':((fim.getTime()<today.getTime())?'red':'amber'));
         rows.push({obra:'tarefa avulsa',task:e.title||'tarefa',s:s,e:ee,st:st});
       });
       rows.forEach(function(r){
@@ -1425,7 +1444,7 @@
       layoutEtapaCards(pad);
       var nm=et.querySelector('.etapa-name'); if(nm) etapaTitle.textContent=nm.textContent;
       var badge=et.querySelector('.etapa-status');
-      paintEtapaMeta(badge?(badge.classList.contains('green')?'green':(badge.classList.contains('red')?'red':(badge.classList.contains('gray')?'gray':'amber'))):'', badge?badge.textContent:'');
+      paintEtapaMeta(badge?(badge.classList.contains('green')?'green':(badge.classList.contains('red')?'red':(badge.classList.contains('gray')?'gray':(badge.classList.contains('slate')?'slate':'amber')))):'', badge?badge.textContent:'');
       projetoIndex.hidden=true; etapaScreen.hidden=false;
       etapaScreen.classList.remove('anim'); void etapaScreen.offsetWidth; etapaScreen.classList.add('anim');
       window.scrollTo(0,0);
@@ -1601,8 +1620,40 @@
       var lista=[]; g.forEach(function(x){ lista.push(x[0]); x[1].forEach(function(s){ lista.push('\t'+s); }); });
       // itens que já existiam no modelo continuam ao final
       ETAPA_MODELOS['Projeto legal']=lista.concat(ETAPA_MODELOS['Projeto legal']||[]);
-      // o mesmo check-list (o PDF é "Executivo / Projeto legal") também no modelo Projeto executivo
-      ETAPA_MODELOS['Projeto executivo']=lista.concat(ETAPA_MODELOS['Projeto executivo']||[]);
+    })();
+    /* Projeto executivo: check-list do PDF "Checklist do Projeto Executivo" (3 pranchas + entrega), com itens e subitens */
+    (function(){
+      var g=[
+        ['Prancha 01 · A. Carimbo / Legenda da prancha',['Nome do projeto e tipo de projeto (Executivo – Arquitetônico)','Endereço completo da obra (rua, nº, bairro, cidade/UF)','Proprietário / cliente','Responsável técnico com nº do CREA/CAU e RRT/ART','Autor do projeto e desenhista','Nome do escritório (logo)','Título da prancha e número (01/03)','Escalas indicadas (geral e por desenho)','Data e revisões (R00, R01…)','Indicação do formato (A1, A2…)','Inscrição municipal / dados do lote (quando exigido)']],
+        ['Prancha 01 · B. Elementos gerais (todas as plantas)',['Indicação do Norte em cada planta','Título de cada planta com escala (ex.: PLANTA BAIXA – 1º PAVIMENTO – ESC 1:50)','Legenda completa e coerente (hachuras, paredes novas/existentes, muros, cotas, símbolos)','Quadro de áreas: área por ambiente, total por pavimento, área construída total, área do terreno, taxa de ocupação e coeficiente de aproveitamento','Tabela de esquadrias (portas e janelas): código, dimensões (largura × altura), peitoril, material, tipo de abertura, quantidade','Tags de portas e janelas (P01, J01…) em círculo/hexágono, vinculadas à tabela','Linhas de corte com nome (A-A, B-B) e sentido de observação – mínimo 1 transversal e 1 longitudinal','Indicação das fachadas (se o escritório marca em planta)','Hierarquia de espessura de linhas (corte, projeção, mobiliário, cotas)']],
+        ['Prancha 01 · C. Implantação / relação com o entorno (1º pavimento)',['Limites do terreno com medidas e ângulos','Recuos obrigatórios (frontal, laterais, fundos) cotados','Nome da rua e indicação do eixo da via','Nível da calçada e diferença de altura para o térreo','Rampa de acesso (inclinação, largura) se houver desnível','Acesso de pedestres separado do acesso de veículos','Muros com altura especificada (ex.: Muro – 2,00 m) e tipo de acabamento','Portões, gradis (altura e localização), caixa de correio, padrão de energia e hidrômetro','Calçada, jardim, áreas permeáveis, paisagismo básico','Vagas de garagem cotadas (dimensões mínimas)']],
+        ['Prancha 01 · D. Cotas',['Cotas hierarquizadas: totais (externas), parciais/entre eixos e internas de cada cômodo','Espessura das paredes (e tipo: alvenaria 14, 19, drywall etc.)','Vãos de portas e janelas cotados','Cotas de ambientes (largura × comprimento) e eixos','Cotas de elementos especiais (bancadas, nichos, shafts, pilares, vigas aparentes)']],
+        ['Prancha 01 · E. Níveis e pisos',['Nível do térreo (+0,00) e níveis de cada ambiente','Nível acabado (NA) e nível osso/global (NG)','Desníveis de áreas molhadas (banheiros, cozinha, área de serviço, varanda) com caimento indicado','Nome do ambiente, área útil (m²) e tipo de piso/acabamento em cada cômodo','Soleiras, peitoris e mudanças de piso indicadas','Rebaixos de forro (gesso) tracejados com altura','Lajes impermeabilizadas indicadas']],
+        ['Prancha 01 · F. Esquadrias e circulação',['Sentido de abertura de todas as portas (conferir se o arco não bate em interruptores, móveis ou outras portas)','Portas de correr com indicação do trilho/sentido','Janelas com peitoril e altura conferidos com os cortes','Guarda-corpos e corrimãos (altura e material)','Larguras mínimas de circulação conferidas (código de obras / NBR 9050 se aplicável)']],
+        ['Prancha 01 · G. Escadas e rampas',['Numeração dos degraus (subida/descida indicada com seta)','Largura da escada, espelho e piso (ex.: 17,5 × 28 cm)','Patamares com dimensões','Linha de projeção da escada no pavimento superior (tracejada)','Rampas com inclinação (%), largura e patamares','Indicação "sobe" / "desce"']],
+        ['Prancha 01 · H. Elementos externos e especiais',['Identificação de pergolados, painéis ripados, brises, floreiras, bancos','Piscina, deck, churrasqueira, áreas gourmet (com cotas e níveis)','Pontos de escoamento: ralos, calhas, grelhas, mictórios (se houver)','Caixas de passagem, inspeção e reservatórios (localização)','Equipamentos: ar-condicionado (condensadoras), aquecedor, caixa d\'água']],
+        ['Prancha 01 · I. Linhas de projeção',['Projeção de beirais, marquises e telhados (tracejado)','Projeção do pavimento superior sobre o térreo','Projeção de elementos acima do corte (vigas, armários altos, forro rebaixado)']],
+        ['Prancha 01 · J. Planta do 2º Pavimento (adicionalmente)',['Alinhamento coerente com o 1º pavimento (paredes, shafts, hidráulica)','Nível do piso acabado (ex.: +2,90)','Vazios e pé-direito duplo indicados (tracejado e cota)','Projeção da cobertura do térreo / lajes sobre áreas abertas','Terraços, sacadas e varandas com desnível e impermeabilização','Saída da escada e guarda-corpo de borda']],
+        ['Prancha 01 · K. Planta de Cobertura',['Delimitação de cada plano de telhado (águas)','Tipo de cobertura: telhado inclinado / laje plana / mista','Inclinação (%) de cada pano e mudanças de inclinação','Setas de sentido de escoamento da água','Cumeeiras, espigões, rincões e águas furtadas identificados','Beirais com medida (projeção além da parede)','Platibandas com altura','Calhas, rufos, condutores pluviais (posição e diâmetro) e ralos','Reservatório superior (caixa d\'água) e casa de máquinas, se houver','Tipo de telha e especificação de acabamento','Claraboias, lanternins, domos e aberturas','Contorno da edificação em projeção (tracejado)','Cotas importantes: dimensões gerais da cobertura, projeções do telhado, distância entre elementos principais','Norte e escala']],
+        ['Prancha 01 · L. Conferência final da Prancha 01',['Todos os ambientes têm nome, área, piso e nível','Tags de esquadrias batem com a tabela','Soma das áreas confere com o quadro de áreas','Linhas de corte coincidem com os cortes da prancha 02','Paredes do 2º pavimento coerentes com o 1º','Textos legíveis na escala de impressão']],
+        ['Prancha 02 · A. Carimbo e identificação',['Mesmo carimbo da prancha 01, com numeração 02/03','Nome de cada corte (CORTE A-A, B-B…) e escala','Correspondência exata com as linhas de corte e sentido nas plantas','Mínimo de 2 cortes: um transversal e um longitudinal (idealmente passando por escada e áreas molhadas)']],
+        ['Prancha 02 · B. Níveis e cotas verticais',['Nível do térreo +0,00','Níveis internos: mezaninos, desníveis, áreas rebaixadas','Nível de cada pavimento (+2,90, +5,80…)','Nível da cobertura: laje, cumeeira, platibanda','Nível do terreno: natural e modificado (aterro/corte)','Nível da calçada/rua','Cotas verticais entre pavimentos, até cumeeira, platibanda e topo do reservatório','Cotas de peitoris, alturas de portas e janelas']],
+        ['Prancha 02 · C. Alturas internas',['Pé-direito (piso acabado até o teto) de cada ambiente (ex.: 2,70 m)','Altura de forro, rebaixos de gesso e sancas','Altura de laje e espessura (laje, contrapiso, revestimento)','Altura de vigas e ressaltos aparentes','Alturas de bancadas, nichos, armários altos e prateleiras']],
+        ['Prancha 02 · D. Elementos construtivos',['Fundação/baldrame representados (quando exigido)','Paredes cortadas (hachura diferenciada) e paredes em vista','Lajes, vigas e pilares com hachura adequada','Telhado: estrutura, inclinação (%), caimento, beiral','Platibandas, rufos, pingadeiras e contravergas','Esquadrias cortadas e em vista','Desnível de áreas molhadas com caimento','Impermeabilização (lajes, banheiros, floreiras, reservatórios)']],
+        ['Prancha 02 · E. Escadas (quando cortadas)',['Número de degraus','Altura do espelho','Profundidade do piso','Patamar (nível e dimensão)','Altura e tipo do guarda-corpo/corrimão','Altura livre sobre a escada (cabeceira)']],
+        ['Prancha 02 · F. Informações complementares',['Nome de todos os ambientes cortados','Indicação de materiais e texturas (opcional, mas desejável)','Mobiliário fixo e marcenaria relevantes','Muros, gradis e portões em corte, quando passar pela divisa','Linha de terreno e perfil do solo hachurado','Hierarquia de linhas (corte mais grosso, vista mais fina)']],
+        ['Prancha 02 · G. Conferência final da Prancha 02',['Alturas dos cortes coincidem com plantas e fachadas','Peitoris e alturas de esquadrias batem com a tabela','Níveis do corte batem com os níveis das plantas','Cotas verticais fecham (soma das parciais = total)','Sentido de observação correto em relação às plantas']],
+        ['Prancha 03 · A. Carimbo e identificação',['Mesmo carimbo, com numeração 03/03','Identificação de cada fachada: frontal, posterior, lateral direita, lateral esquerda','Escala em cada elevação','Orientação (Norte/rua) coerente com a implantação']],
+        ['Prancha 03 · B. Níveis e alturas',['Nível do térreo (+0,00), nível da calçada e do terreno','Níveis de pavimentos, laje, cumeeira e platibanda','Alturas de platibandas, telhados e elementos decorativos','Altura total da edificação (do térreo à cumeeira)','Cotas verticais principais (alinhadas com os cortes)','Altura de muros, gradis e portões']],
+        ['Prancha 03 · C. Esquadrias e aberturas',['Portas e janelas com tags (P01, J01) coerentes com a tabela','Peitoris e alturas conferidos com plantas e cortes','Tipo de abertura representado (correr, maxim-ar, pivotante)','Elementos vazados (cobogós), venezianas, brises e ripados','Marquises e beirais com projeção']],
+        ['Prancha 03 · D. Materiais e acabamentos',['Representação de materiais: pedra, vidro, madeira, ripado, concreto aparente, revestimento cerâmico etc.','Legenda de materiais com código (M01, M02…) e cores/especificações','Juntas, frisos, molduras e detalhes de revestimento','Pingadeiras, rufos e soleiras']],
+        ['Prancha 03 · E. Elementos complementares',['Guarda-corpo (altura e material, mín. 1,10 m onde exigido)','Condensadoras, grelhas de ventilação e demais equipamentos aparentes','Reservatório, chaminés, antenas e elementos de cobertura visíveis','Calhas e condutores pluviais aparentes','Iluminação externa, luminárias e comunicação visual','Pergolados, painéis, jardineiras e paisagismo básico','Linha do terreno e perfil da rua/calçada','Contexto vizinho (opcional)','Sombras/hachuras para leitura de volumes (opcional)']],
+        ['Prancha 03 · F. Conferência final da Prancha 03',['Todas as fachadas coerentes com plantas e cortes','Posição das esquadrias idêntica à das plantas','Alturas e níveis idênticos aos cortes','Materiais compatíveis com memorial/especificações','Nenhuma fachada faltando (frontal, posterior e laterais)']],
+        ['Checklist geral · Conferência cruzada e entrega das 3 pranchas',['Padrão de carimbo, fontes, espessuras de linha e cores de impressão unificados','Escalas compatíveis com o formato de impressão','Nomenclatura de arquivos e revisões padronizada','Conferência cruzada: planta × corte × fachada','Memorial descritivo e quadro de acabamentos compatíveis com o desenhado','Verificação de atendimento ao código de obras/zoneamento do município (recuos, TO, CA, permeabilidade)','PDF final revisado, assinado e exportado']]
+      ];
+      var lista=[]; g.forEach(function(x){ lista.push(x[0]); x[1].forEach(function(s){ lista.push('\t'+s); }); });
+      ETAPA_MODELOS['Projeto executivo']=lista; // substitui o check-list anterior deste modelo
+      window.MODELO_EXEC_PADRAO=lista.slice();
     })();
     /* Hidrossanitário: check-list do projeto complementar de hidráulica, com itens e subitens */
     (function(){
@@ -1736,11 +1787,14 @@
       var allDone=(total>0&&done===total), started=done>0;
       var fim=scope.querySelector('.pz-fim');
       var d=(fim&&fim.value)?new Date(fim.value+'T00:00:00'):null;
-      var late=(!allDone&&d&&HOJE>d);
+      var kSel=scope.querySelector('.etapa-kanban-sel')||et.querySelector('.etapa-kanban-sel'); var kv=kSel?kSel.value:(et.dataset.kanban||'');
+      var analise=(!allDone&&emAnalise(kv)); // feita, aguardando revisão/aprovação: não conta como atrasada
+      var late=(!allDone&&!analise&&d&&HOJE>d);
       var paused=et.dataset.paused==='1';
       var badge=et.querySelector('.etapa-status'); var st,txt,kcol;
       if(paused){ st='gray'; txt='pausada'; kcol='pausado'; }
       else if(allDone){ st='green'; txt='concluído'; kcol='concluido'; }
+      else if(analise){ st='slate'; txt=(kv==='revisao'?'em revisão':'aguardando aprovação'); kcol='andamento'; }
       else if(late){ st='red'; txt='atrasado'; kcol='andamento'; }
       else if(started){ st='amber'; txt='em andamento'; kcol='andamento'; }
       else { st='amber'; txt='a iniciar'; kcol='afazer'; }
@@ -1820,6 +1874,7 @@
       var head=et.querySelector('.etapa-head'); if(head&&!head._wired){ head._wired=1; head.addEventListener('click',function(){ openEtapa(et); }); }
       var checkUl=et.querySelector('.check'); if(checkUl&&!checkUl._wired){ checkUl._wired=1; checkUl.addEventListener('change',function(e){ syncGrupo(checkUl,e.target); marcarGrupos(checkUl); recomputeEtapa(et); kanbanSync(); }); marcarGrupos(checkUl); }
       et.querySelectorAll('.etapa-prazo input').forEach(function(inp){ if(!inp._wired){ inp._wired=1; inp.addEventListener('change',function(){ recomputeEtapa(et); }); } });
+      var kSelW=et.querySelector('.etapa-kanban-sel'); if(kSelW&&!kSelW._wired){ kSelW._wired=1; kSelW.addEventListener('change',function(){ recomputeEtapa(et); }); }
       var box=et.querySelector('.colabs'); if(box && !box._colwired){ box._colwired=1; wireColabs(box); }
       ensureCheckEditor(et);
       var rename=et.querySelector('.etapa-rename'), nameEl=et.querySelector('.etapa-name');
@@ -1954,7 +2009,7 @@
     ];
     var kanban=document.getElementById('kanban');
     var ETAPAS_KB=[], TASKS_COLAB=[], dragIdC=null;
-    async function carregarTarefasColab(){ try{ var res=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id,kanban,data_inicio,data_fim').order('criado_em',{ascending:true}); TASKS_COLAB=(res&&!res.error)?(res.data||[]).map(function(r){ return {id:r.id,title:r.title||'Sem título',meta:r.meta||'tarefa avulsa',col:r.col||'afazer',responsavel_id:r.responsavel_id||null,chk:Array.isArray(r.chk)?r.chk:[],kanban:r.kanban||'',data_inicio:r.data_inicio||'',data_fim:r.data_fim||''}; }):[]; }catch(e){ try{ var r2=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id').order('criado_em',{ascending:true}); TASKS_COLAB=(r2&&!r2.error)?(r2.data||[]).map(function(r){ return {id:r.id,title:r.title||'Sem título',meta:r.meta||'tarefa avulsa',col:r.col||'afazer',responsavel_id:r.responsavel_id||null,chk:Array.isArray(r.chk)?r.chk:[],kanban:'',data_inicio:'',data_fim:''}; }):[]; }catch(e2){ TASKS_COLAB=[]; } } }
+    async function carregarTarefasColab(){ try{ var res=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id,kanban,data_inicio,data_fim,etiquetas').order('criado_em',{ascending:true}); ETQ_OK=!!(res&&!res.error); if(!ETQ_OK){ res=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id,kanban,data_inicio,data_fim').order('criado_em',{ascending:true}); } TASKS_COLAB=(res&&!res.error)?(res.data||[]).map(function(r){ return {id:r.id,title:r.title||'Sem título',meta:r.meta||'tarefa avulsa',col:r.col||'afazer',responsavel_id:r.responsavel_id||null,chk:Array.isArray(r.chk)?r.chk:[],kanban:r.kanban||'',data_inicio:r.data_inicio||'',data_fim:r.data_fim||'',etiquetas:Array.isArray(r.etiquetas)?r.etiquetas:[]}; }):[]; }catch(e){ try{ var r2=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id').order('criado_em',{ascending:true}); TASKS_COLAB=(r2&&!r2.error)?(r2.data||[]).map(function(r){ return {id:r.id,title:r.title||'Sem título',meta:r.meta||'tarefa avulsa',col:r.col||'afazer',responsavel_id:r.responsavel_id||null,chk:Array.isArray(r.chk)?r.chk:[],kanban:'',data_inicio:'',data_fim:''}; }):[]; }catch(e2){ TASKS_COLAB=[]; } } }
     function efColC(t){ if(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente') return t.kanban; if(t.chk&&t.chk.length&&t.chk.every(function(i){return i.done;})) return 'concluido'; if(t.col==='concluido') return 'concluido'; if(t.chk&&t.chk.some(function(i){return i.done;})) return 'andamento'; return t.col||'afazer'; }
     function salvarTarefaColabFull(t){ if(!t||!t.id) return; sb.from('tarefas').update({title:t.title, col:t.col, chk:t.chk, kanban:t.kanban||null, data_inicio:t.data_inicio||null, data_fim:t.data_fim||null}).eq('id',t.id).then(function(){}); }
     async function carregarEtapasKanban(){
@@ -1977,7 +2032,21 @@
       kf.innerHTML=opts; kf.value=KB_FILTRO; if(kf.value!==KB_FILTRO){ KB_FILTRO='__me__'; kf.value=KB_FILTRO; }
     }
     (function(){ var kf=document.getElementById('kanban-filtro'); if(kf) kf.addEventListener('change',function(){ KB_FILTRO=kf.value; renderKanban(); }); })();
-    function tarefasFiltradas(){ return (TASKS_COLAB||[]).filter(function(t){ if(KB_FILTRO==='') return true; if(KB_FILTRO==='__me__') return !t.responsavel_id || String(t.responsavel_id)===String(MEU_ID); return String(t.responsavel_id)===String(KB_FILTRO); }); }
+    /* etiquetas das tarefas (escolha várias por tarefa; filtro "Etiqueta" no painel) */
+    var ETIQUETAS=[{n:'Hidrossanitário',c:'#3E7CA6'},{n:'Executivo',c:'#5F7C8A'},{n:'Legal',c:'#6E7C46'},{n:'Preventivo',c:'#AA564A'},{n:'Proposta',c:'#AF853A'},{n:'Reunião',c:'#8B7FA3'},{n:'Elétrico',c:'#C08A1E'},{n:'Levantamento',c:'#5E7D57'},{n:'Maquete',c:'#A85C74'},{n:'Estrutural',c:'#6E4B3A'},{n:'Estudo',c:'#3F8F86'}];
+    var KB_ETQ='', ETQ_OK=true;
+    function corEtq(n){ var e=ETIQUETAS.filter(function(x){ return x.n===n; })[0]; return e?e.c:'#8f8f8f'; }
+    function etqNorm(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+    function etapaTemEtq(nome, etq){ return etqNorm(nome).indexOf(etqNorm(etq))>=0; } // cartão de etapa entra no filtro pelo nome (ex.: "Projeto legal" → Legal)
+    function chipsEtq(lista){ if(!lista||!lista.length) return ''; return '<div class="kcard-etq">'+lista.map(function(n){ return '<span class="etq" style="--ec:'+corEtq(n)+'">'+ce(n)+'</span>'; }).join('')+'</div>'; }
+    function montarEtqPick(box, atual, aoMudar){ if(!box) return; box.innerHTML=''; var sel=(atual||[]).slice();
+      ETIQUETAS.forEach(function(e){ var b=document.createElement('button'); b.type='button'; b.textContent=e.n; b.style.setProperty('--ec',e.c); if(sel.indexOf(e.n)>=0) b.classList.add('on');
+        b.addEventListener('click',function(){ var i=sel.indexOf(e.n); if(i>=0) sel.splice(i,1); else sel.push(e.n); b.classList.toggle('on',i<0); aoMudar(ETIQUETAS.map(function(x){return x.n;}).filter(function(n){ return sel.indexOf(n)>=0; })); });
+        box.appendChild(b); });
+    }
+    function etqAviso(box){ if(!box||box.querySelector('.etq-aviso')) return; var p=document.createElement('p'); p.className='etq-aviso'; p.textContent='Para gravar as etiquetas, o administrador precisa rodar uma vez o arquivo sql-tarefas-etiquetas.sql no Supabase.'; box.appendChild(p); }
+    (function(){ var sel=document.getElementById('kanban-etq'); if(!sel) return; sel.innerHTML='<option value="">Todas as etiquetas</option>'+ETIQUETAS.map(function(e){ return '<option>'+e.n+'</option>'; }).join(''); sel.addEventListener('change',function(){ KB_ETQ=sel.value; renderKanban(); }); })();
+    function tarefasFiltradas(){ return (TASKS_COLAB||[]).filter(function(t){ if(KB_ETQ && (t.etiquetas||[]).indexOf(KB_ETQ)<0) return false; if(KB_FILTRO==='') return true; if(KB_FILTRO==='__me__') return !t.responsavel_id || String(t.responsavel_id)===String(MEU_ID); return String(t.responsavel_id)===String(KB_FILTRO); }); }
     function etapaCards(){
       return (ETAPAS_KB||[]).filter(function(e){ return MEU_ID && passaFiltro(KB_FILTRO, e.responsavel_id); }).map(function(e){
         var cl=Array.isArray(e.checklist)?e.checklist:[];
@@ -2000,8 +2069,9 @@
     function tkRenderCheck(){ if(!tkCheck||!tkCur) return; tkCheck.innerHTML=''; (tkCur.chk||[]).forEach(function(it,idx){ var li=document.createElement('li'); li.style.cssText='display:flex;align-items:center;gap:8px;padding:5px 0'; var cb=document.createElement('input'); cb.type='checkbox'; cb.checked=!!it.done; cb.addEventListener('change',function(){ it.done=cb.checked; }); var sp=document.createElement('span'); sp.textContent=it.t; sp.style.flex='1'; var rm=document.createElement('button'); rm.type='button'; rm.textContent='×'; rm.style.cssText='background:none;border:none;color:var(--ink-3);cursor:pointer'; rm.addEventListener('click',function(){ tkCur.chk.splice(idx,1); tkRenderCheck(); }); li.appendChild(cb); li.appendChild(sp); li.appendChild(rm); tkCheck.appendChild(li); }); }
     function openTkModal(t, isNew){
       tkNew=!!isNew; tkOrig=isNew?null:t;
-      tkCur={ id:t.id, title:t.title||'', meta:(t.meta&&t.meta!=='tarefa avulsa')?t.meta:'', responsavel_id:t.responsavel_id||null, kanban:t.kanban||'', col:t.col||'afazer', data_inicio:t.data_inicio||'', data_fim:t.data_fim||'', chk:(t.chk||[]).map(function(i){return {t:i.t,done:!!i.done};}) };
+      tkCur={ id:t.id, title:t.title||'', meta:(t.meta&&t.meta!=='tarefa avulsa')?t.meta:'', responsavel_id:t.responsavel_id||null, kanban:t.kanban||'', col:t.col||'afazer', data_inicio:t.data_inicio||'', data_fim:t.data_fim||'', etiquetas:(t.etiquetas||[]).slice(), chk:(t.chk||[]).map(function(i){return {t:i.t,done:!!i.done};}) };
       if(tkResp) tkResp.innerHTML=respOptions(tkCur.responsavel_id||''); if(tkLink) tkLink.value=tkCur.meta;
+      var tkEtqBox=document.getElementById('tk-etq'); montarEtqPick(tkEtqBox, tkCur.etiquetas, function(lista){ if(tkCur) tkCur.etiquetas=lista; if(!ETQ_OK) etqAviso(tkEtqBox); });
       if(tkTitle) tkTitle.value=tkCur.title; if(tkKanban) tkKanban.value=tkCur.kanban; if(tkIni) tkIni.value=tkCur.data_inicio; if(tkFim) tkFim.value=tkCur.data_fim;
       tkRenderCheck(); if(tkModal) tkModal.hidden=false;
     }
@@ -2024,14 +2094,16 @@
       var tkMeta=(tkCur.meta||'').trim()||'tarefa avulsa';
       if(tkNew){
         await ensureMeuId();
-        var res=await sb.from('tarefas').insert({title:tkCur.title,meta:tkMeta,col:tkCur.col,chk:tkCur.chk,responsavel_id:tkCur.responsavel_id||null,kanban:tkCur.kanban||null,data_inicio:tkCur.data_inicio||null,data_fim:tkCur.data_fim||null}).select().single();
+        var novoReg={title:tkCur.title,meta:tkMeta,col:tkCur.col,chk:tkCur.chk,responsavel_id:tkCur.responsavel_id||null,kanban:tkCur.kanban||null,data_inicio:tkCur.data_inicio||null,data_fim:tkCur.data_fim||null}; if(ETQ_OK) novoReg.etiquetas=tkCur.etiquetas||[];
+        var res=await sb.from('tarefas').insert(novoReg).select().single();
         if(res.error){ alert(tkErro(res.error)); return; }
-        TASKS_COLAB.push({id:res.data.id,title:tkCur.title,meta:tkMeta,col:tkCur.col,responsavel_id:tkCur.responsavel_id||null,chk:tkCur.chk,kanban:tkCur.kanban,data_inicio:tkCur.data_inicio,data_fim:tkCur.data_fim});
+        TASKS_COLAB.push({id:res.data.id,title:tkCur.title,meta:tkMeta,col:tkCur.col,responsavel_id:tkCur.responsavel_id||null,chk:tkCur.chk,kanban:tkCur.kanban,data_inicio:tkCur.data_inicio,data_fim:tkCur.data_fim,etiquetas:ETQ_OK?(tkCur.etiquetas||[]):[]});
       } else if(tkOrig){
-        var up=await sb.from('tarefas').update({title:tkCur.title,meta:tkMeta,col:tkCur.col,chk:tkCur.chk,responsavel_id:tkCur.responsavel_id||null,kanban:tkCur.kanban||null,data_inicio:tkCur.data_inicio||null,data_fim:tkCur.data_fim||null}).eq('id',tkOrig.id).select('id');
+        var upReg={title:tkCur.title,meta:tkMeta,col:tkCur.col,chk:tkCur.chk,responsavel_id:tkCur.responsavel_id||null,kanban:tkCur.kanban||null,data_inicio:tkCur.data_inicio||null,data_fim:tkCur.data_fim||null}; if(ETQ_OK) upReg.etiquetas=tkCur.etiquetas||[];
+        var up=await sb.from('tarefas').update(upReg).eq('id',tkOrig.id).select('id');
         if(up.error){ alert(tkErro(up.error)); return; }
         if(!up.data||!up.data.length){ alert(tkErro({message:'row-level security'})); return; }
-        tkOrig.title=tkCur.title; tkOrig.meta=tkMeta; tkOrig.responsavel_id=tkCur.responsavel_id||null; tkOrig.kanban=tkCur.kanban; tkOrig.col=tkCur.col; tkOrig.chk=tkCur.chk; tkOrig.data_inicio=tkCur.data_inicio; tkOrig.data_fim=tkCur.data_fim;
+        tkOrig.title=tkCur.title; tkOrig.meta=tkMeta; tkOrig.responsavel_id=tkCur.responsavel_id||null; tkOrig.kanban=tkCur.kanban; tkOrig.col=tkCur.col; tkOrig.chk=tkCur.chk; tkOrig.data_inicio=tkCur.data_inicio; tkOrig.data_fim=tkCur.data_fim; if(ETQ_OK) tkOrig.etiquetas=(tkCur.etiquetas||[]).slice();
       }
       renderKanban(); closeTkModal();
     }
@@ -2043,7 +2115,7 @@
     var btnNovaTarefa=document.getElementById('nova-tarefa'); if(btnNovaTarefa) btnNovaTarefa.addEventListener('click',function(){ novaTarefaColab('afazer'); });
     function renderKanban(){
       if(!kanban) return; kanban.innerHTML='';
-      var etc=etapaCards();
+      var etc=etapaCards().filter(function(c){ return !KB_ETQ || etapaTemEtq(c.title, KB_ETQ); });
       KCOLS.forEach(function(c){
         var col=document.createElement('div'); col.className='kcol'; col.style.setProperty('--kc',c.color);
         var listE=etc.filter(function(t){return t.col===c.key;});
@@ -2059,7 +2131,7 @@
         listA.forEach(function(t){
           var card=document.createElement('div'); card.className='kcard'; card.style.setProperty('--kc',c.color); card.setAttribute('draggable','true');
           var d=(t.chk||[]).filter(function(i){return i.done;}).length, tot=(t.chk||[]).length;
-          card.innerHTML='<div class="kcard-t" style="display:flex;align-items:flex-start;gap:8px;justify-content:space-between"><span>'+ce(t.title)+'</span>'+badgeResp(t.responsavel_id)+'</div><div class="kcard-m">'+ce(t.meta||'tarefa avulsa')+' <span class="kcard-tag">avulsa</span></div>'+(tot?('<div class="kcard-chk">☑ '+d+'/'+tot+'</div>'):'');
+          card.innerHTML='<div class="kcard-t" style="display:flex;align-items:flex-start;gap:8px;justify-content:space-between"><span>'+ce(t.title)+'</span>'+badgeResp(t.responsavel_id)+'</div>'+chipsEtq(t.etiquetas)+'<div class="kcard-m">'+ce(t.meta||'tarefa avulsa')+' <span class="kcard-tag">avulsa</span></div>'+(tot?('<div class="kcard-chk">☑ '+d+'/'+tot+'</div>'):'');
           card.addEventListener('click',function(){ if(card.dataset.dragged){ card.dataset.dragged=''; return; } openTkModal(t); });
           card.addEventListener('dragstart',function(){ dragIdC=t.id; card.classList.add('dragging'); });
           card.addEventListener('dragend',function(){ card.classList.remove('dragging'); card.dataset.dragged='1'; });
@@ -2177,6 +2249,14 @@
             }
             if(row.chave==='documentos' && Array.isArray(row.dados)){ DOC_MODELO.length=0; row.dados.forEach(function(d){ DOC_MODELO.push(String(d)); }); mudou=true; }
           });
+          // troca única (out/2026): o check-list novo do Projeto executivo substitui também o modelo já gravado no banco; depois disso o modelo volta a ser editável normalmente
+          var ver=((r.data||[]).filter(function(x){ return x.chave==='versoes'; })[0]||{}).dados||{};
+          if(!ver.exec_2026_10 && window.MODELO_EXEC_PADRAO){
+            ETAPA_MODELOS['Projeto executivo']=window.MODELO_EXEC_PADRAO.slice();
+            ver.exec_2026_10=true; var agV=new Date().toISOString();
+            try{ await sb.from('modelos').upsert([{ chave:'etapas', dados:modelosParaBanco(), atualizado_em:agV },{ chave:'versoes', dados:ver, atualizado_em:agV }],{ onConflict:'chave' }); }catch(eV){}
+            mudou=true;
+          }
           if(mudou){ renderModelos(); renderModeloDocs(); renderNovoOpts(); if(typeof fillAdModelo==='function') fillAdModelo(); }
         }
       }catch(e){}
@@ -2284,8 +2364,8 @@
     function markNotifSeen(ids){ try{ localStorage.setItem('im-notif-seen-colab', JSON.stringify(ids)); }catch(e){} }
     async function computeNotifs(){
       await ensureMeuId(); var out=[]; var hoje=new Date(); hoje.setHours(0,0,0,0); var ht=hoje.getTime();
-      try{ var re=await sb.from('etapas').select('id,nome,status,prazo_fim,responsavel_id,projetos(nome)'); (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)!==String(MEU_ID)) return; if(e.status==='concluida') return; var obra=e.projetos?(' · '+e.projetos.nome):''; out.push({id:'et-resp-'+e.id, texto:'Você é responsável pela etapa "'+e.nome+'"'+obra, when:'', ico:'📌'}); if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f<ht) out.push({id:'et-atr-'+e.id, texto:'Sua etapa "'+e.nome+'" está atrasada'+obra, when:e.prazo_fim, ico:'⏰'}); else if(f===ht) out.push({id:'et-hoje-'+e.id, texto:'A etapa "'+e.nome+'" vence hoje'+obra, when:e.prazo_fim, ico:'📅'}); } }); }catch(e){}
-      try{ var rt=await sb.from('tarefas').select('id,title,col,chk,kanban,data_fim,responsavel_id'); (rt&&rt.data?rt.data:[]).forEach(function(t){ if(String(t.responsavel_id)!==String(MEU_ID)) return; var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); if(concl) return; out.push({id:'tk-resp-'+t.id, texto:'Você tem a tarefa "'+t.title+'"', when:'', ico:'📌'}); if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f<ht) out.push({id:'tk-atr-'+t.id, texto:'Sua tarefa "'+t.title+'" está atrasada', when:t.data_fim, ico:'⏰'}); else if(f===ht) out.push({id:'tk-hoje-'+t.id, texto:'A tarefa "'+t.title+'" vence hoje', when:t.data_fim, ico:'📅'}); } }); }catch(e){}
+      try{ var re=await sb.from('etapas').select('id,nome,status,kanban,prazo_fim,responsavel_id,projetos(nome)'); (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)!==String(MEU_ID)) return; if(e.status==='concluida') return; var obra=e.projetos?(' · '+e.projetos.nome):''; out.push({id:'et-resp-'+e.id, texto:'Você é responsável pela etapa "'+e.nome+'"'+obra, when:'', ico:'📌'}); if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f<ht && !emAnalise(e.kanban)) out.push({id:'et-atr-'+e.id, texto:'Sua etapa "'+e.nome+'" está atrasada'+obra, when:e.prazo_fim, ico:'⏰'}); else if(f===ht) out.push({id:'et-hoje-'+e.id, texto:'A etapa "'+e.nome+'" vence hoje'+obra, when:e.prazo_fim, ico:'📅'}); } }); }catch(e){}
+      try{ var rt=await sb.from('tarefas').select('id,title,col,chk,kanban,data_fim,responsavel_id'); (rt&&rt.data?rt.data:[]).forEach(function(t){ if(String(t.responsavel_id)!==String(MEU_ID)) return; var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); if(concl) return; out.push({id:'tk-resp-'+t.id, texto:'Você tem a tarefa "'+t.title+'"', when:'', ico:'📌'}); if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f<ht && !emAnalise(t.kanban)) out.push({id:'tk-atr-'+t.id, texto:'Sua tarefa "'+t.title+'" está atrasada', when:t.data_fim, ico:'⏰'}); else if(f===ht) out.push({id:'tk-hoje-'+t.id, texto:'A tarefa "'+t.title+'" vence hoje', when:t.data_fim, ico:'📅'}); } }); }catch(e){}
       /* so desta semana (zera toda segunda-feira, 0h) e no maximo 6, as mais recentes; o que continua atrasado segue aparecendo */ var seg=new Date(); seg.setHours(0,0,0,0); seg.setDate(seg.getDate()-((seg.getDay()+6)%7)); var segT=seg.getTime(); out=out.filter(function(n){ if(!n.when) return true; if(/-atr-/.test(n.id)) return true; var t=new Date(/^\d{4}-\d{2}-\d{2}$/.test(n.when)?(n.when+'T00:00:00'):n.when).getTime(); return isNaN(t)||t>=segT; }); out.sort(function(a,b){ return new Date(b.when||0)-new Date(a.when||0); }); return out.slice(0,6);
     }
     function renderNotifPanel(){ var ul=document.getElementById('notif-list'); if(!ul) return; ul.innerHTML = NOTIFS.length ? NOTIFS.map(function(n){ return '<li class="notif-row"><span class="nt-ico">'+n.ico+'</span><span>'+ce(n.texto)+'</span><span class="nt-when">'+(n.when?ageTxt(diasDe(n.when)):'')+'</span></li>'; }).join('') : '<li class="notif-row"><span style="color:var(--ink-3)">Sem notificações no momento.</span></li>'; }
@@ -2304,8 +2384,8 @@
       await ensureMeuId();
       var hoje=new Date(); hoje.setHours(0,0,0,0); var ht=hoje.getTime(); var itens=[];
       function noPeriodo(a,b){ var ini=a?new Date(a+'T00:00:00'):(b?new Date(b+'T00:00:00'):null); if(!ini) return null; var fim=b?new Date(b+'T00:00:00'):new Date(ini); ini.setHours(0,0,0,0); fim.setHours(0,0,0,0); return (ht>=ini.getTime()&&ht<=fim.getTime())?fim:null; }
-      try{ var re=await sb.from('etapas').select('nome,status,prazo_inicio,prazo_fim,responsavel_id,projetos(nome)');
-        (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)!==String(MEU_ID)) return; var fim=noPeriodo(e.prazo_inicio,e.prazo_fim); if(!fim) return; var stTxt=(e.status==='concluida')?'concluído':((fim.getTime()<ht)?'atrasado':'em andamento'); itens.push({nome:(e.projetos?e.projetos.nome:'projeto')+' · '+e.nome, sub:stTxt}); });
+      try{ var re=await sb.from('etapas').select('nome,status,kanban,prazo_inicio,prazo_fim,responsavel_id,projetos(nome)');
+        (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)!==String(MEU_ID)) return; var fim=noPeriodo(e.prazo_inicio,e.prazo_fim); if(!fim) return; var stTxt=(e.status==='concluida')?'concluído':(emAnalise(e.kanban)?(e.kanban==='revisao'?'em revisão':'aguardando aprovação'):((fim.getTime()<ht)?'atrasado':'em andamento')); itens.push({nome:(e.projetos?e.projetos.nome:'projeto')+' · '+e.nome, sub:stTxt}); });
       }catch(e){}
       try{ var rt=await sb.from('tarefas').select('title,data_inicio,data_fim,responsavel_id'); (rt&&rt.data?rt.data:[]).forEach(function(t){ if(String(t.responsavel_id)!==String(MEU_ID)) return; if(!noPeriodo(t.data_inicio,t.data_fim)) return; itens.push({nome:t.title||'tarefa', sub:'tarefa avulsa'}); }); }catch(e){}
       ul.innerHTML = itens.length ? itens.map(function(i){ return '<li class="td"><span class="td-dot"></span><div><div class="td-name">'+ce(i.nome)+'</div><div class="td-sub">'+i.sub+'</div></div></li>'; }).join('') : '<li class="td"><div><div class="td-sub" style="color:var(--ink-3)">Nada agendado para hoje.</div></div></li>';
