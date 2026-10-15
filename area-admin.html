@@ -172,6 +172,11 @@
   .filter:hover,.ptab:hover,.wk-btn:hover,.sortbtn:hover{color:var(--ink-2);background:var(--panel-2)}
   .filter[aria-selected="true"],.ptab[aria-selected="true"],.wk-btn[aria-selected="true"],.sortbtn[aria-selected="true"]{color:var(--ink);background:var(--panel);border-color:var(--hair);box-shadow:var(--shadow-sm)}
   .filter[aria-selected="true"]::before,.ptab[aria-selected="true"]::before{opacity:1}
+  /* abas de escolha (financeiro, membros, clientes, projetos, parceiros) no padrão do seletor "Esta semana / Próxima semana": cápsula branca com a opção ativa destacada */
+  .filters[role="tablist"],.ptabs[role="tablist"],.seg{display:inline-flex;flex-wrap:wrap;align-items:center;gap:2px;max-width:100%;background:var(--panel);border:1px solid var(--hair-soft);border-radius:24px;padding:3px;box-shadow:var(--shadow-sm)}
+  #view-proj .filters[role="tablist"]{display:inline-flex;gap:2px}
+  .filters[role="tablist"] .filter,.ptabs[role="tablist"] .ptab,.seg .sortbtn,#view-proj .filters[role="tablist"] .filter{padding:7px 15px}
+  .filters[role="tablist"] .filter[aria-selected="true"],.ptabs[role="tablist"] .ptab[aria-selected="true"],.seg .sortbtn[aria-selected="true"]{color:var(--ink);background:var(--panel);border-color:var(--hair);box-shadow:var(--shadow-sm)}
 
   /* ===== central de projetos (layout premium) ===== */
   .page-sub{font-size:13.5px;color:var(--ink-2);margin:-6px 0 clamp(20px,3vw,28px);max-width:66ch}
@@ -663,6 +668,46 @@
   .kanban::-webkit-scrollbar{height:8px}
   .kanban::-webkit-scrollbar-thumb{background:var(--hair);border-radius:8px}
   .kanban::-webkit-scrollbar-track{background:transparent}
+  /* painel de tarefas: quadro com altura da tela; rola para o lado (colunas) e cada coluna rola para baixo (cartões) */
+  #view-tarefas .kanban{align-items:stretch;height:calc(100vh - 300px);min-height:400px;padding-bottom:12px}
+  #view-tarefas .kcol{overflow-y:auto;overscroll-behavior:contain;min-height:0;scrollbar-width:thin;scrollbar-color:var(--hair) transparent}
+  #view-tarefas .kcol::-webkit-scrollbar{width:6px}
+  #view-tarefas .kcol::-webkit-scrollbar-thumb{background:var(--hair);border-radius:6px}
+  #view-tarefas .kcol::-webkit-scrollbar-track{background:transparent}
+  #view-tarefas .kcol-head{position:sticky;top:-14px;z-index:2;background:var(--panel-2);margin:-14px -12px 12px;padding:16px 14px 10px;border-bottom:1px solid var(--hair-soft)}
+  #view-tarefas .kcol.drop .kcol-head{background:var(--gold-soft)}
+  #view-tarefas .kanban::-webkit-scrollbar{height:10px}
+  /* ---- painel de tarefas: filtros numa barra, colunas com cabeçalho marcado, cartões com rodapé de progresso e prazo ---- */
+  #view-tarefas .kb-filtros{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:14px 18px;margin:0 0 18px;gap:12px 18px;align-items:flex-end}
+  #view-tarefas .kb-filtros > div{flex:0 1 250px;max-width:none}
+  #view-tarefas .kb-filtros label{display:flex!important;align-items:center;gap:7px;font-size:10.5px!important;font-weight:500;letter-spacing:.14em!important;color:var(--ink-2)!important;margin:0 0 7px!important}
+  #view-tarefas .kb-filtros label svg{width:14px;height:14px;flex:none;fill:none;stroke:var(--gold);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  #view-tarefas .kb-filtros select{font-weight:400!important;font-size:14px!important;color:var(--ink)!important;background-color:var(--panel)!important;border:1px solid var(--hair)!important;border-radius:var(--r-sm)!important;padding:9px 36px 9px 12px!important;min-height:40px;appearance:none;-webkit-appearance:none;-moz-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239A968E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 12px center!important;background-size:14px!important;transition:border-color .2s,box-shadow .2s}
+  #view-tarefas .kb-filtros select:focus{outline:none;border-color:var(--gold)!important;box-shadow:0 0 0 3px rgba(175,133,58,.16)}
+  #view-tarefas .kb-total{flex:0 0 auto!important;margin-left:auto;align-self:center;font-size:12.5px;color:var(--ink-2);white-space:nowrap}
+  #view-tarefas .kb-total b{font-family:var(--display);font-weight:700;font-size:20px;color:var(--ink);margin-right:5px;font-variant-numeric:tabular-nums}
+  #view-tarefas .kanban{gap:14px}
+  #view-tarefas .kcol{flex:0 0 248px;padding:14px 10px 10px}
+  #view-tarefas .kcol-head{margin:-14px -10px 12px;padding:14px 12px 11px}
+  #view-tarefas .kcol-title{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.09em;color:var(--ink)}
+  #view-tarefas .kcol-title::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--kc);flex:none}
+  #view-tarefas .kcol-n{min-width:24px;height:22px;font-size:11.5px;color:var(--ink)}
+  #view-tarefas .kcard{padding:12px 12px 10px;margin-bottom:9px;border-left-width:4px}
+  #view-tarefas .kcard-etapa{background:var(--panel)}
+  #view-tarefas .kcard-t{font-size:14.5px;line-height:1.3}
+  #view-tarefas .kcard-m{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-top:6px}
+  #view-tarefas .kcard-tag{margin-left:auto;font-size:9px;font-weight:600;letter-spacing:.1em;color:var(--ink-2);background:var(--panel-2);border:none;padding:2px 8px}
+  #view-tarefas .kcard-chk{display:none}
+  .kcard-f{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;padding-top:9px;border-top:1px solid var(--hair-soft);font-size:11.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .kc-prog{display:flex;align-items:center;gap:7px;flex:1;min-width:0}
+  .kc-bar{flex:1;max-width:96px;height:4px;border-radius:4px;background:var(--hair-soft);overflow:hidden}
+  .kc-bar i{display:block;height:100%;border-radius:4px;background:var(--kc,var(--gray))}
+  .kc-data{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;margin-left:auto}
+  .kc-data svg{width:12px;height:12px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .kc-data.late{color:var(--red);font-weight:600}
+  #view-tarefas .kadd{width:100%;margin:2px 0 4px!important;padding:9px!important;border:1px dashed var(--hair)!important;border-radius:var(--r-sm)!important;background:transparent!important;color:var(--ink-3)!important;font-family:var(--sans)!important;font-size:11.5px!important;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+  #view-tarefas .kadd:hover{border-color:var(--gold)!important;color:var(--gold)!important;background:var(--panel)!important}
+  #view-tarefas .kempty{text-align:center;padding:16px 6px;font-size:12px;color:var(--ink-3);border:1px dashed var(--hair-soft);border-radius:var(--r-sm);margin-bottom:8px}
   .kcol{flex:0 0 208px;scroll-snap-align:start;background:var(--panel-2);border:1px solid var(--hair-soft);border-radius:var(--r);padding:14px 12px 8px;display:flex;flex-direction:column;border-top:3px solid var(--kc,var(--gray));min-height:120px}
   .kcol-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 2px 14px}
   .kcol-title{font-family:var(--sans);font-weight:600;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);line-height:1.3}
@@ -747,6 +792,25 @@
   #view-financeiro .ptable td{vertical-align:middle}
   #view-financeiro .ptable td:last-child{text-align:center}
   #view-financeiro .ptable td:last-child .pbtn{display:inline-flex}
+  /* listas do financeiro: tabela num cartão, cabeçalho em faixa, linhas alternadas bem marcadas, destaque ao passar o mouse e status em etiqueta */
+  #view-financeiro .ptable-wrap{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow-x:auto}
+  #view-financeiro .ptable th{background:var(--panel-2);color:var(--ink-2);font-weight:600;padding:12px 16px;border-bottom:1px solid var(--hair)}
+  #view-financeiro .ptable td{padding:13px 16px;border-bottom:1px solid var(--hair-soft);background:var(--panel)}
+  #view-financeiro .ptable tbody tr:nth-child(even) td{background:var(--tint)}
+  #view-financeiro .ptable tbody tr:last-child td{border-bottom:none}
+  #view-financeiro .ptable tbody tr{transition:background .15s}
+  #view-financeiro .ptable tbody tr:hover td{background:#FBF6EC}
+  #view-financeiro .ptable tbody tr td:first-child{box-shadow:inset 3px 0 0 transparent;transition:box-shadow .15s}
+  #view-financeiro .ptable tbody tr:hover td:first-child{box-shadow:inset 3px 0 0 var(--gold)}
+  #view-financeiro .ptable td:first-child{font-family:var(--display);font-weight:600;font-size:14px;color:var(--ink)}
+  #view-financeiro .ptable td:nth-child(2){color:var(--ink-2)}
+  #view-financeiro .ptable .num{font-weight:500}
+  #view-financeiro .ptable .rec{color:var(--green);font-weight:600}
+  #view-financeiro .ptable .arec{color:var(--amber);font-weight:600}
+  #view-financeiro .ptable .num.zero{color:var(--ink-3);font-weight:400}
+  #view-financeiro .ptable .state{padding:4px 10px 4px 9px;border-radius:50px;font-size:11.5px;font-weight:600;gap:6px;background:color-mix(in srgb,currentColor 11%,transparent)}
+  #view-financeiro .ptable .state::before{width:6px;height:6px}
+  #fin-contratos tr{cursor:pointer}
   .fin-edit{cursor:pointer}
   .fin-edit td:first-child{position:relative}
 
@@ -1062,8 +1126,9 @@
     </div>
     <p class="proj-note">Cartões avulsos e <b>etapas dos projetos por responsável</b>. Use o filtro para ver as suas, as de um colaborador ou de toda a equipe.</p>
     <div class="kb-filtros">
-      <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Mostrar tarefas de</label><select id="kanban-filtro" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
-      <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px">Etiqueta</label><select id="kanban-etq" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
+      <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px"><svg viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c0-3.2 2.500-5.300 5.500-5.300s5.500 2.100 5.500 5.300"/><circle cx="17" cy="9.500" r="2.500"/><path d="M15.500 14.200c2.800-.4 5 1.500 5 4.300"/></svg>Mostrar tarefas de</label><select id="kanban-filtro" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
+      <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px"><svg viewBox="0 0 24 24"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.5 1.5 0 0 1 0 2.1l-6.2 6.2a1.5 1.5 0 0 1-2.1 0z"/><circle cx="8" cy="8" r="1.3"/></svg>Etiqueta</label><select id="kanban-etq" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
+      <div class="kb-total" id="kb-total"></div>
     </div>
     <div class="kanban" id="kanban"></div>
   </section>
@@ -1346,8 +1411,7 @@
     <div class="cli-tools">
       <div class="cli-sort">
         <span class="lbl">ordenar</span>
-        <button class="sortbtn" type="button" data-sort="cad" aria-selected="true">Cadastro</button>
-        <button class="sortbtn" type="button" data-sort="az" aria-selected="false">A–Z</button>
+        <span class="seg" role="group" aria-label="Ordenar"><button class="sortbtn" type="button" data-sort="cad" aria-selected="true">Cadastro</button><button class="sortbtn" type="button" data-sort="az" aria-selected="false">A–Z</button></span>
       </div>
       <input class="cli-search" id="cli-search" type="search" placeholder="Buscar cliente…" aria-label="Buscar cliente">
     </div>
@@ -3754,7 +3818,7 @@
         var quit=pa(p)===0;
         var stx=quit?'<span class="state green">quitado</span>':(venciu?'<span class="state red">parcela vencida</span>':'<span class="state amber">em dia</span>');
         var tr=document.createElement('tr'); tr.setAttribute('data-fin', p.id);
-        tr.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td class="num">'+fmt(ptot(p))+'</td><td class="num rec">'+fmt(pz(p))+'</td><td class="num arec">'+fmt(pa(p))+'</td><td>'+stx+'</td><td style="text-align:right"><span class="fin-chev"></span></td>';
+        tr.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td class="num">'+fmt(ptot(p))+'</td><td class="num rec'+(pz(p)?'':' zero')+'">'+fmt(pz(p))+'</td><td class="num arec'+(pa(p)?'':' zero')+'">'+fmt(pa(p))+'</td><td>'+stx+'</td><td style="text-align:right"><span class="fin-chev"></span></td>';
         tb.appendChild(tr);
       });
       var fe=document.getElementById('fin-empty'); if(fe) fe.hidden=shownC>0;
@@ -3945,17 +4009,26 @@
     var kanban=document.getElementById('kanban');
     var dragId=null;
     /* etiquetas das tarefas (escolha várias por tarefa; filtro "Etiqueta" no painel) */
-    var ETIQUETAS=[{n:'Hidrossanitário',c:'#3E7CA6'},{n:'Executivo',c:'#5F7C8A'},{n:'Legal',c:'#6E7C46'},{n:'Preventivo',c:'#AA564A'},{n:'Proposta',c:'#AF853A'},{n:'Reunião',c:'#8B7FA3'},{n:'Elétrico',c:'#C08A1E'},{n:'Levantamento',c:'#5E7D57'},{n:'Maquete',c:'#A85C74'},{n:'Estrutural',c:'#6E4B3A'},{n:'Estudo',c:'#3F8F86'}];
+    var ETIQUETAS=[{n:'Hidrossanitário',c:'#3E7CA6'},{n:'Executivo',c:'#5F7C8A'},{n:'Legal',c:'#6E7C46'},{n:'Preventivo',c:'#AA564A'},{n:'Proposta',c:'#AF853A'},{n:'Reunião',c:'#8B7FA3'},{n:'Elétrico',c:'#C08A1E'},{n:'Levantamento',c:'#5E7D57'},{n:'Maquete',c:'#A85C74'},{n:'Estrutural',c:'#6E4B3A'},{n:'Estudo',c:'#3F8F86'},{n:'Pré-projeto',c:'#9A6B4F'},{n:'Pós-projeto',c:'#4B5563'}];
     var KB_ETQ='', ETQ_OK=true;
     function corEtq(n){ var e=ETIQUETAS.filter(function(x){ return x.n===n; })[0]; return e?e.c:'#8f8f8f'; }
     function etqNorm(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
-    function etapaTemEtq(nome, etq){ return etqNorm(nome).indexOf(etqNorm(etq))>=0; } // cartão de etapa entra no filtro pelo nome (ex.: "Projeto legal" → Legal)
+    function etapaTemEtq(nome, etq){ var a=etqNorm(nome).replace(/[^a-z0-9]/g,''), b=etqNorm(etq).replace(/[^a-z0-9]/g,''); return !!b && a.indexOf(b)>=0; }
+    function etqDaEtapa(nome){ return ETIQUETAS.filter(function(e){ return etapaTemEtq(nome, e.n); }).map(function(e){ return e.n; }); } // etapa vinda da central de projetos já chega com a etiqueta correspondente (ex.: "Projeto legal" → Legal)
     function chipsEtq(lista){ if(!lista||!lista.length) return ''; return '<div class="kcard-etq">'+lista.map(function(n){ return '<span class="etq" style="--ec:'+corEtq(n)+'">'+String(n).replace(/</g,'&lt;')+'</span>'; }).join('')+'</div>'; }
     function montarEtqPick(box, atual, aoMudar){ if(!box) return; box.innerHTML=''; var sel=(atual||[]).slice();
       ETIQUETAS.forEach(function(e){ var b=document.createElement('button'); b.type='button'; b.textContent=e.n; b.style.setProperty('--ec',e.c); if(sel.indexOf(e.n)>=0) b.classList.add('on');
         b.addEventListener('click',function(){ var i=sel.indexOf(e.n); if(i>=0) sel.splice(i,1); else sel.push(e.n); b.classList.toggle('on',i<0); aoMudar(ETIQUETAS.map(function(x){return x.n;}).filter(function(n){ return sel.indexOf(n)>=0; })); });
         box.appendChild(b); });
     }
+    /* rodapé do cartão: barrinha do check-list + prazo (vermelho se atrasado; em revisão/aprovação não conta) */
+    function kcRodape(done,total,fim,kb,concl){
+      var h=total?('<span class="kc-prog"><span class="kc-bar"><i style="width:'+Math.round(done*100/total)+'%"></i></span>'+done+'/'+total+'</span>'):'';
+      if(fim){ var d=new Date(fim+'T00:00:00'), hj=new Date(); hj.setHours(0,0,0,0); var late=!concl && !(window.emAnalise&&window.emAnalise(kb)) && d.getTime()<hj.getTime();
+        h+='<span class="kc-data'+(late?' late':'')+'" title="'+(late?'atrasada · prazo ':'prazo ')+('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>'+('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'</span>'; }
+      return h?('<div class="kcard-f">'+h+'</div>'):'';
+    }
+    function kbTotal(n){ var el=document.getElementById('kb-total'); if(el) el.innerHTML='<b>'+n+'</b>'+(n===1?'cartão':'cartões'); }
     function etqAviso(box){ if(!box||box.querySelector('.etq-aviso')) return; var p=document.createElement('p'); p.className='etq-aviso'; p.textContent='Para gravar as etiquetas, rode uma vez o arquivo sql-tarefas-etiquetas.sql no Supabase.'; box.appendChild(p); }
     (function(){ var sel=document.getElementById('kanban-etq'); if(!sel) return; sel.innerHTML='<option value="">Todas as etiquetas</option>'+ETIQUETAS.map(function(e){ return '<option>'+e.n+'</option>'; }).join(''); sel.addEventListener('change',function(){ KB_ETQ=sel.value; renderKanban(); }); })();
     /* cartões de etapa: TODAS as etapas dos projetos (do banco) */
@@ -3974,7 +4047,7 @@
     function badgeResp(id){ if(!id) return ''; var n=NOME_BY_ID[id]||'—'; return '<span class="kresp" title="'+n+'" style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:'+corResp(id)+';color:#fff;font-size:9.5px;font-weight:600;letter-spacing:.02em;flex:none">'+iniResp(id)+'</span>'; }
     async function carregarEtapasKanban(){
       await ensureMeuId();
-      try{ var res=await sb.from('etapas').select('id,nome,status,checklist,kanban,responsavel_id,projeto_id,projetos(nome)'); ETAPAS_KB=(res&&!res.error)?(res.data||[]):[]; }catch(e){ try{ var r2=await sb.from('etapas').select('id,nome,status,checklist,projeto_id,projetos(nome)'); ETAPAS_KB=(r2&&!r2.error)?(r2.data||[]):[]; }catch(e2){ ETAPAS_KB=[]; } }
+      try{ var res=await sb.from('etapas').select('id,nome,status,checklist,kanban,prazo_fim,responsavel_id,projeto_id,projetos(nome)'); ETAPAS_KB=(res&&!res.error)?(res.data||[]):[]; }catch(e){ try{ var r2=await sb.from('etapas').select('id,nome,status,checklist,projeto_id,projetos(nome)'); ETAPAS_KB=(r2&&!r2.error)?(r2.data||[]):[]; }catch(e2){ ETAPAS_KB=[]; } }
       await carregarTarefas();
       renderKanban();
     }
@@ -3985,14 +4058,14 @@
         var col;
         if(e.kanban==='revisao'||e.kanban==='aprov'||e.kanban==='cliente'){ col=e.kanban; }
         else { col=(e.status==='concluida')?'concluido':((e.status==='andamento'||done>0)?'andamento':'afazer'); }
-        return {dbEtapa:e,title:e.nome,meta:(e.projetos?e.projetos.nome:'projeto'),col:col,projeto_id:e.projeto_id,_done:done,_total:total,responsavel_id:e.responsavel_id||null};
+        return {dbEtapa:e,title:e.nome,meta:(e.projetos?e.projetos.nome:'projeto'),col:col,projeto_id:e.projeto_id,_done:done,_total:total,responsavel_id:e.responsavel_id||null,etiquetas:etqDaEtapa(e.nome)};
       });
     }
     function allTasks(){ return (TASKS||[]).filter(function(t){ if(KB_ETQ && (t.etiquetas||[]).indexOf(KB_ETQ)<0) return false; if(KB_FILTRO==='') return true; if(KB_FILTRO==='__me__') return !t.responsavel_id || String(t.responsavel_id)===String(MEU_ID); return String(t.responsavel_id)===String(KB_FILTRO); }).concat(etapaCards().filter(function(c){ return !KB_ETQ || etapaTemEtq(c.title, KB_ETQ); })); }
     function cardChk(t){ if(t.dbEtapa){ return '☑ '+t._done+'/'+t._total; } var d=t.chk.filter(function(i){return i.done;}).length; return '☑ '+d+'/'+t.chk.length; }
     function renderKanban(){
       if(!kanban) return; kanban.innerHTML='';
-      var all=allTasks();
+      var all=allTasks(); kbTotal(all.length);
       COLS.forEach(function(c){
         var col=document.createElement('div'); col.className='kcol'; col.style.setProperty('--kc',c.color); col.dataset.col=c.key;
         var list=all.filter(function(t){return efCol(t)===c.key;});
@@ -4002,7 +4075,8 @@
           var tag=t.dbEtapa?'<span class="kcard-tag">etapa</span>':'';
           var chk=(t.dbEtapa||(t.chk&&t.chk.length))?'<div class="kcard-chk">'+cardChk(t)+'</div>':'';
           var bdg=badgeResp(t.responsavel_id);
-          card.innerHTML='<div class="kcard-t" style="display:flex;align-items:flex-start;gap:8px;justify-content:space-between">'+'<span>'+t.title+'</span>'+bdg+'</div>'+chipsEtq(t.etiquetas)+'<div class="kcard-m">'+t.meta+tag+'</div>'+chk;
+          var rod=t.dbEtapa?kcRodape(t._done,t._total,t.dbEtapa.prazo_fim,t.dbEtapa.kanban,c.key==='concluido'):kcRodape((t.chk||[]).filter(function(i){return i.done;}).length,(t.chk||[]).length,t.data_fim,t.kanban,c.key==='concluido');
+          card.innerHTML='<div class="kcard-t" style="display:flex;align-items:flex-start;gap:8px;justify-content:space-between">'+'<span>'+t.title+'</span>'+bdg+'</div>'+chipsEtq(t.etiquetas)+'<div class="kcard-m">'+t.meta+tag+'</div>'+rod;
           card.addEventListener('click',function(){ if(card.dataset.dragged){ card.dataset.dragged=''; return; } if(t.dbEtapa){ obraId=t.projeto_id; try{localStorage.setItem('im-obra-adm',obraId);}catch(e){} location.hash='projeto'; } else { location.hash='tarefa'; openTarefa(t); } });
           if(!t.dbEtapa){
             card.setAttribute('draggable','true');
