@@ -1894,7 +1894,15 @@
     function addRemove(et){
       var pad=et.querySelector('.etapa-pad'); if(!pad || pad.querySelector('.etapa-remove')) return;
       var b=document.createElement('button'); b.type='button'; b.className='pbtn danger pj-edit-only etapa-remove'; b.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover etapa';
-      b.addEventListener('click',function(){ if(currentEtapa===et){ closeEtapa(false); } et.remove(); kanbanSync(); });
+      // remove de verdade: apaga a etapa no banco (antes só sumia da tela e voltava ao recarregar)
+      b.addEventListener('click',function(){
+        var nm=((et.querySelector('.etapa-name')||{}).textContent||'').trim()||'esta etapa';
+        var pergunta=(typeof imConfirm==='function')?imConfirm('Remover a etapa "'+nm+'" deste projeto? O check-list e o documento dela também saem.'):Promise.resolve(window.confirm('Remover a etapa "'+nm+'"?'));
+        pergunta.then(async function(ok){ if(!ok) return;
+          if(et.dataset.eid){ var r=await sb.from('etapas').delete().eq('id',et.dataset.eid).select('id'); if(r.error||!r.data||!r.data.length){ alert('Não foi possível remover a etapa'+(r.error?(': '+r.error.message):'.')); return; } }
+          if(currentEtapa===et){ closeEtapa(false); } et.remove(); kanbanSync(); if(typeof salvarOrdemEtapas==='function') salvarOrdemEtapas();
+        });
+      });
       pad.appendChild(b);
     }
     // grava no banco a ordem das etapas como está na tela (chamado ao mover com ↑ ↓)
