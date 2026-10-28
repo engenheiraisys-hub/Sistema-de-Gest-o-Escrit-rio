@@ -347,6 +347,10 @@
   .etq-pick button.on{opacity:1;font-weight:600;box-shadow:0 0 0 2px var(--paper),0 0 0 3px var(--ec)}
   .etq-pick button.on::before{content:"✓";font-size:11px;line-height:1}
   .etq-aviso{flex-basis:100%;font-size:12px;color:var(--red);margin:4px 0 0}
+  /* check-list da tarefa a partir de um modelo (itens e subitens) */
+  .tk-mdl{margin-top:8px}
+  .tk-sec .check li.sub{padding-left:24px!important;font-size:13px;color:var(--ink-2)}
+  .tk-sec .check li.grp > label span,.tk-sec .check li.grp > span{font-weight:600}
   /* novo projeto + página do projeto: cada campo em sua caixa, com rótulo e ícone */
   :is(#view-novo,#view-projeto) :is(input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=hidden]),select,textarea){font-family:var(--sans)!important;font-weight:400!important;font-size:14.5px!important;color:var(--ink)!important;background-color:var(--panel)!important;border:1px solid var(--hair)!important;border-radius:var(--r-sm)!important;padding:9px 12px!important;min-height:42px;transition:border-color .2s,box-shadow .2s}
   :is(#view-novo,#view-projeto) :is(input,select,textarea)::placeholder{color:var(--ink-3)}
@@ -1726,6 +1730,7 @@
         <p class="tk-lbl"><svg viewBox="0 0 24 24"><path d="M4 7l1.5 1.5L8 6M4 13l1.5 1.5L8 12M4 19l1.5 1.5L8 18M11.5 7H20M11.5 13H20M11.5 19H20"/></svg>Check-list</p>
         <ul class="check" id="tarefa-check"></ul>
         <div class="tk-add"><input id="tarefa-newitem" type="text" class="tk-in" placeholder="Novo item…"><button class="pill ghost sm" type="button" id="tarefa-additem"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button></div>
+        <div class="tk-add tk-mdl"><select id="tarefa-mdl" class="tk-in" aria-label="Modelo de check-list"></select><button class="pill ghost sm" type="button" id="tarefa-mdl-add"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg>aplicar</button></div>
       </div>
       <!-- ações em grade 2×2: salvar | concluir  ·  excluir | fechar -->
       <div class="tk-acts" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;padding-top:20px;border-top:1px solid var(--hair-soft)">
@@ -4125,10 +4130,13 @@
     tarefaTitle.addEventListener('blur',function(){ renderKanban(); salvarTarefa(curTask); });
     tarefaLink.addEventListener('input',function(){ if(curTask) curTask.meta=tarefaLink.value.trim()||'tarefa avulsa'; });
     tarefaLink.addEventListener('blur',function(){ salvarTarefa(curTask); renderKanban(); });
+    /* modelo de check-list para tarefas: usa os modelos da aba Modelo (itens + subitens) */
+    function tkModeloOpcoes(sel){ if(!sel) return; var ks=(typeof ETAPA_MODELOS!=='undefined')?Object.keys(ETAPA_MODELOS):[]; sel.innerHTML='<option value="">Usar um modelo de check-list…</option>'+ks.map(function(k){ var n=(ETAPA_MODELOS[k]||[]).length; return '<option value="'+String(k).replace(/"/g,'&quot;')+'">'+String(k).replace(/</g,'&lt;')+' ('+n+')</option>'; }).join(''); }
+    function tkItensDoModelo(nome){ var l=(typeof ETAPA_MODELOS!=='undefined'&&ETAPA_MODELOS[nome])||[]; return l.map(function(s){ s=String(s); var sub=s.charAt(0)==='\t'; var o={t:(sub?s.slice(1):s).trim(),done:false}; if(sub) o.sub=true; return o; }).filter(function(i){ return i.t; }); }
     function renderTarefaCheck(){
       tarefaCheck.innerHTML='';
       curTask.chk.forEach(function(it,idx){
-        var li=document.createElement('li');
+        var li=document.createElement('li'); if(it.sub) li.className='sub'; else if(curTask.chk[idx+1]&&curTask.chk[idx+1].sub) li.className='grp';
         var lbl=document.createElement('label'); lbl.className='lbl';
         var cb=document.createElement('input'); cb.type='checkbox'; cb.checked=it.done; cb.addEventListener('change',function(){ it.done=cb.checked; autoConcluir(curTask); salvarTarefa(curTask); renderKanban(); });
         var sp=document.createElement('span'); sp.textContent=it.t;
@@ -4143,8 +4151,12 @@
       if(tarefaIni) tarefaIni.value=t.data_inicio||''; if(tarefaFim) tarefaFim.value=t.data_fim||'';
       if(tarefaRespSel) tarefaRespSel.innerHTML=respOptions(t.responsavel_id);
       montarEtqPick(document.getElementById('tarefa-etq'), t.etiquetas||(t.etiquetas=[]), function(lista){ t.etiquetas=lista; if(!ETQ_OK){ etqAviso(document.getElementById('tarefa-etq')); return; } salvarTarefa(t); renderKanban(); });
+      tkModeloOpcoes(document.getElementById('tarefa-mdl'));
       renderTarefaCheck(); document.getElementById('tarefa-note').textContent=''; show('tarefa');
     }
+    (function(){ var b=document.getElementById('tarefa-mdl-add'), s=document.getElementById('tarefa-mdl'); if(!b||!s) return;
+      b.addEventListener('click',function(){ if(!curTask||!s.value) return; var itens=tkItensDoModelo(s.value); if(!itens.length) return; curTask.chk=(curTask.chk||[]).concat(itens); s.value=''; renderTarefaCheck(); salvarTarefa(curTask); renderKanban(); });
+    })();
     tarefaColSel.addEventListener('change',function(){ if(curTask){ curTask.kanban=tarefaColSel.value; salvarTarefa(curTask); renderKanban(); } });
     document.getElementById('tarefa-additem').addEventListener('click',function(){ var inp=document.getElementById('tarefa-newitem'); var v=inp.value.trim(); if(v&&curTask){ curTask.chk.push({t:v,done:false}); inp.value=''; renderTarefaCheck(); salvarTarefa(curTask); renderKanban(); } });
     document.getElementById('tarefa-newitem').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('tarefa-additem').click(); } });
@@ -4245,9 +4257,10 @@
     async function renderStatsHome(){
       var hoje=new Date(); hoje.setHours(0,0,0,0); var ht=hoje.getTime(), lim7=ht+7*86400000;
       try{ var rp=await sb.from('projetos').select('status,arquivado'); var proj=(rp&&rp.data?rp.data:[]).filter(function(p){return !p.arquivado;}); setNum('st-projetos', proj.filter(function(p){return (p.status||'andamento')==='andamento';}).length); }catch(e){}
-      var pend=0, prazos=0;
-      try{ var re=await sb.from('etapas').select('status,prazo_fim'); (re&&re.data?re.data:[]).forEach(function(e){ if(e.status!=='concluida') pend++; if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){}
-      try{ var rt=await sb.from('tarefas').select('col,chk,kanban,data_fim'); (rt&&rt.data?rt.data:[]).forEach(function(t){ var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); if(!concl) pend++; if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){}
+      var pend=0, prazos=0; await ensureMeuId();
+      // "tarefas pendentes" = o mesmo que o painel de tarefas mostra em "Só as minhas" nas colunas "A fazer" e "Em andamento"
+      try{ var re=await sb.from('etapas').select('status,kanban,prazo_fim,responsavel_id'); (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)===String(MEU_ID) && e.status!=='concluida' && e.kanban!=='revisao' && e.kanban!=='aprov' && e.kanban!=='cliente') pend++; if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){}
+      try{ var rt=await sb.from('tarefas').select('col,chk,kanban,data_fim,responsavel_id'); (rt&&rt.data?rt.data:[]).forEach(function(t){ var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); var minha=!t.responsavel_id||String(t.responsavel_id)===String(MEU_ID); if(minha && !esp && !concl) pend++; if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){}
       setNum('st-tarefas',pend); setNum('st-prazos',prazos);
     }
     function logAtividade(texto){ if(!MEU_ID) return; try{ sb.from('atividades').insert({texto:texto, autor_id:MEU_ID, autor_nome:(NOME_BY_ID[MEU_ID]||'admin')}).then(function(){ if(typeof renderRegistro==='function') renderRegistro(); }); }catch(e){} }
