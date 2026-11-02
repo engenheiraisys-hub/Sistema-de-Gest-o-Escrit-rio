@@ -58,7 +58,7 @@
 <title>Área do Administrador</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Quicksand:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
@@ -83,7 +83,7 @@
     --shadow-sm:0 1px 2px rgba(28,26,22,.03),0 2px 6px rgba(28,26,22,.05);
     --shadow-md:0 10px 30px rgba(28,26,22,.09);
     --r:14px;--r-sm:10px;
-    --display:"Quicksand",system-ui,sans-serif;--sans:"Inter",system-ui,sans-serif;
+    --display:"Plus Jakarta Sans",system-ui,sans-serif;--sans:"Plus Jakarta Sans",system-ui,sans-serif;
     --wrap:1120px;color-scheme:light;
     /* tema do ambiente (trocável) — padrão "Atual": fundo off-white, cards brancos */
     --brand:#37352F;--brand-on:#FFFFFF;--tint:#F6F5F1;--panel:#FFFFFF;--panel-2:#F0EEE8;--accent:#37352F;
@@ -3862,16 +3862,16 @@
       var hoje=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
       var linha='<tr><td>'+(d.desc||'parcela')+'</td><td>'+fmtData(d.data)+'</td><td class="r">'+fmtBRL(valor)+'</td></tr>';
       var html='<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Recibo · '+(d.obra||'')+'</title>'
-        +'<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Quicksand:wght@500;600&display=swap">'
+        +'<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap">'
         +'<style>*{box-sizing:border-box;margin:0;padding:0}'
-        +'body{font-family:Inter,Arial,sans-serif;color:#414141;font-weight:300;background:#F2F1EE}'
+        +'body{font-family:"Plus Jakarta Sans",Arial,sans-serif;color:#414141;font-weight:300;background:#F2F1EE}'
         +'.sheet{max-width:720px;margin:28px auto;background:#fff;box-shadow:0 4px 30px rgba(65,65,65,.08)}'
         +'.top{background:#414141;color:#fff;padding:36px 46px;display:flex;justify-content:space-between;align-items:flex-end}'
         +'.top .wm{font-size:22px;letter-spacing:.18em;font-weight:400}'
-        +'.top .tg{font-family:Inter,Arial,sans-serif;font-weight:300;font-size:12px;letter-spacing:.34em;color:#c6c4c0;margin-top:10px}'
+        +'.top .tg{font-family:"Plus Jakarta Sans",Arial,sans-serif;font-weight:300;font-size:12px;letter-spacing:.34em;color:#c6c4c0;margin-top:10px}'
         +'.top .doc{text-align:right;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#c6c4c0;line-height:1.9}'
         +'.body{padding:46px}'
-        +'.title{font-family:Quicksand,sans-serif;font-weight:500;font-size:27px;color:#414141;margin-bottom:6px}'
+        +'.title{font-family:"Plus Jakarta Sans",sans-serif;font-weight:500;font-size:27px;color:#414141;margin-bottom:6px}'
         +'.sub{font-size:13px;color:#8f8d8a;margin-bottom:34px}'
         +'.meta{display:flex;gap:52px;flex-wrap:wrap;margin-bottom:36px}'
         +'.meta .k{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#a3a3a3;margin-bottom:6px}'
@@ -3880,7 +3880,7 @@
         +'th{text-align:left;color:#a3a3a3;text-transform:uppercase;letter-spacing:.1em;font-size:9.5px;font-weight:500;padding:0 0 12px;border-bottom:1px solid #D0D0D0}'
         +'th.r,td.r{text-align:right}'
         +'td{padding:15px 0;border-bottom:1px solid #ECECEC;font-weight:300}'
-        +'tfoot td{border-bottom:none;border-top:2px solid #414141;padding-top:18px;font-family:Quicksand,sans-serif;font-weight:600;font-size:16px}'
+        +'tfoot td{border-bottom:none;border-top:2px solid #414141;padding-top:18px;font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;font-size:16px}'
         +'.ft{margin-top:52px;padding-top:22px;border-top:1px solid #ECECEC;font-size:11px;color:#a3a3a3;line-height:1.8;letter-spacing:.02em}'
         +'@media print{body{background:#fff}.sheet{margin:0;box-shadow:none;max-width:none}.top{-webkit-print-color-adjust:exact;print-color-adjust:exact}}'
         +'</style></head><body><div class="sheet">'
@@ -4046,6 +4046,9 @@
     (function(){ var sel=document.getElementById('kanban-etq'); if(!sel) return; sel.innerHTML='<option value="">Todas as etiquetas</option>'+ETIQUETAS.map(function(e){ return '<option>'+e.n+'</option>'; }).join(''); sel.addEventListener('change',function(){ KB_ETQ=sel.value; renderKanban(); }); })();
     /* cartões de etapa: TODAS as etapas dos projetos (do banco) */
     var ETAPAS_KB=[];
+    /* projeto pausado sai do quadro: as etapas dele e as tarefas vinculadas a ele (pelo nome do projeto) */
+    function projPausado(e){ return !!(e&&e.projetos&&e.projetos.status==='pausado'); }
+    function nomesPausados(){ var s={}; (ETAPAS_KB||[]).forEach(function(e){ if(projPausado(e)) s[String(e.projetos.nome||'').trim().toLowerCase()]=1; }); return s; }
     async function carregarTarefas(){
       try{ var res=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id,kanban,data_inicio,data_fim,etiquetas').order('criado_em',{ascending:true});
         ETQ_OK=!!(res&&!res.error);
@@ -4060,12 +4063,12 @@
     function badgeResp(id){ if(!id) return ''; var n=NOME_BY_ID[id]||'—'; return '<span class="kresp" title="'+n+'" style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:'+corResp(id)+';color:#fff;font-size:9.5px;font-weight:600;letter-spacing:.02em;flex:none">'+iniResp(id)+'</span>'; }
     async function carregarEtapasKanban(){
       await ensureMeuId();
-      try{ var res=await sb.from('etapas').select('id,nome,status,checklist,kanban,prazo_fim,responsavel_id,projeto_id,projetos(nome)'); ETAPAS_KB=(res&&!res.error)?(res.data||[]):[]; }catch(e){ try{ var r2=await sb.from('etapas').select('id,nome,status,checklist,projeto_id,projetos(nome)'); ETAPAS_KB=(r2&&!r2.error)?(r2.data||[]):[]; }catch(e2){ ETAPAS_KB=[]; } }
+      try{ var res=await sb.from('etapas').select('id,nome,status,checklist,kanban,prazo_fim,responsavel_id,projeto_id,projetos(nome,status)'); ETAPAS_KB=(res&&!res.error)?(res.data||[]):[]; }catch(e){ try{ var r2=await sb.from('etapas').select('id,nome,status,checklist,projeto_id,projetos(nome)'); ETAPAS_KB=(r2&&!r2.error)?(r2.data||[]):[]; }catch(e2){ ETAPAS_KB=[]; } }
       await carregarTarefas();
       renderKanban();
     }
     function etapaCards(){
-      return (ETAPAS_KB||[]).filter(function(e){ return passaFiltro(KB_FILTRO, e.responsavel_id); }).map(function(e){
+      return (ETAPAS_KB||[]).filter(function(e){ return !projPausado(e) && passaFiltro(KB_FILTRO, e.responsavel_id); }).map(function(e){
         var cl=Array.isArray(e.checklist)?e.checklist:[];
         var clA=cl.filter(function(x){return !x.na;}); var done=clA.filter(function(x){return x.feito;}).length, total=clA.length;
         var col;
@@ -4074,7 +4077,7 @@
         return {dbEtapa:e,title:e.nome,meta:(e.projetos?e.projetos.nome:'projeto'),col:col,projeto_id:e.projeto_id,_done:done,_total:total,responsavel_id:e.responsavel_id||null,etiquetas:etqDaEtapa(e.nome)};
       });
     }
-    function allTasks(){ return (TASKS||[]).filter(function(t){ if(KB_ETQ && (t.etiquetas||[]).indexOf(KB_ETQ)<0) return false; if(KB_FILTRO==='') return true; if(KB_FILTRO==='__me__') return !t.responsavel_id || String(t.responsavel_id)===String(MEU_ID); return String(t.responsavel_id)===String(KB_FILTRO); }).concat(etapaCards().filter(function(c){ return !KB_ETQ || etapaTemEtq(c.title, KB_ETQ); })); }
+    function allTasks(){ var pz=nomesPausados(); return (TASKS||[]).filter(function(t){ if(pz[String(t.meta||'').trim().toLowerCase()]) return false; if(KB_ETQ && (t.etiquetas||[]).indexOf(KB_ETQ)<0) return false; if(KB_FILTRO==='') return true; if(KB_FILTRO==='__me__') return !t.responsavel_id || String(t.responsavel_id)===String(MEU_ID); return String(t.responsavel_id)===String(KB_FILTRO); }).concat(etapaCards().filter(function(c){ return !KB_ETQ || etapaTemEtq(c.title, KB_ETQ); })); }
     function cardChk(t){ if(t.dbEtapa){ return '☑ '+t._done+'/'+t._total; } var d=t.chk.filter(function(i){return i.done;}).length; return '☑ '+d+'/'+t.chk.length; }
     function renderKanban(){
       if(!kanban) return; kanban.innerHTML='';
@@ -4259,8 +4262,10 @@
       try{ var rp=await sb.from('projetos').select('status,arquivado'); var proj=(rp&&rp.data?rp.data:[]).filter(function(p){return !p.arquivado;}); setNum('st-projetos', proj.filter(function(p){return (p.status||'andamento')==='andamento';}).length); }catch(e){}
       var pend=0, prazos=0; await ensureMeuId();
       // "tarefas pendentes" = o mesmo que o painel de tarefas mostra em "Só as minhas" nas colunas "A fazer" e "Em andamento"
-      try{ var re=await sb.from('etapas').select('status,kanban,prazo_fim,responsavel_id'); (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)===String(MEU_ID) && e.status!=='concluida' && e.kanban!=='revisao' && e.kanban!=='aprov' && e.kanban!=='cliente') pend++; if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){}
-      try{ var rt=await sb.from('tarefas').select('col,chk,kanban,data_fim,responsavel_id'); (rt&&rt.data?rt.data:[]).forEach(function(t){ var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); var minha=!t.responsavel_id||String(t.responsavel_id)===String(MEU_ID); if(minha && !esp && !concl) pend++; if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){}
+      var PZ={}; /* projetos pausados não entram na contagem (igual ao quadro de tarefas) */
+      try{ var rpz=await sb.from('projetos').select('nome').eq('status','pausado'); (rpz&&rpz.data?rpz.data:[]).forEach(function(p){ PZ[String(p.nome||'').trim().toLowerCase()]=1; }); }catch(e){}
+      try{ var re=await sb.from('etapas').select('status,kanban,prazo_fim,responsavel_id,projetos(status)'); (re&&re.data?re.data:[]).forEach(function(e){ if(e.projetos&&e.projetos.status==='pausado') return; if(String(e.responsavel_id)===String(MEU_ID) && e.status!=='concluida' && e.kanban!=='revisao' && e.kanban!=='aprov' && e.kanban!=='cliente') pend++; if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){}
+      try{ var rt=await sb.from('tarefas').select('col,chk,kanban,data_fim,responsavel_id,meta'); (rt&&rt.data?rt.data:[]).forEach(function(t){ if(PZ[String(t.meta||'').trim().toLowerCase()]) return; var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); var minha=!t.responsavel_id||String(t.responsavel_id)===String(MEU_ID); if(minha && !esp && !concl) pend++; if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){}
       setNum('st-tarefas',pend); setNum('st-prazos',prazos);
     }
     function logAtividade(texto){ if(!MEU_ID) return; try{ sb.from('atividades').insert({texto:texto, autor_id:MEU_ID, autor_nome:(NOME_BY_ID[MEU_ID]||'admin')}).then(function(){ if(typeof renderRegistro==='function') renderRegistro(); }); }catch(e){} }

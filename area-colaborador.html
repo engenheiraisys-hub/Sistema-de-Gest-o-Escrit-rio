@@ -1,7 +1,7 @@
 <title>Área do Colaborador</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Quicksand:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap">
 <style>
   /* Isys Mattos: branco, grafite #414141, cinza #717171, fio #D0D0D0.
      Quicksand (títulos/números) + Inter (texto/UI). Navegação por páginas.
@@ -14,7 +14,7 @@
     --shadow-sm:0 1px 2px rgba(28,26,22,.03),0 2px 6px rgba(28,26,22,.05);
     --shadow-md:0 10px 30px rgba(28,26,22,.09);
     --r:14px;--r-sm:10px;
-    --display:"Quicksand",system-ui,sans-serif;--sans:"Inter",system-ui,sans-serif;
+    --display:"Plus Jakarta Sans",system-ui,sans-serif;--sans:"Plus Jakarta Sans",system-ui,sans-serif;
     --wrap:1120px;color-scheme:light;
     --brand:#37352F;--brand-on:#FFFFFF;--tint:#F6F5F1;--panel:#FFFFFF;--panel-2:#F0EEE8;--accent:#37352F;
   }
@@ -2072,7 +2072,7 @@
     function salvarTarefaColabFull(t){ if(!t||!t.id) return; sb.from('tarefas').update({title:t.title, col:t.col, chk:t.chk, kanban:t.kanban||null, data_inicio:t.data_inicio||null, data_fim:t.data_fim||null}).eq('id',t.id).then(function(){}); }
     async function carregarEtapasKanban(){
       await ensureMeuId();
-      try{ var res=await sb.from('etapas').select('id,nome,status,checklist,kanban,prazo_fim,responsavel_id,projeto_id,projetos(nome)'); ETAPAS_KB=(res&&!res.error)?(res.data||[]):[]; }catch(e){ try{ var r2=await sb.from('etapas').select('id,nome,status,checklist,projeto_id,projetos(nome)'); ETAPAS_KB=(r2&&!r2.error)?(r2.data||[]):[]; }catch(e2){ ETAPAS_KB=[]; } }
+      try{ var res=await sb.from('etapas').select('id,nome,status,checklist,kanban,prazo_fim,responsavel_id,projeto_id,projetos(nome,status)'); ETAPAS_KB=(res&&!res.error)?(res.data||[]):[]; }catch(e){ try{ var r2=await sb.from('etapas').select('id,nome,status,checklist,projeto_id,projetos(nome)'); ETAPAS_KB=(r2&&!r2.error)?(r2.data||[]):[]; }catch(e2){ ETAPAS_KB=[]; } }
       await carregarTarefasColab();
       renderKanban();
     }
@@ -2113,9 +2113,12 @@
     function kbTotal(n){ var el=document.getElementById('kb-total'); if(el) el.innerHTML='<b>'+n+'</b>'+(n===1?'cartão':'cartões'); }
     function etqAviso(box){ if(!box||box.querySelector('.etq-aviso')) return; var p=document.createElement('p'); p.className='etq-aviso'; p.textContent='Para gravar as etiquetas, o administrador precisa rodar uma vez o arquivo sql-tarefas-etiquetas.sql no Supabase.'; box.appendChild(p); }
     (function(){ var sel=document.getElementById('kanban-etq'); if(!sel) return; sel.innerHTML='<option value="">Todas as etiquetas</option>'+ETIQUETAS.map(function(e){ return '<option>'+e.n+'</option>'; }).join(''); sel.addEventListener('change',function(){ KB_ETQ=sel.value; renderKanban(); }); })();
-    function tarefasFiltradas(){ return (TASKS_COLAB||[]).filter(function(t){ if(KB_ETQ && (t.etiquetas||[]).indexOf(KB_ETQ)<0) return false; if(KB_FILTRO==='') return true; if(KB_FILTRO==='__me__') return !t.responsavel_id || String(t.responsavel_id)===String(MEU_ID); return String(t.responsavel_id)===String(KB_FILTRO); }); }
+    /* projeto pausado sai do quadro: as etapas dele e as tarefas vinculadas a ele (pelo nome do projeto) */
+    function projPausado(e){ return !!(e&&e.projetos&&e.projetos.status==='pausado'); }
+    function nomesPausados(){ var s={}; (ETAPAS_KB||[]).forEach(function(e){ if(projPausado(e)) s[String(e.projetos.nome||'').trim().toLowerCase()]=1; }); return s; }
+    function tarefasFiltradas(){ var pz=nomesPausados(); return (TASKS_COLAB||[]).filter(function(t){ if(pz[String(t.meta||'').trim().toLowerCase()]) return false; if(KB_ETQ && (t.etiquetas||[]).indexOf(KB_ETQ)<0) return false; if(KB_FILTRO==='') return true; if(KB_FILTRO==='__me__') return !t.responsavel_id || String(t.responsavel_id)===String(MEU_ID); return String(t.responsavel_id)===String(KB_FILTRO); }); }
     function etapaCards(){
-      return (ETAPAS_KB||[]).filter(function(e){ return MEU_ID && passaFiltro(KB_FILTRO, e.responsavel_id); }).map(function(e){
+      return (ETAPAS_KB||[]).filter(function(e){ return MEU_ID && !projPausado(e) && passaFiltro(KB_FILTRO, e.responsavel_id); }).map(function(e){
         var cl=Array.isArray(e.checklist)?e.checklist:[];
         var clA=cl.filter(function(x){return !x.na;}); var done=clA.filter(function(x){return x.feito;}).length, total=clA.length;
         var col;
@@ -2452,7 +2455,7 @@
     var MEU_NOME='';
     async function logAtividade(texto){ await ensureMeuId(); if(!MEU_ID) return; if(!MEU_NOME){ try{ var pf=await meuPerfil(); MEU_NOME=(pf&&pf.nome)||'Colaborador'; }catch(e){ MEU_NOME='Colaborador'; } } try{ sb.from('atividades').insert({texto:texto,autor_id:MEU_ID,autor_nome:MEU_NOME}).then(function(){ if(typeof renderRegistro==='function') renderRegistro(); }); }catch(e){} }
     async function renderRegistro(){ var ul=document.getElementById('recent-list'); if(!ul) return; var itens=[]; try{ var ini=new Date(); ini.setHours(0,0,0,0); ini.setDate(ini.getDate()-((ini.getDay()+6)%7)); /* segunda-feira, 0h: a lista zera a cada inicio de semana */ var r=await sb.from('atividades').select('texto,autor_nome,criado_em').gte('criado_em',ini.toISOString()).order('criado_em',{ascending:false}).limit(300); itens=(r&&r.data?r.data:[]); /* de toda a equipe, a mais recente em cima */ }catch(e){} ul.innerHTML = itens.length ? itens.map(function(i){ return '<li class="recent-row"><span class="rc-ico">•</span><span>'+(i.autor_nome?'<b>'+ce(i.autor_nome)+'</b> ':'')+ce(i.texto)+'</span><span class="rc-when">'+ageTxt(diasDe(i.criado_em))+'</span></li>'; }).join('') : '<li class="recent-row"><span style="color:var(--ink-3)">Sem atividades registradas nesta semana.</span></li>'; }
-    async function renderStatsHomeColab(){ await ensureMeuId(); var hoje=new Date(); hoje.setHours(0,0,0,0); var ht=hoje.getTime(), lim7=ht+7*86400000; try{ var rp=await sb.from('projetos').select('status,arquivado'); var proj=(rp&&rp.data?rp.data:[]).filter(function(p){return !p.arquivado;}); var el=document.getElementById('st-projetos'); if(el) el.textContent=proj.filter(function(p){return (p.status||'andamento')==='andamento';}).length; }catch(e){} var pend=0,prazos=0; try{ var re=await sb.from('etapas').select('status,kanban,prazo_fim,responsavel_id'); (re&&re.data?re.data:[]).forEach(function(e){ if(String(e.responsavel_id)!==String(MEU_ID)) return; if(e.status!=='concluida' && e.kanban!=='revisao' && e.kanban!=='aprov' && e.kanban!=='cliente') pend++; /* só o que está em "A fazer" e "Em andamento" */ if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){} try{ var rt=await sb.from('tarefas').select('col,chk,kanban,data_fim,responsavel_id'); (rt&&rt.data?rt.data:[]).forEach(function(t){ if(t.responsavel_id && String(t.responsavel_id)!==String(MEU_ID)) return; /* igual ao painel em "Só as minhas": as suas e as sem responsável */ var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); if(!esp && !concl) pend++; if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){} var a=document.getElementById('st-tarefas'); if(a) a.textContent=pend; var b=document.getElementById('st-prazos'); if(b) b.textContent=prazos; }
+    async function renderStatsHomeColab(){ await ensureMeuId(); var hoje=new Date(); hoje.setHours(0,0,0,0); var ht=hoje.getTime(), lim7=ht+7*86400000; try{ var rp=await sb.from('projetos').select('status,arquivado'); var proj=(rp&&rp.data?rp.data:[]).filter(function(p){return !p.arquivado;}); var el=document.getElementById('st-projetos'); if(el) el.textContent=proj.filter(function(p){return (p.status||'andamento')==='andamento';}).length; }catch(e){} var pend=0,prazos=0; var PZ={}; /* projetos pausados não entram na contagem (igual ao quadro de tarefas) */ try{ var rpz=await sb.from('projetos').select('nome').eq('status','pausado'); (rpz&&rpz.data?rpz.data:[]).forEach(function(p){ PZ[String(p.nome||'').trim().toLowerCase()]=1; }); }catch(e){} try{ var re=await sb.from('etapas').select('status,kanban,prazo_fim,responsavel_id,projetos(status)'); (re&&re.data?re.data:[]).forEach(function(e){ if(e.projetos&&e.projetos.status==='pausado') return; if(String(e.responsavel_id)!==String(MEU_ID)) return; if(e.status!=='concluida' && e.kanban!=='revisao' && e.kanban!=='aprov' && e.kanban!=='cliente') pend++; /* só o que está em "A fazer" e "Em andamento" */ if(e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){} try{ var rt=await sb.from('tarefas').select('col,chk,kanban,data_fim,responsavel_id,meta'); (rt&&rt.data?rt.data:[]).forEach(function(t){ if(PZ[String(t.meta||'').trim().toLowerCase()]) return; if(t.responsavel_id && String(t.responsavel_id)!==String(MEU_ID)) return; /* igual ao painel em "Só as minhas": as suas e as sem responsável */ var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); if(!esp && !concl) pend++; if(t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f>=ht&&f<=lim7) prazos++; } }); }catch(e){} var a=document.getElementById('st-tarefas'); if(a) a.textContent=pend; var b=document.getElementById('st-prazos'); if(b) b.textContent=prazos; }
     async function renderAgendaHoje(){
       var ul=document.getElementById('today-list'); if(!ul) return;
       await ensureMeuId();
