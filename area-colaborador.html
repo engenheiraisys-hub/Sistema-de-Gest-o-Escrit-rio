@@ -829,6 +829,47 @@
   #view-cliente input:disabled,#view-cliente select:disabled{color:var(--ink);opacity:1;-webkit-text-fill-color:var(--ink);cursor:default}
   #cli-senha:disabled{opacity:.4}
   @media(max-width:860px){.cli-head{display:none}.cli{grid-template-columns:1fr}.cli-end{justify-content:flex-start}}
+  /* ================= PADRÃO VISUAL ÚNICO (adm · colaborador · cliente) =================
+     Mesma régua em todas as telas: botões com alturas fixas, cards de números com a mesma
+     anatomia (ícone · rótulo · número · etiqueta na cor do ícone) e entrada suave das telas. */
+  :root{--btn-h:38px;--btn-h-sm:32px;--ease-im:cubic-bezier(.22,.61,.36,1)}
+  /* botões */
+  .pill{min-height:var(--btn-h);padding:0 16px;border-radius:10px;font-family:var(--sans);font-weight:600;font-size:11.5px;letter-spacing:.08em;line-height:1;gap:8px;white-space:nowrap;transition:background .18s,color .18s,border-color .18s,box-shadow .18s,transform .18s,filter .18s}
+  .pill.sm{min-height:var(--btn-h-sm);padding:0 13px;font-size:11px;gap:7px}
+  .pill svg{width:15px;height:15px;margin:0}
+  .pill.sm svg{width:14px;height:14px}
+  .pill.ghost{background:var(--panel)}
+  .pill.ghost:hover,.pill.solid:hover{transform:translateY(-1px)}
+  .pill:active,.pbtn:active{transform:translateY(0)}
+  .pbtn{min-height:30px;padding:0 11px;border-radius:8px;font-weight:600;font-size:10.5px;letter-spacing:.06em;gap:6px;line-height:1;white-space:nowrap;transition:background .18s,color .18s,border-color .18s}
+  .pbtn svg{width:13px;height:13px;stroke-linecap:round;stroke-linejoin:round}
+  .back{font-weight:500}
+  /* títulos */
+  .page-title{margin:8px 0 clamp(18px,2.6vw,26px)}
+  .page-head>.pill,.page-head>a.pill,.page-head>div{margin-bottom:clamp(18px,2.6vw,26px)!important}
+  /* cards de números: mesma anatomia em todas as telas */
+  .stat-card{--tone:var(--ink-2);gap:6px;min-height:128px}
+  .stat-card:has(.st-ico-ev){--tone:var(--green)}
+  .stat-card:has(.st-ico-tk){--tone:var(--amber)}
+  .stat-card:has(.st-ico-pj){--tone:var(--slate)}
+  .stat-card:has(.st-ico-pz){--tone:var(--red)}
+  .stat-card:has(.st-ico-cl){--tone:var(--gold)}
+  .stat-lbl{font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--ink-3)}
+  .stat-num,.stat-num.green,.stat-num.amber{font-family:var(--display);font-weight:600;font-size:clamp(22px,2.4vw,28px);color:var(--ink);letter-spacing:-.01em}
+  .stat-card .stat-num,#fc-contratos,#fc-recebido,#fc-areceber,#fc-vencido{font-size:clamp(20px,1.9vw,25px);white-space:nowrap}
+  .stat-badge,.stat-badge.green,.stat-badge.amber,.stat-badge.red,.stat-link{align-self:flex-start;margin-top:auto;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:.02em;line-height:1.2;padding:4px 10px;border-radius:50px;background:color-mix(in srgb,var(--tone) 12%,transparent);color:var(--tone)}
+  .stat-card:hover .stat-link{color:var(--tone)}
+  div.stat-card:hover{transform:none;box-shadow:var(--shadow-sm);border-color:var(--hair-soft)}
+  div.stat-card:hover::before{opacity:0}
+  /* entrada das telas: cards e blocos sobem em sequência */
+  @keyframes imRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .view.anim .stat-card{animation:imRise .5s var(--ease-im) backwards}
+  .view.anim .stat-card:nth-child(2){animation-delay:.05s}
+  .view.anim .stat-card:nth-child(3){animation-delay:.1s}
+  .view.anim .stat-card:nth-child(4){animation-delay:.15s}
+  .view.anim .proj-toolbar,.view.anim .ptable-wrap,.view.anim .kb-filtros,.view.anim .kanban,.view.anim .oc-lista,.view.anim .oc-fil,.view.anim .list-head{animation:imRise .5s var(--ease-im) .14s backwards}
+  .view.anim .card,.view.anim .proj,.view.anim .mdl{animation:imRise .5s var(--ease-im) .1s backwards}
+  @media (prefers-reduced-motion:reduce){.view.anim .stat-card,.view.anim .proj-toolbar,.view.anim .ptable-wrap,.view.anim .kb-filtros,.view.anim .kanban,.view.anim .oc-lista,.view.anim .oc-fil,.view.anim .list-head,.view.anim .card,.view.anim .proj,.view.anim .mdl{animation:none}.pill:hover{transform:none}}
 </style>
 
 <header class="top" hidden><span class="top-sec" id="top-sec">área do colaborador</span><span class="who">Isys Mattos</span></header>
@@ -2091,12 +2132,12 @@
     }
     (function(){ var kf=document.getElementById('kanban-filtro'); if(kf) kf.addEventListener('change',function(){ KB_FILTRO=kf.value; renderKanban(); }); })();
     /* etiquetas das tarefas (escolha várias por tarefa; filtro "Etiqueta" no painel) */
-    var ETIQUETAS=[{n:'Hidrossanitário',c:'#3E7CA6'},{n:'Executivo',c:'#5F7C8A'},{n:'Legal',c:'#6E7C46'},{n:'Preventivo',c:'#AA564A'},{n:'Proposta',c:'#AF853A'},{n:'Reunião',c:'#8B7FA3'},{n:'Elétrico',c:'#C08A1E'},{n:'Levantamento',c:'#5E7D57'},{n:'Maquete',c:'#A85C74'},{n:'Estrutural',c:'#6E4B3A'},{n:'Estudo',c:'#3F8F86'},{n:'Pré-projeto',c:'#9A6B4F'},{n:'Pós-projeto',c:'#4B5563'}];
+    var ETIQUETAS=[{n:'Hidrossanitário',c:'#3E7CA6'},{n:'Executivo',c:'#5F7C8A'},{n:'Legal',c:'#6E7C46'},{n:'Preventivo',c:'#AA564A'},{n:'Proposta',c:'#AF853A'},{n:'Reunião',c:'#8B7FA3'},{n:'Elétrico',c:'#C08A1E'},{n:'Levantamento',c:'#5E7D57'},{n:'Maquete',c:'#A85C74'},{n:'Estrutural',c:'#6E4B3A'},{n:'Estudo',c:'#3F8F86'},{n:'Fachada',c:'#C2703D'},{n:'Pré-projeto',c:'#9A6B4F'},{n:'Pós-projeto',c:'#4B5563'}];
     var KB_ETQ='', ETQ_OK=true;
     function corEtq(n){ var e=ETIQUETAS.filter(function(x){ return x.n===n; })[0]; return e?e.c:'#8f8f8f'; }
     function etqNorm(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
     function etapaTemEtq(nome, etq){ var a=etqNorm(nome).replace(/[^a-z0-9]/g,''), b=etqNorm(etq).replace(/[^a-z0-9]/g,''); return !!b && a.indexOf(b)>=0; }
-    function etqDaEtapa(nome){ return ETIQUETAS.filter(function(e){ return etapaTemEtq(nome, e.n); }).map(function(e){ return e.n; }); } // etapa vinda da central de projetos já chega com a etiqueta correspondente (ex.: "Projeto legal" → Legal)
+    function etqDaEtapa(nome){ var r=ETIQUETAS.filter(function(e){ return etapaTemEtq(nome, e.n); }).map(function(e){ return e.n; }); if(r.indexOf('Fachada')>=0) r=r.filter(function(n){ return n!=='Estudo'; }); return r; } /* "Estudo de fachada" leva só Fachada */ // etapa vinda da central de projetos já chega com a etiqueta correspondente (ex.: "Projeto legal" → Legal)
     function chipsEtq(lista){ if(!lista||!lista.length) return ''; return '<div class="kcard-etq">'+lista.map(function(n){ return '<span class="etq" style="--ec:'+corEtq(n)+'">'+ce(n)+'</span>'; }).join('')+'</div>'; }
     function montarEtqPick(box, atual, aoMudar){ if(!box) return; box.innerHTML=''; var sel=(atual||[]).slice();
       ETIQUETAS.forEach(function(e){ var b=document.createElement('button'); b.type='button'; b.textContent=e.n; b.style.setProperty('--ec',e.c); if(sel.indexOf(e.n)>=0) b.classList.add('on');
@@ -2192,7 +2233,7 @@
     var btnNovaTarefa=document.getElementById('nova-tarefa'); if(btnNovaTarefa) btnNovaTarefa.addEventListener('click',function(){ novaTarefaColab('afazer'); });
     function renderKanban(){
       if(!kanban) return; kanban.innerHTML='';
-      var etc=etapaCards().filter(function(c){ return !KB_ETQ || etapaTemEtq(c.title, KB_ETQ); }); kbTotal(etc.length+tarefasFiltradas().length);
+      var etc=etapaCards().filter(function(c){ return !KB_ETQ || (c.etiquetas||[]).indexOf(KB_ETQ)>=0; }); kbTotal(etc.length+tarefasFiltradas().length);
       KCOLS.forEach(function(c){
         var col=document.createElement('div'); col.className='kcol'; col.style.setProperty('--kc',c.color);
         var listE=etc.filter(function(t){return t.col===c.key;});
