@@ -133,7 +133,8 @@
           <div class="field full"><label>E-mail</label><input id="c-email" type="email" autocomplete="email" placeholder="voce@email.com"></div>
           <div class="field"><label>País / região</label><select id="c-pais"><option>Brasil</option><option>Portugal</option><option>Argentina</option><option>Estados Unidos</option><option>Outro</option></select></div>
           <div class="field"><label>Cidade</label><input id="c-cidade" type="text" placeholder="Cidade"></div>
-          <div class="field full"><label>Endereço</label><input id="c-end" type="text" placeholder="Rua, nº · bairro"></div>
+          <div class="field full"><label>Endereço</label><input id="c-end" type="text" placeholder="Rua, nº"></div>
+          <div class="field"><label>Bairro</label><input id="c-bairro" type="text" placeholder="Bairro"></div>
           <div class="field"><label>Código postal (CEP)</label><input id="c-cep" type="text" placeholder="00000-000"></div>
         </div>
       </div>
@@ -234,7 +235,7 @@
       // todos os campos são obrigatórios
       var obrig = isColab
         ? [['k-nome','o nome completo'],['k-dia','o dia de nascimento'],['k-mes','o mês de nascimento'],['k-ano','o ano de nascimento'],['k-funcao','a função'],['k-cpf','o CPF'],['k-rg','o RG'],['k-email','o e-mail'],['k-fone','o telefone'],['k-end','o endereço'],['k-cep','o CEP']]
-        : [['c-nome','o nome / empresa'],['c-dia','o dia de nascimento'],['c-mes','o mês de nascimento'],['c-ano','o ano de nascimento'],['c-cpf','o CPF / CNPJ'],['c-rg','o RG'],['c-nac','a nacionalidade'],['c-prof','a profissão'],['c-ec','o estado civil'],['c-fone','o telefone'],['c-email','o e-mail'],['c-pais','o país'],['c-cidade','a cidade'],['c-end','o endereço'],['c-cep','o CEP']];
+        : [['c-nome','o nome / empresa'],['c-dia','o dia de nascimento'],['c-mes','o mês de nascimento'],['c-ano','o ano de nascimento'],['c-cpf','o CPF / CNPJ'],['c-rg','o RG'],['c-nac','a nacionalidade'],['c-prof','a profissão'],['c-ec','o estado civil'],['c-fone','o telefone'],['c-email','o e-mail'],['c-pais','o país'],['c-cidade','a cidade'],['c-end','o endereço'],['c-bairro','o bairro'],['c-cep','o CEP']];
       for(var i=0;i<obrig.length;i++){ if(!val(obrig[i][0])){ note.textContent='Preencha '+obrig[i][1]+'.'; document.getElementById(obrig[i][0]).focus(); return; } }
       if(!/.+@.+\..+/.test(email)){ note.textContent='Informe um e-mail válido.'; return; }
       if((s1||'').length<6){ note.textContent='A senha deve ter ao menos 6 caracteres.'; return; }
@@ -245,7 +246,7 @@
       if(dia&&mes&&ano){ nascimento=ano+'-'+String(mes).padStart(2,'0')+'-'+String(dia).padStart(2,'0'); }
       var dados = isColab
         ? { nome:nome, email:email, funcao:val('k-funcao'), cpf:val('k-cpf'), rg:val('k-rg'), telefone:val('k-fone'), endereco:val('k-end'), cep:val('k-cep'), nascimento:nascimento }
-        : { nome:nome, email:email, telefone:val('c-fone'), cpf_cnpj:val('c-cpf'), rg:val('c-rg'), nacionalidade:val('c-nac'), profissao:val('c-prof'), estado_civil:val('c-ec'), nascimento:nascimento, pais:val('c-pais'), cidade:val('c-cidade'), endereco:val('c-end'), cep:val('c-cep') };
+        : { nome:nome, email:email, telefone:val('c-fone'), cpf_cnpj:val('c-cpf'), rg:val('c-rg'), nacionalidade:val('c-nac'), profissao:val('c-prof'), estado_civil:val('c-ec'), nascimento:nascimento, pais:val('c-pais'), cidade:val('c-cidade'), endereco:val('c-end'), bairro:val('c-bairro'), cep:val('c-cep') };
       var btn=form.querySelector('button[type=submit]'); if(btn){ btn.disabled=true; }
       note.className='note'; note.textContent='Enviando…';
       var semSessao=false;
