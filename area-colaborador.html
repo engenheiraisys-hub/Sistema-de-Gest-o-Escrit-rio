@@ -1,3 +1,4 @@
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Área do Colaborador</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -870,6 +871,72 @@
   .view.anim .proj-toolbar,.view.anim .ptable-wrap,.view.anim .kb-filtros,.view.anim .kanban,.view.anim .oc-lista,.view.anim .oc-fil,.view.anim .list-head{animation:imRise .5s var(--ease-im) .14s backwards}
   .view.anim .card,.view.anim .proj,.view.anim .mdl{animation:imRise .5s var(--ease-im) .1s backwards}
   @media (prefers-reduced-motion:reduce){.view.anim .stat-card,.view.anim .proj-toolbar,.view.anim .ptable-wrap,.view.anim .kb-filtros,.view.anim .kanban,.view.anim .oc-lista,.view.anim .oc-fil,.view.anim .list-head,.view.anim .card,.view.anim .proj,.view.anim .mdl{animation:none}.pill:hover{transform:none}}
+  /* ===== celular (até 640px): experiência própria (mesmo padrão da área do administrador) =====
+     menu vira barra inferior, conteúdo usa a largura toda, tabelas viram cartões, janelas sobem de baixo */
+  @media(max-width:640px){
+    body{padding-left:0;padding-bottom:calc(74px + env(safe-area-inset-bottom))}
+    .wrap{padding-left:16px;padding-right:16px}
+    .sidebar,.sidebar:hover{top:auto;bottom:0;left:0;right:0;width:auto;height:calc(62px + env(safe-area-inset-bottom));flex-direction:row;align-items:center;gap:0;padding:0 4px env(safe-area-inset-bottom);box-shadow:0 -6px 24px rgba(0,0,0,.14)}
+    .side-logo{display:none}
+    .side-tabs{flex-direction:row;align-items:center;gap:0;height:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent);padding-right:18px}
+    .side-tabs::-webkit-scrollbar{display:none}
+    .sidebar .tab,.side-bell,.side-exit{flex:none;width:48px;height:48px;margin:0;padding:0;justify-content:center;gap:0}
+    .sidebar .tab::after,.side-bell::after,.side-exit::after{display:none}
+    .sidebar .tab[aria-current="true"]::before{left:50%;top:-7px;transform:translateX(-50%);width:24px;height:3px;border-radius:0 0 3px 3px}
+    .side-bell{margin-top:0!important;border-left:1px solid rgba(255,255,255,.12);border-radius:0 12px 12px 0}
+    .notif-badge{top:7px;left:26px}
+    .notif-panel{left:12px;right:12px;width:auto;max-width:none;bottom:calc(72px + env(safe-area-inset-bottom));max-height:70vh}
+    .home-quad,.home-grid,.home-grid-b{grid-template-columns:minmax(0,1fr)}
+    .stat-cards{grid-template-columns:1fr 1fr;gap:10px}
+    .stat-card{min-width:0;padding:14px}
+    .stat-lbl{font-size:10px;letter-spacing:.08em}
+    /* tarefas: filtros lado a lado; quadro com uma coluna por vez */
+    .kb-filtros{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .kb-filtros > div{max-width:none;min-width:0}
+    .kanban{scroll-snap-type:x mandatory;margin:0 -16px;padding:4px 16px 16px;scroll-padding:0 16px}
+    #view-tarefas .kanban{gap:12px;height:calc(100vh - 260px);min-height:360px}
+    #view-tarefas .kcol{flex:0 0 84%;min-width:0;scroll-snap-align:center}
+    #view-tarefas .kb-filtros{padding:12px 14px}
+    #view-tarefas .kb-total{grid-column:1/-1;margin-left:0;justify-self:end}
+    /* agenda: a semana inteira cabe na tela */
+    .g-head,.g-row{grid-template-columns:88px minmax(0,1fr);min-width:0}
+    .g-corner{padding:10px 8px;font-size:9px;letter-spacing:.08em}
+    .g-name{padding:10px 8px;min-width:0}
+    .g-name b{font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .g-name small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .g-day{padding:8px 0 9px}
+    .g-day .dow{font-size:8.5px;letter-spacing:0}
+    .g-day .dnum{width:22px;height:22px;font-size:12px}
+    .g-bar{padding:0 4px;margin:7px 2px;font-size:10px;height:24px}
+    .g-row.g-vazio{grid-template-columns:1fr}
+    .g-row.g-vazio .g-track{display:none}
+    .g-row.g-vazio .g-name{padding:16px 12px}
+    /* tabelas viram cartões (rótulos vêm do cabeçalho via data-l) */
+    :is(#view-financeiro,.view) .ptable-wrap{overflow-x:visible}
+    :is(#view-financeiro,.view) .ptable{min-width:0;display:block}
+    :is(#view-financeiro,.view) .ptable thead{display:none}
+    :is(#view-financeiro,.view) .ptable tbody,:is(#view-financeiro,.view) .ptable tfoot{display:block}
+    :is(#view-financeiro,.view) .ptable tr{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;padding:14px 16px;border-bottom:1px solid var(--hair-soft);position:relative}
+    :is(#view-financeiro,.view) .ptable tbody tr:last-child{border-bottom:none}
+    :is(#view-financeiro,.view) .ptable tbody tr:nth-child(even){background:var(--tint)}
+    :is(#view-financeiro,.view) .ptable td{display:block;padding:0!important;border:0!important;background:none!important;min-width:0!important;max-width:none!important;text-align:left!important;box-shadow:none!important;white-space:normal}
+    :is(#view-financeiro,.view) .ptable td:first-child{grid-column:1/-1;padding-right:30px!important}
+    :is(#view-financeiro,.view) .ptable td[data-l]:not(:first-child)::before{content:attr(data-l);display:block;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+    :is(#view-financeiro,.view) .ptable td:not([data-l]):not(:first-child){grid-column:1/-1;text-align:right!important}
+    :is(#view-financeiro,.view) .ptable td small{white-space:normal}
+    :is(#view-financeiro,.view) .ptable td:has(.pbtn){grid-column:1/-1;display:flex!important;flex-wrap:wrap;align-items:center;gap:8px}
+    :is(#view-financeiro,.view) .ptable td:has(.pbtn)::before{flex:0 0 100%;margin-bottom:0!important}
+    /* janelas (cadastros e tarefa) sobem de baixo; botões sempre à vista */
+    .modal-back,#view-tarefa:not([hidden]){align-items:flex-end;padding:0;z-index:80}
+    .modal,.tk-card{max-width:none;border-radius:18px 18px 0 0;max-height:94vh;max-height:94dvh}
+    .modal{padding:22px 16px 0}
+    .modal-actions{position:sticky;bottom:0;background:var(--paper);margin:20px -16px 0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--hair-soft);z-index:2}
+    .modal-actions > *{flex:1 1 0;justify-content:center}
+    .tk-acts{position:sticky;bottom:0;background:var(--paper);z-index:2;padding-bottom:calc(14px + env(safe-area-inset-bottom))!important}
+    /* campos com 16px: o celular não dá zoom ao tocar para preencher */
+    html :is(input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea),#view-tarefas .kb-filtros select{font-size:16px!important}
+    .mdl-row{gap:10px}
+  }
 </style>
 
 <header class="top" hidden><span class="top-sec" id="top-sec">área do colaborador</span><span class="who">Isys Mattos</span></header>
@@ -1488,7 +1555,7 @@
         h+='<div class="g-bar '+r.st+'" style="grid-column:'+(r.s+1)+' / '+(r.e+2)+';grid-row:1" title="'+r.task+'">'+r.task+'</div>';
         h+='</div></div>';
       });
-      if(!rows.length){ h+='<div class="g-row"><div class="g-name" style="color:var(--ink-3)">Sem etapas com prazo nesta semana.</div><div class="g-track"></div></div>'; }
+      if(!rows.length){ h+='<div class="g-row g-vazio"><div class="g-name" style="color:var(--ink-3)">Sem etapas com prazo nesta semana.</div><div class="g-track"></div></div>'; }
       gantt.innerHTML=h;
     }
     wkBtns.forEach(function(b){ b.addEventListener('click',function(){ buildGantt(b.dataset.week); }); });
@@ -2994,4 +3061,13 @@
     // se a página já abriu direto na central, carrega os dados
     if((location.hash||'').replace('#','')==='proj') renderCentralColab();
   })();
+</script>
+<script>
+/* celular: cada célula das tabelas recebe o nome da coluna (data-l), usado quando a tabela vira cartão */
+(function(){
+  var pend=false;
+  function rotular(){ pend=false; document.querySelectorAll('table.ptable').forEach(function(t){ var hs=[].map.call(t.querySelectorAll('thead th'),function(th){ return th.textContent.trim(); }); if(!hs.length) return; t.querySelectorAll('tbody tr, tfoot tr').forEach(function(tr){ [].forEach.call(tr.children,function(td,i){ if(hs[i]&&td.getAttribute('data-l')!==hs[i]) td.setAttribute('data-l',hs[i]); }); }); }); }
+  new MutationObserver(function(){ if(!pend){ pend=true; requestAnimationFrame(rotular); } }).observe(document.body,{childList:true,subtree:true});
+  rotular();
+})();
 </script>

@@ -1,3 +1,4 @@
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Área do Cliente</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -624,6 +625,30 @@
   .view.anim .proj-toolbar,.view.anim .ptable-wrap,.view.anim .kb-filtros,.view.anim .kanban,.view.anim .oc-lista,.view.anim .oc-fil,.view.anim .list-head{animation:imRise .5s var(--ease-im) .14s backwards}
   .view.anim .card,.view.anim .proj,.view.anim .mdl{animation:imRise .5s var(--ease-im) .1s backwards}
   @media (prefers-reduced-motion:reduce){.view.anim .stat-card,.view.anim .proj-toolbar,.view.anim .ptable-wrap,.view.anim .kb-filtros,.view.anim .kanban,.view.anim .oc-lista,.view.anim .oc-fil,.view.anim .list-head,.view.anim .card,.view.anim .proj,.view.anim .mdl{animation:none}.pill:hover{transform:none}}
+  /* ===== celular (até 640px): experiência própria (mesmo padrão das áreas do administrador e do colaborador) ===== */
+  @media(max-width:640px){
+    body{padding-left:0;padding-bottom:calc(74px + env(safe-area-inset-bottom))}
+    .wrap{padding-left:16px;padding-right:16px}
+    .sidebar,.sidebar:hover{top:auto;bottom:0;left:0;right:0;width:auto;height:calc(62px + env(safe-area-inset-bottom));flex-direction:row;align-items:center;gap:0;padding:0 4px env(safe-area-inset-bottom);box-shadow:0 -6px 24px rgba(0,0,0,.14)}
+    .side-logo{display:none}
+    .side-tabs{flex-direction:row;align-items:center;gap:0;height:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+    .side-tabs::-webkit-scrollbar{display:none}
+    .sidebar .tab,.side-bell,.side-exit{flex:none;width:48px;height:48px;margin:0;padding:0;justify-content:center;gap:0}
+    .sidebar .tab::after,.side-bell::after,.side-exit::after{display:none}
+    .sidebar .tab[aria-current="true"]::before{left:50%;top:-7px;transform:translateX(-50%);width:24px;height:3px;border-radius:0 0 3px 3px}
+    .side-bell,.side-exit{margin-top:0!important}
+    .notif-panel{left:12px;right:12px;width:auto;max-width:none;bottom:calc(72px + env(safe-area-inset-bottom));max-height:70vh}
+    .home-grid{grid-template-columns:minmax(0,1fr)}
+    .stat-cards{grid-template-columns:1fr 1fr;gap:10px}
+    .stat-card{min-width:0;padding:14px}
+    /* janelas sobem de baixo; botões sempre à vista */
+    .modal-back{align-items:flex-end;padding:0;z-index:80}
+    .modal{max-width:none;border-radius:18px 18px 0 0;max-height:94vh;max-height:94dvh;padding:22px 16px 0}
+    .modal-actions{position:sticky;bottom:0;background:var(--panel);margin:20px -16px 0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--hair-soft);z-index:2}
+    .modal-actions > *{flex:1 1 0;justify-content:center}
+    /* campos com 16px: o celular não dá zoom ao tocar para preencher */
+    html :is(input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea){font-size:16px!important}
+  }
 </style>
 
 <header class="top" hidden><span class="top-sec" id="top-sec">área do cliente</span><span class="who" id="who"></span></header>
