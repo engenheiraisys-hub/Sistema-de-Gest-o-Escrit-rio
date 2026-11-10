@@ -1604,6 +1604,18 @@
       </div>
     </div>
 
+    <!-- link de assinatura: as tarefas com etiqueta Reunião ou Visita vão sozinhas para o Google Agenda -->
+    <section class="pg-card" id="gcal-card">
+      <h3 class="pg-head">Google Agenda · reuniões e visitas</h3>
+      <p class="proj-note" style="margin:0 0 14px">As tarefas com etiqueta <b>Reunião</b> ou <b>Visita</b> (com data) entram sozinhas no seu Google Agenda. Gere o link uma vez e adicione no Google em <b>Outras agendas → + → Do URL</b>. O Google atualiza a agenda assinada sozinho, em geral algumas vezes por dia.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <input id="gcal-link" type="text" class="tk-in" readonly placeholder="Clique em gerar link" style="flex:1 1 320px;min-width:0">
+        <button class="pill solid sm" type="button" id="gcal-gerar"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>gerar link</span></button>
+        <button class="pill ghost sm" type="button" id="gcal-copiar" style="display:none"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></svg>copiar</button>
+      </div>
+      <p class="note" id="gcal-nota" style="margin:10px 0 0"></p>
+    </section>
+
     <section class="pg-card">
       <h3 class="pg-head">Progresso por colaborador</h3>
       <ul class="prog-list" id="prog-list"></ul>
@@ -2087,6 +2099,15 @@
       <div class="tk-row">
         <div class="tk-f"><label class="tk-lbl" for="tarefa-ini"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>Início</label><input id="tarefa-ini" type="date" class="tk-in"></div>
         <div class="tk-f"><label class="tk-lbl" for="tarefa-fim"><svg viewBox="0 0 24 24"><path d="M6 21V4M6 5h11l-2 3.5 2 3.5H6"/></svg>Término</label><input id="tarefa-fim" type="date" class="tk-in"></div>
+      </div>
+      <!-- só para tarefas com etiqueta Reunião ou Visita: horário + envio ao Google Agenda -->
+      <div class="tk-row" id="tarefa-horas" style="display:none">
+        <div class="tk-f"><label class="tk-lbl" for="tarefa-hini"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Hora início</label><input id="tarefa-hini" type="time" class="tk-in"></div>
+        <div class="tk-f"><label class="tk-lbl" for="tarefa-hfim"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Hora término</label><input id="tarefa-hfim" type="time" class="tk-in"></div>
+      </div>
+      <div class="tk-f" id="tarefa-gcal-box" style="display:none">
+        <p class="note" id="tarefa-gcal" style="margin:0">Esta tarefa vai automaticamente para o Google Agenda (link de assinatura na tela Agenda).</p>
+        <p class="etq-aviso" id="tarefa-gcal-aviso" style="display:none"></p>
       </div>
       <div class="tk-sec">
         <p class="tk-lbl"><svg viewBox="0 0 24 24"><path d="M4 7l1.5 1.5L8 6M4 13l1.5 1.5L8 12M4 19l1.5 1.5L8 18M11.5 7H20M11.5 13H20M11.5 19H20"/></svg>Check-list</p>
@@ -4415,7 +4436,7 @@
     var kanban=document.getElementById('kanban');
     var dragId=null;
     /* etiquetas das tarefas (escolha várias por tarefa; filtro "Etiqueta" no painel) */
-    var ETIQUETAS=[{n:'Hidrossanitário',c:'#3E7CA6'},{n:'Executivo',c:'#5F7C8A'},{n:'Legal',c:'#6E7C46'},{n:'Preventivo',c:'#AA564A'},{n:'Proposta',c:'#AF853A'},{n:'Reunião',c:'#8B7FA3'},{n:'Elétrico',c:'#C08A1E'},{n:'Levantamento',c:'#5E7D57'},{n:'Maquete',c:'#A85C74'},{n:'Estrutural',c:'#6E4B3A'},{n:'Estudo',c:'#3F8F86'},{n:'Fachada',c:'#C2703D'},{n:'Pré-projeto',c:'#9A6B4F'},{n:'Pós-projeto',c:'#4B5563'}];
+    var ETIQUETAS=[{n:'Hidrossanitário',c:'#3E7CA6'},{n:'Executivo',c:'#5F7C8A'},{n:'Legal',c:'#6E7C46'},{n:'Preventivo',c:'#AA564A'},{n:'Proposta',c:'#AF853A'},{n:'Reunião',c:'#8B7FA3'},{n:'Visita',c:'#5B5F97'},{n:'Elétrico',c:'#C08A1E'},{n:'Levantamento',c:'#5E7D57'},{n:'Maquete',c:'#A85C74'},{n:'Estrutural',c:'#6E4B3A'},{n:'Estudo',c:'#3F8F86'},{n:'Fachada',c:'#C2703D'},{n:'Pré-projeto',c:'#9A6B4F'},{n:'Pós-projeto',c:'#4B5563'}];
     var KB_ETQ='', ETQ_OK=true;
     function corEtq(n){ var e=ETIQUETAS.filter(function(x){ return x.n===n; })[0]; return e?e.c:'#8f8f8f'; }
     function etqNorm(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
@@ -4448,8 +4469,13 @@
         if(!ETQ_OK){ res=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id,kanban,data_inicio,data_fim').order('criado_em',{ascending:true}); } // sem a coluna etiquetas (falta rodar o SQL)
         if(res&&!res.error){ TASKS=(res.data||[]).map(function(r){ return {id:r.id, title:r.title||'Sem título', meta:r.meta||'tarefa avulsa', col:r.col||'afazer', chk:Array.isArray(r.chk)?r.chk:[], responsavel_id:r.responsavel_id||null, kanban:r.kanban||'', data_inicio:r.data_inicio||'', data_fim:r.data_fim||'', etiquetas:Array.isArray(r.etiquetas)?r.etiquetas:[]}; }); }
       }catch(e){ try{ var r2=await sb.from('tarefas').select('id,title,meta,col,chk,responsavel_id').order('criado_em',{ascending:true}); if(r2&&!r2.error){ TASKS=(r2.data||[]).map(function(r){ return {id:r.id, title:r.title||'Sem título', meta:r.meta||'tarefa avulsa', col:r.col||'afazer', chk:Array.isArray(r.chk)?r.chk:[], responsavel_id:r.responsavel_id||null, kanban:'', data_inicio:'', data_fim:''}; }); } }catch(e2){} }
+      // horário (Reunião/Visita): colunas novas; se o SQL ainda não foi rodado, segue sem elas
+      try{ var rh=await sb.from('tarefas').select('id,hora_inicio,hora_fim'); HORA_OK=!!(rh&&!rh.error);
+        if(HORA_OK){ var hm={}; (rh.data||[]).forEach(function(r){ hm[r.id]=r; }); (TASKS||[]).forEach(function(t){ var r=hm[t.id]; if(r){ t.hora_inicio=r.hora_inicio?String(r.hora_inicio).slice(0,5):''; t.hora_fim=r.hora_fim?String(r.hora_fim).slice(0,5):''; } }); }
+      }catch(e3){ HORA_OK=false; }
     }
-    function salvarTarefa(t){ if(!t||!t.id) return; var up={title:t.title, meta:t.meta, col:t.col, chk:t.chk, responsavel_id:t.responsavel_id||null, kanban:t.kanban||null, data_inicio:t.data_inicio||null, data_fim:t.data_fim||null}; if(ETQ_OK) up.etiquetas=t.etiquetas||[]; sb.from('tarefas').update(up).eq('id',t.id).then(function(r){ if(r&&r.error){} }); }
+    var HORA_OK=false;
+    function salvarTarefa(t){ if(!t||!t.id) return; var up={title:t.title, meta:t.meta, col:t.col, chk:t.chk, responsavel_id:t.responsavel_id||null, kanban:t.kanban||null, data_inicio:t.data_inicio||null, data_fim:t.data_fim||null}; if(ETQ_OK) up.etiquetas=t.etiquetas||[]; if(HORA_OK){ up.hora_inicio=t.hora_inicio||null; up.hora_fim=t.hora_fim||null; } sb.from('tarefas').update(up).eq('id',t.id).then(function(r){ if(r&&r.error){} }); }
     function efCol(t){ if(t.dbEtapa) return t.col; if(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente') return t.kanban; if(t.chk&&t.chk.length&&t.chk.every(function(i){return i.done;})) return 'concluido'; if(t.col==='concluido') return 'concluido'; if(t.chk&&t.chk.some(function(i){return i.done;})) return 'andamento'; return t.col||'afazer'; }
     function iniResp(id){ var n=NOME_BY_ID[id]||''; if(!n) return ''; var p=n.trim().split(/\s+/); return (((p[0]||'')[0]||'')+((p[1]||'')[0]||'')).toUpperCase(); }
     function corResp(id){ var pal=['#5F7C8A','#5E7D57','#C08A1E','#AA564A','#7a6a58','#8b7fa3','#6E4B3A','#A85C74']; var s=String(id||''),h=0; for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return pal[h%pal.length]; }
@@ -4519,8 +4545,40 @@
     tarefaColSel.innerHTML='<option value="">Automática (segue o checklist)</option><option value="revisao">Revisão e retorno</option><option value="aprov">Aguardando aprovação ou docs</option><option value="cliente">Aguardando cliente</option>';
     if(tarefaRespSel) tarefaRespSel.addEventListener('change',function(){ if(curTask){ curTask.responsavel_id=tarefaRespSel.value||null; salvarTarefa(curTask); renderKanban(); } });
     var tarefaIni=document.getElementById('tarefa-ini'), tarefaFim=document.getElementById('tarefa-fim');
-    if(tarefaIni) tarefaIni.addEventListener('change',function(){ if(curTask){ curTask.data_inicio=tarefaIni.value||''; salvarTarefa(curTask); } });
-    if(tarefaFim) tarefaFim.addEventListener('change',function(){ if(curTask){ curTask.data_fim=tarefaFim.value||''; salvarTarefa(curTask); } });
+    if(tarefaIni) tarefaIni.addEventListener('change',function(){ if(curTask){ curTask.data_inicio=tarefaIni.value||''; salvarTarefa(curTask); atualizarGcal(); } });
+    if(tarefaFim) tarefaFim.addEventListener('change',function(){ if(curTask){ curTask.data_fim=tarefaFim.value||''; salvarTarefa(curTask); atualizarGcal(); } });
+    /* Google Agenda: só tarefas com etiqueta Reunião ou Visita ganham horário e o botão que abre o evento já preenchido */
+    var tarefaHIni=document.getElementById('tarefa-hini'), tarefaHFim=document.getElementById('tarefa-hfim');
+    if(tarefaHIni) tarefaHIni.addEventListener('change',function(){ if(curTask){ curTask.hora_inicio=tarefaHIni.value||''; salvarTarefa(curTask); atualizarGcal(); } });
+    if(tarefaHFim) tarefaHFim.addEventListener('change',function(){ if(curTask){ curTask.hora_fim=tarefaHFim.value||''; salvarTarefa(curTask); atualizarGcal(); } });
+    function vaiProGoogle(t){ return (t&&t.etiquetas||[]).some(function(n){ return n==='Reunião'||n==='Visita'; }); }
+    function atualizarGcal(){
+      var t=curTask, sim=vaiProGoogle(t), hr=document.getElementById('tarefa-horas'), bx=document.getElementById('tarefa-gcal-box'), av=document.getElementById('tarefa-gcal-aviso');
+      if(hr) hr.style.display=sim?'':'none'; if(bx) bx.style.display=sim?'':'none'; if(!sim) return;
+      if(tarefaHIni) tarefaHIni.value=t.hora_inicio||''; if(tarefaHFim) tarefaHFim.value=t.hora_fim||'';
+      var msg='';
+      if(!(t.data_inicio||t.data_fim)) msg='Defina a data de início para ela aparecer no Google Agenda.';
+      if(!HORA_OK) msg=(msg?msg+' ':'')+'Para gravar o horário, rode uma vez o arquivo sql-agenda-google.sql no Supabase.';
+      if(av){ av.textContent=msg; av.style.display=msg?'':'none'; }
+    }
+    /* link de assinatura do Google Agenda (tela Agenda): código secreto guardado na tabela agenda_google (só admin) */
+    (function(){
+      var inp=document.getElementById('gcal-link'), bg=document.getElementById('gcal-gerar'), bc=document.getElementById('gcal-copiar'), nt=document.getElementById('gcal-nota');
+      if(!inp||!bg) return;
+      function base(){ return (window.SUPA&&SUPA.url?SUPA.url:'')+'/functions/v1/agenda-google?token='; }
+      function mostrar(tk){ inp.value=tk?base()+tk:''; bc.style.display=tk?'':'none'; bg.querySelector('span').textContent=tk?'gerar novo link':'gerar link'; }
+      function novoToken(){ var a=new Uint8Array(24); crypto.getRandomValues(a); return Array.from(a).map(function(b){ return b.toString(16).padStart(2,'0'); }).join(''); }
+      async function carregar(){ try{ var r=await sb.from('agenda_google').select('token').eq('id',1).maybeSingle(); if(r&&r.error){ nt.textContent='Para usar, rode uma vez o arquivo sql-agenda-google.sql no Supabase e publique a função agenda-google.'; return; } mostrar(r&&r.data?r.data.token:''); }catch(e){} }
+      bg.addEventListener('click',async function(){
+        if(inp.value && !confirm('Gerar um novo link? O link antigo deixa de funcionar e você terá que adicionar o novo no Google Agenda.')) return;
+        var tk=novoToken(); nt.textContent='Gerando…';
+        var r=await sb.from('agenda_google').upsert({id:1,token:tk,criado_em:new Date().toISOString()});
+        if(r&&r.error){ nt.textContent='Não foi possível gerar: rode uma vez o arquivo sql-agenda-google.sql no Supabase.'; return; }
+        mostrar(tk); nt.textContent='Link pronto. Copie e adicione no Google Agenda em Outras agendas → + → Do URL.';
+      });
+      bc.addEventListener('click',function(){ inp.select(); try{ navigator.clipboard.writeText(inp.value); }catch(e){ document.execCommand('copy'); } nt.textContent='Link copiado.'; });
+      carregar();
+    })();
     tarefaTitle.setAttribute('contenteditable','true');
     tarefaTitle.addEventListener('input',function(){ if(curTask) curTask.title=tarefaTitle.textContent.trim()||'Sem título'; });
     tarefaTitle.addEventListener('blur',function(){ renderKanban(); salvarTarefa(curTask); });
@@ -4546,7 +4604,8 @@
       tarefaColSel.value=t.kanban||''; tarefaLink.value=(t.meta==='tarefa avulsa')?'':t.meta;
       if(tarefaIni) tarefaIni.value=t.data_inicio||''; if(tarefaFim) tarefaFim.value=t.data_fim||'';
       if(tarefaRespSel) tarefaRespSel.innerHTML=respOptions(t.responsavel_id);
-      montarEtqPick(document.getElementById('tarefa-etq'), t.etiquetas||(t.etiquetas=[]), function(lista){ t.etiquetas=lista; if(!ETQ_OK){ etqAviso(document.getElementById('tarefa-etq')); return; } salvarTarefa(t); renderKanban(); });
+      montarEtqPick(document.getElementById('tarefa-etq'), t.etiquetas||(t.etiquetas=[]), function(lista){ t.etiquetas=lista; atualizarGcal(); if(!ETQ_OK){ etqAviso(document.getElementById('tarefa-etq')); return; } salvarTarefa(t); renderKanban(); });
+      atualizarGcal();
       tkModeloOpcoes(document.getElementById('tarefa-mdl'));
       renderTarefaCheck(); document.getElementById('tarefa-note').textContent=''; show('tarefa');
     }

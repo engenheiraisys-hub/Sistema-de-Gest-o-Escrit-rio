@@ -2132,7 +2132,7 @@
     }
     (function(){ var kf=document.getElementById('kanban-filtro'); if(kf) kf.addEventListener('change',function(){ KB_FILTRO=kf.value; renderKanban(); }); })();
     /* etiquetas das tarefas (escolha várias por tarefa; filtro "Etiqueta" no painel) */
-    var ETIQUETAS=[{n:'Hidrossanitário',c:'#3E7CA6'},{n:'Executivo',c:'#5F7C8A'},{n:'Legal',c:'#6E7C46'},{n:'Preventivo',c:'#AA564A'},{n:'Proposta',c:'#AF853A'},{n:'Reunião',c:'#8B7FA3'},{n:'Elétrico',c:'#C08A1E'},{n:'Levantamento',c:'#5E7D57'},{n:'Maquete',c:'#A85C74'},{n:'Estrutural',c:'#6E4B3A'},{n:'Estudo',c:'#3F8F86'},{n:'Fachada',c:'#C2703D'},{n:'Pré-projeto',c:'#9A6B4F'},{n:'Pós-projeto',c:'#4B5563'}];
+    var ETIQUETAS=[{n:'Hidrossanitário',c:'#3E7CA6'},{n:'Executivo',c:'#5F7C8A'},{n:'Legal',c:'#6E7C46'},{n:'Preventivo',c:'#AA564A'},{n:'Proposta',c:'#AF853A'},{n:'Reunião',c:'#8B7FA3'},{n:'Visita',c:'#5B5F97'},{n:'Elétrico',c:'#C08A1E'},{n:'Levantamento',c:'#5E7D57'},{n:'Maquete',c:'#A85C74'},{n:'Estrutural',c:'#6E4B3A'},{n:'Estudo',c:'#3F8F86'},{n:'Fachada',c:'#C2703D'},{n:'Pré-projeto',c:'#9A6B4F'},{n:'Pós-projeto',c:'#4B5563'}];
     var KB_ETQ='', ETQ_OK=true;
     function corEtq(n){ var e=ETIQUETAS.filter(function(x){ return x.n===n; })[0]; return e?e.c:'#8f8f8f'; }
     function etqNorm(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
