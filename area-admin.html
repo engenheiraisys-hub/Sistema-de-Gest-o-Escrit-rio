@@ -4194,6 +4194,7 @@
     async function carregarFornecedores(){
       var res; try{ res=await sb.from('fornecedores').select('id,categoria,dados').order('criado_em',{ascending:true}); }catch(e){ res={error:e}; }
       var rows=(res&&!res.error)?(res.data||[]):[];
+      FORN_BY_ID={}; rows.forEach(function(r){ FORN_BY_ID[r.id]=r; });
       Object.keys(FFIELDS).forEach(function(cat){
         var box=document.querySelector('.pcat[data-cat="'+cat+'"]'); if(!box) return;
         var campos=FFIELDS[cat];
@@ -4210,12 +4211,22 @@
             var v=d[lb]; var tem=!(v==null||v===''||v==='—');
             return '<div class="forn-f"><b>'+lb+'</b>'+(tem?String(v).replace(/</g,'&lt;'):'—')+'</div>';
           }).join('');
-          return '<div class="forn-card"><div class="forn-card-name">'+nome+'</div>'+fields+'<div class="forn-act"><button type="button" class="pbtn danger" data-del-forn="'+r.id+'"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button></div></div>';
+          return '<div class="forn-card"><div class="forn-card-name">'+nome+'</div>'+fields+'<div class="forn-act" style="gap:6px"><button type="button" class="pbtn ico" data-edit-forn="'+r.id+'" title="Editar" aria-label="Editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button><button type="button" class="pbtn danger ico" data-del-forn="'+r.id+'" title="Excluir" aria-label="Excluir"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg></button></div></div>';
         }).join('')+'</div>';
       });
     }
+    var FORN_BY_ID={}, FORN_EDIT=null;
+    /* editar fornecedor: abre a mesma janela do cadastro já preenchida; salvar atualiza o registro */
+    function abrirForn(r){
+      FORN_EDIT=r?r.id:null;
+      if(r) currentCat=r.categoria||'projeto'; else { var act=document.querySelector('#view-parc .ptab[aria-selected="true"]'); currentCat=(act&&act.dataset.cat)?act.dataset.cat:'projeto'; }
+      var tab=document.querySelector('#view-parc .ptab[data-cat="'+currentCat+'"]'), d=(r&&r.dados)||{};
+      function esc(v){ return String(v==null?'':v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+      var html=(FFIELDS[currentCat]||[]).map(function(lb){ var obs=/Observa/.test(lb), v=d[lb]; if(v==='—') v=''; return '<div class="field'+(obs?' full':'')+'"><label>'+lb+'</label>'+(obs?'<textarea rows="2">'+esc(v)+'</textarea>':'<input type="text" value="'+esc(v)+'">')+'</div>'; }).join('');
+      openModal(html,(r?'Editar fornecedor · ':'Novo fornecedor · ')+(tab?tab.textContent:currentCat),'forn');
+    }
     var vParc=document.getElementById('view-parc');
-    if(vParc) vParc.addEventListener('click',function(e){ var b=e.target.closest('[data-del-forn]'); if(!b) return; imConfirm('Excluir este fornecedor?').then(function(ok){ if(!ok) return; sb.from('fornecedores').delete().eq('id',b.dataset.delForn).then(function(r){ if(r.error) alert('Erro ao excluir: '+r.error.message); else carregarFornecedores(); }); }); });
+    if(vParc) vParc.addEventListener('click',function(e){ var ed=e.target.closest('[data-edit-forn]'); if(ed){ var fr=FORN_BY_ID[ed.dataset.editForn]; if(fr) abrirForn(fr); return; } var b=e.target.closest('[data-del-forn]'); if(!b) return; imConfirm('Excluir este fornecedor?').then(function(ok){ if(!ok) return; sb.from('fornecedores').delete().eq('id',b.dataset.delForn).then(function(r){ if(r.error) alert('Erro ao excluir: '+r.error.message); else carregarFornecedores(); }); }); });
     carregarFornecedores();
 
     /* ---------------- financeiro: abas + contratos editáveis ---------------- */
@@ -4445,11 +4456,7 @@
     var novoReceb=document.getElementById('novo-recebimento');
     if(novoReceb) novoReceb.addEventListener('click',function(){ openRecebimento(); });
     var newForn=document.getElementById('new-forn');
-    if(newForn) newForn.addEventListener('click',function(){
-      var active=document.querySelector('#view-parc .ptab[aria-selected="true"]'); currentCat=(active&&active.dataset.cat)?active.dataset.cat:'projeto';
-      var html=(FFIELDS[currentCat]||[]).map(function(lb){ var obs=/Observa/.test(lb); return '<div class="field'+(obs?' full':'')+'"><label>'+lb+'</label>'+(obs?'<textarea rows="2"></textarea>':'<input type="text">')+'</div>'; }).join('');
-      openModal(html,'Novo fornecedor · '+(active?active.textContent:currentCat),'forn');
-    });
+    if(newForn) newForn.addEventListener('click',function(){ abrirForn(null); });
     var novoColab=document.getElementById('novo-colab');
     if(novoColab) novoColab.addEventListener('click',function(){ location.hash='colab'; openColab(null); });
     mForm.addEventListener('submit',function(e){
@@ -4457,8 +4464,11 @@
       if(modalMode==='forn'){
         var campos=FFIELDS[currentCat]||[];
         var inputs=mFields.querySelectorAll('input,textarea');
-        var dados={}; campos.forEach(function(lb,i){ dados[lb]=(inputs[i]&&inputs[i].value.trim())||''; });
-        sb.from('fornecedores').insert({categoria:currentCat, dados:dados}).then(function(r){ if(r.error) alert('Erro ao salvar fornecedor: '+r.error.message+'\\n(rodou o SQL de fornecedores?)'); else if(typeof carregarFornecedores==='function') carregarFornecedores(); });
+        var antigo=(FORN_EDIT&&FORN_BY_ID[FORN_EDIT]&&FORN_BY_ID[FORN_EDIT].dados)||{};
+        var dados=Object.assign({},antigo); campos.forEach(function(lb,i){ dados[lb]=(inputs[i]&&inputs[i].value.trim())||''; });
+        var opF=FORN_EDIT?sb.from('fornecedores').update({dados:dados}).eq('id',FORN_EDIT):sb.from('fornecedores').insert({categoria:currentCat, dados:dados});
+        FORN_EDIT=null;
+        opF.then(function(r){ if(r.error) alert('Erro ao salvar fornecedor: '+r.error.message+'\\n(rodou o SQL de fornecedores?)'); else if(typeof carregarFornecedores==='function') carregarFornecedores(); });
       } else if(modalMode==='colab'){
         var nome=(document.getElementById('m-nome').value||'').trim(); var role=(document.getElementById('m-role').value||'').trim()||'Colaborador';
         if(nome){ TEAMD.push({nome:nome,role:role,proj:0}); if(TEAM.indexOf(nome)<0) TEAM.push(nome); renderTeam(); }
