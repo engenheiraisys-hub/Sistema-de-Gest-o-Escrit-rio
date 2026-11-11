@@ -1165,8 +1165,9 @@
           var ulE=document.getElementById('fin-extras');
           if(ulE){ ulE.innerHTML=extras.slice().sort(function(a,b){return (a.data||'').localeCompare(b.data||'');}).map(function(x){
             var recebido=(x.status==='recebido');
+            var hj=new Date(); hj.setHours(0,0,0,0); var vencEx=!recebido&&x.data&&new Date(x.data+'T00:00:00')<hj;
             var recibo=recebido?('<button class="lk-recibo" type="button" data-recibo-extra="'+x.id+'">recibo</button>'):'';
-            return '<li class="fin-r"><span class="fr-k">'+ceC(x.descricao||'serviço extra')+'</span><span class="fr-d">'+(x.data?fmtDatac(x.data):'—')+'</span><span class="fr-v">'+fmtBRLc(x.valor)+'</span><span class="fr-st"><span class="state '+(recebido?'green':'amber')+'">'+(recebido?'Recebido':'A receber')+'</span>'+recibo+'</span></li>';
+            return '<li class="fin-r"><span class="fr-k">'+ceC(x.descricao||'serviço extra')+'</span><span class="fr-d">'+(x.data?fmtDatac(x.data):'—')+'</span><span class="fr-v">'+fmtBRLc(x.valor)+'</span><span class="fr-st"><span class="state '+(recebido?'green':(vencEx?'red':'amber'))+'">'+(recebido?'Recebido':(vencEx?'Vencido':'A receber'))+'</span>'+recibo+'</span></li>';
           }).join(''); }
         }
       }

@@ -4293,6 +4293,8 @@
       var fs=document.getElementById('fin-search'); if(fs) fs.addEventListener('input',function(){ FIN_Q=fs.value||''; if(typeof renderFin==='function') renderFin(); });
       var fc=document.getElementById('fin-contratos'); if(fc) fc.addEventListener('click',function(e){ if(e.target.closest('a,button')) return; var tr=e.target.closest('tr[data-fin]'); if(!tr) return; obraId=tr.getAttribute('data-fin'); try{localStorage.setItem('im-obra-adm',obraId);}catch(err){} location.hash='projeto'; });
     })();
+    /* recebimento lançado em "novo recebimento": vencido quando não foi recebido e a data já passou */
+    function recVencido(x){ if(!x||x.status==='recebido'||!x.data) return false; var h=new Date(); h.setHours(0,0,0,0); return new Date(x.data+'T00:00:00')<h; }
     function stChip(st){ return st==='pago'?'<span class="state green">pago</span>':(st==='vencido'?'<span class="state red">vencido</span>':'<span class="state amber">a vencer</span>'); }
     var FIN_PER='todos', FIN_Q='';
     function finPerTarget(){ if(FIN_PER==='todos') return null; var d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+parseInt(FIN_PER,10)); return d.getFullYear()*100+(d.getMonth()+1); }
@@ -4303,7 +4305,7 @@
         if(x.st==='pago'){ if(finInPer(x.pago||x.venc)) rec+=x.v; }
         else { if(finInPer(x.venc)){ arec+=x.v; if(x.st==='vencido') venc+=x.v; } }
       }); });
-      (RECEBIMENTOS||[]).forEach(function(x){ var v=Number(x.valor)||0; if(x.status==='recebido'){ if(finInPer(x.data)) rec+=v; } else { if(finInPer(x.data)) arec+=v; } });
+      (RECEBIMENTOS||[]).forEach(function(x){ var v=Number(x.valor)||0; if(x.status==='recebido'){ if(finInPer(x.data)) rec+=v; } else { if(finInPer(x.data)){ arec+=v; if(recVencido(x)) venc+=v; } } });
       var el;
       el=document.getElementById('fc-contratos'); if(el) el.textContent=fmt(tot);
       el=document.getElementById('fc-recebido'); if(el) el.textContent=fmt(rec);
@@ -4335,7 +4337,7 @@
         var desc=(x.projeto_id?'<em style="color:var(--ink-3);font-style:normal">serviço extra · </em>':'')+(x.descricao||'—');
         var edBtn='<button class="pbtn ico" type="button" data-edit-receb="'+x.id+'" title="Editar" aria-label="Editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/></svg></button> <button class="pbtn ico" type="button" data-dup-receb="'+x.id+'" title="Duplicar" aria-label="Duplicar"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button> ';
         if(x.status==='recebido'){ var tr=document.createElement('tr'); tr.innerHTML='<td>'+obraCol+'</td><td>'+cliCol+'</td><td>'+desc+'</td><td class="num">'+(x.data||'—')+'</td><td class="num rec">'+fmt(v)+'</td><td>'+edBtn+'<button class="pbtn danger ico" type="button" data-del-receb="'+x.id+'" title="Excluir" aria-label="Excluir"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg></button></td>'; rc.appendChild(tr); }
-        else { var tr2=document.createElement('tr'); tr2.innerHTML='<td>'+obraCol+'</td><td>'+cliCol+'</td><td>'+desc+'</td><td class="num">'+(x.data||'—')+'</td><td class="num">'+fmt(v)+'</td><td>'+stChip('a vencer')+' '+edBtn+'<button class="pbtn danger ico" type="button" data-del-receb="'+x.id+'" title="Excluir" aria-label="Excluir"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg></button></td>'; ar.appendChild(tr2); }
+        else { var tr2=document.createElement('tr'); tr2.innerHTML='<td>'+obraCol+'</td><td>'+cliCol+'</td><td>'+desc+'</td><td class="num">'+(x.data||'—')+'</td><td class="num">'+fmt(v)+'</td><td>'+stChip(recVencido(x)?'vencido':'a vencer')+' '+edBtn+'<button class="pbtn danger ico" type="button" data-del-receb="'+x.id+'" title="Excluir" aria-label="Excluir"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg></button></td>'; ar.appendChild(tr2); }
       });
       rc.querySelectorAll('[data-recibo]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); gerarReciboAdmin(this.dataset); }); });
       var pg=document.getElementById('fin-pagamentos'); pg.innerHTML='';
@@ -4749,6 +4751,14 @@
             if(v.getTime()<hoje.getTime()){ lista.push({texto:'Parcela VENCIDA · '+cli+' — '+fmt(x.valor)+' (venc. '+dataBR(x.vencimento)+')', sub:p.nome+' · financeiro', k:'warn'}); }
             else if(v.getTime()<=lim.getTime()){ lista.push({texto:'Parcela vence '+dataBR(x.vencimento)+' · '+cli+' — '+fmt(x.valor), sub:p.nome+' · financeiro', k:'info'}); }
           });
+        });
+      }catch(e){}
+      // recebimentos lançados em "novo recebimento" (avulsos / serviços extras) também avisam quando vencem
+      try{ var rr=await sb.from('recebimentos').select('descricao,valor,data,status,cliente_nome,projeto_nome');
+        (rr&&rr.data?rr.data:[]).forEach(function(x){ if(x.status==='recebido'||!x.data) return; var v=new Date(x.data+'T00:00:00'); v.setHours(0,0,0,0);
+          var quem=x.cliente_nome||'avulso', onde=(x.projeto_nome?x.projeto_nome+' · ':'')+'financeiro';
+          if(v.getTime()<hoje.getTime()){ lista.push({texto:'Recebimento VENCIDO · '+quem+' — '+fmt(x.valor)+' (venc. '+dataBR(x.data)+')', sub:onde, k:'warn'}); }
+          else if(v.getTime()<=lim.getTime()){ lista.push({texto:'Recebimento vence '+dataBR(x.data)+' · '+quem+' — '+fmt(x.valor), sub:onde, k:'info'}); }
         });
       }catch(e){}
       try{ var lim2=new Date(hoje); lim2.setDate(hoje.getDate()+14);
