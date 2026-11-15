@@ -823,7 +823,7 @@
   #view-financeiro .ptable td:last-child,#view-orcamentos .ptable td:last-child{text-align:center}
   #view-financeiro .ptable td:last-child .pbtn,#view-orcamentos .ptable td:last-child .pbtn{display:inline-flex}
   /* listas do financeiro: tabela num cartão, cabeçalho em faixa, linhas alternadas bem marcadas, destaque ao passar o mouse e status em etiqueta */
-  #view-financeiro .ptable-wrap,#view-orcamentos .ptable-wrap{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow-x:auto}
+  #view-financeiro .ptable-wrap,#view-orcamentos .ptable-wrap,#view-contratos .ptable-wrap{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow-x:auto}
   #view-financeiro .ptable th,#view-orcamentos .ptable th{background:var(--panel-2);color:var(--ink-2);font-weight:600;padding:12px 16px;border-bottom:1px solid var(--hair)}
   #view-financeiro .ptable td,#view-orcamentos .ptable td{padding:13px 16px;border-bottom:1px solid var(--hair-soft);background:var(--panel)}
   #view-financeiro .ptable tbody tr:nth-child(even) td,#view-orcamentos .ptable tbody tr:nth-child(even) td{background:var(--tint)}
@@ -1242,6 +1242,55 @@
   #view-orcamentos .oc-fx-add{border:1px dashed var(--hair);border-radius:8px;background:none;color:var(--ink-2);font:inherit;font-size:12px;padding:5px 10px;cursor:pointer}
   @media(max-width:1100px){#view-orcamentos .oc-ed{grid-template-columns:1fr}#view-orcamentos .oc-prev{position:static}#view-orcamentos #oc-frame{height:70vh}}
   @media(max-width:640px){#view-orcamentos .oc-g2{grid-template-columns:1fr}#view-orcamentos .oc-pr{grid-template-columns:1fr}}
+  /* ---------- CONTRATOS (mesmo padrão das Propostas) ---------- */
+  #view-contratos .oc-acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  #view-contratos .oc-card{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:18px 20px;margin-bottom:14px}
+  #view-contratos .oc-card-h{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin-bottom:14px}
+  #view-contratos .oc-card-h b{font-family:var(--display);font-weight:700;font-size:15.5px;color:var(--ink)}
+  #view-contratos .oc-card-h>span:not(.oc-n){font-size:12.5px;color:var(--ink-2);flex-basis:100%}
+  #view-contratos .oc-n{width:24px;height:24px;border-radius:50%;background:var(--gold-soft,#F4ECDA);color:var(--gold);display:grid;place-items:center;font-weight:700;font-size:12px}
+  #view-contratos .oc-g2{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+  #view-contratos .oc-g2>.field{justify-content:flex-end}
+  #view-contratos .field input,#view-contratos .field textarea,#view-contratos .field select{border:1px solid var(--hair);border-radius:var(--r-sm);padding:9px 11px;background:var(--paper,#fff);font-size:14px;font-weight:400}
+  #view-contratos .field input[readonly]{background:var(--panel-2);color:var(--ink-2)}
+  #view-contratos .field input:focus,#view-contratos .field textarea:focus,#view-contratos .field select:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 15%,transparent)}
+  #view-contratos .field label{margin-bottom:6px;font-size:10.5px}
+  #view-contratos .oc-more summary{cursor:pointer;font-size:13px;color:var(--ink-2);margin-top:14px}
+  #view-contratos .ct-ed{display:grid;grid-template-columns:minmax(340px,460px) 1fr;gap:18px;align-items:start}
+  #view-contratos .ct-prev{position:sticky;top:16px}
+  #view-contratos .oc-prev-bar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+  #view-contratos #ct-frame{width:100%;height:calc(100vh - 110px);min-height:420px;border:1px solid var(--hair-soft);border-radius:var(--r);background:#E9E7E2;display:block}
+  #view-contratos #ct-frame.editando{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 15%,transparent)}
+  #view-contratos .ct-aviso{font-size:12.5px;line-height:1.5;color:var(--ink-2);background:color-mix(in srgb,var(--amber) 10%,var(--panel));border:1px solid color-mix(in srgb,var(--amber) 30%,var(--hair-soft));border-radius:var(--r-sm);padding:9px 12px;margin:12px 0 0}
+  #view-contratos .ct-prev .ct-aviso{margin:0 0 10px}
+  #view-contratos .ct-link{border:none;background:none;padding:0;font:inherit;color:var(--gold);text-decoration:underline;cursor:pointer}
+  #view-contratos .ct-resumo{font-size:13px;line-height:1.6;color:var(--ink-2);background:var(--panel-2);border-radius:var(--r-sm);padding:10px 12px}
+  #view-contratos .ct-resumo b{color:var(--ink);font-weight:600}
+  /* serviços: grupo com marcação + etapas com prazo */
+  #view-contratos .ct-sv{border-bottom:1px solid var(--hair-soft);padding:10px 0}
+  #view-contratos .ct-sv:last-child{border-bottom:none}
+  #view-contratos .ct-sv>label{display:flex;gap:9px;align-items:center;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer}
+  #view-contratos .ct-sv input[type=checkbox]{width:16px;height:16px;margin:0;accent-color:var(--gold);flex:none}
+  #view-contratos .ct-sv small{display:block;font-size:12px;color:var(--ink-3);margin:3px 0 0 25px}
+  #view-contratos .ct-et{display:grid;grid-template-columns:1fr 92px;gap:8px;align-items:center;margin:8px 0 0 25px}
+  #view-contratos .ct-et label{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ink-2);cursor:pointer}
+  #view-contratos .ct-et .ct-dias{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink-3)}
+  #view-contratos .ct-et input[type=number]{width:52px;border:1px solid var(--hair);border-radius:8px;padding:5px 6px;font:inherit;font-size:13px;text-align:right;background:var(--paper,#fff);color:var(--ink)}
+  #view-contratos .ct-et input[type=number]:disabled{opacity:.4}
+  #view-contratos .ct-sv.off .ct-et{display:none}
+  #view-contratos .ct-nao-i{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--ink);padding:5px 0;cursor:pointer;line-height:1.4}
+  #view-contratos .ct-nao-i input{width:15px;height:15px;margin:2px 0 0;accent-color:var(--gold);flex:none}
+  #view-contratos .ct-nao-i em{font-style:normal;font-size:11px;color:var(--gold);margin-left:4px}
+  /* lista */
+  #view-contratos .ptable tbody tr{cursor:pointer}
+  #view-contratos .ptable td small{display:block;font-size:12px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px}
+  #view-contratos .ptable td.ct-svs{max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink-2)}
+  #view-contratos .ptable td.ct-acoes{white-space:nowrap;text-align:right}
+  #view-contratos .ptable td.ct-acoes .pbtn{display:inline-flex;padding:0 8px;min-height:28px;margin-left:4px}
+  #view-contratos .ptable td.ct-acoes .pbtn svg{margin:0}
+  #view-contratos .ct-vazio{color:var(--ink-3);font-size:13.5px;padding:20px 0}
+  @media(max-width:1100px){#view-contratos .ct-ed{grid-template-columns:1fr}#view-contratos .ct-prev{position:static}#view-contratos #ct-frame{height:75vh}}
+  @media(max-width:640px){#view-contratos .oc-g2{grid-template-columns:1fr}#view-contratos .ct-prev .oc-prev-bar .pill{flex:1 1 auto;justify-content:center}}
   /* ================= PADRÃO VISUAL ÚNICO (adm · colaborador · cliente) =================
      Mesma régua em todas as telas: botões com alturas fixas, cards de números com a mesma
      anatomia (ícone · rótulo · número · etiqueta na cor do ícone) e entrada suave das telas. */
@@ -1382,6 +1431,7 @@
     <a class="tab" href="#membros" data-view="membros" title="Membros" aria-label="Membros"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="2.4"/><path d="M8.5 17a3.5 3.5 0 0 1 7 0"/></svg></a>
     <a class="tab" href="#financeiro" data-view="financeiro" title="Financeiro" aria-label="Financeiro"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/></svg></a>
     <a class="tab" href="#orcamentos" data-view="orcamentos" title="Propostas" aria-label="Propostas"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h3"/></svg></a>
+    <a class="tab" href="#contratos" data-view="contratos" title="Contratos" aria-label="Contratos"><svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/><path d="M9 11h6M9 14h4"/><path d="M8.5 18.5c1-1.4 1.8-1.4 2.4 0s1.5 1.2 2.6-.3"/></svg></a>
     <a class="tab" href="#modelos" data-view="modelos" title="Modelo" aria-label="Modelo"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg></a>
     <a class="tab" href="#parc" data-view="parc" title="Parceiros" aria-label="Parceiros"><svg viewBox="0 0 24 24"><path d="M4 9l1-4h14l1 4"/><path d="M5 9v10h14V9"/><path d="M4 9h16"/></svg></a>
     <a class="tab" href="#arquivos" data-view="arquivos" title="Arquivos" aria-label="Arquivos"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11h14V8"/><path d="M10 12h4"/></svg></a>
@@ -1942,6 +1992,145 @@
     </div>
   </section>
 
+  <!-- CONTRATOS -->
+  <section class="view" id="view-contratos" hidden>
+    <button class="back" type="button" data-home>Voltar</button>
+    <div class="page-head">
+      <h2 class="page-title">Contratos</h2>
+      <div class="oc-acts" style="margin-bottom:clamp(20px,3vw,30px)">
+        <button class="pill solid sm" type="button" id="ct-novo"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo contrato</button>
+      </div>
+    </div>
+    <p class="proj-note">Monte o contrato a partir do <b>cadastro do cliente</b> e da <b>proposta</b>: marque os serviços contratados e ajuste prazos, valores e condições. Depois de <b>confirmado</b>, o contrato aparece também na Área do Cliente.</p>
+    <p class="note" id="ct-note" style="margin:-14px 0 14px;min-height:1.2em"></p>
+
+    <!-- lista -->
+    <div id="ct-lista-box">
+      <div class="proj-toolbar">
+        <div class="ptabs" role="tablist" aria-label="Situação dos contratos" id="ct-tabs">
+          <button class="ptab" role="tab" aria-selected="true" data-st="todos" style="--fc:var(--ink-2)">Todos <span class="filter-n" id="ct-n-todos">0</span></button>
+          <button class="ptab" role="tab" aria-selected="false" data-st="rascunho" style="--fc:var(--amber)">Rascunhos <span class="filter-n" id="ct-n-rascunho">0</span></button>
+          <button class="ptab" role="tab" aria-selected="false" data-st="confirmado" style="--fc:var(--green)">Confirmados <span class="filter-n" id="ct-n-confirmado">0</span></button>
+        </div>
+        <div class="proj-search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input id="ct-q" type="search" placeholder="Buscar cliente ou nº…" aria-label="Buscar contrato pelo cliente ou número">
+        </div>
+      </div>
+      <div id="ct-lista"></div>
+    </div>
+
+    <!-- editor -->
+    <div class="ct-ed" id="ct-ed" hidden>
+      <div class="ct-form">
+        <div class="oc-card">
+          <div class="oc-card-h"><span class="oc-n">1</span><b>Contrato e proposta</b><span>Escolha a proposta para puxar os serviços e os valores. Tudo pode ser ajustado à mão.</span></div>
+          <div class="oc-g2">
+            <div class="field"><label for="ct-numero">Nº do contrato</label><input id="ct-numero" type="text" placeholder="0035"></div>
+            <div class="field"><label for="ct-data">Data</label><input id="ct-data" type="date"></div>
+            <div class="field full"><label for="ct-proposta">Proposta</label><select id="ct-proposta"><option value="">— sem proposta —</option></select></div>
+            <div class="field"><label for="ct-cidade">Cidade da assinatura</label><input id="ct-cidade" type="text" placeholder="Florianópolis"></div>
+            <div class="field"><label for="ct-status-v">Situação</label><input id="ct-status-v" type="text" readonly></div>
+          </div>
+          <p class="ct-aviso" id="ct-aviso-prop" hidden></p>
+        </div>
+
+        <div class="oc-card">
+          <div class="oc-card-h"><span class="oc-n">2</span><b>Contratante</b><span>Os dados vêm do cadastro do cliente.</span></div>
+          <div class="oc-g2">
+            <div class="field full"><label for="ct-cliente">Cliente cadastrado</label><select id="ct-cliente"><option value="">— escolha o cliente —</option></select></div>
+            <div class="field full"><label for="ct-pessoa">Tipo</label><select id="ct-pessoa"><option value="pf">Pessoa física</option><option value="pj">Pessoa jurídica (empresa)</option></select></div>
+            <div class="field full"><label for="ct-c-nome">Nome / razão social</label><input id="ct-c-nome" type="text"></div>
+            <div class="field ct-pf"><label for="ct-c-nac">Nacionalidade</label><input id="ct-c-nac" type="text" placeholder="brasileira"></div>
+            <div class="field ct-pf"><label for="ct-c-civil">Estado civil</label><input id="ct-c-civil" type="text" placeholder="solteira"></div>
+            <div class="field ct-pf"><label for="ct-c-prof">Profissão</label><input id="ct-c-prof" type="text"></div>
+            <div class="field ct-pf"><label for="ct-c-rg">RG</label><input id="ct-c-rg" type="text"></div>
+            <div class="field"><label for="ct-c-doc" id="ct-c-doc-l">CPF</label><input id="ct-c-doc" type="text"></div>
+            <div class="field ct-pj"><label for="ct-c-rep">Representante legal</label><input id="ct-c-rep" type="text" placeholder="nome e CPF de quem assina"></div>
+            <div class="field full"><label for="ct-c-end">Endereço (rua, nº, complemento)</label><input id="ct-c-end" type="text"></div>
+            <div class="field"><label for="ct-c-bairro">Bairro</label><input id="ct-c-bairro" type="text"></div>
+            <div class="field"><label for="ct-c-cid">Município / UF</label><input id="ct-c-cid" type="text" placeholder="Florianópolis, SC"></div>
+            <div class="field"><label for="ct-c-cep">CEP</label><input id="ct-c-cep" type="text"></div>
+            <div class="field"><label for="ct-c-email">E-mail (notificações)</label><input id="ct-c-email" type="email"></div>
+          </div>
+        </div>
+
+        <div class="oc-card">
+          <div class="oc-card-h"><span class="oc-n">3</span><b>Imóvel</b><span>Puxa do projeto vinculado (dados para os documentos) ou da proposta.</span></div>
+          <div class="oc-g2">
+            <div class="field full"><label for="ct-projeto">Projeto vinculado</label><select id="ct-projeto"><option value="">— nenhum —</option></select></div>
+            <div class="field full"><label for="ct-o-end">Endereço do terreno</label><input id="ct-o-end" type="text"></div>
+            <div class="field"><label for="ct-o-cep">CEP</label><input id="ct-o-cep" type="text"></div>
+            <div class="field"><label for="ct-o-cid">Município / UF</label><input id="ct-o-cid" type="text" placeholder="Florianópolis, Santa Catarina"></div>
+            <div class="field full"><label for="ct-o-insc">Inscrição imobiliária</label><input id="ct-o-insc" type="text"></div>
+          </div>
+        </div>
+
+        <div class="oc-card">
+          <div class="oc-card-h"><span class="oc-n">4</span><b>Serviços e prazos</b><span>Marque só o que foi contratado. O objeto, as descrições, as etapas, as visitas e os itens não inclusos se ajustam sozinhos. Prazos em dias úteis.</span></div>
+          <div id="ct-servs"></div>
+        </div>
+
+        <div class="oc-card">
+          <div class="oc-card-h"><span class="oc-n">5</span><b>Honorários e pagamento</b></div>
+          <div class="oc-g2">
+            <div class="field"><label for="ct-valor">Valor total (R$)</label><input id="ct-valor" type="text" inputmode="decimal" placeholder="0,00"></div>
+            <div class="field"><label for="ct-desc">Desconto (%)</label><input id="ct-desc" type="text" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label for="ct-parc">Nº de parcelas</label><input id="ct-parc" type="number" min="1" max="36" step="1" placeholder="1"></div>
+            <div class="field"><label for="ct-1parc">1ª parcela</label><select id="ct-1parc"><option value="ato">no ato da assinatura</option><option value="30">30 dias após a assinatura</option></select></div>
+            <div class="field full"><div class="ct-resumo" id="ct-resumo"></div></div>
+          </div>
+          <details class="oc-more"><summary>Dados bancários</summary>
+            <div class="oc-g2" style="margin-top:12px">
+              <div class="field full"><label for="ct-b-banco">Banco</label><input id="ct-b-banco" type="text"></div>
+              <div class="field"><label for="ct-b-ag">Agência</label><input id="ct-b-ag" type="text"></div>
+              <div class="field"><label for="ct-b-conta">Conta</label><input id="ct-b-conta" type="text"></div>
+              <div class="field"><label for="ct-b-cnpj">CNPJ</label><input id="ct-b-cnpj" type="text"></div>
+              <div class="field"><label for="ct-b-pix">PIX</label><input id="ct-b-pix" type="text"></div>
+            </div>
+          </details>
+        </div>
+
+        <div class="oc-card">
+          <div class="oc-card-h"><span class="oc-n">6</span><b>Condições</b><span>Números que mudam de um contrato para outro.</span></div>
+          <div class="oc-g2">
+            <div class="field"><label for="ct-alt">Alterações grátis no estudo preliminar</label><input id="ct-alt" type="number" min="0" step="1"></div>
+            <div class="field"><label for="ct-alt-dias">Acréscimo de prazo por alteração (dias úteis)</label><input id="ct-alt-dias" type="number" min="0" step="1"></div>
+            <div class="field ct-so-est"><label for="ct-vis">Visitas inclusas (armaduras)</label><input id="ct-vis" type="number" min="0" step="1"></div>
+            <div class="field"><label for="ct-vis-valor">Visita extra (R$)</label><input id="ct-vis-valor" type="text" inputmode="decimal"></div>
+            <div class="field"><label for="ct-vis-horas">Duração da visita extra (horas)</label><input id="ct-vis-horas" type="number" min="1" step="1"></div>
+            <div class="field"><label for="ct-vis-ant">Antecedência para agendar (dias úteis)</label><input id="ct-vis-ant" type="number" min="0" step="1"></div>
+            <div class="field"><label for="ct-rec-de">Recesso: de</label><input id="ct-rec-de" type="date"></div>
+            <div class="field"><label for="ct-rec-ate">Recesso: até</label><input id="ct-rec-ate" type="date"></div>
+            <div class="field"><label for="ct-multa">Multa por rescisão (%)</label><input id="ct-multa" type="number" min="0" step="1"></div>
+            <div class="field"><label for="ct-atraso">Multa por atraso no pagamento (%)</label><input id="ct-atraso" type="number" min="0" step="1"></div>
+            <div class="field"><label for="ct-valid">Validade da proposta (dias úteis)</label><input id="ct-valid" type="number" min="1" step="1"></div>
+            <div class="field"><label for="ct-anos">Prazo máximo do contrato (anos)</label><input id="ct-anos" type="number" min="1" step="1"></div>
+            <div class="field full"><label for="ct-foro">Foro</label><input id="ct-foro" type="text" placeholder="Florianópolis/SC"></div>
+          </div>
+        </div>
+
+        <div class="oc-card">
+          <div class="oc-card-h"><span class="oc-n">7</span><b>Itens não inclusos</b><span>Os serviços que não foram marcados entram nesta lista automaticamente.</span></div>
+          <div id="ct-nao"></div>
+          <div class="field" style="margin-top:10px"><label for="ct-nao-extra">Outros itens não inclusos (um por linha)</label><textarea id="ct-nao-extra" rows="3"></textarea></div>
+        </div>
+      </div>
+
+      <div class="ct-prev">
+        <div class="oc-prev-bar">
+          <button class="pill ghost sm" type="button" id="ct-voltar"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>voltar</button>
+          <button class="pill ghost sm" type="button" id="ct-editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg><span>editar texto</span></button>
+          <button class="pill ghost sm" type="button" id="ct-pdf"><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>baixar PDF</button>
+          <button class="pill ghost sm" type="button" id="ct-salvar"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg>salvar rascunho</button>
+          <button class="pill solid sm" type="button" id="ct-confirmar"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>confirmar e liberar ao cliente</span></button>
+        </div>
+        <p class="ct-aviso" id="ct-aviso-manual" hidden>O texto foi editado à mão: mudanças no formulário não alteram mais o contrato. <button type="button" class="ct-link" id="ct-refazer">refazer o texto pelo formulário</button></p>
+        <iframe id="ct-frame" title="Pré-visualização do contrato"></iframe>
+      </div>
+    </div>
+  </section>
+
   <!-- ORÇAMENTOS -->
   <section class="view" id="view-orcamentos" hidden>
     <button class="back" type="button" data-home>Voltar</button>
@@ -2336,9 +2525,9 @@
 <script>
   (function(){
     /* ---------------- roteador por hash ---------------- */
-    var VIEWS={home:'view-home',inicio:'view-home',tarefas:'view-tarefas',proj:'view-proj',projeto:'view-projeto',novo:'view-novo',agenda:'view-agenda',clientes:'view-clientes',cliente:'view-cliente',financeiro:'view-financeiro',modelos:'view-modelos',equipe:'view-equipe',colab:'view-colab',membros:'view-membros',parc:'view-parc',arquivos:'view-arquivos',tarefa:'view-tarefa',orcamentos:'view-orcamentos'};
-    var TITLES={orcamentos:'propostas',inicio:'início',tarefas:'minhas tarefas',proj:'central de projetos',projeto:'Residência Jurerê',novo:'novo projeto',agenda:'agenda',clientes:'clientes',cliente:'cliente',financeiro:'financeiro',modelos:'modelo',equipe:'equipe',colab:'colaborador',membros:'membros',parc:'parceiros e fornecedores',arquivos:'arquivos',tarefa:'tarefa'};
-    var TABPARENT={orcamentos:'orcamentos',home:'home',inicio:'home',tarefas:'tarefas',proj:'proj',projeto:'proj',novo:'proj',agenda:'agenda',clientes:'clientes',cliente:'clientes',financeiro:'financeiro',modelos:'modelos',equipe:'equipe',colab:'equipe',membros:'membros',parc:'parc',arquivos:'arquivos',tarefa:'tarefas'};
+    var VIEWS={home:'view-home',inicio:'view-home',tarefas:'view-tarefas',proj:'view-proj',projeto:'view-projeto',novo:'view-novo',agenda:'view-agenda',clientes:'view-clientes',cliente:'view-cliente',financeiro:'view-financeiro',modelos:'view-modelos',equipe:'view-equipe',colab:'view-colab',membros:'view-membros',parc:'view-parc',arquivos:'view-arquivos',tarefa:'view-tarefa',orcamentos:'view-orcamentos',contratos:'view-contratos'};
+    var TITLES={orcamentos:'propostas',contratos:'contratos',inicio:'início',tarefas:'minhas tarefas',proj:'central de projetos',projeto:'Residência Jurerê',novo:'novo projeto',agenda:'agenda',clientes:'clientes',cliente:'cliente',financeiro:'financeiro',modelos:'modelo',equipe:'equipe',colab:'colaborador',membros:'membros',parc:'parceiros e fornecedores',arquivos:'arquivos',tarefa:'tarefa'};
+    var TABPARENT={orcamentos:'orcamentos',contratos:'contratos',home:'home',inicio:'home',tarefas:'tarefas',proj:'proj',projeto:'proj',novo:'proj',agenda:'agenda',clientes:'clientes',cliente:'clientes',financeiro:'financeiro',modelos:'modelos',equipe:'equipe',colab:'equipe',membros:'membros',parc:'parc',arquivos:'arquivos',tarefa:'tarefas'};
     function renderKanbanSafe(name){ if(name==='tarefas'){ if(typeof carregarEtapasKanban==='function') carregarEtapasKanban(); else if(typeof renderKanban==='function') renderKanban(); } }
     var topSec=document.getElementById('top-sec');
     function show(name){
@@ -2355,6 +2544,7 @@
       if(name==='parc' && typeof carregarFornecedores==='function') carregarFornecedores();
       if(name==='financeiro' && typeof carregarFinanceiroConsolidado==='function') carregarFinanceiroConsolidado();
       if(name==='orcamentos' && typeof window.carregarOrcamentos==='function') window.carregarOrcamentos();
+      if(name==='contratos' && typeof window.carregarContratos==='function') window.carregarContratos();
       renderKanbanSafe(name);
       var tv=document.getElementById(VIEWS[name]); if(tv){ tv.classList.remove('anim'); void tv.offsetWidth; tv.classList.add('anim'); }
       window.scrollTo(0,0);
@@ -4998,6 +5188,535 @@
 
     show((location.hash||'').replace('#','')||'home');
   })();
+</script>
+<script>
+/* ================= CONTRATOS =================
+   Monta o contrato de prestação de serviço a partir do modelo do escritório (contrato nº 34),
+   puxando o cliente (tabela clientes), a proposta (modelos → 'orcamentos') e o imóvel (projetos.aprovacoes).
+   Guarda na tabela "contratos" (sql-contratos.sql). Confirmado = aparece na Área do Cliente. */
+(function(){
+  var view=document.getElementById('view-contratos'); if(!view) return;
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function num(s){ if(typeof s==='number') return s; s=String(s||'').replace(/[^\d,.-]/g,''); if(s.indexOf(',')>=0) s=s.replace(/\./g,'').replace(',','.'); var n=parseFloat(s); return isFinite(n)?n:0; }
+  function r2(v){ return Math.round((Number(v)||0)*100)/100; }
+  function moeda(v){ return (Number(v)||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function hojeISO(){ var d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+  function semAc(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim(); }
+  function so(s){ return String(s||'').replace(/\D/g,''); }
+  var MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  function dataLonga(iso){ if(!iso) return ''; var p=String(iso).split('-'); if(p.length<3) return iso; return (+p[2])+' de '+MESES[(+p[1])-1]+' de '+p[0]; }
+  function note(t){ var n=$('ct-note'); if(n){ n.textContent=t||''; if(t) setTimeout(function(){ if(n.textContent===t) n.textContent=''; },6000); } }
+  function conf(msg){ return Promise.resolve(window.imConfirm?window.imConfirm(msg):confirm(msg)); }
+
+  /* ---------- números por extenso ---------- */
+  var UN=['zero','um','dois','três','quatro','cinco','seis','sete','oito','nove','dez','onze','doze','treze','quatorze','quinze','dezesseis','dezessete','dezoito','dezenove'];
+  var DZ=['','','vinte','trinta','quarenta','cinquenta','sessenta','setenta','oitenta','noventa'];
+  var CT=['','cento','duzentos','trezentos','quatrocentos','quinhentos','seiscentos','setecentos','oitocentos','novecentos'];
+  function ate999(n){ if(!n) return ''; if(n===100) return 'cem'; var c=Math.floor(n/100), r=n%100, p=[]; if(c) p.push(CT[c]); if(r){ if(r<20) p.push(UN[r]); else { var u=r%10; p.push(DZ[Math.floor(r/10)]+(u?' e '+UN[u]:'')); } } return p.join(' e '); }
+  function extInt(n){ n=Math.floor(Math.abs(Number(n)||0)); if(!n) return 'zero';
+    var mi=Math.floor(n/1e6), mil=Math.floor((n%1e6)/1000), r=n%1000, p=[];
+    if(mi) p.push(mi===1?'um milhão':ate999(mi)+' milhões');
+    if(mil) p.push(mil===1?'mil':ate999(mil)+' mil');
+    var s=p.join(' ');
+    if(r) s+=(s?((r<100||r%100===0)?' e ':' '):'')+ate999(r);
+    return s; }
+  function extF(n){ return extInt(n).replace(/\bum$/,'uma').replace(/\bdois$/,'duas').replace(/zentos/g,'zentas').replace(/(tre|quatro|quinhe|seisce|sete|oito|nove)ntos/g,'$1ntas'); }
+  function extReais(v){ v=r2(v); var re=Math.floor(v+1e-9), ce=Math.round((v-re)*100), p=[];
+    if(re) p.push(extInt(re)+(re===1?' real':((re%1e6===0)?' de reais':' reais')));
+    if(ce) p.push(extInt(ce)+(ce===1?' centavo':' centavos'));
+    return p.length?p.join(' e '):'zero real'; }
+  function pct(v){ v=num(v); var s=String(v).replace('.',','); return s+'% ('+(v%1===0?extInt(v):s)+' por cento)'; }
+  function lista(a){ a=a.filter(Boolean); return a.length<2?(a[0]||''):a.slice(0,-1).join(', ')+' e '+a[a.length-1]; }
+  var ORD=['primeiro','segundo','terceiro','quarto','quinto','sexto','sétimo','oitavo','nono','décimo','décimo primeiro','décimo segundo','décimo terceiro','décimo quarto','décimo quinto','décimo sexto'];
+  var CLO=['PRIMEIRA','SEGUNDA','TERCEIRA','QUARTA','QUINTA','SEXTA','SÉTIMA','OITAVA','NONA','DÉCIMA','DÉCIMA PRIMEIRA','DÉCIMA SEGUNDA','DÉCIMA TERCEIRA','DÉCIMA QUARTA','DÉCIMA QUINTA','DÉCIMA SEXTA'];
+
+  /* ---------- dados fixos do escritório (do contrato modelo) ---------- */
+  var CONTRATADO={nome:'Isys de Mattos Vieira',cpf:'079.717.789-29',email:'engenheira.isys@gmail.com',
+    qual:'brasileira, engenheira civil, residente e domiciliada na Avenida Red Park, nº 1180, no bairro São João do Rio Vermelho, no município de Florianópolis, CEP 88060-292, com CPF 079.717.789-29'};
+  var BANCO={banco:'Banco C6 S.A. – 336',ag:'0001',conta:'38439960-6',cnpj:'60.894.741.0001/95',pix:'60894741000195'};
+  var NAO_PADRAO=['Desenvolvimento de levantamento topográfico por profissional topógrafo','Desenvolvimento de projeto de detalhamento de arquitetura de interiores','Desenvolvimento de projeto elétrico padrão da CELESC','Desenvolvimento Projeto de Sistema de Proteção Contra Descargas Atmosféricas','Desenvolvimento de projeto de Estação de Tratamento de Esgoto','Desenvolvimento de projeto de Fundações Profundas','Desenvolvimento e solicitação de licenciamento ambiental','Desenvolvimento de projeto preventivo','Elaboração de sondagem no solo','Elaboração de teste de percolação','Solicitação de viabilidade de água','Solicitação de viabilidade de esgoto','Regularização ou solicitação de documentos de propriedade do imóvel','Acompanhamento e gerenciamento de obra','Execução da obra e providências legais, burocráticas e custos decorrentes dos mesmos','Cópias dos projetos'];
+  /* serviços do contrato (ordem das etapas) e o que entra em "não inclusos" quando NÃO é contratado */
+  var SV=[
+    {k:'arq',n:'Projeto arquitetônico',nao:'Desenvolvimento de projeto arquitetônico'},
+    {k:'hid',n:'Projeto hidrossanitário',et:'Projeto Hidrossanitário',nao:'Desenvolvimento de projeto hidrossanitário'},
+    {k:'ele',n:'Projeto elétrico',et:'Projeto Elétrico',nao:'Desenvolvimento de projeto elétrico'},
+    {k:'est',n:'Projeto estrutural',et:'Projeto Estrutural',nao:'Desenvolvimento de projeto estrutural'},
+    {k:'prev',n:'Projeto preventivo (Bombeiros)',et:'Projeto Preventivo',novo:true},
+    {k:'hab_hid',n:'Habite-se sanitário (Vigilância)',et:'Laudo e Vistoria do Habite-se hidrossanitário',hab:true,nao:'Laudo, vistoria e solicitação de habite-se sanitário'},
+    {k:'hab_prev',n:'Habite-se preventivo (Bombeiros)',et:'Laudo e Vistoria do Habite-se preventivo',hab:true,novo:true,nao:'Laudo, vistoria e solicitação de habite-se preventivo'},
+    {k:'hab_arq',n:'Habite-se arquitetônico (Prefeitura)',et:'Laudo e Vistoria do Habite-se arquitetônico',hab:true,nao:'Laudo, vistoria e solicitação de habite-se arquitetônico'}
+  ];
+  var CURTO={arq:'Arquitetônico',hid:'Hidrossanitário',ele:'Elétrico',est:'Estrutural',prev:'Preventivo',hab_hid:'Habite-se sanitário',hab_prev:'Habite-se preventivo',hab_arq:'Habite-se arquitetônico'};
+  var FONTE_PDF={id:'plus-jakarta-sans',css:'Plus Jakarta Sans',pesos:[300,400,500,600,700],nome:'PJS'};
+
+  function novo(){ var y=new Date().getFullYear();
+    return {id:null,status:'rascunho',numero:'',data:hojeISO(),cidade:'Florianópolis',proposta:'',cliente_id:'',projeto_id:'',
+      c:{pessoa:'pf',nome:'',nac:'',civil:'',prof:'',rg:'',doc:'',rep:'',end:'',bairro:'',cid:'',cep:'',email:''},
+      o:{end:'',cep:'',cid:'Florianópolis, Santa Catarina',insc:''},
+      sv:{arq:false,hid:false,ele:false,est:false,prev:false,hab_hid:false,hab_prev:false,hab_arq:false},
+      sub:{ep:true,fach:true,legal:true,exec:true},
+      dias:{ep:2,fach:15,legexec:10,hid:10,ele:20,est:20,prev:20,hab_hid:10,hab_prev:10,hab_arq:10},
+      v:{total:'',desc:'',parc:1,primeira:'ato'},
+      b:Object.assign({},BANCO),
+      cd:{alt:3,altDias:15,vis:3,visValor:'200,00',visHoras:2,visAnt:5,recDe:y+'-12-18',recAte:(y+1)+'-01-11',multa:35,atraso:10,valid:10,anos:1,foro:'Florianópolis/SC'},
+      naoOff:[],naoExtra:'',manual:null};
+  }
+  function mesclar(d){ var c=novo(); if(!d) return c; ['numero','data','cidade','proposta','cliente_id','projeto_id','naoExtra','manual'].forEach(function(k){ if(d[k]!=null) c[k]=d[k]; }); if(Array.isArray(d.naoOff)) c.naoOff=d.naoOff.slice(); ['c','o','sv','sub','dias','v','b','cd'].forEach(function(k){ if(d[k]&&typeof d[k]==='object') Object.assign(c[k],d[k]); }); return c; }
+
+  function pagar(C){ var V=r2(num(C.v.total)), d=num(C.v.desc), P=r2(V*(1-d/100)), n=Math.max(1,parseInt(C.v.parc,10)||1);
+    var X=Math.floor(P/n*100+1e-6)/100, last=r2(P-X*(n-1)); return {V:V,d:d,P:P,n:n,X:X,last:last}; }
+
+  function naoItens(C){
+    var algum=SV.some(function(s){ return C.sv[s.k]; }), L=[];
+    if(algum) SV.forEach(function(s){ if(!C.sv[s.k] && s.nao) L.push({t:s.nao,auto:true}); });
+    NAO_PADRAO.forEach(function(t){ if(C.sv.prev && /projeto preventivo$/i.test(t)) return; L.push({t:t}); });
+    return L;
+  }
+
+  /* ---------- texto do contrato (blocos; cada bloco é um parágrafo) ---------- */
+  function blocos(C){
+    var o=[], sv=C.sv, sub=C.sub, cd=C.cd, c=C.c, ob=C.o;
+    var t=function(v){ return String(v==null?'':v).trim(); };
+    var B=function(v,ph){ v=t(v); return v?esc(v):(ph||'__________'); };
+    function P(h,cls){ o.push('<p'+(cls?' class="'+cls+'"':'')+'>'+h+'</p>'); }
+    function LI(h){ o.push('<p class="li"><span class="bl">•</span>'+h+'</p>'); }
+    function PARS(l){ l=l.filter(Boolean); l.forEach(function(h,i){ P('<b>Parágrafo '+(l.length===1?'único':ORD[i])+':</b> '+h); }); }
+    var nc=0; function CL(tit){ o.push('<h2 class="kw">CLÁUSULA '+CLO[nc++]+' – '+tit+'</h2>'); }
+    var pj=c.pessoa==='pj', ep=sv.arq&&sub.ep, exe=sv.arq&&sub.exec;
+
+    o.push('<div class="topo kw"><div class="wm"><b>ISYS MATTOS</b><span>engenharia . arquitetura</span></div></div>');
+    o.push('<h1 class="kw">CONTRATO DE PRESTAÇÃO DE SERVIÇO</h1>');
+    o.push('<p class="numc kw">Nº: '+B(C.numero,'____')+'</p>');
+    var qc, loc=(t(c.bairro)?', no bairro '+esc(t(c.bairro)):'')+(t(c.cid)?', no município de '+esc(t(c.cid)):'')+(t(c.cep)?', CEP '+esc(t(c.cep)):'');
+    if(pj){ qc='<b>'+B(c.nome)+'</b>, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº '+B(c.doc)+', com sede em '+B(c.end)+loc+(t(c.rep)?', neste ato representada por '+esc(t(c.rep)):'')+', denominada <b>CONTRATANTE</b>'; }
+    else { var q=[c.nac,c.civil,c.prof].map(t).filter(Boolean).map(esc);
+      var dc=t(c.rg)&&t(c.doc)?'portador do RG: '+esc(t(c.rg))+' e CPF '+esc(t(c.doc)):(t(c.doc)?'portador do CPF '+esc(t(c.doc)):(t(c.rg)?'portador do RG: '+esc(t(c.rg)):'portador do CPF __________'));
+      qc='<b>'+B(c.nome)+'</b>'+(q.length?', '+q.join(', '):'')+', residente e domiciliado(a) em '+B(c.end)+loc+', '+dc+', denominado <b>CONTRATANTE</b>'; }
+    P('Por meio do presente instrumento particular de contrato que celebram entre si, de um lado '+qc+', do outro, <b>'+CONTRATADO.nome+'</b>, '+CONTRATADO.qual+', denominada <b>CONTRATADO</b>, com fundamento nas normas constantes do Código Civil Brasileiro, Código Nacional do Consumidor, Lei Federal nº 12.378/2010, Resolução nº 21 (Atribuições) e Resolução nº 1.043/2012 (Tabela de Honorários), do CREA/BR, sendo regido por essas leis e discriminado nas seguintes cláusulas.');
+
+    /* 1 · objeto */
+    CL('OBJETO DO CONTRATO');
+    var projs=[['arq','projeto arquitetônico'],['ele','projeto elétrico'],['hid','projeto hidrossanitário'],['est','projeto estrutural'],['prev','projeto preventivo']].filter(function(x){ return sv[x[0]]; }).map(function(x){ return x[1]; });
+    var habs=[['hab_hid','habite-se sanitário'],['hab_prev','habite-se preventivo'],['hab_arq','habite-se arquitetônico']].filter(function(x){ return sv[x[0]]; }).map(function(x){ return x[1]; });
+    var obj=projs.length?'prestação de serviços de '+lista(projs):'';
+    if(habs.length) obj+=(projs.length?', além de laudo e vistoria para solicitação de ':'prestação de serviços de laudo e vistoria para solicitação de ')+lista(habs);
+    if(!obj) obj='prestação de serviços de __________';
+    var mu=t(ob.cid).split(','), mun='município de '+esc(t(mu[0])||'Florianópolis')+(mu.length>1&&t(mu.slice(1).join(','))?', estado de '+esc(t(mu.slice(1).join(','))):'');
+    P('O presente contrato tem por objeto a '+obj+' por parte do CONTRATADO, em um terreno localizado no <b>'+B(ob.end)+'</b>'+(t(ob.cep)?', CEP '+esc(t(ob.cep)):'')+', '+mun+(t(ob.insc)?', sob Cadastro de Inscrição Imobiliária nº <b>'+esc(t(ob.insc))+'</b>':'')+', de propriedade do Contratante, seguindo os termos e condições detalhados na cláusula segunda.');
+
+    /* 2 · serviços */
+    CL('SERVIÇOS A SEREM PRESTADOS');
+    if(sv.arq){
+      P('A elaboração do <u>projeto de arquitetura</u> consistirá na representação gráfica de desenhos visando à sua boa compreensão, conforme condições exigíveis fixadas em Norma Técnica de Representação de projetos de arquitetura – NBR 6492 – juntamente com a legislação federal, estadual e municipal vigente e cabíveis a tal projeto. A saber:');
+      if(sub.ep) LI('Desenvolvimento do Estudo Preliminar, com estudo da viabilidade do programa de necessidades e partido arquitetônico propostos nesta etapa ao CONTRATANTE, com a respectiva apreciação e aprovação por parte do mesmo. Os documentos representarão elementos construtivos de forma esquemática, níveis e medidas principais, áreas, acessos, denominação dos espaços, orientação geográfica, de forma a permitir a perfeita compreensão do funcionamento do programa e partido adotados;');
+      if(sub.fach) LI('Desenvolvimento do estudo de fachada arquitetônica é uma análise detalhada e planejada da parte externa de um edifício, que visa não apenas determinar sua aparência estética, mas também otimizar sua funcionalidade e desempenho. Envolve a seleção cuidadosa de materiais, detalhes de design e sistemas de revestimento para expressão visual atraente e coerente com a identidade do projeto, com a respectiva apreciação e aprovação por parte do CONTRATANTE;');
+      if(sub.legal) LI('Desenvolvimento do Projeto Legal. Nesta etapa serão consideradas as normas técnicas e a legislação vigente, o projeto deve receber aprovação final do cliente e dos órgãos oficiais envolvidos. Serão entregues situação, plantas, cortes e fachadas, maquete eletrônica;');
+      if(sub.exec) LI('Desenvolvimento do Projeto Executivo, considerando os projetos complementares. Nesta etapa, o projeto já foi aprovado pelo cliente e pelos órgãos oficiais envolvidos e possibilita a contratação da obra. Serão entregues situação, plantas, cortes e fachadas, maquete eletrônica finalizada. Elementos construtivos já bem caracterizados, com indicação de medidas, níveis, áreas, denominação dos compartimentos, orientação, eixos e coordenadas;');
+    }
+    if(sv.hid) P('A elaboração do <u>projeto hidrossanitário</u> baseadas nas Normas da ABNT, entre elas: Instalações Prediais de Água Fria – NBR 5626; Instalações Prediais de Águas Pluviais – NBR 10844; Sistemas Prediais de Esgoto sanitário – NBR 8160; Instalações Prediais de Água Quente – NBR 7198; Projeto, construção e operação de sistemas de tanques sépticos – NBR 7229; Tanques sépticos - Unidades de tratamento complementar e disposição final dos efluentes líquidos - Projeto, construção e operação – NBR 13969; além das normas vigentes da Prefeitura Municipal, Vigilância Sanitária, CASAN e demais órgãos quando aplicáveis; no projeto hidrossanitário, os elementos de composição do sistema serão distribuídos e dimensionados previamente, configurando a instalação com os detalhes dos componentes, locação dos pontos de consumo de água (quente e fria), despejo de esgoto, captação de água pluvial, previsão dos ramais caminhamento das tubulações, especificação das espessuras dos condutores e outros, fornecendo, por fim, as plantas baixas de cada sistema com elementos gráficos representativos dos elementos integrantes, memorial de cálculo, detalhamento e especificações técnicas, esquema vertical dos sistemas e legenda, para o bom entendimento e fiel execução do sistema.');
+    if(sv.ele) P('A elaboração de <u>projeto elétrico</u> se dará com os elementos de composição do sistema de cada ambiente do imóvel serão dispostos e dimensionados previamente, definindo antecipadamente toda a instalação com seus detalhes, locação dos pontos de consumo de energia, a fragmentação dos circuitos, a especificação dos condutores, carga de cada circuito e carga total, considerando as orientações técnicas como a NBR 5410 de Instalações Elétricas de Baixa Tensão, adequações de projeto e uso proposto e fornecendo, por fim, a planta baixa elétrica com a locação gráfica dos elementos do sistema (caixas, tubulações, fiações, etc), diagramas unifilares, quadros de cargas e legenda, detalhes e demais especificações pertinentes ao projeto.');
+    if(sv.est) P('A elaboração de <u>projeto estrutural</u> objetiva dimensionar os elementos estruturais para edificar, mantendo a compatibilidade com o projeto arquitetônico afim de preservar as características estéticas e funcionais da edificação, garantindo a segurança, durabilidade e sustentabilidade da estrutura. No projeto estrutural serão dimensionados os elementos estruturais (vigas, lajes e pilares), organizando, dispondo e ordenando esses essenciais componentes, considerando o uso e parâmetros de segurança, baseado nas Normas da ABNT, entre elas: Projeto de estruturas de concreto – Procedimento – NBR 6118; Cargas para o cálculo de estruturas de edificações – NBR 6120; Projeto e execução de fundações – NBR 6122; e Ações e segurança nas estruturas – Procedimento – NBR 8681; fornecendo para execução da estrutura as plantas de forma, detalhamentos de armaduras dos elementos estruturais, cortes estruturais, locação, detalhamento das fundações rasas e blocos de coroamento e relação de aço.');
+    if(sv.prev) P('A elaboração do <u>projeto preventivo</u> contra incêndio e pânico seguirá as Instruções Normativas vigentes do Corpo de Bombeiros Militar de Santa Catarina (CBMSC), com o dimensionamento e a locação dos sistemas e medidas de segurança exigidos para a edificação, fornecendo, por fim, as plantas, os detalhes e o memorial necessários à aprovação no Corpo de Bombeiros.');
+    if(sv.hab_hid) P('A elaboração do <u>Habite-se sanitário</u> objetiva fazer a vistoria final, analisando se o CONTRATANTE executou a obra de acordo com o projeto aprovado na vigilância sanitária e somente nesse caso caberá ao CONTRATADO o pedido do habite-se perante a vigilância sanitária de Florianópolis, junto com toda a documentação necessária, como ART de laudo de vistoria e relatório de condições físico e sanitária.');
+    if(sv.hab_prev) P('A elaboração do <u>Habite-se preventivo</u> objetiva fazer a vistoria final, analisando se o CONTRATANTE executou a obra de acordo com o projeto preventivo aprovado no Corpo de Bombeiros Militar de Santa Catarina e somente nesse caso caberá ao CONTRATADO o pedido do habite-se perante o Corpo de Bombeiros, junto com toda a documentação necessária, como ART de laudo de vistoria e relatório fotográfico.');
+    if(sv.hab_arq) P('A elaboração do <u>Habite-se arquitetônico</u> objetiva fazer a vistoria final, analisando se o CONTRATANTE executou a obra de acordo com o projeto aprovado na Prefeitura Municipal de Florianópolis e somente nesse caso caberá ao CONTRATADO o pedido do habite-se perante a Prefeitura Municipal de Florianópolis, junto com toda a documentação necessária, como ART de laudo de vistoria e relatório fotográfico.');
+    var comp=['Projeto de Fundações Profundas'].concat(sv.est?[]:['estruturas']).concat(sv.hid&&sv.ele?[]:['instalações']).concat(['Levantamento Topográfico','Projeto Elétrico padrão da CELESC','Projeto de Sistema de Proteção Contra Descargas Atmosféricas','etc.']);
+    PARS(['cabe ao CONTRATANTE a contratação dos projetos complementares, se necessário, não contemplados nesse contrato ('+comp.join(', ')+').']);
+
+    /* 3 · etapas e prazos */
+    CL('ETAPAS E PRAZOS DE ENTREGA');
+    P('Todos os projetos detalhados em cláusula anterior seguirão o desenvolvimento de acordo com as etapas abaixo, as quais deverão ser obrigatoriamente concluídas sequencialmente. Cada nova etapa será iniciada somente após a conclusão total de todos os ambientes integrantes do projeto, conforme o cronograma abaixo:');
+    var et=[];
+    if(sv.arq){ if(sub.ep) et.push({n:'Estudo Preliminar',k:'ep',ap:true}); if(sub.fach) et.push({n:'Estudo de Fachada',k:'fach',ap:true});
+      var le=sub.legal&&sub.exec?'Projeto Legal e executivo':(sub.legal?'Projeto Legal':(sub.exec?'Projeto Executivo':'')); if(le) et.push({n:le,k:'legexec'}); }
+    SV.forEach(function(s){ if(s.k!=='arq' && sv[s.k]) et.push({n:s.et,k:s.k,hab:s.hab}); });
+    var hTxt={hab_hid:'após conclusão da obra, se estiver tudo executado conforme projeto hidrossanitário aprovado',hab_prev:'após conclusão da obra, se estiver tudo executado conforme projeto preventivo aprovado',hab_arq:(sv.hab_hid?'após emissão do habite-se hidro e conclusão da obra':'após conclusão da obra')+', se estiver tudo executado conforme projeto arquitetônico aprovado'};
+    if(!et.length) P('<b>ETAPA 1:</b> __________','et');
+    et.forEach(function(e,i){ var d=parseInt(C.dias[e.k],10); d=isFinite(d)?d:0; var ant=et[i-1];
+      var quando=e.hab?hTxt[e.k]:(!ant?'após assinatura do contrato':((ant.ap?'após aprovação do ':'após conclusão do ')+ant.n.toLowerCase()));
+      P('<b>ETAPA '+(i+1)+': '+esc(e.n)+'</b> - '+d+(d===1?' dia útil ':' dias úteis ')+quando+(i===et.length-1?'.':';'),'et'); });
+    var rec=C.cd.recDe&&C.cd.recAte;
+    PARS(['os prazos estarão condicionados ao período que o CONTRATANTE retém os projetos para sua apreciação e ao período em análise nos órgãos oficiais envolvidos.',
+      'cabe ao CONTRATANTE a responsabilidade ao cumprimento dos prazos por parte dos projetistas complementares.',
+      'cabe ao CONTRATADO manter o prazo estabelecido em contrato, ressalvada a ocorrência de casos fortuitos ou força maior, calamidades ou ações naturais incontroláveis, devidamente comprovados. Nesse caso, cabe ao CONTRATADO combinar com CONTRATANTE ajuste de prazo.',
+      sv.arq&&'possíveis revisões de projeto de arquitetura terão prazo estipulado em cláusula específica de revisão de projeto.',
+      rec&&'Os prazos acima serão suspensos em virtude do recesso de final de ano e férias, entre os dias '+dataLonga(C.cd.recDe)+' a '+dataLonga(C.cd.recAte)+', e caso haja recesso, informando o CONTRATANTE previamente um mês antes do início do recesso.']);
+
+    /* 4 · alterações */
+    CL('ALTERAÇÕES DE PROJETO');
+    P('Após a aprovação final do projeto por parte do CONTRATANTE e órgãos oficiais envolvidos, o CONTRATADO não se responsabiliza por qualquer alteração ou modificação nos projetos em desacordo com o aprovado, só podendo haver alterações por parte do autor ou com seu consentimento por escrito, caso contrário, será de única e exclusiva responsabilidade do CONTRATANTE.');
+    var alt=parseInt(cd.alt,10)||0, altD=parseInt(cd.altDias,10)||0;
+    PARS(['Quaisquer modificações que o CONTRATANTE desejar fazer nos projetos deverão ser comunicadas antecipadamente'+(ep?' (ainda em fase de Estudo Preliminar)':'')+' ao CONTRATADO.',
+      ep&&alt>0&&('Na eventualidade do CONTRATANTE desejar introduzir modificações ainda na fase do estudo preliminar, inclui-se a quantidade máxima de '+extF(alt)+(alt===1?' alteração':' alterações')+', sem ônus ao CONTRATANTE. O mesmo fica ciente que o prazo de alteração proposta será acrescido em '+altD+' dias úteis ao prazo de entrega previsto na Cláusula de Prazos de entrega.'),
+      'Toda e qualquer modificação ou alteração realizada após a conclusão do '+(exe?'Projeto Executivo':'projeto')+', incluindo àquelas de projetos complementares, será remunerada com base nas horas técnicas profissionais despendidas.']);
+
+    /* 5 · visitas */
+    CL('VISITAS À OBRA');
+    var nv=parseInt(cd.vis,10)||0, incl=sv.est&&nv>0, vv=num(cd.visValor), vh=parseInt(cd.visHoras,10)||2, va=parseInt(cd.visAnt,10)||0;
+    P('Os serviços contratados neste instrumento consistem na elaboração dos projetos descritos pelo CONTRATADO, não fazendo parte da responsabilidade do mesmo o acompanhamento da obra'+(incl?', mas há a possibilidade de agendamento de até '+nv+(nv===1?' visita':' visitas')+' durante a execução para conferência das armaduras na fase de execução do estrutural.':'.'));
+    PARS(['O CONTRATANTE poderá solicitar '+(incl?'demais ':'')+'visitas técnicas ao CONTRATADO mediante pagamento de honorário de R$ '+moeda(vv)+' ('+extReais(vv)+') por período de até '+vh+(vh===1?' hora':' horas')+' por visita.',
+      'a solicitação das visitas técnicas deverá ser agendada pelo CONTRATANTE com antecedência de '+va+' ('+extInt(va)+') dias úteis.']);
+
+    /* 6 · não inclusos */
+    CL('ITENS NÃO INCLUSOS NO CUSTO DO PROJETO');
+    P('A listagem abaixo reforça os itens não inclusos na contratação do objeto e, portanto, estabelece a responsabilidade dos mesmos por parte do CONTRATANTE:');
+    var nao=naoItens(C).filter(function(x){ return C.naoOff.indexOf(x.t)<0; }).map(function(x){ return esc(x.t); })
+      .concat(String(C.naoExtra||'').split('\n').map(function(s){ return s.trim().replace(/[;.]$/,''); }).filter(Boolean).map(esc));
+    nao.forEach(function(x,i){ LI(x+(i===nao.length-1?'.':';')); });
+    PARS(['a admissão posterior de quaisquer dos itens citados acima ao CONTRATADO será objeto de novo contrato.']);
+
+    /* 7 · honorários */
+    CL('HONORÁRIOS E CONDIÇÕES DE PAGAMENTO');
+    var pg=pagar(C), ato=C.v.primeira!=='30';
+    if(pg.d>0) P('Pela elaboração dos serviços ora contratados o CONTRATANTE pagará ao CONTRATADO o valor total de <b>R$ '+moeda(pg.V)+'</b> ('+extReais(pg.V)+'), sendo acordado entre as partes, que o pagamento com prazo e condição de pagamento estabelecida abaixo garante o desconto, estipulando o valor total a ser pago de <b>R$ '+moeda(pg.P)+'</b> ('+extReais(pg.P)+').');
+    else P('Pela elaboração dos serviços ora contratados o CONTRATANTE pagará ao CONTRATADO o valor total de <b>R$ '+moeda(pg.V)+'</b> ('+extReais(pg.V)+'), conforme a condição de pagamento estabelecida abaixo.');
+    if(pg.n===1) P('<b>Parcela única</b> no valor de <b>R$ '+moeda(pg.P)+'</b> ('+extReais(pg.P)+') a ser paga '+(ato?'no ato da assinatura deste contrato.':'em até 30 (trinta) dias após a assinatura deste contrato.'));
+    else P('<b>'+pg.n+' ('+extF(pg.n)+') parcelas</b> mensais no valor de <b>R$ '+moeda(pg.X)+'</b> ('+extReais(pg.X)+') cada'+(pg.last!==pg.X?', sendo a última no valor de <b>R$ '+moeda(pg.last)+'</b> ('+extReais(pg.last)+')':'')+', a primeira paga '+(ato?'no ato da assinatura deste contrato':'em até 30 (trinta) dias após a assinatura deste contrato')+' e as demais a cada 30 (trinta) dias.');
+    PARS([pg.d>0&&'Caso os prazos estabelecidos sejam descumpridos, o CONTRATANTE deve pagar o valor total sem o desconto.',
+      'O pagamento deverá ser realizado mediante transferência bancária, depósito em conta ou pagamento em moeda corrente, até cinco dias corridos após o prazo estipulado, na conta abaixo:']);
+    var b=C.b; [[b.banco,''],[b.ag,'Agência: '],[b.conta,'Conta: '],[b.cnpj,'CNPJ: '],[b.pix,'PIX: ']].forEach(function(x){ if(t(x[0])) P(x[1]+esc(t(x[0])),'bk'); });
+
+    /* 8 · disposições gerais */
+    CL('DISPOSIÇÕES GERAIS');
+    P('Fica acordado entre as partes conforme parágrafos abaixo:');
+    PARS(['Atrasos de qualquer ordem de responsabilidade do CONTRATANTE serão computados como acréscimo no prazo de entrega do serviço.',
+      'Fica assegurado ao CONTRATADO o direito de ser comunicado por escrito pelo CONTRATANTE acerca do início da obra, bem como datas previstas de conteúdo de visita técnica.',
+      'Fica o CONTRATANTE ciente de que as etapas de elaboração de projeto só terão início após a assinatura do presente contrato, com assinatura digital válida e comprovação de pagamento da primeira parcela.',
+      'O CONTRATADO disponibiliza sugestões de fornecedores, mas não se responsabiliza pelo serviço prestado deles.',
+      'Fica pactuada a total inexistência de vínculo trabalhista, fiscal, previdenciária, tributária, entre as partes, excluindo as obrigações previdenciárias e os encargos sociais, não havendo entre CONTRATANTE e CONTRATADO e seus funcionários qualquer tipo de relação de subordinação.',
+      'A mera tolerância de uma das partes em relação ao cumprimento das obrigações determinadas neste contrato não importa em renúncia, perdão, novação ou alteração da norma infringida.',
+      'Sempre que houver a atuação de advogado para cobrança de obrigações não cumpridas, que sejam devidas por uma parte a outra por força deste contrato, a parte inadimplente estará sujeita a pagar a outra 20% (vinte por cento), sobre o valor cobrado independente da quantia fixada pelo juízo a título de honorários sucumbenciais, e de 10% (dez por cento) em caso de intervenção extrajudicial.',
+      'Qualquer matéria de publicidade ou propaganda com imagens gráficas e/ou fotográficas, relacionada com o produto do presente instrumento, deverá fazer menção destacada do nome do CONTRATADO, autor do projeto de arquitetura de interiores.',
+      'Fica autorizado pelo CONTRATANTE, a captação de imagens gráficas e/ou fotográficas para matéria de publicidade ou propaganda, relacionada com o produto do presente instrumento, pelo CONTRATADO, autor do projeto de arquitetura de interiores.',
+      'Visando à desoneração, simplicidade e efetividade desta relação jurídica, as partes, desde já, ajustam que avisos, notificações, intimações e/ou citações referentes a este contrato deverão ser enviados/recebidos pelo endereço eletrônico <b>'+esc(CONTRATADO.email)+'</b> do CONTRATADO e <b>'+B(c.email)+'</b> do CONTRATANTE.',
+      'Para fins de cumprimento do inciso I do Art. 7º da LGPD, o CONTRATANTE declara expresso CONSENTIMENTO com a coleta, tratamento e compartilhamento de seus dados pessoais, pelo CONTRATADO, necessários ao cumprimento do contrato e de obrigações legais relacionadas ao mesmo.',
+      'As partes avençam que toda informação disponibilizada entre elas em razão do desempenho do presente instrumento, incluindo, dentre outras, informação oral e, ou escrita, transmitida e, ou divulgada pelas partes, será considerada confidencial e restrita.',
+      'As informações confidenciais reveladas por quaisquer das partes deverão ser guardadas em segredo, não devendo ser reveladas a terceiros ou utilizadas para fins diversos aos de interesse do presente contrato, sem a devida autorização por escrito. Em caso de qualquer falha na segurança das informações confidenciais, a parte que constatar tal falha deverá comunicar imediatamente a outra. A pronta comunicação não exclui, entretanto, a responsabilidade pelo defeito na proteção de dados sigilosos.']);
+
+    /* 9 · responsabilidades do contratante */
+    CL('RESPONSABILIDADES DO CONTRATANTE');
+    P('É de responsabilidade do CONTRATANTE efetuar e arcar com a contratação e fornecimento ao CONTRATADO dos projetos complementares, levantamento topográfico, documentos e laudos necessários à boa elaboração dos projetos arquitetônico e complementares, bem como efetuar os pagamentos conforme descrito em contrato.');
+    PARS(['O levantamento topográfico do lote (área da construção) será de responsabilidade de profissional topógrafo, devidamente contratado pela parte CONTRATANTE, e deverá ser disponibilizado em formato DWG ao CONTRATADO sem ônus.',
+      sv.est&&'Para a elaboração do projeto estrutural é necessário fazer a sondagem do terreno, feita por uma empresa terceirizada a ser contratada pelo CONTRATANTE e disponibilizada ao CONTRATADO sem ônus.',
+      'É de responsabilidade do CONTRATANTE fornecer todos os documentos solicitados pelos órgãos oficiais envolvidos para a aprovação dos projetos, além de arcar com os custos dos mesmos.',
+      sv.hid&&'Para a elaboração e aprovação do projeto hidrossanitário quando necessário, fazer a sondagem do terreno e teste de percolação, feita por uma empresa terceirizada a ser contratada pelo CONTRATANTE e disponibilizada ao CONTRATADO sem ônus, bem como projeto de estação de tratamento de esgoto e os pedidos de viabilidade de água e viabilidade de esgoto.']);
+    P('É de responsabilidade do CONTRATANTE efetuar o pagamento e arcar com quaisquer taxas geradas pelos órgãos responsáveis pelas aprovações de projetos referente a qualquer parte do trâmite dos mesmos.');
+    P('É de responsabilidade do CONTRATANTE toda e quaisquer ônus em consequências advindas do início da obra sem alvará de construção.');
+    var hb=[['hab_hid','sanitário'],['hab_prev','preventivo'],['hab_arq','arquitetônico']].filter(function(x){ return sv[x[0]]; }).map(function(x){ return x[1]; });
+    if(hb.length) P('É de responsabilidade do CONTRATANTE executar o projeto de acordo com a aprovação, caso contrário o CONTRATADO está isento de solicitar o habite-se '+lista(hb)+', com respaldo da incompatibilidade do projeto aprovado com a execução, sendo de responsabilidade do CONTRATANTE a adequação dos sistemas e o comprometimento com qualquer ônus advindo desta situação.');
+    P('Os serviços e as informações técnicas específicas utilizadas na concepção do projeto deverão ser utilizados única e exclusivamente para o fim estabelecido neste instrumento, bem como a localidade definida no mesmo, não podendo o CONTRATANTE utilizá-los para outros projetos que por ventura se desenvolvam paralela ou futuramente.');
+    P('Os serviços propostos serão suscetíveis de proteção aos direitos autorais reservados com reprodução total ou parcial proibida conforme consta na forma da legislação.');
+
+    /* 10 · responsabilidades do contratado */
+    CL('RESPONSABILIDADES DO CONTRATADO');
+    P('É de responsabilidade única do CONTRATADO a execução dos serviços descritos no objeto do contrato e cumprimento dos prazos estabelecidos.');
+    P('O CONTRATADO se responsabiliza tecnicamente pelos serviços prestados, obrigando-se a corrigir quaisquer erros constatados.');
+    P('É de responsabilidade do CONTRATADO efetuar as devidas aprovações de projeto em órgãos oficiais envolvidos, condicionado ao CONTRATANTE fornecer todos os documentos solicitados por tais órgãos e arcar com os custos dos mesmos.');
+    P('O CONTRATADO obriga-se a manter sigilo acerca de quaisquer informações, materiais, documentos, especificações técnicas, projetos, croquis, orçamentos ou quaisquer dados ou informações gerais que, em razão do presente contrato, venham a ter acesso ou conhecimento.');
+
+    /* 11 · rescisão */
+    CL('DESCUMPRIMENTO E RESCISÃO');
+    P('Em caso de cancelamento dos serviços contratados por parte do CONTRATANTE em qualquer das etapas de projeto, o mesmo não terá direito a reembolso de valores já pagos ao CONTRATADO, ciente ainda que arcará com o pagamento do valor integral das etapas concluídas no momento da solicitação.');
+    P('Por rescisão deste contrato por qualquer das partes, fica convencionada multa de '+pct(cd.multa)+' do valor global.');
+    P('Atraso no pagamento de qualquer parcela acarretará na cobrança de multa de '+pct(cd.atraso)+' do valor a ser pago.');
+
+    /* 12 · validade */
+    CL('VALIDADE DA PROPOSTA CONTRATUAL');
+    var vd=parseInt(cd.valid,10)||10;
+    P('Esta proposta contratual tem validade de '+vd+' dias úteis, caso aprovado terá validade a partir da assinatura deste documento até a entrega final do objeto contratual.');
+
+    /* 13 · finalização */
+    CL('FINALIZAÇÃO DO CONTRATO');
+    var an=parseInt(cd.anos,10)||1, anT=an===1?'um ano':extInt(an)+' anos';
+    P('As partes concordam que todos os serviços a serem prestados serão realizados dentro de um período de até '+anT+' a partir da data de início do contrato. Qualquer serviço que não tenha sido concluído dentro deste prazo será considerado automaticamente finalizado e entregue, salvo acordo escrito em contrário entre as partes.');
+    P('<b>Disposições Adicionais:</b>','kw');
+    P('<b>1. Prazo de Conclusão:</b> O CONTRATADO se compromete a concluir todos os serviços contratados dentro do prazo de '+anT+' a partir da data de início deste contrato se não houver impedimentos gerados pelo CONTRATANTE ou Órgãos competentes pela análise de projeto.','li2');
+    P('<b>2. Notificação de Conclusão:</b> O CONTRATANTE deverá notificar o CONTRATADO por escrito assim que qualquer serviço for concluído e estiver pronto para entrega.','li2');
+    P('<b>3. Encerramento do Contrato:</b> Após a conclusão de todos os serviços ou ao final do prazo de '+anT+', o contrato será considerado automaticamente encerrado e todas as obrigações das partes serão consideradas cumpridas, a menos que haja uma extensão acordada por escrito entre as partes.','li2');
+
+    /* 14 · foro */
+    CL('FORO DE ELEIÇÃO');
+    P('Fica eleito o Fórum da cidade de '+B(cd.foro,'Florianópolis/SC')+' como o competente para dirimir eventuais dúvidas oriundas deste instrumento ou ajuizamento de qualquer questão dele decorrentes.');
+    P('E por estarem assim, justos e contratados, firmam o presente em via digital, assinada digitalmente com assinatura válida, de igual teor e forma, assinados abaixo.');
+    o.push('<div class="ass"><p><b>CONTRATANTE:</b></p><p class="ln">_______________________________________________________</p><p><b>'+B(c.nome)+'</b></p><p>'+(pj?'CNPJ ':'CPF ')+B(c.doc)+'</p>'+(pj&&t(c.rep)?'<p>Representante: '+esc(t(c.rep))+'</p>':'')+'</div>');
+    o.push('<div class="ass"><p><b>CONTRATADO:</b></p><p class="ln">_______________________________________________________</p><p><b>'+CONTRATADO.nome+'</b></p><p><b>CPF: '+CONTRATADO.cpf+'</b></p></div>');
+    P(esc(t(C.cidade)||'Florianópolis')+', '+(dataLonga(C.data)||'____ de __________ de ______')+'.','data');
+    return o.join('');
+  }
+
+  /* ---------- página do contrato (A4, paginada) ---------- */
+  /* roda DENTRO da página do contrato: alinha o logo, divide os blocos em folhas A4 e encaixa na largura */
+  function docScript(){
+    var ED=document.body.getAttribute('data-edit')==='1';
+    function tw(el){ var r=document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect().width; }
+    function lock(){ [].forEach.call(document.querySelectorAll('.wm'),function(w){ var a=w.querySelector('b'), t=w.querySelector('span'); if(!a||!t) return; t.style.letterSpacing='0px'; t.style.marginRight='0px'; var la=parseFloat(getComputedStyle(a).letterSpacing)||0, alvo=tw(a)-la, n=tw(t), c=Math.max(1,(t.textContent||'').length-1), e=(alvo-n)/c; t.style.letterSpacing=e+'px'; t.style.marginRight=(-e)+'px'; a.style.marginRight=(-la)+'px'; }); }
+    function pag(){
+      var flow=document.getElementById('flow'); if(!flow||ED) return;
+      var numero=flow.getAttribute('data-num')||'', bl=[].slice.call(flow.children), pgs=[];
+      flow.parentNode.removeChild(flow);
+      function nova(){ var pg=document.createElement('section'); pg.className='pg'; var cx=document.createElement('div'); cx.className='cx'; pg.appendChild(cx); document.body.appendChild(pg); pgs.push(pg); return cx; }
+      var cx=nova();
+      for(var i=0;i<bl.length;i++){ var b=bl[i]; cx.appendChild(b);
+        if(cx.scrollHeight>cx.clientHeight+1 && cx.children.length>1){
+          cx.removeChild(b); var mv=[b];
+          while(cx.children.length>1 && cx.lastElementChild.classList.contains('kw')) mv.unshift(cx.removeChild(cx.lastElementChild));
+          cx=nova(); mv.forEach(function(m){ cx.appendChild(m); });
+        }
+      }
+      pgs.forEach(function(pg,i){ var f=document.createElement('div'); f.className='ft'; var a=document.createElement('span'), z=document.createElement('span'); a.textContent=numero?'Contrato nº '+numero:'Contrato'; z.textContent=(i+1)+' / '+pgs.length; f.appendChild(a); f.appendChild(z); pg.appendChild(f); });
+    }
+    function fit(){ var pg=document.querySelector('.pg'); if(!pg) return; document.body.style.zoom=''; var w=document.documentElement.clientWidth, pw=pg.offsetWidth+24; document.body.style.zoom=Math.min(1,w/pw); }
+    var feito=false;
+    function run(){ if(feito) return; feito=true; lock(); pag(); fit(); window.__pronto=true; }
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(run); else run();
+    setTimeout(run,2500);
+    window.addEventListener('resize',function(){ if(feito) fit(); });
+    window.addEventListener('message',function(e){ if(e.data==='imprimir'){ document.body.style.zoom=''; window.print(); fit(); } });
+  }
+  var DOC_CSS='@page{size:A4;margin:0}*{box-sizing:border-box;margin:0;padding:0}'
+    +'html{background:#E9E7E2}body{font-family:"Plus Jakarta Sans",Arial,sans-serif;color:#2B2A27;background:#E9E7E2;padding:12px 0;-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+    +'.pg{width:210mm;height:297mm;background:#fff;margin:0 auto 8mm;padding:20mm 20mm 0;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08);page-break-after:always;break-after:page}'
+    +'.pg:last-child{margin-bottom:0;page-break-after:auto;break-after:auto}'
+    +'.cx{height:253mm;overflow:hidden}.cx>h2:first-child{margin-top:0}'
+    +'.edit{height:auto;min-height:297mm;padding-bottom:20mm;overflow:visible;outline:none}'
+    +'.ft{position:absolute;left:20mm;right:20mm;bottom:10mm;display:flex;justify-content:space-between;font-size:7pt;letter-spacing:.14em;text-transform:uppercase;color:#9A968E;border-top:.25mm solid #E4E1DA;padding-top:2.5mm}'
+    +'.topo{margin-bottom:11mm}.wm{display:inline-block}.wm b{display:block;font-size:24pt;font-weight:400;letter-spacing:.04em;line-height:1;white-space:nowrap}.wm span{display:block;font-size:6.6pt;font-weight:500;color:#3E3D39;margin-top:2mm;white-space:nowrap}'
+    +'h1{text-align:center;font-size:11pt;font-weight:700;letter-spacing:.02em;margin-bottom:1.5mm}'
+    +'h2{font-size:9.6pt;font-weight:700;letter-spacing:.02em;margin:7mm 0 3mm}'
+    +'p{font-size:9.6pt;line-height:1.6;text-align:justify;margin-bottom:2.8mm;font-weight:400}'
+    +'p.numc{text-align:center;font-size:11pt;font-weight:700;margin-bottom:8mm}'
+    +'b{font-weight:700}u{text-decoration:underline;text-underline-offset:.6mm}'
+    +'.li{position:relative;padding-left:6mm;margin-bottom:1.6mm}.li .bl{position:absolute;left:1.5mm;top:0}'
+    +'.li2{padding-left:5mm}.et{margin-bottom:2.2mm}.bk{margin-bottom:1mm}'
+    +'.ass{margin-top:9mm}.ass p{text-align:left;margin-bottom:1.4mm}.ass .ln{margin-top:13mm;color:#6E6B65}'
+    +'.data{margin-top:9mm;text-align:left}'
+    +'@media print{html,body{background:#fff;padding:0;zoom:1!important}.pg{margin:0;box-shadow:none}}';
+  function docHtml(flow, modo, numero){
+    var ed=modo==='edit';
+    return '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contrato nº '+esc(numero||'')+'</title>'
+      +'<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap">'
+      +'<style>'+DOC_CSS+'</style></head><body'+(ed?' data-edit="1"':'')+'><div id="flow"'+(ed?' class="pg edit" contenteditable="true" spellcheck="true"':'')+' data-num="'+esc(numero||'')+'">'+flow+'</div>'
+      +'<scr'+'ipt>('+docScript.toString()+')();</scr'+'ipt></body></html>';
+  }
+
+  /* ---------- estado ---------- */
+  var LISTA=[], CLIENTES=[], PROJETOS=[], PROPOSTAS=[], CUR=null, EDIT=false, TABELA_OK=true, F={st:'todos',q:''};
+
+  async function carregar(){
+    var rc=null;
+    try{ rc=await sb.from('contratos').select('id,numero,cliente_id,cliente_nome,projeto_id,status,valor,dados,html,criado_em,atualizado_em,confirmado_em').order('criado_em',{ascending:false}); }catch(e){}
+    TABELA_OK=!!(rc&&!rc.error); LISTA=TABELA_OK?(rc.data||[]):[];
+    try{ var cl=await sb.from('clientes').select('*').order('nome'); CLIENTES=(cl&&cl.data)||[]; }catch(e){ CLIENTES=[]; }
+    try{ var pr=await sb.from('projetos').select('id,nome,cliente_id,aprovacoes,numero_contrato'); if(pr&&pr.error) pr=await sb.from('projetos').select('id,nome,cliente_id'); PROJETOS=(pr&&pr.data)||[]; }catch(e){ PROJETOS=[]; }
+    try{ var op=await sb.from('modelos').select('dados').eq('chave','orcamentos').maybeSingle(); PROPOSTAS=(op&&op.data&&Array.isArray(op.data.dados))?op.data.dados:[]; }catch(e){ PROPOSTAS=[]; }
+    renderLista();
+    if(!TABELA_OK) note('Para guardar contratos, rode uma vez o arquivo sql-contratos.sql no Supabase.');
+  }
+  window.carregarContratos=function(){ if(!CUR) carregar(); };
+
+  function proximoNumero(){ var mx=0; LISTA.forEach(function(r){ var n=parseInt(so(r.numero),10); if(n>mx) mx=n; }); PROJETOS.forEach(function(p){ var n=parseInt(so(p.numero_contrato),10); if(n>mx&&n<100000) mx=n; }); return ('000'+(mx+1)).slice(-4); }
+  function totalProp(p){ return r2((p.servicos||[]).filter(function(s){ return s.on; }).reduce(function(a,s){ return a+num(s.valor); },0)); }
+  function svsDe(d){ var s=(d&&d.sv)||{}; return SV.filter(function(x){ return s[x.k]; }).map(function(x){ return CURTO[x.k]; }); }
+
+  /* ---------- lista ---------- */
+  function renderLista(){
+    var box=$('ct-lista'); if(!box) return;
+    var q=semAc(F.q), base=LISTA.filter(function(r){ return !q || semAc(r.cliente_nome).indexOf(q)>=0 || semAc(r.numero).indexOf(q)>=0; });
+    ['todos','rascunho','confirmado'].forEach(function(s){ var n=$('ct-n-'+s); if(n) n.textContent=base.filter(function(r){ return s==='todos'||r.status===s; }).length; });
+    document.querySelectorAll('#ct-tabs .ptab').forEach(function(b){ b.setAttribute('aria-selected', b.dataset.st===F.st?'true':'false'); });
+    var lst=base.filter(function(r){ return F.st==='todos'||r.status===F.st; });
+    if(!TABELA_OK){ box.innerHTML='<p class="ct-vazio">A tabela de contratos ainda não existe. Rode o arquivo <b>sql-contratos.sql</b> no Supabase.</p>'; return; }
+    if(!lst.length){ box.innerHTML='<p class="ct-vazio">'+(LISTA.length?'Nenhum contrato com esse filtro.':'Nenhum contrato ainda. Clique em <b>novo contrato</b>.')+'</p>'; return; }
+    var wrap=document.createElement('div'); wrap.className='ptable-wrap';
+    wrap.innerHTML='<table class="ptable"><thead><tr><th>Nº</th><th>Cliente</th><th>Serviços</th><th>Valor</th><th>Situação</th><th></th></tr></thead><tbody></tbody></table>';
+    var tb=wrap.querySelector('tbody'); box.innerHTML=''; box.appendChild(wrap);
+    var IE='<svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>', ID='<svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>', IX='<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>';
+    lst.forEach(function(r){
+      var tr=document.createElement('tr'), ok=r.status==='confirmado', sv=svsDe(r.dados), pj=PROJETOS.filter(function(p){ return p.id===r.projeto_id; })[0];
+      var dt=ok&&r.confirmado_em?'confirmado em '+new Date(r.confirmado_em).toLocaleDateString('pt-BR'):(r.atualizado_em?'editado em '+new Date(r.atualizado_em).toLocaleDateString('pt-BR'):'');
+      tr.innerHTML='<td data-l="Nº" class="num">'+esc(r.numero||'—')+'</td><td data-l="Cliente">'+esc(r.cliente_nome||'Sem cliente')+'<small>'+esc((pj?pj.nome+' · ':'')+dt)+'</small></td>'
+        +'<td data-l="Serviços" class="ct-svs" title="'+esc(sv.join(' · '))+'">'+(sv.length?esc(sv.join(' · ')):'—')+'</td>'
+        +'<td data-l="Valor" class="num">'+(r.valor!=null?'R$ '+moeda(r.valor):'—')+'</td>'
+        +'<td data-l="Situação"><span class="state '+(ok?'green':'amber')+'">'+(ok?'confirmado':'rascunho')+'</span></td>'
+        +'<td class="ct-acoes"><button class="pbtn" type="button" data-a="edit" title="Editar" aria-label="Editar">'+IE+'</button><button class="pbtn" type="button" data-a="pdf" title="Baixar PDF" aria-label="Baixar PDF">'+ID+'</button><button class="pbtn danger" type="button" data-a="del" title="Excluir" aria-label="Excluir">'+IX+'</button></td>';
+      tr.addEventListener('click',function(e){ var a=e.target.closest('[data-a]'); if(a){ e.stopPropagation(); if(a.dataset.a==='del') excluir(r); else if(a.dataset.a==='pdf') baixarPdf(r.html||docHtml(blocos(mesclar(r.dados)),'final',r.numero), r.numero, r.cliente_nome, a); else abrir(r); return; } abrir(r); });
+      tb.appendChild(tr);
+    });
+  }
+  document.querySelectorAll('#ct-tabs .ptab').forEach(function(b){ b.addEventListener('click',function(){ F.st=b.dataset.st; renderLista(); }); });
+  $('ct-q').addEventListener('input',function(){ F.q=this.value; renderLista(); });
+  function excluir(r){
+    conf('Excluir o contrato nº '+(r.numero||'')+' de "'+(r.cliente_nome||'sem cliente')+'"?'+(r.status==='confirmado'?' Ele também sai da Área do Cliente.':'')+' Não dá para desfazer.').then(async function(ok){ if(!ok) return;
+      var d=await sb.from('contratos').delete().eq('id',r.id); if(d&&d.error){ alert('Não foi possível excluir: '+d.error.message); return; }
+      LISTA=LISTA.filter(function(x){ return x.id!==r.id; }); renderLista(); note('Contrato excluído.'); });
+  }
+
+  /* ---------- editor ---------- */
+  var CAMPOS=[['ct-numero','numero'],['ct-data','data'],['ct-cidade','cidade'],['ct-pessoa','c.pessoa'],['ct-c-nome','c.nome'],['ct-c-nac','c.nac'],['ct-c-civil','c.civil'],['ct-c-prof','c.prof'],['ct-c-rg','c.rg'],['ct-c-doc','c.doc'],['ct-c-rep','c.rep'],['ct-c-end','c.end'],['ct-c-bairro','c.bairro'],['ct-c-cid','c.cid'],['ct-c-cep','c.cep'],['ct-c-email','c.email'],
+    ['ct-o-end','o.end'],['ct-o-cep','o.cep'],['ct-o-cid','o.cid'],['ct-o-insc','o.insc'],['ct-valor','v.total'],['ct-desc','v.desc'],['ct-parc','v.parc'],['ct-1parc','v.primeira'],
+    ['ct-b-banco','b.banco'],['ct-b-ag','b.ag'],['ct-b-conta','b.conta'],['ct-b-cnpj','b.cnpj'],['ct-b-pix','b.pix'],
+    ['ct-alt','cd.alt'],['ct-alt-dias','cd.altDias'],['ct-vis','cd.vis'],['ct-vis-valor','cd.visValor'],['ct-vis-horas','cd.visHoras'],['ct-vis-ant','cd.visAnt'],['ct-rec-de','cd.recDe'],['ct-rec-ate','cd.recAte'],['ct-multa','cd.multa'],['ct-atraso','cd.atraso'],['ct-valid','cd.valid'],['ct-anos','cd.anos'],['ct-foro','cd.foro'],['ct-nao-extra','naoExtra']];
+  function pega(p){ var o=CUR; p.split('.').forEach(function(k){ o=o==null?'':o[k]; }); return o==null?'':o; }
+  function poe(p,v){ var ks=p.split('.'), o=CUR; for(var i=0;i<ks.length-1;i++) o=o[ks[i]]; o[ks[ks.length-1]]=v; }
+  function preencher(){
+    CAMPOS.forEach(function(c){ var el=$(c[0]); if(el) el.value=pega(c[1]); });
+    opcoesSelects(); $('ct-cliente').value=CUR.cliente_id||''; $('ct-projeto').value=CUR.projeto_id||''; $('ct-proposta').value=CUR.proposta||'';
+    renderServs(); renderNao(); visibilidade(); botoes();
+  }
+  function visibilidade(){
+    var pj=CUR.c.pessoa==='pj';
+    view.querySelectorAll('.ct-pf').forEach(function(e){ e.hidden=pj; }); view.querySelectorAll('.ct-pj').forEach(function(e){ e.hidden=!pj; });
+    $('ct-c-doc-l').textContent=pj?'CNPJ':'CPF';
+    view.querySelectorAll('.ct-so-est').forEach(function(e){ e.hidden=!CUR.sv.est; });
+    var pg=pagar(CUR), r=$('ct-resumo');
+    if(r) r.innerHTML=pg.V?('Valor total <b>R$ '+moeda(pg.V)+'</b>'+(pg.d>0?' · desconto de '+String(pg.d).replace('.',',')+'% → a pagar <b>R$ '+moeda(pg.P)+'</b>':'')+'<br>'+(pg.n===1?'Parcela única de <b>R$ '+moeda(pg.P)+'</b>':pg.n+' parcelas de <b>R$ '+moeda(pg.X)+'</b>'+(pg.last!==pg.X?' (a última de R$ '+moeda(pg.last)+')':''))+' · 1ª '+(CUR.v.primeira==='30'?'em 30 dias':'no ato da assinatura')):'Informe o valor total (ou escolha a proposta).';
+  }
+  function botoes(){
+    var ok=CUR.status==='confirmado';
+    $('ct-status-v').value=ok?'Confirmado — visível ao cliente':'Rascunho — só você vê';
+    $('ct-salvar').lastChild.textContent=ok?'salvar alterações':'salvar rascunho';
+    var bc=$('ct-confirmar'); bc.className='pill sm '+(ok?'ghost':'solid'); bc.querySelector('span').textContent=ok?'voltar para rascunho':'confirmar e liberar ao cliente';
+    $('ct-editar').querySelector('span').textContent=EDIT?'concluir edição':'editar texto';
+    $('ct-aviso-manual').hidden=!CUR.manual;
+  }
+  function opcoesSelects(){
+    var sc=$('ct-cliente'); sc.innerHTML='<option value="">— escolha o cliente —</option>'+CLIENTES.map(function(c){ return '<option value="'+esc(c.id)+'">'+esc(c.nome||'(sem nome)')+'</option>'; }).join('');
+    var pjs=PROJETOS.filter(function(p){ return !CUR.cliente_id||p.cliente_id===CUR.cliente_id; });
+    $('ct-projeto').innerHTML='<option value="">— nenhum —</option>'+pjs.map(function(p){ return '<option value="'+esc(p.id)+'">'+esc(p.nome||'(sem nome)')+'</option>'; }).join('');
+    var ps=PROPOSTAS.slice().sort(function(a,b){ return String(b.data||'').localeCompare(String(a.data||'')); });
+    $('ct-proposta').innerHTML='<option value="">— sem proposta —</option>'+ps.map(function(p){ return '<option value="'+esc(p.id)+'">'+esc((p.cliente||'Sem nome')+' · '+(p.data?p.data.split('-').reverse().join('/'):'')+' · R$ '+moeda(totalProp(p))+(p.status==='fechada'?' · fechada':''))+'</option>'; }).join('');
+  }
+  function renderServs(){
+    var box=$('ct-servs'); box.innerHTML='';
+    SV.forEach(function(s){
+      var on=!!CUR.sv[s.k], d=document.createElement('div'); d.className='ct-sv'+(on?'':' off');
+      var h='<label><input type="checkbox" data-sv="'+s.k+'"'+(on?' checked':'')+'>'+esc(s.n)+'</label>'+(s.novo?'<small>texto novo (não estava no modelo) — revise no contrato</small>':'');
+      var dia=function(k,txt){ return '<span class="ct-dias"><input type="number" min="0" step="1" data-dias="'+k+'" value="'+esc(CUR.dias[k])+'" aria-label="Prazo em dias úteis: '+esc(txt)+'">dias</span>'; };
+      if(s.k==='arq'){
+        h+='<div class="ct-et"><label><input type="checkbox" data-sub="ep"'+(CUR.sub.ep?' checked':'')+'>Estudo preliminar</label>'+dia('ep','estudo preliminar')+'</div>'
+          +'<div class="ct-et"><label><input type="checkbox" data-sub="fach"'+(CUR.sub.fach?' checked':'')+'>Estudo de fachada</label>'+dia('fach','estudo de fachada')+'</div>'
+          +'<div class="ct-et"><span style="display:flex;gap:14px;flex-wrap:wrap"><label><input type="checkbox" data-sub="legal"'+(CUR.sub.legal?' checked':'')+'>Projeto legal</label><label><input type="checkbox" data-sub="exec"'+(CUR.sub.exec?' checked':'')+'>Projeto executivo</label></span>'+dia('legexec','projeto legal e executivo')+'</div>';
+      } else h+='<div class="ct-et"><label style="cursor:default">Prazo'+(s.hab?' (após a conclusão da obra)':'')+'</label>'+dia(s.k,s.n)+'</div>';
+      d.innerHTML=h; box.appendChild(d);
+    });
+  }
+  $('ct-servs').addEventListener('change',function(e){
+    var x=e.target; if(!CUR) return;
+    if(x.dataset.sv){ CUR.sv[x.dataset.sv]=x.checked; x.closest('.ct-sv').classList.toggle('off',!x.checked); renderNao(); visibilidade(); }
+    else if(x.dataset.sub){ CUR.sub[x.dataset.sub]=x.checked; }
+    else if(x.dataset.dias){ CUR.dias[x.dataset.dias]=x.value===''?'':parseInt(x.value,10); }
+    mudou();
+  });
+  $('ct-servs').addEventListener('input',function(e){ var x=e.target; if(x.dataset.dias&&CUR){ CUR.dias[x.dataset.dias]=x.value===''?'':parseInt(x.value,10); mudou(); } });
+  function renderNao(){
+    var box=$('ct-nao'); box.innerHTML='';
+    naoItens(CUR).forEach(function(it){ var l=document.createElement('label'); l.className='ct-nao-i'; l.innerHTML='<input type="checkbox"'+(CUR.naoOff.indexOf(it.t)<0?' checked':'')+'><span>'+esc(it.t)+(it.auto?'<em>serviço não contratado</em>':'')+'</span>';
+      l.querySelector('input').addEventListener('change',function(){ var i=CUR.naoOff.indexOf(it.t); if(this.checked){ if(i>=0) CUR.naoOff.splice(i,1); } else if(i<0) CUR.naoOff.push(it.t); mudou(); });
+      box.appendChild(l); });
+  }
+  CAMPOS.forEach(function(c){ var el=$(c[0]); if(!el) return; var upd=function(){ if(!CUR) return; poe(c[1],el.value); if(c[1]==='c.pessoa'||c[1].indexOf('v.')===0) visibilidade(); mudou(); }; el.addEventListener('input',upd); el.addEventListener('change',upd); });
+
+  $('ct-cliente').addEventListener('change',function(){ var cl=CLIENTES.filter(function(c){ return String(c.id)===this.value; },this)[0]; if(cl) aplicarCliente(cl); else { CUR.cliente_id=''; } preencher(); mudou(); });
+  $('ct-projeto').addEventListener('change',function(){ var p=PROJETOS.filter(function(x){ return String(x.id)===this.value; },this)[0]; if(p) aplicarProjeto(p); else CUR.projeto_id=''; preencher(); mudou(); });
+  $('ct-proposta').addEventListener('change',function(){ var p=PROPOSTAS.filter(function(x){ return String(x.id)===this.value; },this)[0]; CUR.proposta=p?p.id:''; if(p) aplicarProposta(p); else $('ct-aviso-prop').hidden=true; preencher(); mudou(); });
+
+  function minus(s){ s=String(s||'').trim(); return s?s.toLowerCase():''; }
+  function aplicarCliente(cl){
+    CUR.cliente_id=cl.id; var c=CUR.c, doc=cl.cpf_cnpj||'';
+    c.nome=cl.nome||''; c.nac=minus(cl.nacionalidade); c.civil=minus(cl.estado_civil); c.prof=minus(cl.profissao); c.rg=cl.rg||''; c.doc=doc;
+    c.end=cl.endereco||''; c.bairro=cl.bairro||''; c.cid=cl.cidade||''; c.cep=cl.cep||''; c.email=cl.email||''; c.pessoa=so(doc).length===14?'pj':'pf';
+    var pjs=PROJETOS.filter(function(p){ return p.cliente_id===cl.id; });
+    if(pjs.length===1 && !CUR.projeto_id) aplicarProjeto(pjs[0]);
+    if(CUR.projeto_id && !pjs.some(function(p){ return p.id===CUR.projeto_id; })) CUR.projeto_id='';
+  }
+  function aplicarProjeto(p){
+    CUR.projeto_id=p.id; var d=(p.aprovacoes&&p.aprovacoes.dados)||{}, o=CUR.o;
+    var end=[d.obra_end,d.obra_num].map(function(x){ return String(x||'').trim(); }).filter(Boolean).join(' ');
+    if(end) o.end=end; if(d.obra_cep) o.cep=d.obra_cep; if(d.obra_cidade) o.cid=d.obra_cidade+', Santa Catarina'; if(d.inscricao) o.insc=d.inscricao;
+    if(!CUR.cliente_id && p.cliente_id){ var cl=CLIENTES.filter(function(c){ return c.id===p.cliente_id; })[0]; if(cl) aplicarCliente(cl); }
+  }
+  function aplicarProposta(p){
+    var on=function(k){ return (p.servicos||[]).some(function(s){ return s.on && s.k===k; }); };
+    CUR.sv={arq:on('arq')||on('arq_hab'),hab_arq:on('arq_hab'),hid:on('hid')||on('hid_hab'),hab_hid:on('hid_hab'),ele:on('ele'),est:on('est'),prev:on('prev'),hab_prev:on('prev')};
+    CUR.v.total=moeda(totalProp(p)); CUR.v.desc=num(p.desconto)>0?String(num(p.desconto)).replace('.',','):''; CUR.v.parc=1;
+    if(!CUR.o.end && p.end1) CUR.o.end=p.end1;
+    if(!CUR.cliente_id && p.cliente){ var alvo=semAc(p.cliente), ac=CLIENTES.filter(function(c){ var n=semAc(c.nome); return n && (n===alvo || alvo.indexOf(n)>=0 || n.indexOf(alvo)>=0); }); if(ac.length===1) aplicarCliente(ac[0]); }
+    var NOMES={ind:'Individualização de matrícula',nbr:'Quadro NBR 12.721',retro:'Retrofit de fachada'}, fora=Object.keys(NOMES).filter(on).map(function(k){ return NOMES[k]; });
+    var av=$('ct-aviso-prop'); av.hidden=!fora.length; if(fora.length) av.textContent='A proposta tem serviço(s) que não existem no modelo de contrato: '+fora.join(', ')+'. Para incluir, use "editar texto" no contrato.';
+  }
+
+  var tR=null;
+  function mudou(){ if(!CUR) return; clearTimeout(tR); tR=setTimeout(render,320); }
+  function render(){
+    if(!CUR) return; var f=$('ct-frame'), y=0; try{ y=f.contentWindow.scrollY; }catch(e){}
+    var flow=EDIT?CUR.manual:(CUR.manual||blocos(CUR));
+    f.classList.toggle('editando',EDIT);
+    f.srcdoc=docHtml(flow, EDIT?'edit':'final', CUR.numero);
+    f.onload=function(){ setTimeout(function(){ try{ f.contentWindow.scrollTo(0,y); }catch(e){} },350); };
+    botoes();
+  }
+  function capturar(){ if(!EDIT||!CUR) return; try{ var fl=$('ct-frame').contentDocument.getElementById('flow'); if(fl) CUR.manual=fl.innerHTML; }catch(e){} }
+  $('ct-editar').addEventListener('click',function(){
+    if(!CUR) return;
+    if(!EDIT){ if(!CUR.manual) CUR.manual=blocos(CUR); EDIT=true; render(); note('Edite o texto direto no contrato. Clique em "concluir edição" quando terminar.'); }
+    else { capturar(); EDIT=false; render(); }
+  });
+  $('ct-refazer').addEventListener('click',function(){ conf('Refazer o texto pelo formulário? As edições feitas à mão no contrato serão perdidas.').then(function(ok){ if(!ok) return; CUR.manual=null; EDIT=false; render(); }); });
+
+  function abrir(r){
+    CUR=mesclar(r&&r.dados); CUR.id=r&&r.id||null; CUR.status=(r&&r.status)||'rascunho'; EDIT=false;
+    if(!CUR.numero) CUR.numero=proximoNumero();
+    $('ct-lista-box').hidden=true; $('ct-ed').hidden=false; $('ct-aviso-prop').hidden=true; view.querySelector('.page-head .oc-acts').hidden=true;
+    preencher(); render(); window.scrollTo(0,0);
+    if(CUR.status==='confirmado') note('Este contrato já está com o cliente. Ao salvar, ele vê a versão nova.');
+  }
+  function fechar(){ capturar(); CUR=null; EDIT=false; $('ct-ed').hidden=true; $('ct-lista-box').hidden=false; view.querySelector('.page-head .oc-acts').hidden=false; carregar(); }
+  $('ct-novo').addEventListener('click',function(){ if(!TABELA_OK){ alert('Antes, rode uma vez o arquivo sql-contratos.sql no Supabase (SQL Editor).'); return; } abrir(null); });
+  $('ct-voltar').addEventListener('click',function(){ fechar(); });
+
+  function linha(){ var flow=CUR.manual||blocos(CUR), pg=pagar(CUR); var d=JSON.parse(JSON.stringify(CUR)); delete d.id; delete d.status;
+    return {numero:String(CUR.numero||'').trim()||null, cliente_id:CUR.cliente_id||null, cliente_nome:String(CUR.c.nome||'').trim()||null, projeto_id:CUR.projeto_id||null, valor:pg.V?pg.P:null, dados:d, html:docHtml(flow,'final',CUR.numero), atualizado_em:new Date().toISOString()}; }
+  async function salvar(){
+    if(!CUR) return false; capturar();
+    if(!TABELA_OK){ alert('Rode antes o arquivo sql-contratos.sql no Supabase.'); return false; }
+    var row=linha(), r;
+    try{
+      if(CUR.id) r=await sb.from('contratos').update(row).eq('id',CUR.id);
+      else { r=await sb.from('contratos').insert(row).select('id').single(); if(r&&r.data) CUR.id=r.data.id; }
+    }catch(e){ r={error:e}; }
+    if(r&&r.error){ alert('Não foi possível salvar: '+(r.error.message||r.error)); return false; }
+    var i=LISTA.map(function(x){ return x.id; }).indexOf(CUR.id), reg=Object.assign({id:CUR.id,status:CUR.status},row); if(i>=0) LISTA[i]=Object.assign(LISTA[i],reg); else LISTA.unshift(reg);
+    return true;
+  }
+  $('ct-salvar').addEventListener('click',async function(){ var b=this; b.disabled=true; if(await salvar()) note(CUR.status==='confirmado'?'Alterações salvas — o cliente já vê a versão nova. ✓':'Rascunho salvo. ✓'); b.disabled=false; });
+  $('ct-confirmar').addEventListener('click',async function(){
+    if(!CUR) return; var b=this;
+    if(CUR.status==='confirmado'){
+      if(!await conf('Voltar o contrato nº '+(CUR.numero||'')+' para rascunho? Ele deixa de aparecer na Área do Cliente.')) return;
+      b.disabled=true; if(await salvar()){ var u=await sb.from('contratos').update({status:'rascunho',confirmado_em:null}).eq('id',CUR.id); if(u&&u.error) alert('Não foi possível: '+u.error.message); else { CUR.status='rascunho'; botoes(); note('Contrato voltou para rascunho (o cliente não vê mais).'); } } b.disabled=false; return;
+    }
+    var falta=[]; if(!CUR.cliente_id) falta.push('escolha o cliente cadastrado (é por ele que o contrato aparece na Área do Cliente)'); if(!SV.some(function(s){ return CUR.sv[s.k]; })) falta.push('marque ao menos um serviço'); if(!pagar(CUR).V) falta.push('informe o valor total');
+    if(falta.length){ alert('Antes de confirmar:\n- '+falta.join('\n- ')); return; }
+    var cl=CLIENTES.filter(function(c){ return c.id===CUR.cliente_id; })[0], semAcesso=cl&&!cl.perfil_id;
+    if(!await conf('Confirmar o contrato nº '+(CUR.numero||'')+' de '+(CUR.c.nome||'')+'? Ele passa a aparecer na Área do Cliente.'+(semAcesso?' (Este cliente ainda não tem acesso à Área do Cliente: ele verá o contrato quando o acesso for criado.)':''))) return;
+    b.disabled=true;
+    if(await salvar()){ var r=await sb.from('contratos').update({status:'confirmado',confirmado_em:new Date().toISOString()}).eq('id',CUR.id);
+      if(r&&r.error) alert('Não foi possível confirmar: '+r.error.message); else { CUR.status='confirmado'; botoes(); note('Contrato confirmado e liberado na Área do Cliente. ✓'); } }
+    b.disabled=false;
+  });
+
+  /* PDF: mesmo gerador vetorial das propostas (texto de verdade, A4); se falhar, abre a impressão do navegador */
+  async function baixarPdf(html, numero, nome, btn){
+    if(btn) btn.disabled=true; note('Gerando o PDF…');
+    var arq='Contrato nº '+String(numero||'').replace(/[\\/:*?"<>|]/g,'')+' - '+String(nome||'cliente').replace(/[\\/:*?"<>|]/g,'')+'.pdf';
+    try{ if(typeof window.pdfVetorialDeHtml!=='function') throw new Error('gerador indisponível'); await window.pdfVetorialDeHtml(html,arq,210,297,FONTE_PDF); note('PDF baixado. ✓'); }
+    catch(e){ note(''); var w=window.open('','_blank'); if(w){ w.document.open(); w.document.write(html); w.document.close(); var tent=0; (function esp(){ if(w.__pronto||tent++>40){ w.focus(); w.print(); } else setTimeout(esp,150); })(); alert('Não foi possível gerar o PDF direto. Abri a versão para imprimir: escolha "Salvar como PDF", margens "Nenhuma" e desmarque "Cabeçalhos e rodapés".'); } }
+    finally{ if(btn) btn.disabled=false; }
+  }
+  $('ct-pdf').addEventListener('click',function(){ if(!CUR) return; capturar(); baixarPdf(docHtml(CUR.manual||blocos(CUR),'final',CUR.numero), CUR.numero, CUR.c.nome, this); });
+  if((location.hash||'')==='#contratos') carregar(); /* página aberta direto na aba */
+})();
 </script>
 <script>
 /* ================= ORÇAMENTOS (propostas editáveis + calculadora por área) =================

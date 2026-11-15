@@ -649,6 +649,11 @@
     /* campos com 16px: o celular não dá zoom ao tocar para preencher */
     html :is(input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea){font-size:16px!important}
   }
+  /* contratos: lista no padrão dos documentos + leitura do contrato numa folha */
+  .cli-ct-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+  #cli-ct-frame{display:block;width:100%;height:calc(100vh - 170px);min-height:460px;border:1px solid var(--hair-soft);border-radius:var(--r,14px);background:#E9E7E2}
+  #view-contratos .docs .doc-name small{letter-spacing:0;text-transform:none}
+  @media(max-width:640px){.cli-ct-bar .pill{flex:1 1 auto;justify-content:center}#cli-ct-frame{height:calc(100vh - 210px)}}
 </style>
 
 <header class="top" hidden><span class="top-sec" id="top-sec">área do cliente</span><span class="who" id="who"></span></header>
@@ -659,6 +664,7 @@
   <div class="side-tabs" id="tabbar">
     <a class="tab" href="#inicio" data-view="inicio" title="Início" aria-label="Início"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a>
     <a class="tab" href="#projetos" data-view="projetos" title="Meus projetos" aria-label="Meus projetos"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a>
+    <a class="tab" href="#contratos" data-view="contratos" title="Contratos" aria-label="Contratos"><svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/><path d="M9 11h6M9 14h4"/><path d="M8.5 18.5c1-1.4 1.8-1.4 2.4 0s1.5 1.2 2.6-.3"/></svg></a>
   </div>
   <a class="side-exit" href="#" id="exit" title="Sair" aria-label="Sair" style="margin-top:auto"><svg viewBox="0 0 24 24"><path d="M15 12H4"/><path d="M8 8l-4 4 4 4"/><path d="M12 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg></a>
 </nav>
@@ -794,6 +800,22 @@
 
   </div>
   </section>
+
+  <!-- CONTRATOS (só os confirmados pelo escritório) -->
+  <section class="view" id="view-contratos" hidden>
+    <h2 class="page-title">Contratos</h2>
+    <div id="cli-ct-lista-box">
+      <p class="proj-note">Seus contratos de prestação de serviço com o escritório. Abra para ler e, se quiser, salve em PDF pelo botão <b>imprimir / salvar PDF</b>.</p>
+      <section class="card"><ul class="docs" id="cli-contratos"></ul></section>
+    </div>
+    <div class="cli-ct-ver" id="cli-ct-ver" hidden>
+      <div class="cli-ct-bar">
+        <button class="pill ghost sm" type="button" id="cli-ct-fechar"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>voltar</button>
+        <button class="pill solid sm" type="button" id="cli-ct-imp"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>imprimir / salvar PDF</button>
+      </div>
+      <iframe id="cli-ct-frame" sandbox="allow-scripts allow-modals" title="Contrato"></iframe>
+    </div>
+  </section>
 </div>
 
 <div class="foot">
@@ -835,9 +857,11 @@
     var OBRAS={}; // preenchido por carregarCliente() a partir do banco
     var vInicio=document.getElementById('view-inicio'), vHome=document.getElementById('view-home'), vObra=document.getElementById('view-obra'), topSec=document.getElementById('top-sec');
     function setTab(par){ document.querySelectorAll('#tabbar .tab').forEach(function(t){ t.setAttribute('aria-current', t.dataset.view===par?'true':'false'); }); }
+    var vContr=document.getElementById('view-contratos');
     function showView(name, key){
-      var isObra=(name==='obra'), isInicio=(name==='inicio');
-      vInicio.hidden=!isInicio; vHome.hidden=(isObra||isInicio); vObra.hidden=!isObra;
+      var isObra=(name==='obra'), isInicio=(name==='inicio'), isContr=(name==='contratos');
+      vInicio.hidden=!isInicio; vHome.hidden=(isObra||isInicio||isContr); vObra.hidden=!isObra; if(vContr) vContr.hidden=!isContr;
+      if(isContr){ if(topSec) topSec.textContent='área do cliente · contratos'; setTab('contratos'); if(typeof window.carregarContratosCli==='function') window.carregarContratosCli(key); vContr.classList.remove('anim'); void vContr.offsetWidth; vContr.classList.add('anim'); window.scrollTo(0,0); return; }
       if(isObra){
         var o=OBRAS[key];
         if(o){
@@ -858,7 +882,7 @@
       var v=isObra?vObra:(isInicio?vInicio:vHome); v.classList.remove('anim'); void v.offsetWidth; v.classList.add('anim');
       window.scrollTo(0,0);
     }
-    function routeFromHash(){ var h=(location.hash||'').replace('#',''); if(h.indexOf('obra-')===0) showView('obra', h.slice(5)); else if(h==='projetos') showView('home'); else showView('inicio'); }
+    function routeFromHash(){ var h=(location.hash||'').replace('#',''); if(h.indexOf('obra-')===0) showView('obra', h.slice(5)); else if(h==='projetos') showView('home'); else if(h==='contratos'||h.indexOf('contrato-')===0) showView('contratos', h.indexOf('contrato-')===0?h.slice(9):''); else showView('inicio'); }
     window.addEventListener('hashchange',routeFromHash);
     document.querySelectorAll('[data-home]').forEach(function(b){ b.addEventListener('click',function(e){ e.preventDefault(); if(location.hash) history.back(); else showView('home'); }); });
     routeFromHash();
@@ -1095,15 +1119,18 @@
       var rows=[];
       try{ var res=await sb.from('documentos').select('tipo,arquivo_nome,arquivo_path').eq('projeto_id',projetoId); rows=(res&&!res.error)?(res.data||[]):[]; }catch(e){}
       var byTipo={}; rows.forEach(function(r){ byTipo[r.tipo]=r; });
+      /* contrato feito na aba Contratos (confirmado): aparece aqui enquanto o PDF assinado não for anexado */
+      var ctId=null; if(!(byTipo['Contrato']&&byTipo['Contrato'].arquivo_path)){ try{ var rc=await sb.from('contratos').select('id').eq('projeto_id',projetoId).eq('status','confirmado').limit(1); if(rc&&!rc.error&&rc.data&&rc.data[0]) ctId=rc.data[0].id; }catch(e){} }
       var tipos=DOCS_CLIENTE.slice(); rows.forEach(function(r){ if(tipos.indexOf(r.tipo)<0) tipos.push(r.tipo); });
       tipos=tipos.filter(function(t){ return !(byTipo[t]&&byTipo[t].arquivo_nome==='__excluido__'); }); // documentos que o escritório excluiu deste projeto
       var attached=0;
       tipos.forEach(function(tipo){
-        var row=byTipo[tipo], temArq=row&&row.arquivo_path; if(temArq) attached++;
+        var row=byTipo[tipo], temArq=row&&row.arquivo_path, ctAqui=(tipo==='Contrato'&&!temArq&&ctId); if(temArq||ctAqui) attached++;
         var li=document.createElement('li'); li.className='doc';
         li.innerHTML='<div class="doc-name">'+ceC(tipo)+'</div>'+(temArq
           ? '<button class="pill ghost sm doc-dl" type="button" data-docpath="'+row.arquivo_path+'"><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>baixar</button>'
-          : '<span class="doc-wait" style="font-size:12.5px;color:var(--ink-3)">aguardando emissão</span>');
+          : (ctAqui ? '<a class="pill ghost sm doc-dl" href="#contrato-'+ceC(ctId)+'"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></svg>ver contrato</a>'
+          : '<span class="doc-wait" style="font-size:12.5px;color:var(--ink-3)">aguardando emissão</span>'));
         ul.appendChild(li);
       });
       var h=ul.closest('.acc'); h=h&&h.querySelector('.acc-hint'); if(h) h.textContent=attached+' de '+tipos.length+' disponíveis';
@@ -1120,6 +1147,31 @@
           else { if(n) n.textContent='Não foi possível abrir o documento.'; }
         }catch(err){ if(n) n.textContent='Erro ao abrir o documento.'; }
       });
+    })();
+    /* contratos confirmados pelo escritório (tabela contratos; o cliente só lê os dele) */
+    (function(){
+      var ul=document.getElementById('cli-contratos'), ver=document.getElementById('cli-ct-ver'), box=document.getElementById('cli-ct-lista-box'), fr=document.getElementById('cli-ct-frame');
+      if(!ul||!ver||!fr) return;
+      var LST=[];
+      function dt(s){ return s?new Date(s).toLocaleDateString('pt-BR'):''; }
+      function fecharCt(){ ver.hidden=true; box.hidden=false; fr.removeAttribute('srcdoc'); }
+      function abrirCt(c){ box.hidden=true; ver.hidden=false; fr.srcdoc=c.html||'<p style="font-family:sans-serif;padding:20px">Contrato indisponível.</p>'; window.scrollTo(0,0); }
+      window.carregarContratosCli=async function(abrirId){
+        fecharCt(); ul.innerHTML='<li class="doc"><div class="doc-name" style="color:var(--ink-3)">Carregando…</div></li>';
+        var r=null;
+        try{ r=await sb.from('contratos').select('id,numero,projeto_id,confirmado_em,html,projetos(nome)').eq('status','confirmado').order('confirmado_em',{ascending:false});
+          if(r&&r.error) r=await sb.from('contratos').select('id,numero,projeto_id,confirmado_em,html').eq('status','confirmado').order('confirmado_em',{ascending:false}); }catch(e){}
+        LST=(r&&!r.error&&r.data)||[];
+        if(!LST.length){ ul.innerHTML='<li class="doc"><div class="doc-name" style="color:var(--ink-3)">Nenhum contrato disponível ainda. Assim que o escritório confirmar o seu contrato, ele aparece aqui.</div></li>'; return; }
+        ul.innerHTML=LST.map(function(c,i){ return '<li class="doc"><div class="doc-name">Contrato nº '+ceC(c.numero||'—')+'<small style="display:block;font-size:12px;color:var(--ink-3);font-weight:400;margin-top:2px">'+ceC(((c.projetos&&c.projetos.nome)?c.projetos.nome+' · ':'')+'confirmado em '+dt(c.confirmado_em))+'</small></div><button class="pill ghost sm doc-dl" type="button" data-ct="'+i+'"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></svg>abrir</button></li>'; }).join('');
+        if(abrirId){ var c=LST.filter(function(x){ return String(x.id)===String(abrirId); })[0]; if(c) abrirCt(c); }
+        else if(LST.length===1) abrirCt(LST[0]);
+      };
+      ul.addEventListener('click',function(e){ var b=e.target.closest('[data-ct]'); if(b) abrirCt(LST[+b.dataset.ct]); });
+      document.getElementById('cli-ct-fechar').addEventListener('click',function(){ if(LST.length===1||/^#contrato-/.test(location.hash)){ location.hash='#projetos'; } else fecharCt(); });
+      /* a página do contrato fica isolada (sandbox); o botão pede para ela mesma abrir a impressão */
+      document.getElementById('cli-ct-imp').addEventListener('click',function(){ try{ fr.contentWindow.postMessage('imprimir','*'); }catch(err){} });
+      if(/^#contrato/.test(location.hash||'')){ var h=location.hash.replace('#',''); window.carregarContratosCli(h.indexOf('contrato-')===0?h.slice(9):''); }
     })();
     function fmtBRLc(n){ if(n==null||n==='') return 'R$ —'; return 'R$ '+(Number(n)||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); } // sempre com vírgula e centavos
     function fmtDatac(d){ if(!d) return ''; try{ return new Date(d+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}); }catch(e){ return d; } }
