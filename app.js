@@ -2,6 +2,44 @@
 // app.js — Ligação com o Supabase + ajudantes de acesso
 // Usado por todas as telas (login, admin, colaborador, cliente).
 // ============================================================
+
+// ---------- PROTEÇÃO (segurança) ----------
+// 1) Ninguém pode abrir o sistema "dentro" de outro site (golpe de clique escondido).
+(function(){
+  try{ if(window.top!==window.self){ var mesmo=false; try{ mesmo=(window.top.location.origin===location.origin); }catch(e){}
+    if(!mesmo){ document.documentElement.style.display='none'; window.top.location=location.href; } } }catch(e){}
+})();
+// 2) Textos vindos do banco (nome, e-mail, endereço, tarefas...) nunca viram código na tela.
+//    Tudo que é colocado na página passa por esta limpeza: tira comandos escondidos (on...=, javascript:,
+//    <script>, <object>...). O texto continua aparecendo igual; só o código malicioso é descartado.
+(function(){
+  var P=Element.prototype, d=Object.getOwnPropertyDescriptor(P,'innerHTML');
+  if(!d||!d.set||P.__protegido) return; P.__protegido=true;
+  var RISCO=/<|&#|&\w+;/, TAG_RUIM=/^(script|object|embed|base|meta|frame|frameset|applet|noscript)$/i;
+  var URL_ATR=/^(href|src|action|formaction|xlink:href|data|poster|background|ping|codebase|cite|lowsrc)$/i;
+  var URL_RUIM=/^(javascript|vbscript|livescript|data:(?!image\/(png|jpe?g|gif|webp|svg\+xml)[;,]))/i;
+  function limpar(html){
+    var t=document.createElement('template'); d.set.call(t, html);
+    var els=t.content.querySelectorAll('*');
+    for(var i=0;i<els.length;i++){
+      var el=els[i], tag=el.localName||'';
+      if(TAG_RUIM.test(tag)){ el.remove(); continue; }
+      if(/^(set|animate|animatetransform|animatemotion)$/i.test(tag) && /href|^on/i.test(el.getAttribute('attributeName')||'')){ el.remove(); continue; }
+      for(var j=el.attributes.length-1;j>=0;j--){
+        var a=el.attributes[j], n=a.name.toLowerCase();
+        if(n.indexOf('on')===0 || n==='srcdoc' || n==='formaction' || (tag==='iframe' && n==='src')){ el.removeAttribute(a.name); continue; }
+        if(URL_ATR.test(n) && URL_RUIM.test(String(a.value).replace(/[\s\x00-\x1f]+/g,''))) el.removeAttribute(a.name);
+      }
+    }
+    return d.get.call(t);
+  }
+  window.limparHtml=limpar;
+  Object.defineProperty(P,'innerHTML',{ configurable:true, enumerable:d.enumerable, get:d.get,
+    set:function(v){ var s=(v==null)?'':String(v); d.set.call(this, RISCO.test(s)?limpar(s):s); } });
+  var ia=P.insertAdjacentHTML;
+  if(ia) P.insertAdjacentHTML=function(pos,html){ return ia.call(this,pos,limpar(String(html==null?'':html))); };
+})();
+
 const sb = window.supabase.createClient(window.SUPA.url, window.SUPA.anonKey);
 
 // Faz login com e-mail + senha.

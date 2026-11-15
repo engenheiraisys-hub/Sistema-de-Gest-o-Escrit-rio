@@ -1412,7 +1412,7 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" crossorigin="anonymous"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
 <script>
@@ -2605,7 +2605,9 @@
     var MEU_ID=null, EQUIPE=[];
     async function ensureMeuId(){ if(MEU_ID) return MEU_ID; try{ var u=(await sb.auth.getUser()).data.user; if(u) MEU_ID=u.id; }catch(e){} return MEU_ID; }
     ensureMeuId();
-    async function carregarEquipe(){ try{ var res=await sb.from('perfis').select('id,nome,papel').in('papel',['admin','colaborador']).order('nome',{ascending:true}); EQUIPE=(res&&!res.error)?(res.data||[]):[]; }catch(e){ EQUIPE=[]; } }
+    /* lista da equipe só com nome e papel (sem CPF/banco dos colegas) — "equipe_basica" vem do sql-seguranca.sql */
+    async function carregarEquipe(){ try{ var res=await sb.from('equipe_basica').select('id,nome,papel').order('nome',{ascending:true});
+      if(res&&res.error) res=await sb.from('perfis').select('id,nome,papel').in('papel',['admin','colaborador']).order('nome',{ascending:true}); EQUIPE=(res&&!res.error)?(res.data||[]):[]; }catch(e){ EQUIPE=[]; } }
     carregarEquipe().then(async function(){ await ensureMeuId(); if(typeof popularFiltroKb==='function') popularFiltroKb(); if(typeof renderKanban==='function') renderKanban(); });
     function respOptions(sel){ var o='<option value="">— sem responsável —</option>'; (EQUIPE||[]).forEach(function(p){ o+='<option value="'+p.id+'"'+(String(sel)===String(p.id)?' selected':'')+'>'+ce(p.nome||'(sem nome)')+(p.papel==='admin'?' · admin':'')+'</option>'; }); /* mantém o responsável já gravado mesmo se a lista da equipe não trouxer essa pessoa */ if(sel && !(EQUIPE||[]).some(function(p){ return String(p.id)===String(sel); })) o+='<option value="'+ce(sel)+'" selected>(responsável atual)</option>'; return o; }
     function ce(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -2785,7 +2787,7 @@
         var an=g('acesso-note');
         if(!current || !current.key || current.isNew){ an.textContent='Salve o cadastro do cliente primeiro.'; return; }
         var email=(current.email||'').trim(); if(!email){ an.textContent='O cliente precisa ter um e-mail no cadastro para criar o acesso.'; return; }
-        var senha=(g('cli-senha').value||'').trim(); if(senha.length<6){ an.textContent='Digite uma senha de pelo menos 6 caracteres.'; return; }
+        var senha=(g('cli-senha').value||'').trim(); if(senha.length<8){ an.textContent='Digite uma senha de pelo menos 8 caracteres.'; return; }
         an.textContent='Criando acesso…';
         try{
           var t=getTempSb();

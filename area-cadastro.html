@@ -169,7 +169,7 @@
 
       <p class="grp-label">acesso</p>
       <div class="grid">
-        <div class="field"><label>Criar senha</label><input id="f-senha" type="password" autocomplete="new-password" placeholder="mínimo 6 caracteres"></div>
+        <div class="field"><label>Criar senha</label><input id="f-senha" type="password" autocomplete="new-password" placeholder="mínimo 8 caracteres"></div>
         <div class="field"><label>Confirmar senha</label><input id="f-senha2" type="password" autocomplete="new-password" placeholder="repita a senha"></div>
       </div>
 
@@ -191,7 +191,7 @@
   </main>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" crossorigin="anonymous"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
 <script>
@@ -243,7 +243,7 @@
         : [['c-nome','o nome / empresa'],['c-dia','o dia de nascimento'],['c-mes','o mês de nascimento'],['c-ano','o ano de nascimento'],['c-cpf','o CPF / CNPJ'],['c-rg','o RG'],['c-nac','a nacionalidade'],['c-prof','a profissão'],['c-ec','o estado civil'],['c-fone','o telefone'],['c-email','o e-mail'],['c-pais','o país'],['c-cidade','a cidade'],['c-end','o endereço'],['c-bairro','o bairro'],['c-cep','o CEP']];
       for(var i=0;i<obrig.length;i++){ if(!val(obrig[i][0])){ note.textContent='Preencha '+obrig[i][1]+'.'; document.getElementById(obrig[i][0]).focus(); return; } }
       if(!/.+@.+\..+/.test(email)){ note.textContent='Informe um e-mail válido.'; return; }
-      if((s1||'').length<6){ note.textContent='A senha deve ter ao menos 6 caracteres.'; return; }
+      if((s1||'').length<8){ note.textContent='A senha deve ter ao menos 8 caracteres.'; return; }
       if(s1!==s2){ note.textContent='As senhas não conferem.'; return; }
       if(!document.getElementById('agree').checked){ note.textContent='É preciso aceitar a Política de Privacidade para concluir o cadastro.'; return; }
       var nascimento='';

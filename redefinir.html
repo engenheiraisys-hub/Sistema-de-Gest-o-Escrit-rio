@@ -41,7 +41,7 @@
       <p class="sec-label">acesso</p>
       <h2>Redefinir senha</h2>
       <div id="form-wrap">
-        <div class="field"><label for="s1">Nova senha</label><input id="s1" type="password" placeholder="mínimo 6 caracteres"></div>
+        <div class="field"><label for="s1">Nova senha</label><input id="s1" type="password" placeholder="mínimo 8 caracteres"></div>
         <div class="field"><label for="s2">Repita a nova senha</label><input id="s2" type="password" placeholder="repita a senha"></div>
         <button class="btn" id="btn" type="button">salvar nova senha</button>
       </div>
@@ -53,7 +53,7 @@
   /* o link do e-mail pode chegar com um aviso de erro (vencido ou já usado) */
   var LINK_ERRO = /error(_code|_description)?=/.test(location.hash+location.search);
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" crossorigin="anonymous"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
 <script>
@@ -73,7 +73,7 @@
   btn.addEventListener('click', async function(){
     var a=$('s1').value, b=$('s2').value;
     msg.className='msg';
-    if(a.length<6){ msg.className='msg err'; msg.textContent='A senha precisa de pelo menos 6 caracteres.'; return; }
+    if(a.length<8){ msg.className='msg err'; msg.textContent='A senha precisa de pelo menos 8 caracteres.'; return; }
     if(a!==b){ msg.className='msg err'; msg.textContent='As duas senhas não são iguais.'; return; }
     btn.disabled=true; btn.textContent='salvando…';
     try{

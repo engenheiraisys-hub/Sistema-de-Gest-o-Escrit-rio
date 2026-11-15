@@ -59,7 +59,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" crossorigin="anonymous"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
 <script>
@@ -4051,7 +4051,7 @@
       var email=(current.email||'').trim();
       if(!email){ an.textContent='O cliente precisa ter um e-mail no cadastro para criar o acesso.'; return; }
       var senha=(document.getElementById('cli-senha').value||'').trim();
-      if(senha.length<6){ an.textContent='Digite uma senha de pelo menos 6 caracteres.'; return; }
+      if(senha.length<8){ an.textContent='Digite uma senha de pelo menos 8 caracteres.'; return; }
       an.textContent='Criando acesso…';
       try{
         var t=getTempSb();
@@ -4339,7 +4339,7 @@
       sb2.addEventListener('click', async function(){
         var c=editingColab, an=cg('colab-acesso-note'); if(!c||!c.key) return;
         var senha=(cg('colab-senha').value||'').trim();
-        if(senha.length<6){ an.textContent='Digite uma senha de pelo menos 6 caracteres.'; return; }
+        if(senha.length<8){ an.textContent='Digite uma senha de pelo menos 8 caracteres.'; return; }
         an.textContent='Definindo senha…';
         try{
           var r=await sb.rpc('admin_definir_senha',{ alvo:c.key, nova_senha:senha });
