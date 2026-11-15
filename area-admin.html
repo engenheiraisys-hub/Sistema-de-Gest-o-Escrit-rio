@@ -402,6 +402,9 @@
     :is(#view-novo,#view-projeto) .parcela{grid-template-columns:1fr 1fr}
   }
   .tk-acts .pill{justify-content:center;width:100%;white-space:nowrap}
+  .tk-meet-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .tk-meet-row .tk-in{flex:1 1 220px;min-width:0}
+  .tk-meet-row .pill{flex:none;justify-content:center}
   #tarefa-note:empty{display:none}
   #cli-senha:disabled{opacity:.4}
   #colab-acesso-note:empty{display:none}
@@ -692,6 +695,17 @@
   #view-tarefas .kb-filtros label{display:flex!important;align-items:center;gap:7px;font-size:10.5px!important;font-weight:500;letter-spacing:.14em!important;color:var(--ink-2)!important;margin:0 0 7px!important}
   #view-tarefas .kb-filtros label svg{width:14px;height:14px;flex:none;fill:none;stroke:var(--gold);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   #view-tarefas .kb-filtros select{font-weight:400!important;font-size:14px!important;color:var(--ink)!important;background-color:var(--panel)!important;border:1px solid var(--hair)!important;border-radius:var(--r-sm)!important;padding:9px 36px 9px 12px!important;min-height:40px;appearance:none;-webkit-appearance:none;-moz-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239A968E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 12px center!important;background-size:14px!important;transition:border-color .2s,box-shadow .2s}
+  #view-tarefas .kb-filtros input[type=search]{width:100%;font-family:var(--sans);font-weight:400;font-size:14px;color:var(--ink);background:var(--panel);border:1px solid var(--hair);border-radius:var(--r-sm);padding:9px 12px;min-height:40px}
+  #view-tarefas .kb-filtros input[type=search]:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(175,133,58,.16)}
+  /* setas para mudar a ordem do cartão na coluna (aparecem ao passar o mouse; no celular ficam sempre visíveis) */
+  .kc-ord{display:inline-flex;gap:2px;opacity:0;transition:opacity .15s}
+  .kcard:hover .kc-ord,.kcard:focus-within .kc-ord{opacity:1}
+  @media(hover:none){.kc-ord{opacity:1}}
+  .kc-ord button{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0;border:1px solid var(--hair-soft);border-radius:6px;background:var(--panel);color:var(--ink-2);cursor:pointer}
+  .kc-ord button:hover:not(:disabled){border-color:var(--ink-3);color:var(--ink)}
+  .kc-ord button:disabled{opacity:.3;cursor:default}
+  .kc-ord svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .kc-ocultos{font-size:11.5px;color:var(--ink-3);line-height:1.45;margin:6px 4px 8px;text-align:center}
   #view-tarefas .kb-filtros select:focus{outline:none;border-color:var(--gold)!important;box-shadow:0 0 0 3px rgba(175,133,58,.16)}
   #view-tarefas .kb-total{flex:0 0 auto!important;margin-left:auto;align-self:center;font-size:12.5px;color:var(--ink-2);white-space:nowrap}
   #view-tarefas .kb-total b{font-family:var(--display);font-weight:700;font-size:20px;color:var(--ink);margin-right:5px;font-variant-numeric:tabular-nums}
@@ -783,6 +797,13 @@
   .stat-badge.green{background:rgba(94,125,87,.13);color:var(--green)}
   .stat-badge.amber{background:rgba(192,138,30,.14);color:var(--amber)}
   .stat-badge.red{background:rgba(170,86,74,.13);color:var(--red)}
+  .fin-filtro{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px}
+  .fin-datas{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .fin-datas[hidden]{display:none}
+  .fin-datas label{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:12px;color:var(--ink-2)}
+  .fin-datas input{font-family:var(--sans);font-weight:500;font-size:12.5px;color:var(--ink);background:var(--panel);border:1px solid var(--hair);border-radius:50px;padding:7px 12px;min-height:36px}
+  .fin-datas input:focus{outline:none;border-color:var(--ink-3);box-shadow:var(--shadow-sm)}
+  @media(max-width:640px){.fin-filtro{justify-content:flex-start;width:100%}.fin-datas{width:100%;flex-wrap:nowrap}.fin-datas label{flex:1 1 0;min-width:0}.fin-datas input{width:100%;min-width:0}}
   .fin-period{position:relative;display:inline-flex;align-items:center}
   .fin-period>svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--ink-2);fill:none;stroke:currentColor;stroke-width:1.7;pointer-events:none}
   .fin-period select{appearance:none;-webkit-appearance:none;font-family:var(--sans);font-weight:500;font-size:12.5px;color:var(--ink);background:var(--panel);border:1px solid var(--hair);border-radius:50px;padding:9px 34px 9px 34px;cursor:pointer;transition:border-color .2s,box-shadow .2s}
@@ -1090,6 +1111,13 @@
   .apr-grupo{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:14px 0 8px;grid-column:1/-1}
   .apr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px 14px}
   .apr-grid label{display:block;font-size:11px;color:var(--ink-2);margin-bottom:4px}
+  /* rótulos de 1 ou 2 linhas: a caixa fica sempre embaixo, alinhada com as vizinhas */
+  .apr-grid>div{display:flex;flex-direction:column;min-width:0}
+  .apr-grid>div>label:first-child{flex:1 0 auto}
+  .apr-grid input,.apr-grid select{height:36px;box-sizing:border-box}
+  .apr-grid input[type=checkbox]{height:auto}
+  /* botão "subir/trocar imagem" é um <label>: não herda o estilo de rótulo; ícone e título centralizados */
+  .apr-grid label.pill{display:inline-flex;align-items:center;justify-content:center;margin:0;line-height:1}
   .apr-grid input{width:100%;border:1px solid var(--hair);border-radius:8px;padding:8px 10px;font:inherit;font-size:13.5px;background:var(--paper,#fff);color:var(--ink)}
   .apr-grid input:focus{outline:none;border-color:var(--gold)}
   .apr-grid input.vazio{border-color:color-mix(in srgb,var(--amber) 55%,var(--hair))}
@@ -1283,6 +1311,7 @@
     #view-tarefas .kcol{flex:0 0 84%;min-width:0;scroll-snap-align:center}
     #view-tarefas .kb-filtros{padding:12px 14px}
     #view-tarefas .kb-total{grid-column:1/-1;margin-left:0;justify-self:end}
+    #view-tarefas .kb-busca{grid-column:1/-1}
     .g-row.g-vazio{grid-template-columns:1fr}
     .g-row.g-vazio .g-track{display:none}
     .g-row.g-vazio .g-name{padding:16px 12px}
@@ -1414,6 +1443,7 @@
     <div class="kb-filtros">
       <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px"><svg viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c0-3.2 2.500-5.300 5.500-5.300s5.500 2.100 5.500 5.300"/><circle cx="17" cy="9.500" r="2.500"/><path d="M15.500 14.200c2.800-.4 5 1.500 5 4.300"/></svg>Mostrar tarefas de</label><select id="kanban-filtro" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
       <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px"><svg viewBox="0 0 24 24"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.5 1.5 0 0 1 0 2.1l-6.2 6.2a1.5 1.5 0 0 1-2.1 0z"/><circle cx="8" cy="8" r="1.3"/></svg>Etiqueta</label><select id="kanban-etq" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
+      <div class="kb-busca"><label for="kanban-busca" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Buscar</label><input id="kanban-busca" type="search" placeholder="Nome do cartão ou projeto…" autocomplete="off"></div>
       <div class="kb-total" id="kb-total"></div>
     </div>
     <div class="kanban" id="kanban"></div>
@@ -1815,14 +1845,22 @@
     <button class="back" type="button" data-home>Voltar</button>
     <div class="page-head">
       <h2 class="page-title">Financeiro</h2>
-      <div class="fin-period" style="margin-bottom:clamp(20px,3vw,30px)">
-        <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>
-        <select id="fin-periodo" aria-label="Filtrar por período">
-          <option value="todos">Todos os períodos</option>
-          <option value="0">Este mês</option>
-          <option value="-1">Mês passado</option>
-          <option value="1">Próximo mês</option>
-        </select>
+      <div class="fin-filtro" style="margin-bottom:clamp(20px,3vw,30px)">
+        <div class="fin-period">
+          <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>
+          <select id="fin-periodo" aria-label="Filtrar por período">
+            <option value="todos">Todos os períodos</option>
+            <option value="0">Este mês</option>
+            <option value="-1">Mês passado</option>
+            <option value="1">Próximo mês</option>
+            <option value="custom">Escolher datas…</option>
+          </select>
+        </div>
+        <!-- período personalizado: data de início e de fim -->
+        <div class="fin-datas" id="fin-datas" hidden>
+          <label>de <input type="date" id="fin-de" aria-label="Data de início"></label>
+          <label>até <input type="date" id="fin-ate" aria-label="Data de fim"></label>
+        </div>
       </div>
     </div>
     <p class="proj-note">Fluxo financeiro do escritório. Em <b>contratos</b>, clique numa linha para editar as parcelas e o status — ao marcar uma parcela como <b>paga</b>, ela alimenta o recibo na Área do Cliente. Tudo sincronizado com o financeiro do cliente (ligação em tempo real via backend).</p>
@@ -1843,7 +1881,7 @@
       </div>
       <div class="proj-search">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input id="fin-search" type="search" placeholder="Buscar contrato, cliente…" aria-label="Buscar contrato ou cliente">
+        <input id="fin-search" type="search" placeholder="Buscar obra, cliente, parcela…" aria-label="Buscar obra, cliente ou parcela">
       </div>
     </div>
 
@@ -2185,6 +2223,14 @@
       <div class="tk-row" id="tarefa-horas" style="display:none">
         <div class="tk-f"><label class="tk-lbl" for="tarefa-hini"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Hora início</label><input id="tarefa-hini" type="time" class="tk-in"></div>
         <div class="tk-f"><label class="tk-lbl" for="tarefa-hfim"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Hora término</label><input id="tarefa-hfim" type="time" class="tk-in"></div>
+      </div>
+      <div class="tk-f" id="tarefa-meet-box" style="display:none">
+        <label class="tk-lbl" for="tarefa-meet"><svg viewBox="0 0 24 24"><rect x="3" y="6.5" width="12.5" height="11" rx="2"/><path d="M15.5 10.5l5-3v9l-5-3"/></svg>Link da reunião (Meet)</label>
+        <div class="tk-meet-row">
+          <input id="tarefa-meet" type="url" class="tk-in" placeholder="cole aqui o link do Meet" autocomplete="off">
+          <a class="pill ghost sm" id="tarefa-meet-novo" href="https://meet.google.com/new" target="_blank" rel="noopener">criar Meet</a>
+          <a class="pill ghost sm" id="tarefa-meet-abrir" href="#" target="_blank" rel="noopener" style="display:none">entrar</a>
+        </div>
       </div>
       <div class="tk-f" id="tarefa-gcal-box" style="display:none">
         <p class="note" id="tarefa-gcal" style="margin:0">Esta tarefa vai automaticamente para o Google Agenda (link de assinatura na tela Agenda).</p>
@@ -4289,49 +4335,66 @@
     }
     carregarFinanceiroConsolidado();
     (function(){
-      var fp=document.getElementById('fin-periodo'); if(fp) fp.addEventListener('change',function(){ FIN_PER=fp.value||'todos'; if(typeof renderFin==='function') renderFin(); });
+      var fp=document.getElementById('fin-periodo'), fd=document.getElementById('fin-datas'), fde=document.getElementById('fin-de'), fat=document.getElementById('fin-ate');
+      function ymdL(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+      if(fp) fp.addEventListener('change',function(){ FIN_PER=fp.value||'todos';
+        if(fd) fd.hidden=FIN_PER!=='custom';
+        if(FIN_PER==='custom' && fde && fat && !fde.value && !fat.value){ var h=new Date(); fde.value=ymdL(new Date(h.getFullYear(),h.getMonth(),1)); fat.value=ymdL(new Date(h.getFullYear(),h.getMonth()+1,0)); } // começa com o mês atual
+        if(fde) FIN_DE=fde.value||''; if(fat) FIN_ATE=fat.value||'';
+        if(typeof renderFin==='function') renderFin(); });
+      [fde,fat].forEach(function(inp){ if(inp) inp.addEventListener('change',function(){ FIN_DE=fde.value||''; FIN_ATE=fat.value||''; if(FIN_DE&&FIN_ATE&&FIN_DE>FIN_ATE){ var t=FIN_DE; FIN_DE=FIN_ATE; FIN_ATE=t; fde.value=FIN_DE; fat.value=FIN_ATE; } if(typeof renderFin==='function') renderFin(); }); });
       var fs=document.getElementById('fin-search'); if(fs) fs.addEventListener('input',function(){ FIN_Q=fs.value||''; if(typeof renderFin==='function') renderFin(); });
       var fc=document.getElementById('fin-contratos'); if(fc) fc.addEventListener('click',function(e){ if(e.target.closest('a,button')) return; var tr=e.target.closest('tr[data-fin]'); if(!tr) return; obraId=tr.getAttribute('data-fin'); try{localStorage.setItem('im-obra-adm',obraId);}catch(err){} location.hash='projeto'; });
     })();
     /* recebimento lançado em "novo recebimento": vencido quando não foi recebido e a data já passou */
     function recVencido(x){ if(!x||x.status==='recebido'||!x.data) return false; var h=new Date(); h.setHours(0,0,0,0); return new Date(x.data+'T00:00:00')<h; }
     function stChip(st){ return st==='pago'?'<span class="state green">pago</span>':(st==='vencido'?'<span class="state red">vencido</span>':'<span class="state amber">a vencer</span>'); }
-    var FIN_PER='todos', FIN_Q='';
-    function finPerTarget(){ if(FIN_PER==='todos') return null; var d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+parseInt(FIN_PER,10)); return d.getFullYear()*100+(d.getMonth()+1); }
-    function finInPer(dateStr){ var t=finPerTarget(); if(t===null) return true; if(!dateStr) return false; var p=String(dateStr).split('-'); if(p.length<2) return false; return (parseInt(p[0],10)*100+parseInt(p[1],10))===t; }
+    var FIN_PER='todos', FIN_Q='', FIN_DE='', FIN_ATE='';
+    function finPerTarget(){ if(FIN_PER==='todos') return null; if(FIN_PER==='custom') return (FIN_DE||FIN_ATE)?'custom':null; var d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+parseInt(FIN_PER,10)); return d.getFullYear()*100+(d.getMonth()+1); }
+    function finInPer(dateStr){ var t=finPerTarget(); if(t===null) return true;
+      if(t==='custom'){ if(!dateStr) return false; var s=String(dateStr).slice(0,10); if(!/^\d{4}-\d{2}-\d{2}$/.test(s)) return false; if(FIN_DE&&s<FIN_DE) return false; if(FIN_ATE&&s>FIN_ATE) return false; return true; } if(!dateStr) return false; var p=String(dateStr).split('-'); if(p.length<2) return false; return (parseInt(p[0],10)*100+parseInt(p[1],10))===t; }
+    /* filtros do financeiro (período + busca) valem para os cartões e para TODAS as listas */
+    function parcNoPer(x){ return x.st==='pago'?finInPer(x.pago||x.venc):finInPer(x.venc); }
+    function finBate(){ var q=FIN_Q.trim().toLowerCase(); return function(){ if(!q) return true; return [].slice.call(arguments).join(' ').toLowerCase().indexOf(q)>=0; }; }
+    function finVazio(tbody,cols){ if(!tbody.children.length){ var tr=document.createElement('tr'); tr.innerHTML='<td colspan="'+cols+'" style="color:var(--ink-3);text-align:center">Nada encontrado neste filtro.</td>'; tbody.appendChild(tr); } }
     function renderFin(){
-      var tot=0,rec=0,arec=0,venc=0;
-      CONTRATOS.forEach(function(p){ tot+=ptot(p); p.parc.forEach(function(x){
-        if(x.st==='pago'){ if(finInPer(x.pago||x.venc)) rec+=x.v; }
-        else { if(finInPer(x.venc)){ arec+=x.v; if(x.st==='vencido') venc+=x.v; } }
+      var tot=0,rec=0,arec=0,venc=0, bate=finBate(), per=finPerTarget()!==null;
+      CONTRATOS.forEach(function(p){ p.parc.forEach(function(x){
+        if(!parcNoPer(x) || !bate(p.obra,p.cli,x.d)) return;
+        tot+=x.v;
+        if(x.st==='pago') rec+=x.v; else { arec+=x.v; if(x.st==='vencido') venc+=x.v; }
       }); });
-      (RECEBIMENTOS||[]).forEach(function(x){ var v=Number(x.valor)||0; if(x.status==='recebido'){ if(finInPer(x.data)) rec+=v; } else { if(finInPer(x.data)){ arec+=v; if(recVencido(x)) venc+=v; } } });
+      (RECEBIMENTOS||[]).forEach(function(x){ var v=Number(x.valor)||0; if(!finInPer(x.data) || !bate(x.projeto_nome,x.cliente_nome,x.descricao)) return; if(x.status==='recebido') rec+=v; else { arec+=v; if(recVencido(x)) venc+=v; } });
       var el;
-      el=document.getElementById('fc-contratos'); if(el) el.textContent=fmt(tot);
+      el=document.getElementById('fc-contratos'); if(el){ el.textContent=fmt(tot); var bdg=el.parentNode.querySelector('.stat-badge'); if(bdg) bdg.textContent=(per||FIN_Q.trim())?'No filtro':'Total contratado'; }
       el=document.getElementById('fc-recebido'); if(el) el.textContent=fmt(rec);
       el=document.getElementById('fc-areceber'); if(el) el.textContent=fmt(arec);
       el=document.getElementById('fc-vencido'); if(el) el.textContent=fmt(venc);
-      var tb=document.getElementById('fin-contratos'); tb.innerHTML=''; var qc=FIN_Q.trim().toLowerCase(), shownC=0;
+      var tb=document.getElementById('fin-contratos'); tb.innerHTML=''; var shownC=0;
       CONTRATOS.forEach(function(p,i){
-        if(qc && (String(p.obra)+' '+String(p.cli)).toLowerCase().indexOf(qc)<0) return;
+        if(!bate(p.obra,p.cli)) return;
+        // com período escolhido: só contratos com parcelas naquele mês, e os valores são só dessas parcelas
+        var q=per?{parc:p.parc.filter(parcNoPer)}:p;
+        if(per && !q.parc.length) return;
         shownC++;
-        var venciu=p.parc.some(function(x){return x.st==='vencido';});
-        var quit=pa(p)===0;
-        var stx=quit?'<span class="state green">quitado</span>':(venciu?'<span class="state red">parcela vencida</span>':'<span class="state amber">em dia</span>');
+        var venciu=q.parc.some(function(x){return x.st==='vencido';});
+        var quit=pa(q)===0;
+        var stx=quit?'<span class="state green">'+(per?'pago':'quitado')+'</span>':(venciu?'<span class="state red">parcela vencida</span>':'<span class="state amber">em dia</span>');
         var tr=document.createElement('tr'); tr.setAttribute('data-fin', p.id);
-        tr.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td class="num">'+fmt(ptot(p))+'</td><td class="num rec'+(pz(p)?'':' zero')+'">'+fmt(pz(p))+'</td><td class="num arec'+(pa(p)?'':' zero')+'">'+fmt(pa(p))+'</td><td>'+stx+'</td><td style="text-align:right"><span class="fin-chev"></span></td>';
+        tr.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td class="num">'+fmt(ptot(q))+'</td><td class="num rec'+(pz(q)?'':' zero')+'">'+fmt(pz(q))+'</td><td class="num arec'+(pa(q)?'':' zero')+'">'+fmt(pa(q))+'</td><td>'+stx+'</td><td style="text-align:right"><span class="fin-chev"></span></td>';
         tb.appendChild(tr);
       });
       var fe=document.getElementById('fin-empty'); if(fe) fe.hidden=shownC>0;
       var ar=document.getElementById('fin-areceber'); ar.innerHTML='';
       var rc=document.getElementById('fin-recebido'); rc.innerHTML='';
       CONTRATOS.forEach(function(p){ p.parc.forEach(function(x){
+        if(!bate(p.obra,p.cli,x.d)) return;
         if(x.st!=='pago'){ if(!finInPer(x.venc)) return; var tr=document.createElement('tr'); tr.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td>'+x.d+'</td><td class="num">'+(x.venc||'—')+'</td><td class="num">'+fmt(x.v)+'</td><td>'+stChip(x.st)+'</td>'; ar.appendChild(tr); }
         else { var dpago=x.pago||x.venc; if(!finInPer(dpago)) return; var tr2=document.createElement('tr'); tr2.innerHTML='<td>'+p.obra+'</td><td>'+p.cli+'</td><td>'+x.d+'</td><td class="num">'+(dpago||'—')+'</td><td class="num rec">'+fmt(x.v)+'</td><td><a class="lk" href="#" data-recibo data-obra="'+escAttr(p.obra)+'" data-cli="'+escAttr(p.cli)+'" data-desc="'+escAttr(x.d)+'" data-valor="'+x.v+'" data-data="'+escAttr(dpago||'')+'">recibo</a></td>'; rc.appendChild(tr2); }
       }); });
       // recebimentos avulsos / serviços extras (fora das parcelas de contrato)
       (RECEBIMENTOS||[]).forEach(function(x){ var v=Number(x.valor)||0;
-        if(!finInPer(x.data)) return;
+        if(!finInPer(x.data) || !bate(x.projeto_nome,x.cliente_nome,x.descricao)) return;
         var obraCol=x.projeto_nome?x.projeto_nome:'—';
         var cliCol=x.cliente_nome?x.cliente_nome:'avulso';
         var desc=(x.projeto_id?'<em style="color:var(--ink-3);font-style:normal">serviço extra · </em>':'')+(x.descricao||'—');
@@ -4341,7 +4404,9 @@
       });
       rc.querySelectorAll('[data-recibo]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); gerarReciboAdmin(this.dataset); }); });
       var pg=document.getElementById('fin-pagamentos'); pg.innerHTML='';
-      PAGAMENTOS.forEach(function(x){ var tr=document.createElement('tr'); tr.innerHTML='<td>'+x.para+'</td><td>'+x.ref+'</td><td class="num">'+(x.venc||'—')+'</td><td class="num">'+fmt(x.v)+'</td><td>'+stChip(x.st)+'</td><td><button class="pbtn danger" type="button" data-del-pag="'+x.id+'"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button></td>'; pg.appendChild(tr); });
+      if(per||FIN_Q.trim()){ finVazio(ar,6); finVazio(rc,6); }
+      PAGAMENTOS.forEach(function(x){ if(!finInPer(x.venc==='—'?'':x.venc) || !bate(x.para,x.ref)) return; var tr=document.createElement('tr'); tr.innerHTML='<td>'+x.para+'</td><td>'+x.ref+'</td><td class="num">'+(x.venc||'—')+'</td><td class="num">'+fmt(x.v)+'</td><td>'+stChip(x.st)+'</td><td><button class="pbtn danger" type="button" data-del-pag="'+x.id+'"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button></td>'; pg.appendChild(tr); });
+      if(per||FIN_Q.trim()) finVazio(pg,6);
     }
     function escAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
     function gerarReciboAdmin(d){
@@ -4566,9 +4631,16 @@
       try{ var rh=await sb.from('tarefas').select('id,hora_inicio,hora_fim'); HORA_OK=!!(rh&&!rh.error);
         if(HORA_OK){ var hm={}; (rh.data||[]).forEach(function(r){ hm[r.id]=r; }); (TASKS||[]).forEach(function(t){ var r=hm[t.id]; if(r){ t.hora_inicio=r.hora_inicio?String(r.hora_inicio).slice(0,5):''; t.hora_fim=r.hora_fim?String(r.hora_fim).slice(0,5):''; } }); }
       }catch(e3){ HORA_OK=false; }
+      try{ var rm=await sb.from('tarefas').select('id,link_reuniao'); MEET_OK=!!(rm&&!rm.error);
+        if(MEET_OK){ var mm={}; (rm.data||[]).forEach(function(r){ mm[r.id]=r.link_reuniao||''; }); (TASKS||[]).forEach(function(t){ if(t.id in mm) t.link_reuniao=mm[t.id]; }); }
+      }catch(e4){ MEET_OK=false; }
+      // ordem no quadro + data de conclusão (colunas novas; sem o SQL, o quadro segue como antes)
+      try{ var ro=await sb.from('tarefas').select('id,ordem_kb,concluido_em'); ORD_OK=ORD_E && !!(ro&&!ro.error);
+        if(ro&&!ro.error){ var om={}; (ro.data||[]).forEach(function(r){ om[r.id]=r; }); (TASKS||[]).forEach(function(t){ var r=om[t.id]; if(r){ t.ordem_kb=r.ordem_kb; t.concluido_em=r.concluido_em; } }); }
+      }catch(e4){ ORD_OK=false; }
     }
-    var HORA_OK=false;
-    function salvarTarefa(t){ if(!t||!t.id) return; var up={title:t.title, meta:t.meta, col:t.col, chk:t.chk, responsavel_id:t.responsavel_id||null, kanban:t.kanban||null, data_inicio:t.data_inicio||null, data_fim:t.data_fim||null}; if(ETQ_OK) up.etiquetas=t.etiquetas||[]; if(HORA_OK){ up.hora_inicio=t.hora_inicio||null; up.hora_fim=t.hora_fim||null; } sb.from('tarefas').update(up).eq('id',t.id).then(function(r){ if(r&&r.error){} }); }
+    var HORA_OK=false, MEET_OK=false, ORD_OK=false, ORD_E=false, KB_BUSCA='';
+    function salvarTarefa(t){ if(!t||!t.id) return; var up={title:t.title, meta:t.meta, col:t.col, chk:t.chk, responsavel_id:t.responsavel_id||null, kanban:t.kanban||null, data_inicio:t.data_inicio||null, data_fim:t.data_fim||null}; if(ETQ_OK) up.etiquetas=t.etiquetas||[]; if(HORA_OK){ up.hora_inicio=t.hora_inicio||null; up.hora_fim=t.hora_fim||null; } if(MEET_OK) up.link_reuniao=t.link_reuniao||null; sb.from('tarefas').update(up).eq('id',t.id).then(function(r){ if(r&&r.error){} }); }
     function efCol(t){ if(t.dbEtapa) return t.col; if(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente') return t.kanban; if(t.chk&&t.chk.length&&t.chk.every(function(i){return i.done;})) return 'concluido'; if(t.col==='concluido') return 'concluido'; if(t.chk&&t.chk.some(function(i){return i.done;})) return 'andamento'; return t.col||'afazer'; }
     function iniResp(id){ var n=NOME_BY_ID[id]||''; if(!n) return ''; var p=n.trim().split(/\s+/); return (((p[0]||'')[0]||'')+((p[1]||'')[0]||'')).toUpperCase(); }
     function corResp(id){ var pal=['#5F7C8A','#5E7D57','#C08A1E','#AA564A','#7a6a58','#8b7fa3','#6E4B3A','#A85C74']; var s=String(id||''),h=0; for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return pal[h%pal.length]; }
@@ -4576,6 +4648,9 @@
     async function carregarEtapasKanban(){
       await ensureMeuId();
       try{ var res=await sb.from('etapas').select('id,nome,status,checklist,kanban,prazo_fim,responsavel_id,projeto_id,projetos(nome,status)'); ETAPAS_KB=(res&&!res.error)?(res.data||[]):[]; }catch(e){ try{ var r2=await sb.from('etapas').select('id,nome,status,checklist,projeto_id,projetos(nome)'); ETAPAS_KB=(r2&&!r2.error)?(r2.data||[]):[]; }catch(e2){ ETAPAS_KB=[]; } }
+      try{ var ro=await sb.from('etapas').select('id,ordem_kb,concluido_em'); ORD_E=!!(ro&&!ro.error);
+        if(ORD_E){ var om={}; (ro.data||[]).forEach(function(r){ om[r.id]=r; }); ETAPAS_KB.forEach(function(e){ var r=om[e.id]; if(r){ e.ordem_kb=r.ordem_kb; e.concluido_em=r.concluido_em; } }); }
+      }catch(e3){ ORD_E=false; }
       await carregarTarefas();
       renderKanban();
     }
@@ -4591,20 +4666,39 @@
     }
     function allTasks(){ var pz=nomesPausados(); return (TASKS||[]).filter(function(t){ if(pz[String(t.meta||'').trim().toLowerCase()]) return false; if(KB_ETQ && (t.etiquetas||[]).indexOf(KB_ETQ)<0) return false; if(KB_FILTRO==='') return true; if(KB_FILTRO==='__me__') return !t.responsavel_id || String(t.responsavel_id)===String(MEU_ID); return String(t.responsavel_id)===String(KB_FILTRO); }).concat(etapaCards().filter(function(c){ return !KB_ETQ || (c.etiquetas||[]).indexOf(KB_ETQ)>=0; })); }
     function cardChk(t){ if(t.dbEtapa){ return '☑ '+t._done+'/'+t._total; } var d=t.chk.filter(function(i){return i.done;}).length; return '☑ '+d+'/'+t.chk.length; }
+    /* ordem dos cartões na coluna (setas ↑ ↓) e concluídos há mais de 30 dias fora do quadro (aparecem na busca) */
+    function kbOrd(t){ var v=t.dbEtapa?t.dbEtapa.ordem_kb:t.ordem_kb; return (v==null||v==='')?null:Number(v); }
+    function kbConcl(t){ return t.dbEtapa?t.dbEtapa.concluido_em:t.concluido_em; }
+    function kbSalvarCampos(t,campos){ if(!ORD_OK) return; if(t.dbEtapa){ Object.assign(t.dbEtapa,campos); sb.from('etapas').update(campos).eq('id',t.dbEtapa.id).then(function(){}); } else { Object.assign(t,campos); if(t.id) sb.from('tarefas').update(campos).eq('id',t.id).then(function(){}); } }
+    function kbCarimbo(t,col){ if(!ORD_OK) return; var c=kbConcl(t);
+      if(col==='concluido' && !c){ var fim=t.dbEtapa?t.dbEtapa.prazo_fim:t.data_fim, hj=new Date(), d=(fim && new Date(fim+'T12:00:00')<hj)?new Date(fim+'T12:00:00'):hj; kbSalvarCampos(t,{concluido_em:d.toISOString()}); } // sem data registrada: usa o prazo (se já passou) ou hoje
+      else if(col!=='concluido' && c){ kbSalvarCampos(t,{concluido_em:null}); } }
+    function kbAntigo(t){ var c=kbConcl(t); return !!c && (Date.now()-new Date(c).getTime())>30*86400000; }
+    function kbMover(list,i,dir){ if(!ORD_OK){ alert('Para guardar a ordem dos cartões, rode uma vez o arquivo sql-tarefas-ordem.sql no Supabase.'); return; } var j=i+dir; if(j<0||j>=list.length) return; var tmp=list[i]; list[i]=list[j]; list[j]=tmp; list.forEach(function(t,k){ if(kbOrd(t)!==k+1) kbSalvarCampos(t,{ordem_kb:k+1}); }); renderKanban(); }
+    (function(){ var b=document.getElementById('kanban-busca'); if(b) b.addEventListener('input',function(){ KB_BUSCA=b.value||''; renderKanban(); }); })();
     function renderKanban(){
       if(!kanban) return; kanban.innerHTML='';
-      var all=allTasks(); kbTotal(all.length);
+      var q=etqNorm(KB_BUSCA.trim()), ocultos=0;
+      var all=allTasks().filter(function(t){ var cc=efCol(t); kbCarimbo(t,cc);
+        if(q) return etqNorm(t.title+' '+t.meta).indexOf(q)>=0;   // busca: acha também os concluídos antigos
+        if(cc==='concluido' && kbAntigo(t)){ ocultos++; return false; }
+        return true; });
+      kbTotal(all.length);
       COLS.forEach(function(c){
         var col=document.createElement('div'); col.className='kcol'; col.style.setProperty('--kc',c.color); col.dataset.col=c.key;
-        var list=all.filter(function(t){return efCol(t)===c.key;});
+        var list=all.filter(function(t){return efCol(t)===c.key;}).sort(function(a,b){ var oa=kbOrd(a), ob=kbOrd(b); if(oa==null&&ob==null) return 0; if(oa==null) return 1; if(ob==null) return -1; return oa-ob; });
         col.innerHTML='<div class="kcol-head"><span class="kcol-title">'+c.label+'</span><span class="kcol-n">'+list.length+'</span></div>';
-        list.forEach(function(t){
+        list.forEach(function(t,idx){
           var card=document.createElement('div'); card.className='kcard'+(t.dbEtapa?' kcard-etapa':''); card.style.setProperty('--kc',c.color);
           var tag=t.dbEtapa?'<span class="kcard-tag">etapa</span>':'';
           var chk=(t.dbEtapa||(t.chk&&t.chk.length))?'<div class="kcard-chk">'+cardChk(t)+'</div>':'';
           var bdg=badgeResp(t.responsavel_id);
           var rod=t.dbEtapa?kcRodape(t._done,t._total,t.dbEtapa.prazo_fim,t.dbEtapa.kanban,c.key==='concluido'):kcRodape((t.chk||[]).filter(function(i){return i.done;}).length,(t.chk||[]).length,t.data_fim,t.kanban,c.key==='concluido');
-          card.innerHTML='<div class="kcard-t" style="display:flex;align-items:flex-start;gap:8px;justify-content:space-between">'+'<span>'+t.title+'</span>'+bdg+'</div>'+chipsEtq(t.etiquetas)+'<div class="kcard-m">'+t.meta+tag+'</div>'+rod;
+          var ord=(!q && list.length>1)?'<span class="kc-ord"><button type="button" class="kc-up" title="Subir na coluna" aria-label="Subir"'+(idx===0?' disabled':'')+'><svg viewBox="0 0 24 24"><path d="M6 14l6-6 6 6"/></svg></button><button type="button" class="kc-down" title="Descer na coluna" aria-label="Descer"'+(idx===list.length-1?' disabled':'')+'><svg viewBox="0 0 24 24"><path d="M6 10l6 6 6-6"/></svg></button></span>':'';
+          card.innerHTML='<div class="kcard-t" style="display:flex;align-items:flex-start;gap:8px;justify-content:space-between">'+'<span>'+t.title+'</span><span style="display:flex;align-items:center;gap:6px;flex:none">'+ord+bdg+'</span></div>'+chipsEtq(t.etiquetas)+'<div class="kcard-m">'+t.meta+tag+'</div>'+rod;
+          var bUp=card.querySelector('.kc-up'), bDn=card.querySelector('.kc-down');
+          if(bUp) bUp.addEventListener('click',function(e){ e.stopPropagation(); kbMover(list,idx,-1); });
+          if(bDn) bDn.addEventListener('click',function(e){ e.stopPropagation(); kbMover(list,idx,1); });
           card.addEventListener('click',function(){ if(card.dataset.dragged){ card.dataset.dragged=''; return; } if(t.dbEtapa){ obraId=t.projeto_id; try{localStorage.setItem('im-obra-adm',obraId);}catch(e){} location.hash='projeto'; } else { location.hash='tarefa'; openTarefa(t); } });
           if(!t.dbEtapa){
             card.setAttribute('draggable','true');
@@ -4613,6 +4707,7 @@
           }
           col.appendChild(card);
         });
+        if(c.key==='concluido' && ocultos){ var oc=document.createElement('p'); oc.className='kc-ocultos'; oc.textContent=ocultos+(ocultos===1?' cartão concluído há mais de 30 dias está oculto':' cartões concluídos há mais de 30 dias estão ocultos')+' — use a busca para encontrar.'; col.appendChild(oc); }
         var add=document.createElement('button'); add.type='button'; add.className='kadd'; add.innerHTML='<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="vertical-align:-2px;margin-right:6px"><path d="M12 5v14M5 12h14"/></svg>tarefa'; add.addEventListener('click',function(){ addTask(c.key); });
         col.appendChild(add);
         col.addEventListener('dragover',function(e){ e.preventDefault(); col.classList.add('drop'); });
@@ -4644,14 +4739,20 @@
     var tarefaHIni=document.getElementById('tarefa-hini'), tarefaHFim=document.getElementById('tarefa-hfim');
     if(tarefaHIni) tarefaHIni.addEventListener('change',function(){ if(curTask){ curTask.hora_inicio=tarefaHIni.value||''; salvarTarefa(curTask); atualizarGcal(); } });
     if(tarefaHFim) tarefaHFim.addEventListener('change',function(){ if(curTask){ curTask.hora_fim=tarefaHFim.value||''; salvarTarefa(curTask); atualizarGcal(); } });
+    /* link do Meet: vai junto para o evento do Google Agenda (local + descrição) */
+    var tarefaMeet=document.getElementById('tarefa-meet'), tarefaMeetAbrir=document.getElementById('tarefa-meet-abrir');
+    function meetBotao(){ var v=(tarefaMeet&&tarefaMeet.value||'').trim(), ok=/^https?:\/\//i.test(v); if(tarefaMeetAbrir){ tarefaMeetAbrir.style.display=ok?'':'none'; tarefaMeetAbrir.href=ok?v:'#'; } }
+    if(tarefaMeet){ tarefaMeet.addEventListener('input',meetBotao); tarefaMeet.addEventListener('change',function(){ if(!curTask) return; var v=tarefaMeet.value.trim(); if(v && !/^https?:\/\//i.test(v)) v='https://'+v; tarefaMeet.value=v; curTask.link_reuniao=v; meetBotao(); salvarTarefa(curTask); atualizarGcal(); }); }
     function vaiProGoogle(t){ return (t&&t.etiquetas||[]).some(function(n){ return n==='Reunião'||n==='Visita'; }); }
     function atualizarGcal(){
-      var t=curTask, sim=vaiProGoogle(t), hr=document.getElementById('tarefa-horas'), bx=document.getElementById('tarefa-gcal-box'), av=document.getElementById('tarefa-gcal-aviso');
-      if(hr) hr.style.display=sim?'':'none'; if(bx) bx.style.display=sim?'':'none'; if(!sim) return;
+      var t=curTask, sim=vaiProGoogle(t), hr=document.getElementById('tarefa-horas'), bx=document.getElementById('tarefa-gcal-box'), av=document.getElementById('tarefa-gcal-aviso'), mb=document.getElementById('tarefa-meet-box');
+      if(hr) hr.style.display=sim?'':'none'; if(bx) bx.style.display=sim?'':'none'; var reun=(t&&t.etiquetas||[]).indexOf('Reunião')>=0; /* Meet só para Reunião (Visita não precisa) */ if(mb) mb.style.display=reun?'':'none'; if(!sim) return;
       if(tarefaHIni) tarefaHIni.value=t.hora_inicio||''; if(tarefaHFim) tarefaHFim.value=t.hora_fim||'';
+      if(tarefaMeet && document.activeElement!==tarefaMeet){ tarefaMeet.value=t.link_reuniao||''; meetBotao(); }
       var msg='';
       if(!(t.data_inicio||t.data_fim)) msg='Defina a data de início para ela aparecer no Google Agenda.';
       if(!HORA_OK) msg=(msg?msg+' ':'')+'Para gravar o horário, rode uma vez o arquivo sql-agenda-google.sql no Supabase.';
+      if(!MEET_OK && reun) msg=(msg?msg+' ':'')+'Para gravar o link do Meet, rode uma vez o arquivo sql-tarefas-meet.sql no Supabase.';
       if(av){ av.textContent=msg; av.style.display=msg?'':'none'; }
     }
     /* link de assinatura do Google Agenda (tela Agenda): código secreto guardado na tabela agenda_google (só admin) */
@@ -4799,13 +4900,15 @@
     async function renderAgendaHoje(){
       var ul=document.getElementById('today-list'); if(!ul) return;
       var hoje=new Date(); hoje.setHours(0,0,0,0); var ht=hoje.getTime(); var itens=[];
-      function noPeriodo(a,b){ var ini=a?new Date(a+'T00:00:00'):(b?new Date(b+'T00:00:00'):null); if(!ini) return null; var fim=b?new Date(b+'T00:00:00'):new Date(ini); ini.setHours(0,0,0,0); fim.setHours(0,0,0,0); return (ht>=ini.getTime()&&ht<=fim.getTime())?fim:null; }
+      function noPeriodo(a,b){ var ini=a?new Date(a+'T00:00:00'):(b?new Date(b+'T00:00:00'):null); if(!ini) return null; var fim=b?new Date(b+'T00:00:00'):new Date(ini); ini.setHours(0,0,0,0); fim.setHours(0,0,0,0); return (ht>=ini.getTime())?fim:null; } /* já começou: no período de hoje ou atrasada (não concluída continua na agenda) */
+      function dm(d){ return ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2); }
       try{ var re=await sb.from('etapas').select('nome,status,kanban,prazo_inicio,prazo_fim,responsavel_id,projetos(nome)');
-        (re&&re.data?re.data:[]).forEach(function(e){ var fim=noPeriodo(e.prazo_inicio,e.prazo_fim); if(!fim) return; var stTxt=(e.status==='concluida')?'concluído':(emAnalise(e.kanban)?(e.kanban==='revisao'?'em revisão':'aguardando aprovação'):((fim.getTime()<ht)?'atrasado':'em andamento')); itens.push({nome:(e.projetos?e.projetos.nome:'projeto')+' · '+e.nome, sub:(e.responsavel_id?(NOME_BY_ID[e.responsavel_id]||'equipe'):'sem responsável')+' · '+stTxt}); });
+        (re&&re.data?re.data:[]).forEach(function(e){ if(e.status==='concluida') return; /* agenda de hoje: só o que não foi concluído */ var fim=noPeriodo(e.prazo_inicio,e.prazo_fim); if(!fim) return; var stTxt=(e.status==='concluida')?'concluído':(emAnalise(e.kanban)?(e.kanban==='revisao'?'em revisão':'aguardando aprovação'):((fim.getTime()<ht)?'atrasado':'em andamento')); if(stTxt==='atrasado') stTxt='atrasado desde '+dm(fim); itens.push({f:fim.getTime(), nome:(e.projetos?e.projetos.nome:'projeto')+' · '+e.nome, sub:(e.responsavel_id?(NOME_BY_ID[e.responsavel_id]||'equipe'):'sem responsável')+' · '+stTxt}); });
       }catch(e){}
-      try{ var rt=await sb.from('tarefas').select('title,responsavel_id,data_inicio,data_fim');
-        (rt&&rt.data?rt.data:[]).forEach(function(t){ if(!noPeriodo(t.data_inicio,t.data_fim)) return; itens.push({nome:t.title||'tarefa', sub:(t.responsavel_id?(NOME_BY_ID[t.responsavel_id]||'equipe'):'—')+' · tarefa avulsa'}); });
+      try{ var rt=await sb.from('tarefas').select('title,responsavel_id,data_inicio,data_fim,col,chk,kanban');
+        (rt&&rt.data?rt.data:[]).forEach(function(t){ var ck=Array.isArray(t.chk)?t.chk:[]; var concl=!t.kanban && (t.col==='concluido' || (ck.length && ck.every(function(i){ return i.done; }))); if(concl) return; var fimT=noPeriodo(t.data_inicio,t.data_fim); if(!fimT) return; itens.push({f:fimT.getTime(), nome:t.title||'tarefa', sub:(t.responsavel_id?(NOME_BY_ID[t.responsavel_id]||'equipe'):'—')+' · tarefa avulsa'+(fimT.getTime()<ht?' · atrasada desde '+dm(fimT):'')}); });
       }catch(e){}
+      itens.sort(function(a,b){ return a.f-b.f; }); /* atrasadas primeiro */
       ul.innerHTML = itens.length ? itens.map(function(i){ return '<li class="td"><span class="td-dot"></span><div><div class="td-name">'+i.nome+'</div><div class="td-sub">'+i.sub+'</div></div></li>'; }).join('') : '<li class="td"><div><div class="td-sub" style="color:var(--ink-3)">Nada agendado para hoje.</div></div></li>';
       var ev=document.getElementById('st-eventos'); if(ev) ev.textContent=itens.length;
     }
@@ -5754,7 +5857,7 @@
     {k:'geminadas',l:'Geminadas: quantas?',ph:'vazio = isolada',docs:[]},
     {k:'cx_gradeamento',l:'Caixa de gradeamento (viabilidade de esgoto)',opts:['SIM','NÃO','NÃO SE APLICA'],docs:[],soRede:true},
     {k:'cx_quebra',l:'Caixa de quebra de pressão (viabilidade de esgoto)',opts:['SIM','NÃO','NÃO SE APLICA'],docs:[],soRede:true},
-    {k:'destino_pluvial',l:'Destino das águas pluviais',ph:'Sarjeta',docs:[]},
+    {k:'destino_pluvial',l:'Destino das águas pluviais',opts:['Sarjeta','Rede pública de drenagem','Infiltração no terreno','Sumidouro / vala de infiltração'],docs:[]},
     {g:'Relatório de vistoria (habite-se)'},
     {k:'phs_proc',l:'Nº do processo de aprovação do PHS',ph:'dispensado p/ legalização Lei 374/10',docs:['vistoria']},
     {k:'hidrometro',l:'Nº do(s) hidrômetro(s)',docs:['vistoria']},
@@ -5928,6 +6031,7 @@
       if(c.soCis && !/^s/i.test(ST.dados.af_cisterna||'')) return;
       var precisa=(c.docs||[]).some(function(k){ return lista.indexOf(k)>=0; });
       if(c.img){ campoImagem(c,grid,precisa); return; }
+      if(c.soApv && !/^s/i.test(ST.dados.apv||'')) return; /* sem aproveitamento: nada de aproveitamento aparece (nem as opções marcáveis) */
       if(c.multi){ /* várias opções marcáveis; guardado como "A, B, C" */
         var wm=document.createElement('div'); wm.style.gridColumn='1/-1';
         var atual=String(ST.dados[c.k]||'').toLowerCase();
@@ -5958,7 +6062,7 @@
       if(c.soInf && /pluvial/i.test(ST.dados.esg_inf||'')) return;
       if(c.soMulti && !/multi/i.test((ST.proj&&ST.proj.tipo)||'')) return;
       if(c.k==='esg_sum_dim' && /ret/i.test(ST.dados.esg_sum_forma||'')) c=Object.assign({},c,{l:'Sumidouro: comprimento x largura (m)',ph:'ex.: 1,50 x 1,00'});
-      if(c.opts){ var ws=document.createElement('div'); ws.innerHTML='<label>'+esc(c.l)+'</label><select><option value="">—</option>'+c.opts.map(function(o){ return '<option'+(ST.dados[c.k]===o?' selected':'')+'>'+esc(o)+'</option>'; }).join('')+'</select>'; var sl=ws.querySelector('select'); if(precisa && !sl.value) sl.classList.add('vazio'); sl.addEventListener('change',function(){ ST.dados[c.k]=sl.value; sl.classList.toggle('vazio', precisa && !sl.value); if(/^(af_cisterna|esg_inf|esg_sum_forma|esg_trat|esg_rec|pl_rec|apv|enquadramento|cf_recurso|vist_lic|oleo|pre_trat|cf_8_1)$/.test(c.k)) desenharCampos(); desenharDocs(); }); grid.appendChild(ws); return; }
+      if(c.opts){ var ws=document.createElement('div'), vOld=ST.dados[c.k]; if(vOld && c.opts.indexOf(vOld)<0) c=Object.assign({},c,{opts:[vOld].concat(c.opts)}); /* valor digitado antes continua aparecendo */ ws.innerHTML='<label>'+esc(c.l)+'</label><select><option value="">—</option>'+c.opts.map(function(o){ return '<option'+(ST.dados[c.k]===o?' selected':'')+'>'+esc(o)+'</option>'; }).join('')+'</select>'; var sl=ws.querySelector('select'); if(precisa && !sl.value) sl.classList.add('vazio'); sl.addEventListener('change',function(){ ST.dados[c.k]=sl.value; sl.classList.toggle('vazio', precisa && !sl.value); if(/^(af_cisterna|esg_inf|esg_sum_forma|esg_trat|esg_rec|pl_rec|apv|enquadramento|cf_recurso|vist_lic|oleo|pre_trat|cf_8_1)$/.test(c.k)) desenharCampos(); desenharDocs(); }); grid.appendChild(ws); return; }
       if(c.k==='descricao' && !String(ST.dados.descricao||'').trim()) ST.dados.descricao=descAuto();
       if(c.k==='reserv'||c.k==='cist_vol'){ try{ var cm=calcMemorial(ST.dados,true), cis=ehCol() && /^s/i.test(ST.dados.af_cisterna||''); c=Object.assign({},c,{ph:'mínimo '+nf(c.k==='cist_vol'?cm.consumo*0.6:cm.consumo*(cis?0.4:1),0)+' L'+(c.k==='reserv'&&ehCol()?' no total':'')}); }catch(e){} }
       var w=document.createElement('div'); if(c.largo) w.style.gridColumn='1/-1'; w.innerHTML='<label>'+esc(c.l)+'</label><input type="text" placeholder="'+esc(c.ph||'')+'" value="'+esc(ST.dados[c.k]||'')+'">';
