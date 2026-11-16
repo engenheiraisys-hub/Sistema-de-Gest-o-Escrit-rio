@@ -405,6 +405,10 @@
   .tk-meet-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .tk-meet-row .tk-in{flex:1 1 220px;min-width:0}
   .tk-meet-row .pill{flex:none;justify-content:center}
+  .tk-meet-auto{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.45;color:var(--ink-2);margin:2px 0 10px;cursor:pointer}
+  .tk-meet-auto input{width:16px;height:16px;margin:1px 0 0;accent-color:var(--gold);flex:none}
+  .tk-meet-auto b{color:var(--ink);font-weight:600}
+  .tk-meet-row .tk-in[readonly]{color:var(--ink-2);background:var(--panel-2)}
   #tarefa-note:empty{display:none}
   #cli-senha:disabled{opacity:.4}
   #colab-acesso-note:empty{display:none}
@@ -1266,6 +1270,16 @@
   #view-contratos .ct-link{border:none;background:none;padding:0;font:inherit;color:var(--gold);text-decoration:underline;cursor:pointer}
   #view-contratos .ct-resumo{font-size:13px;line-height:1.6;color:var(--ink-2);background:var(--panel-2);border-radius:var(--r-sm);padding:10px 12px}
   #view-contratos .ct-resumo b{color:var(--ink);font-weight:600}
+  /* outros contratantes */
+  #view-contratos .ct-extra{border-top:1px solid var(--hair-soft);margin-top:16px;padding-top:14px}
+  #view-contratos .ct-extra-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  #view-contratos .ct-extra-h b{font-size:13px;font-weight:600;color:var(--ink);letter-spacing:.02em}
+  #view-contratos .ct-extra-del,#view-orcamentos .oc-cli-del{border:none;background:none;padding:0;font:inherit;font-size:12.5px;color:var(--red);cursor:pointer;text-decoration:underline}
+  #view-contratos .ct-add,#view-orcamentos .oc-add-cli{display:inline-flex;align-items:center;gap:6px;margin-top:14px;border:1px dashed var(--hair);background:none;border-radius:999px;padding:7px 14px;font:inherit;font-size:12.5px;color:var(--ink-2);cursor:pointer}
+  #view-contratos .ct-add:hover,#view-orcamentos .oc-add-cli:hover{border-color:var(--gold);color:var(--gold)}
+  #view-contratos .ct-add svg,#view-orcamentos .oc-add-cli svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+  #view-orcamentos .oc-cli-x{display:flex;gap:10px;align-items:center;margin-top:8px}
+  #view-orcamentos .oc-cli-x input{flex:1;min-width:0}
   /* serviços: grupo com marcação + etapas com prazo */
   #view-contratos .ct-sv{border-bottom:1px solid var(--hair-soft);padding:10px 0}
   #view-contratos .ct-sv:last-child{border-bottom:none}
@@ -2036,7 +2050,7 @@
         </div>
 
         <div class="oc-card">
-          <div class="oc-card-h"><span class="oc-n">2</span><b>Contratante</b><span>Os dados vêm do cadastro do cliente.</span></div>
+          <div class="oc-card-h"><span class="oc-n">2</span><b>Contratante</b><span>Os dados vêm do cadastro do cliente. Pode haver mais de um.</span></div>
           <div class="oc-g2">
             <div class="field full"><label for="ct-cliente">Cliente cadastrado</label><select id="ct-cliente"><option value="">— escolha o cliente —</option></select></div>
             <div class="field full"><label for="ct-pessoa">Tipo</label><select id="ct-pessoa"><option value="pf">Pessoa física</option><option value="pj">Pessoa jurídica (empresa)</option></select></div>
@@ -2053,6 +2067,8 @@
             <div class="field"><label for="ct-c-cep">CEP</label><input id="ct-c-cep" type="text"></div>
             <div class="field"><label for="ct-c-email">E-mail (notificações)</label><input id="ct-c-email" type="email"></div>
           </div>
+          <div id="ct-extras"></div>
+          <button type="button" class="ct-add" id="ct-add-cli"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>adicionar outro contratante</button>
         </div>
 
         <div class="oc-card">
@@ -2203,7 +2219,9 @@
         <div class="oc-card">
           <div class="oc-card-h"><span class="oc-n">1</span><b>Cliente e obra</b></div>
           <div class="oc-g2">
-            <div class="field full"><label>Nome do cliente</label><input id="oc-cliente" type="text" list="oc-clientes-dl" placeholder="Ex.: Vanessa e Renan"><datalist id="oc-clientes-dl"></datalist></div>
+            <div class="field full"><label>Nome do cliente</label><input id="oc-cliente" type="text" list="oc-clientes-dl" placeholder="Ex.: Vanessa"><datalist id="oc-clientes-dl"></datalist>
+              <div id="oc-cli-extra"></div>
+              <button type="button" class="oc-add-cli" id="oc-add-cli"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>adicionar outro cliente</button></div>
             <div class="field"><label>Tipo de edificação</label><select id="oc-tipo"><option value="">—</option><option>Residencial</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
             <div class="field"><label>Situação</label><select id="oc-status"><option value="aberta">Não fechada</option><option value="fechada">Fechada</option></select></div>
             <div class="field full"><label>Objeto do orçamento</label><input id="oc-objeto" type="text" placeholder="Ex.: Edificação multifamiliar"></div>
@@ -2414,12 +2432,13 @@
         <div class="tk-f"><label class="tk-lbl" for="tarefa-hfim"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Hora término</label><input id="tarefa-hfim" type="time" class="tk-in"></div>
       </div>
       <div class="tk-f" id="tarefa-meet-box" style="display:none">
-        <label class="tk-lbl" for="tarefa-meet"><svg viewBox="0 0 24 24"><rect x="3" y="6.5" width="12.5" height="11" rx="2"/><path d="M15.5 10.5l5-3v9l-5-3"/></svg>Link da reunião (Meet)</label>
+        <label class="tk-lbl" for="tarefa-meet"><svg viewBox="0 0 24 24"><rect x="3" y="6.5" width="12.5" height="11" rx="2"/><path d="M15.5 10.5l5-3v9l-5-3"/></svg>Link da reunião</label>
+        <label class="tk-meet-auto"><input type="checkbox" id="tarefa-meet-auto"><span><b>Reunião Meet</b> — o link é criado automaticamente no Google Agenda</span></label>
         <div class="tk-meet-row">
-          <input id="tarefa-meet" type="url" class="tk-in" placeholder="cole aqui o link do Meet" autocomplete="off">
-          <a class="pill ghost sm" id="tarefa-meet-novo" href="https://meet.google.com/new" target="_blank" rel="noopener">criar Meet</a>
+          <input id="tarefa-meet" type="url" class="tk-in" placeholder="ou cole aqui o link de outra reunião" autocomplete="off">
           <a class="pill ghost sm" id="tarefa-meet-abrir" href="#" target="_blank" rel="noopener" style="display:none">entrar</a>
         </div>
+        <p class="etq-aviso" id="tarefa-meet-nota" style="display:none"></p>
       </div>
       <div class="tk-f" id="tarefa-gcal-box" style="display:none">
         <p class="note" id="tarefa-gcal" style="margin:0">Esta tarefa vai automaticamente para o Google Agenda (link de assinatura na tela Agenda).</p>
@@ -4824,13 +4843,17 @@
       try{ var rm=await sb.from('tarefas').select('id,link_reuniao'); MEET_OK=!!(rm&&!rm.error);
         if(MEET_OK){ var mm={}; (rm.data||[]).forEach(function(r){ mm[r.id]=r.link_reuniao||''; }); (TASKS||[]).forEach(function(t){ if(t.id in mm) t.link_reuniao=mm[t.id]; }); }
       }catch(e4){ MEET_OK=false; }
+      // Reunião Meet automática (sql-tarefas-meet-google.sql): evento criado no Google Agenda com o link do Meet
+      try{ var rg=await sb.from('tarefas').select('id,meet_auto,google_evento_id'); MEETG_OK=!!(rg&&!rg.error);
+        if(MEETG_OK){ var gm={}; (rg.data||[]).forEach(function(r){ gm[r.id]=r; }); (TASKS||[]).forEach(function(t){ var r=gm[t.id]; if(r){ t.meet_auto=!!r.meet_auto; t.google_evento_id=r.google_evento_id||''; } }); }
+      }catch(e5){ MEETG_OK=false; }
       // ordem no quadro + data de conclusão (colunas novas; sem o SQL, o quadro segue como antes)
       try{ var ro=await sb.from('tarefas').select('id,ordem_kb,concluido_em'); ORD_OK=ORD_E && !!(ro&&!ro.error);
         if(ro&&!ro.error){ var om={}; (ro.data||[]).forEach(function(r){ om[r.id]=r; }); (TASKS||[]).forEach(function(t){ var r=om[t.id]; if(r){ t.ordem_kb=r.ordem_kb; t.concluido_em=r.concluido_em; } }); }
       }catch(e4){ ORD_OK=false; }
     }
-    var HORA_OK=false, MEET_OK=false, ORD_OK=false, ORD_E=false, KB_BUSCA='';
-    function salvarTarefa(t){ if(!t||!t.id) return; var up={title:t.title, meta:t.meta, col:t.col, chk:t.chk, responsavel_id:t.responsavel_id||null, kanban:t.kanban||null, data_inicio:t.data_inicio||null, data_fim:t.data_fim||null}; if(ETQ_OK) up.etiquetas=t.etiquetas||[]; if(HORA_OK){ up.hora_inicio=t.hora_inicio||null; up.hora_fim=t.hora_fim||null; } if(MEET_OK) up.link_reuniao=t.link_reuniao||null; sb.from('tarefas').update(up).eq('id',t.id).then(function(r){ if(r&&r.error){} }); }
+    var HORA_OK=false, MEET_OK=false, MEETG_OK=false, ORD_OK=false, ORD_E=false, KB_BUSCA='';
+    function salvarTarefa(t){ if(!t||!t.id) return; var up={title:t.title, meta:t.meta, col:t.col, chk:t.chk, responsavel_id:t.responsavel_id||null, kanban:t.kanban||null, data_inicio:t.data_inicio||null, data_fim:t.data_fim||null}; if(ETQ_OK) up.etiquetas=t.etiquetas||[]; if(HORA_OK){ up.hora_inicio=t.hora_inicio||null; up.hora_fim=t.hora_fim||null; } if(MEET_OK) up.link_reuniao=t.link_reuniao||null; sb.from('tarefas').update(up).eq('id',t.id).then(function(r){ if(r&&r.error){} else if(t.meet_auto && window.meetSincronizar) window.meetSincronizar(t); }); }
     function efCol(t){ if(t.dbEtapa) return t.col; if(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente') return t.kanban; if(t.chk&&t.chk.length&&t.chk.every(function(i){return i.done;})) return 'concluido'; if(t.col==='concluido') return 'concluido'; if(t.chk&&t.chk.some(function(i){return i.done;})) return 'andamento'; return t.col||'afazer'; }
     function iniResp(id){ var n=NOME_BY_ID[id]||''; if(!n) return ''; var p=n.trim().split(/\s+/); return (((p[0]||'')[0]||'')+((p[1]||'')[0]||'')).toUpperCase(); }
     function corResp(id){ var pal=['#5F7C8A','#5E7D57','#C08A1E','#AA564A','#7a6a58','#8b7fa3','#6E4B3A','#A85C74']; var s=String(id||''),h=0; for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return pal[h%pal.length]; }
@@ -4931,14 +4954,59 @@
     if(tarefaHFim) tarefaHFim.addEventListener('change',function(){ if(curTask){ curTask.hora_fim=tarefaHFim.value||''; salvarTarefa(curTask); atualizarGcal(); } });
     /* link do Meet: vai junto para o evento do Google Agenda (local + descrição) */
     var tarefaMeet=document.getElementById('tarefa-meet'), tarefaMeetAbrir=document.getElementById('tarefa-meet-abrir');
+    var tarefaMeetAuto=document.getElementById('tarefa-meet-auto'), tarefaMeetNota=document.getElementById('tarefa-meet-nota');
     function meetBotao(){ var v=(tarefaMeet&&tarefaMeet.value||'').trim(), ok=/^https?:\/\//i.test(v); if(tarefaMeetAbrir){ tarefaMeetAbrir.style.display=ok?'':'none'; tarefaMeetAbrir.href=ok?v:'#'; } }
-    if(tarefaMeet){ tarefaMeet.addEventListener('input',meetBotao); tarefaMeet.addEventListener('change',function(){ if(!curTask) return; var v=tarefaMeet.value.trim(); if(v && !/^https?:\/\//i.test(v)) v='https://'+v; tarefaMeet.value=v; curTask.link_reuniao=v; meetBotao(); salvarTarefa(curTask); atualizarGcal(); }); }
+    if(tarefaMeet){ tarefaMeet.addEventListener('input',meetBotao); tarefaMeet.addEventListener('change',function(){ if(!curTask||curTask.meet_auto) return; var v=tarefaMeet.value.trim(); if(v && !/^https?:\/\//i.test(v)) v='https://'+v; tarefaMeet.value=v; curTask.link_reuniao=v; meetBotao(); salvarTarefa(curTask); atualizarGcal(); }); }
+    /* ---- Reunião Meet automática: a função "agenda-meet" cria/atualiza/remove o evento no Google Agenda com o Meet ---- */
+    function meetNota(t, msg){ if(t!==curTask||!tarefaMeetNota) return; tarefaMeetNota.textContent=msg||''; tarefaMeetNota.style.display=msg?'':'none'; }
+    async function chamarMeet(acao, t){
+      var r=await sb.functions.invoke('agenda-meet',{ body:{ acao:acao, id:t.id } });
+      if(r&&r.error){ var m=''; try{ var j=await r.error.context.json(); m=j&&j.erro; }catch(e){}
+        if(!m) m=/Failed to send|FunctionsFetchError|404/i.test(String(r.error.message||r.error.name||''))?'A função agenda-meet ainda não foi publicada no Supabase.':(r.error.message||'erro desconhecido');
+        throw new Error(m); }
+      return (r&&r.data)||{};
+    }
+    function assinatura(t){ return [t.title,t.data_inicio,t.data_fim,t.hora_inicio,t.hora_fim].join('|'); }
+    var meetTimers={};
+    window.meetSincronizar=function(t, ja){
+      if(!t||!t.id||!t.meet_auto) return;
+      if(!(t.data_inicio||t.data_fim)){ meetNota(t,'Defina a data da reunião para criar o link no Google Agenda.'); return; }
+      if(t.google_evento_id && t.__meetAss===assinatura(t) && !ja) return; /* nada mudou no que vai para a agenda */
+      clearTimeout(meetTimers[t.id]);
+      meetTimers[t.id]=setTimeout(async function(){
+        meetNota(t, t.google_evento_id?'Atualizando a reunião no Google Agenda…':'Criando a reunião no Google Agenda…');
+        try{ var d=await chamarMeet('criar',t); t.link_reuniao=d.link||t.link_reuniao||''; t.google_evento_id=d.evento||t.google_evento_id||''; t.__meetAss=assinatura(t);
+          if(t===curTask&&tarefaMeet){ tarefaMeet.value=t.link_reuniao; meetBotao(); }
+          meetNota(t, t.link_reuniao?'':'O Google ainda não devolveu o link; ele aparece aqui em instantes.'); }
+        catch(e){ meetNota(t,'Não foi possível criar a reunião no Google Agenda: '+e.message); }
+      }, ja?0:1200);
+    };
+    async function meetDesligar(t){
+      if(!t) return; var tinha=!!t.google_evento_id; t.meet_auto=false;
+      if(MEETG_OK && !tinha){ sb.from('tarefas').update({meet_auto:false}).eq('id',t.id).then(function(){}); }
+      if(tinha){ meetNota(t,'Removendo a reunião do Google Agenda…');
+        try{ await chamarMeet('remover',t); t.google_evento_id=''; t.link_reuniao=''; t.__meetAss=''; meetNota(t,''); }
+        catch(e){ meetNota(t,'Não foi possível remover do Google Agenda: '+e.message); } }
+      if(t===curTask){ if(tarefaMeet){ tarefaMeet.value=t.link_reuniao||''; meetBotao(); } atualizarGcal(); }
+    }
+    window.meetDesligar=meetDesligar; window.meetChamar=chamarMeet;
+    if(tarefaMeetAuto) tarefaMeetAuto.addEventListener('change',function(){
+      var t=curTask; if(!t) return;
+      if(!MEETG_OK){ tarefaMeetAuto.checked=false; meetNota(t,'Para usar a Reunião Meet, rode uma vez o arquivo sql-tarefas-meet-google.sql no Supabase.'); return; }
+      if(tarefaMeetAuto.checked){ t.meet_auto=true; sb.from('tarefas').update({meet_auto:true}).eq('id',t.id).then(function(){}); atualizarGcal(); window.meetSincronizar(t,true); }
+      else meetDesligar(t);
+    });
     function vaiProGoogle(t){ return (t&&t.etiquetas||[]).some(function(n){ return n==='Reunião'||n==='Visita'; }); }
     function atualizarGcal(){
       var t=curTask, sim=vaiProGoogle(t), hr=document.getElementById('tarefa-horas'), bx=document.getElementById('tarefa-gcal-box'), av=document.getElementById('tarefa-gcal-aviso'), mb=document.getElementById('tarefa-meet-box');
-      if(hr) hr.style.display=sim?'':'none'; if(bx) bx.style.display=sim?'':'none'; var reun=(t&&t.etiquetas||[]).indexOf('Reunião')>=0; /* Meet só para Reunião (Visita não precisa) */ if(mb) mb.style.display=reun?'':'none'; if(!sim) return;
+      if(hr) hr.style.display=sim?'':'none'; if(bx) bx.style.display=sim?'':'none'; var reun=(t&&t.etiquetas||[]).indexOf('Reunião')>=0; /* Meet só para Reunião (Visita não precisa) */ if(mb) mb.style.display=reun?'':'none';
+      if(t && t.meet_auto && !reun){ meetDesligar(t); return; } /* tirou a etiqueta Reunião: a reunião sai do Google Agenda */
+      if(!sim) return;
       if(tarefaHIni) tarefaHIni.value=t.hora_inicio||''; if(tarefaHFim) tarefaHFim.value=t.hora_fim||'';
-      if(tarefaMeet && document.activeElement!==tarefaMeet){ tarefaMeet.value=t.link_reuniao||''; meetBotao(); }
+      if(tarefaMeetAuto) tarefaMeetAuto.checked=!!t.meet_auto;
+      if(tarefaMeet){ tarefaMeet.readOnly=!!t.meet_auto; tarefaMeet.placeholder=t.meet_auto?'o link do Meet aparece aqui depois de criado':'ou cole aqui o link de outra reunião'; if(document.activeElement!==tarefaMeet){ tarefaMeet.value=t.link_reuniao||''; meetBotao(); } }
+      if(t.__meetAss==null && t.google_evento_id) t.__meetAss=assinatura(t);
+      if(t.meet_auto && !(t.data_inicio||t.data_fim)) meetNota(t,'Defina a data da reunião para criar o link no Google Agenda.'); else if(!t.meet_auto || t.link_reuniao) meetNota(t,'');
       var msg='';
       if(!(t.data_inicio||t.data_fim)) msg='Defina a data de início para ela aparecer no Google Agenda.';
       if(!HORA_OK) msg=(msg?msg+' ':'')+'Para gravar o horário, rode uma vez o arquivo sql-agenda-google.sql no Supabase.';
@@ -5000,7 +5068,9 @@
     document.getElementById('tarefa-additem').addEventListener('click',function(){ var inp=document.getElementById('tarefa-newitem'); var v=inp.value.trim(); if(v&&curTask){ curTask.chk.push({t:v,done:false}); inp.value=''; renderTarefaCheck(); salvarTarefa(curTask); renderKanban(); } });
     document.getElementById('tarefa-newitem').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('tarefa-additem').click(); } });
     document.getElementById('tarefa-back').addEventListener('click',function(){ renderKanban(); history.length>1?history.back():(location.hash=''); });
-    document.getElementById('tarefa-remove').addEventListener('click',function(){ if(curTask){ var id=curTask.id; TASKS=TASKS.filter(function(x){return x!==curTask;}); if(id){ sb.from('tarefas').delete().eq('id',id).then(function(){}); } renderKanban(); location.hash='tarefas'; } });
+    document.getElementById('tarefa-remove').addEventListener('click',async function(){ if(curTask){ var id=curTask.id, tk=curTask; TASKS=TASKS.filter(function(x){return x!==curTask;});
+      if(id && tk.google_evento_id && window.meetChamar){ try{ await window.meetChamar('remover',tk); }catch(e){} } /* a reunião sai do Google Agenda junto */
+      if(id){ sb.from('tarefas').delete().eq('id',id).then(function(){}); } renderKanban(); location.hash='tarefas'; } });
     document.getElementById('tarefa-inserir').addEventListener('click',function(){ if(curTask){ if(tarefaColSel) curTask.kanban=tarefaColSel.value; salvarTarefa(curTask); location.hash='tarefas'; renderKanban(); } });
     document.getElementById('tarefa-concluir').addEventListener('click',function(){ if(curTask){ curTask.col='concluido'; curTask.kanban=''; if(tarefaColSel) tarefaColSel.value=''; if(tarefaMeta) tarefaMeta.textContent='Situação: Concluído'; salvarTarefa(curTask); location.hash='tarefas'; renderKanban(); } });
     function autoConcluir(t){ if(t&&t.chk&&t.chk.length&&t.chk.every(function(i){return i.done;})){ t.col='concluido'; return true; } return false; }
@@ -5260,9 +5330,15 @@
       v:{total:'',desc:'',parc:1,primeira:'ato'},
       b:Object.assign({},BANCO),
       cd:{alt:3,altDias:15,vis:3,visValor:'200,00',visHoras:2,visAnt:5,recDe:y+'-12-18',recAte:(y+1)+'-01-11',multa:35,atraso:10,valid:10,anos:1,foro:'Florianópolis/SC'},
-      naoOff:[],naoExtra:'',manual:null};
+      cs:[], naoOff:[],naoExtra:'',manual:null};
   }
-  function mesclar(d){ var c=novo(); if(!d) return c; ['numero','data','cidade','proposta','cliente_id','projeto_id','naoExtra','manual'].forEach(function(k){ if(d[k]!=null) c[k]=d[k]; }); if(Array.isArray(d.naoOff)) c.naoOff=d.naoOff.slice(); ['c','o','sv','sub','dias','v','b','cd'].forEach(function(k){ if(d[k]&&typeof d[k]==='object') Object.assign(c[k],d[k]); }); return c; }
+  /* contratante extra (2º, 3º...): mesmos campos do principal + o cliente cadastrado dele */
+  function novoCt(){ return {cliente_id:'',pessoa:'pf',nome:'',nac:'',civil:'',prof:'',rg:'',doc:'',rep:'',end:'',bairro:'',cid:'',cep:'',email:''}; }
+  function contratantes(C){ return [C.c].concat(C.cs||[]); }
+  function idsClientes(C){ var a=[]; [C.cliente_id].concat((C.cs||[]).map(function(x){ return x.cliente_id; })).forEach(function(id){ if(id && a.indexOf(id)<0) a.push(id); }); return a; }
+  function nomesClientes(C){ return lista(contratantes(C).map(function(x){ return String(x.nome||'').trim(); })); }
+  function mesclar(d){ var c=novo(); if(!d) return c; ['numero','data','cidade','proposta','cliente_id','projeto_id','naoExtra','manual'].forEach(function(k){ if(d[k]!=null) c[k]=d[k]; }); if(Array.isArray(d.naoOff)) c.naoOff=d.naoOff.slice(); ['c','o','sv','sub','dias','v','b','cd'].forEach(function(k){ if(d[k]&&typeof d[k]==='object') Object.assign(c[k],d[k]); });
+    if(Array.isArray(d.cs)) c.cs=d.cs.map(function(x){ return Object.assign(novoCt(),x); }); return c; }
 
   function pagar(C){ var V=r2(num(C.v.total)), d=num(C.v.desc), P=r2(V*(1-d/100)), n=Math.max(1,parseInt(C.v.parc,10)||1);
     var X=Math.floor(P/n*100+1e-6)/100, last=r2(P-X*(n-1)); return {V:V,d:d,P:P,n:n,X:X,last:last}; }
@@ -5288,11 +5364,15 @@
     o.push('<div class="topo kw"><div class="wm"><b>ISYS MATTOS</b><span>engenharia . arquitetura</span></div></div>');
     o.push('<h1 class="kw">CONTRATO DE PRESTAÇÃO DE SERVIÇO</h1>');
     o.push('<p class="numc kw">Nº: '+B(C.numero,'____')+'</p>');
-    var qc, loc=(t(c.bairro)?', no bairro '+esc(t(c.bairro)):'')+(t(c.cid)?', no município de '+esc(t(c.cid)):'')+(t(c.cep)?', CEP '+esc(t(c.cep)):'');
-    if(pj){ qc='<b>'+B(c.nome)+'</b>, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº '+B(c.doc)+', com sede em '+B(c.end)+loc+(t(c.rep)?', neste ato representada por '+esc(t(c.rep)):'')+', denominada <b>CONTRATANTE</b>'; }
-    else { var q=[c.nac,c.civil,c.prof].map(t).filter(Boolean).map(esc);
+    /* qualificação de cada contratante (pode haver mais de um: "denominados, em conjunto, CONTRATANTE") */
+    function qual(c){ var pjx=c.pessoa==='pj', loc=(t(c.bairro)?', no bairro '+esc(t(c.bairro)):'')+(t(c.cid)?', no município de '+esc(t(c.cid)):'')+(t(c.cep)?', CEP '+esc(t(c.cep)):'');
+      if(pjx) return '<b>'+B(c.nome)+'</b>, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº '+B(c.doc)+', com sede em '+B(c.end)+loc+(t(c.rep)?', neste ato representada por '+esc(t(c.rep)):'');
+      var q=[c.nac,c.civil,c.prof].map(t).filter(Boolean).map(esc);
       var dc=t(c.rg)&&t(c.doc)?'portador do RG: '+esc(t(c.rg))+' e CPF '+esc(t(c.doc)):(t(c.doc)?'portador do CPF '+esc(t(c.doc)):(t(c.rg)?'portador do RG: '+esc(t(c.rg)):'portador do CPF __________'));
-      qc='<b>'+B(c.nome)+'</b>'+(q.length?', '+q.join(', '):'')+', residente e domiciliado(a) em '+B(c.end)+loc+', '+dc+', denominado <b>CONTRATANTE</b>'; }
+      return '<b>'+B(c.nome)+'</b>'+(q.length?', '+q.join(', '):'')+', residente e domiciliado(a) em '+B(c.end)+loc+', '+dc; }
+    var TODOS=contratantes(C), qc;
+    if(TODOS.length===1) qc=qual(c)+(pj?', denominada':', denominado')+' <b>CONTRATANTE</b>';
+    else { var qs=TODOS.map(qual); qc=qs.slice(0,-1).join('; ')+'; e '+qs[qs.length-1]+', doravante denominados, em conjunto, simplesmente <b>CONTRATANTE</b>'; }
     P('Por meio do presente instrumento particular de contrato que celebram entre si, de um lado '+qc+', do outro, <b>'+CONTRATADO.nome+'</b>, '+CONTRATADO.qual+', denominada <b>CONTRATADO</b>, com fundamento nas normas constantes do Código Civil Brasileiro, Código Nacional do Consumidor, Lei Federal nº 12.378/2010, Resolução nº 21 (Atribuições) e Resolução nº 1.043/2012 (Tabela de Honorários), do CREA/BR, sendo regido por essas leis e discriminado nas seguintes cláusulas.');
 
     /* 1 · objeto */
@@ -5389,7 +5469,7 @@
       'Sempre que houver a atuação de advogado para cobrança de obrigações não cumpridas, que sejam devidas por uma parte a outra por força deste contrato, a parte inadimplente estará sujeita a pagar a outra 20% (vinte por cento), sobre o valor cobrado independente da quantia fixada pelo juízo a título de honorários sucumbenciais, e de 10% (dez por cento) em caso de intervenção extrajudicial.',
       'Qualquer matéria de publicidade ou propaganda com imagens gráficas e/ou fotográficas, relacionada com o produto do presente instrumento, deverá fazer menção destacada do nome do CONTRATADO, autor do projeto de arquitetura de interiores.',
       'Fica autorizado pelo CONTRATANTE, a captação de imagens gráficas e/ou fotográficas para matéria de publicidade ou propaganda, relacionada com o produto do presente instrumento, pelo CONTRATADO, autor do projeto de arquitetura de interiores.',
-      'Visando à desoneração, simplicidade e efetividade desta relação jurídica, as partes, desde já, ajustam que avisos, notificações, intimações e/ou citações referentes a este contrato deverão ser enviados/recebidos pelo endereço eletrônico <b>'+esc(CONTRATADO.email)+'</b> do CONTRATADO e <b>'+B(c.email)+'</b> do CONTRATANTE.',
+      'Visando à desoneração, simplicidade e efetividade desta relação jurídica, as partes, desde já, ajustam que avisos, notificações, intimações e/ou citações referentes a este contrato deverão ser enviados/recebidos pelo endereço eletrônico <b>'+esc(CONTRATADO.email)+'</b> do CONTRATADO e '+(TODOS.length===1?'<b>'+B(c.email)+'</b>':lista(TODOS.map(function(x){ return '<b>'+B(x.email)+'</b>'; })))+' do CONTRATANTE.',
       'Para fins de cumprimento do inciso I do Art. 7º da LGPD, o CONTRATANTE declara expresso CONSENTIMENTO com a coleta, tratamento e compartilhamento de seus dados pessoais, pelo CONTRATADO, necessários ao cumprimento do contrato e de obrigações legais relacionadas ao mesmo.',
       'As partes avençam que toda informação disponibilizada entre elas em razão do desempenho do presente instrumento, incluindo, dentre outras, informação oral e, ou escrita, transmitida e, ou divulgada pelas partes, será considerada confidencial e restrita.',
       'As informações confidenciais reveladas por quaisquer das partes deverão ser guardadas em segredo, não devendo ser reveladas a terceiros ou utilizadas para fins diversos aos de interesse do presente contrato, sem a devida autorização por escrito. Em caso de qualquer falha na segurança das informações confidenciais, a parte que constatar tal falha deverá comunicar imediatamente a outra. A pronta comunicação não exclui, entretanto, a responsabilidade pelo defeito na proteção de dados sigilosos.']);
@@ -5439,7 +5519,8 @@
     CL('FORO DE ELEIÇÃO');
     P('Fica eleito o Fórum da cidade de '+B(cd.foro,'Florianópolis/SC')+' como o competente para dirimir eventuais dúvidas oriundas deste instrumento ou ajuizamento de qualquer questão dele decorrentes.');
     P('E por estarem assim, justos e contratados, firmam o presente em via digital, assinada digitalmente com assinatura válida, de igual teor e forma, assinados abaixo.');
-    o.push('<div class="ass"><p><b>CONTRATANTE:</b></p><p class="ln">_______________________________________________________</p><p><b>'+B(c.nome)+'</b></p><p>'+(pj?'CNPJ ':'CPF ')+B(c.doc)+'</p>'+(pj&&t(c.rep)?'<p>Representante: '+esc(t(c.rep))+'</p>':'')+'</div>');
+    TODOS.forEach(function(x){ var pjx=x.pessoa==='pj';
+      o.push('<div class="ass"><p><b>CONTRATANTE:</b></p><p class="ln">_______________________________________________________</p><p><b>'+B(x.nome)+'</b></p><p>'+(pjx?'CNPJ ':'CPF ')+B(x.doc)+'</p>'+(pjx&&t(x.rep)?'<p>Representante: '+esc(t(x.rep))+'</p>':'')+'</div>'); });
     o.push('<div class="ass"><p><b>CONTRATADO:</b></p><p class="ln">_______________________________________________________</p><p><b>'+CONTRATADO.nome+'</b></p><p><b>CPF: '+CONTRATADO.cpf+'</b></p></div>');
     P(esc(t(C.cidade)||'Florianópolis')+', '+(dataLonga(C.data)||'____ de __________ de ______')+'.','data');
     return o.join('');
@@ -5562,8 +5643,34 @@
   function preencher(){
     CAMPOS.forEach(function(c){ var el=$(c[0]); if(el) el.value=pega(c[1]); });
     opcoesSelects(); $('ct-cliente').value=CUR.cliente_id||''; $('ct-projeto').value=CUR.projeto_id||''; $('ct-proposta').value=CUR.proposta||'';
-    renderServs(); renderNao(); visibilidade(); botoes();
+    renderExtras(); renderServs(); renderNao(); visibilidade(); botoes();
   }
+  /* ---------- outros contratantes (2º, 3º...) ---------- */
+  var EX_CAMPOS=[['nome','Nome / razão social','full'],['nac','Nacionalidade','pf'],['civil','Estado civil','pf'],['prof','Profissão','pf'],['rg','RG','pf'],['doc','CPF',''],['rep','Representante legal','pj'],['end','Endereço (rua, nº, complemento)','full'],['bairro','Bairro',''],['cid','Município / UF',''],['cep','CEP',''],['email','E-mail (notificações)','']];
+  function renderExtras(){
+    var box=$('ct-extras'); if(!box) return; box.innerHTML='';
+    (CUR.cs||[]).forEach(function(x,i){
+      var pj=x.pessoa==='pj', d=document.createElement('div'); d.className='ct-extra'; d.dataset.i=i;
+      var h='<div class="ct-extra-h"><b>Contratante '+(i+2)+'</b><button type="button" class="ct-extra-del" data-x="del">remover</button></div><div class="oc-g2">'
+        +'<div class="field full"><label>Cliente cadastrado</label><select data-x="cli"><option value="">— escolha o cliente —</option>'+CLIENTES.map(function(c){ return '<option value="'+esc(c.id)+'"'+(String(c.id)===String(x.cliente_id)?' selected':'')+'>'+esc(c.nome||'(sem nome)')+'</option>'; }).join('')+'</select></div>'
+        +'<div class="field full"><label>Tipo</label><select data-x="pessoa"><option value="pf">Pessoa física</option><option value="pj"'+(pj?' selected':'')+'>Pessoa jurídica (empresa)</option></select></div>';
+      EX_CAMPOS.forEach(function(f){ if((f[2]==='pf'&&pj)||(f[2]==='pj'&&!pj)) return;
+        h+='<div class="field'+(f[2]==='full'?' full':'')+'"><label>'+(f[0]==='doc'?(pj?'CNPJ':'CPF'):f[1])+'</label><input type="'+(f[0]==='email'?'email':'text')+'" data-k="'+f[0]+'" value="'+esc(x[f[0]])+'"></div>'; });
+      d.innerHTML=h+'</div>'; box.appendChild(d);
+    });
+  }
+  function preencherDe(cl, c){ var doc=cl.cpf_cnpj||'';
+    c.nome=cl.nome||''; c.nac=minus(cl.nacionalidade); c.civil=minus(cl.estado_civil); c.prof=minus(cl.profissao); c.rg=cl.rg||''; c.doc=doc;
+    c.end=cl.endereco||''; c.bairro=cl.bairro||''; c.cid=cl.cidade||''; c.cep=cl.cep||''; c.email=cl.email||''; c.pessoa=so(doc).length===14?'pj':'pf'; }
+  function extraDe(cl){ var x=novoCt(); x.cliente_id=cl.id; preencherDe(cl,x); return x; }
+  $('ct-extras').addEventListener('input',function(e){ var k=e.target.dataset.k, bx=e.target.closest('.ct-extra'); if(!k||!bx||!CUR) return; CUR.cs[+bx.dataset.i][k]=e.target.value; mudou(); });
+  $('ct-extras').addEventListener('change',function(e){ var t=e.target, bx=t.closest('.ct-extra'); if(!bx||!CUR||!t.dataset.x) return; var x=CUR.cs[+bx.dataset.i];
+    if(t.dataset.x==='cli'){ var cl=CLIENTES.filter(function(c){ return String(c.id)===t.value; })[0]; if(cl) preencherDe(cl,x); x.cliente_id=cl?cl.id:''; }
+    else if(t.dataset.x==='pessoa') x.pessoa=t.value;
+    renderExtras(); mudou(); });
+  $('ct-extras').addEventListener('click',function(e){ var b=e.target.closest('[data-x="del"]'), bx=e.target.closest('.ct-extra'); if(!b||!bx||!CUR) return; CUR.cs.splice(+bx.dataset.i,1); renderExtras(); mudou(); });
+  $('ct-add-cli').addEventListener('click',function(){ if(!CUR) return; CUR.cs=CUR.cs||[]; CUR.cs.push(novoCt()); renderExtras(); mudou();
+    var s=$('ct-extras').querySelectorAll('.ct-extra select[data-x="cli"]'); if(s.length) s[s.length-1].focus(); });
   function visibilidade(){
     var pj=CUR.c.pessoa==='pj';
     view.querySelectorAll('.ct-pf').forEach(function(e){ e.hidden=pj; }); view.querySelectorAll('.ct-pj').forEach(function(e){ e.hidden=!pj; });
@@ -5585,7 +5692,7 @@
     var pjs=PROJETOS.filter(function(p){ return !CUR.cliente_id||p.cliente_id===CUR.cliente_id; });
     $('ct-projeto').innerHTML='<option value="">— nenhum —</option>'+pjs.map(function(p){ return '<option value="'+esc(p.id)+'">'+esc(p.nome||'(sem nome)')+'</option>'; }).join('');
     var ps=PROPOSTAS.slice().sort(function(a,b){ return String(b.data||'').localeCompare(String(a.data||'')); });
-    $('ct-proposta').innerHTML='<option value="">— sem proposta —</option>'+ps.map(function(p){ return '<option value="'+esc(p.id)+'">'+esc((p.cliente||'Sem nome')+' · '+(p.data?p.data.split('-').reverse().join('/'):'')+' · R$ '+moeda(totalProp(p))+(p.status==='fechada'?' · fechada':''))+'</option>'; }).join('');
+    $('ct-proposta').innerHTML='<option value="">— sem proposta —</option>'+ps.map(function(p){ return '<option value="'+esc(p.id)+'">'+esc(((window.nomeCliProposta?window.nomeCliProposta(p):p.cliente)||'Sem nome')+' · '+(p.data?p.data.split('-').reverse().join('/'):'')+' · R$ '+moeda(totalProp(p))+(p.status==='fechada'?' · fechada':''))+'</option>'; }).join('');
   }
   function renderServs(){
     var box=$('ct-servs'); box.innerHTML='';
@@ -5623,9 +5730,7 @@
 
   function minus(s){ s=String(s||'').trim(); return s?s.toLowerCase():''; }
   function aplicarCliente(cl){
-    CUR.cliente_id=cl.id; var c=CUR.c, doc=cl.cpf_cnpj||'';
-    c.nome=cl.nome||''; c.nac=minus(cl.nacionalidade); c.civil=minus(cl.estado_civil); c.prof=minus(cl.profissao); c.rg=cl.rg||''; c.doc=doc;
-    c.end=cl.endereco||''; c.bairro=cl.bairro||''; c.cid=cl.cidade||''; c.cep=cl.cep||''; c.email=cl.email||''; c.pessoa=so(doc).length===14?'pj':'pf';
+    CUR.cliente_id=cl.id; preencherDe(cl, CUR.c);
     var pjs=PROJETOS.filter(function(p){ return p.cliente_id===cl.id; });
     if(pjs.length===1 && !CUR.projeto_id) aplicarProjeto(pjs[0]);
     if(CUR.projeto_id && !pjs.some(function(p){ return p.id===CUR.projeto_id; })) CUR.projeto_id='';
@@ -5641,7 +5746,12 @@
     CUR.sv={arq:on('arq')||on('arq_hab'),hab_arq:on('arq_hab'),hid:on('hid')||on('hid_hab'),hab_hid:on('hid_hab'),ele:on('ele'),est:on('est'),prev:on('prev'),hab_prev:on('prev')};
     CUR.v.total=moeda(totalProp(p)); CUR.v.desc=num(p.desconto)>0?String(num(p.desconto)).replace('.',','):''; CUR.v.parc=1;
     if(!CUR.o.end && p.end1) CUR.o.end=p.end1;
-    if(!CUR.cliente_id && p.cliente){ var alvo=semAc(p.cliente), ac=CLIENTES.filter(function(c){ var n=semAc(c.nome); return n && (n===alvo || alvo.indexOf(n)>=0 || n.indexOf(alvo)>=0); }); if(ac.length===1) aplicarCliente(ac[0]); }
+    var achar=function(nome){ var alvo=semAc(nome); if(!alvo) return null; var ac=CLIENTES.filter(function(c){ var n=semAc(c.nome); return n && (n===alvo || alvo.indexOf(n)>=0 || n.indexOf(alvo)>=0); }); return ac.length===1?ac[0]:null; };
+    if(!CUR.cliente_id && p.cliente){ var c1=achar(p.cliente); if(c1) aplicarCliente(c1); }
+    /* demais clientes da proposta viram contratantes extras (se ainda não houver extras) */
+    if(!(CUR.cs||[]).length && Array.isArray(p.clientes2)){ CUR.cs=[];
+      p.clientes2.forEach(function(nm){ if(!String(nm||'').trim()) return; var cl=achar(nm);
+        if(cl){ if(idsClientes(CUR).indexOf(cl.id)<0) CUR.cs.push(extraDe(cl)); } else { var x=novoCt(); x.nome=String(nm).trim(); CUR.cs.push(x); } }); }
     var NOMES={ind:'Individualização de matrícula',nbr:'Quadro NBR 12.721',retro:'Retrofit de fachada'}, fora=Object.keys(NOMES).filter(on).map(function(k){ return NOMES[k]; });
     var av=$('ct-aviso-prop'); av.hidden=!fora.length; if(fora.length) av.textContent='A proposta tem serviço(s) que não existem no modelo de contrato: '+fora.join(', ')+'. Para incluir, use "editar texto" no contrato.';
   }
@@ -5676,14 +5786,18 @@
   $('ct-voltar').addEventListener('click',function(){ fechar(); });
 
   function linha(){ var flow=CUR.manual||blocos(CUR), pg=pagar(CUR); var d=JSON.parse(JSON.stringify(CUR)); delete d.id; delete d.status;
-    return {numero:String(CUR.numero||'').trim()||null, cliente_id:CUR.cliente_id||null, cliente_nome:String(CUR.c.nome||'').trim()||null, projeto_id:CUR.projeto_id||null, valor:pg.V?pg.P:null, dados:d, html:docHtml(flow,'final',CUR.numero), atualizado_em:new Date().toISOString()}; }
+    return {numero:String(CUR.numero||'').trim()||null, cliente_id:CUR.cliente_id||null, cliente_ids:idsClientes(CUR), cliente_nome:nomesClientes(CUR)||null, projeto_id:CUR.projeto_id||null, valor:pg.V?pg.P:null, dados:d, html:docHtml(flow,'final',CUR.numero), atualizado_em:new Date().toISOString()}; }
+  var IDS_OK=true; /* coluna cliente_ids existe? (sql-contratos-varios-clientes.sql) */
   async function salvar(){
     if(!CUR) return false; capturar();
     if(!TABELA_OK){ alert('Rode antes o arquivo sql-contratos.sql no Supabase.'); return false; }
     var row=linha(), r;
-    try{
-      if(CUR.id) r=await sb.from('contratos').update(row).eq('id',CUR.id);
-      else { r=await sb.from('contratos').insert(row).select('id').single(); if(r&&r.data) CUR.id=r.data.id; }
+    var grava=async function(){ if(!IDS_OK) delete row.cliente_ids;
+      if(CUR.id) return await sb.from('contratos').update(row).eq('id',CUR.id);
+      var x=await sb.from('contratos').insert(row).select('id').single(); if(x&&x.data) CUR.id=x.data.id; return x; };
+    try{ r=await grava();
+      if(r&&r.error&&IDS_OK&&/cliente_ids/.test(r.error.message||'')){ IDS_OK=false; r=await grava();
+        if(!r.error && (CUR.cs||[]).length) alert('Contrato salvo. Para os outros contratantes também verem o contrato na Área do Cliente, rode uma vez o arquivo sql-contratos-varios-clientes.sql no Supabase.'); }
     }catch(e){ r={error:e}; }
     if(r&&r.error){ alert('Não foi possível salvar: '+(r.error.message||r.error)); return false; }
     var i=LISTA.map(function(x){ return x.id; }).indexOf(CUR.id), reg=Object.assign({id:CUR.id,status:CUR.status},row); if(i>=0) LISTA[i]=Object.assign(LISTA[i],reg); else LISTA.unshift(reg);
@@ -5698,8 +5812,11 @@
     }
     var falta=[]; if(!CUR.cliente_id) falta.push('escolha o cliente cadastrado (é por ele que o contrato aparece na Área do Cliente)'); if(!SV.some(function(s){ return CUR.sv[s.k]; })) falta.push('marque ao menos um serviço'); if(!pagar(CUR).V) falta.push('informe o valor total');
     if(falta.length){ alert('Antes de confirmar:\n- '+falta.join('\n- ')); return; }
-    var cl=CLIENTES.filter(function(c){ return c.id===CUR.cliente_id; })[0], semAcesso=cl&&!cl.perfil_id;
-    if(!await conf('Confirmar o contrato nº '+(CUR.numero||'')+' de '+(CUR.c.nome||'')+'? Ele passa a aparecer na Área do Cliente.'+(semAcesso?' (Este cliente ainda não tem acesso à Área do Cliente: ele verá o contrato quando o acesso for criado.)':''))) return;
+    var semAcesso=CLIENTES.filter(function(c){ return idsClientes(CUR).indexOf(c.id)>=0 && !c.perfil_id; }).map(function(c){ return c.nome||'cliente'; });
+    var semCad=(CUR.cs||[]).filter(function(x){ return !x.cliente_id && String(x.nome||'').trim(); }).map(function(x){ return x.nome; });
+    if(!await conf('Confirmar o contrato nº '+(CUR.numero||'')+' de '+(nomesClientes(CUR)||'')+'? Ele passa a aparecer na Área do Cliente.'
+      +(semAcesso.length?' ('+lista(semAcesso)+(semAcesso.length>1?' ainda não têm':' ainda não tem')+' acesso à Área do Cliente: verá o contrato quando o acesso for criado.)':'')
+      +(semCad.length?' ('+lista(semCad)+' não está ligado a um cliente cadastrado: entra no contrato, mas não o vê na Área do Cliente.)':''))) return;
     b.disabled=true;
     if(await salvar()){ var r=await sb.from('contratos').update({status:'confirmado',confirmado_em:new Date().toISOString()}).eq('id',CUR.id);
       if(r&&r.error) alert('Não foi possível confirmar: '+r.error.message); else { CUR.status='confirmado'; botoes(); note('Contrato confirmado e liberado na Área do Cliente. ✓'); } }
@@ -5714,7 +5831,7 @@
     catch(e){ note(''); var w=window.open('','_blank'); if(w){ w.document.open(); w.document.write(html); w.document.close(); var tent=0; (function esp(){ if(w.__pronto||tent++>40){ w.focus(); w.print(); } else setTimeout(esp,150); })(); alert('Não foi possível gerar o PDF direto. Abri a versão para imprimir: escolha "Salvar como PDF", margens "Nenhuma" e desmarque "Cabeçalhos e rodapés".'); } }
     finally{ if(btn) btn.disabled=false; }
   }
-  $('ct-pdf').addEventListener('click',function(){ if(!CUR) return; capturar(); baixarPdf(docHtml(CUR.manual||blocos(CUR),'final',CUR.numero), CUR.numero, CUR.c.nome, this); });
+  $('ct-pdf').addEventListener('click',function(){ if(!CUR) return; capturar(); baixarPdf(docHtml(CUR.manual||blocos(CUR),'final',CUR.numero), CUR.numero, nomesClientes(CUR), this); });
   if((location.hash||'')==='#contratos') carregar(); /* página aberta direto na aba */
 })();
 </script>
@@ -5838,8 +5955,12 @@
     document.querySelectorAll('#view-orcamentos .oc-stats [data-go]').forEach(function(b){ b.classList.toggle('on', b.dataset.go===F.st); });
   }
   (function(){ var s=$('oc-f-serv'); if(s) s.innerHTML='<option value="">Todos</option>'+SERV.map(function(x){ return '<option value="'+x.k+'">'+esc(x.n)+'</option>'; }).join(''); })();
+  /* nome de exibição: "Vanessa", ou "Vanessa e Renan", ou "Ana, Bia e Caio" */
+  function nomeCli(o){ var a=[o&&o.cliente].concat((o&&Array.isArray(o.clientes2))?o.clientes2:[]).map(function(s){ return String(s||'').trim(); }).filter(Boolean);
+    return a.length<2?(a[0]||''):a.slice(0,-1).join(', ')+' e '+a[a.length-1]; }
+  window.nomeCliProposta=nomeCli;
   function passa(o){
-    if(F.q && semAcento(o.cliente).indexOf(semAcento(F.q))<0) return false;
+    if(F.q && semAcento(nomeCli(o)).indexOf(semAcento(F.q))<0) return false;
     if(F.tipo && tipoDe(o)!==F.tipo) return false;
     if(F.serv && !(o.servicos||[]).some(function(s){ return s.on && s.k===F.serv; })) return false;
     if(F.de && String(o.data||'')<F.de) return false;
@@ -5868,7 +5989,7 @@
       var tr=document.createElement('tr'), tp=tipoDe(o), fech=stDe(o)==='fechada';
       var svs=(o.servicos||[]).filter(function(s){return s.on;}).map(function(s){ var df=SERV.filter(function(x){return x.k===s.k;})[0]; return df?df.c:s.k; });
       var dt=o.data?o.data.split('-').reverse().join('/'):'—';
-      tr.innerHTML='<td>'+esc(o.cliente||'Sem nome')+'<small>'+esc(o.objeto||'')+(o.area?' · '+String(o.area).replace('.',',')+' m²':'')+'</small></td>'
+      tr.innerHTML='<td>'+esc(nomeCli(o)||'Sem nome')+'<small>'+esc(o.objeto||'')+(o.area?' · '+String(o.area).replace('.',',')+' m²':'')+'</small></td>'
         +'<td>'+esc(tp||'—')+'</td>'
         +'<td class="oc-svs" title="'+esc(svs.join(' · '))+'">'+(svs.length?esc(svs.join(' · ')):'—')+'</td>'
         +'<td class="num">'+dt+'</td>'
@@ -5897,7 +6018,7 @@
   }
   function duplicar(o){ var c=JSON.parse(JSON.stringify(o)); c.id='oc'+Date.now(); c.cliente=(c.cliente||'')+' (cópia)'; c.data=hojeISO(); c.status='aberta'; c.fechadaEm=null; c.atualizado=new Date().toISOString(); LISTA.push(c); gravar('orcamentos',LISTA).then(function(ok){ if(ok){ renderLista(); note('Proposta duplicada. ✓'); } }); }
   function excluir(o){
-    var pergunta='Excluir a proposta de "'+(o.cliente||'sem nome')+'"?';
+    var pergunta='Excluir a proposta de "'+(nomeCli(o)||'sem nome')+'"?';
     var conf=window.imConfirm?window.imConfirm(pergunta):Promise.resolve(confirm(pergunta));
     Promise.resolve(conf).then(function(ok){ if(!ok) return; LISTA=LISTA.filter(function(x){ return x.id!==o.id; }); gravar('orcamentos',LISTA).then(function(){ renderLista(); note('Proposta excluída.'); }); });
   }
@@ -5908,6 +6029,7 @@
     /* garante todos os serviços (se a lista de serviços crescer) */
     SERV.forEach(function(s){ if(!CUR.servicos.some(function(x){return x.k===s.k;})) CUR.servicos.push({k:s.k,on:false,valor:0,manual:false}); });
     $('oc-lista-box').hidden=true; $('oc-cfg').hidden=true; $('oc-ed').hidden=false;
+    if(!Array.isArray(CUR.clientes2)) CUR.clientes2=[]; renderCliExtra();
     ['cliente','objeto','area','end1','end2','data'].forEach(function(k){ $('oc-'+k).value=CUR[k]==null?'':CUR[k]; });
     CUR.tipo=tipoDe(CUR); $('oc-tipo').value=CUR.tipo; $('oc-status').value=stDe(CUR);
     if(stDe(CUR)==='fechada') note('Proposta fechada aberta para edição — clique em salvar para guardar as alterações.');
@@ -5945,6 +6067,16 @@
     });
   }
   ['cliente','objeto','end1','end2','data'].forEach(function(k){ var el=$('oc-'+k); if(el) el.addEventListener('input',function(){ if(!CUR) return; CUR[k]=el.value; previewLento(); }); });
+  /* outros clientes da mesma proposta (ex.: casal, sócios) */
+  function renderCliExtra(){
+    var box=$('oc-cli-extra'); if(!box||!CUR) return; box.innerHTML='';
+    CUR.clientes2.forEach(function(nm,i){ var d=document.createElement('div'); d.className='oc-cli-x';
+      d.innerHTML='<input type="text" list="oc-clientes-dl" placeholder="Nome do '+(i+2)+'º cliente" aria-label="Nome do '+(i+2)+'º cliente" value="'+esc(nm)+'"><button type="button" class="oc-cli-del">remover</button>';
+      d.querySelector('input').addEventListener('input',function(e){ CUR.clientes2[i]=e.target.value; previewLento(); });
+      d.querySelector('button').addEventListener('click',function(){ CUR.clientes2.splice(i,1); renderCliExtra(); preview(); });
+      box.appendChild(d); });
+  }
+  $('oc-add-cli').addEventListener('click',function(){ if(!CUR) return; CUR.clientes2.push(''); renderCliExtra(); var ins=$('oc-cli-extra').querySelectorAll('input'); if(ins.length) ins[ins.length-1].focus(); });
   /* tipo de edificação: preenche o "objeto" se ele estiver vazio ou ainda com o texto automático */
   $('oc-tipo').addEventListener('change',function(){ if(!CUR) return; var ant=TIPO_OBJ[CUR.tipo]||''; CUR.tipo=$('oc-tipo').value; if(!CUR.objeto||CUR.objeto===ant){ CUR.objeto=TIPO_OBJ[CUR.tipo]||''; $('oc-objeto').value=CUR.objeto; } preview(); });
   $('oc-status').addEventListener('change',function(){ if(!CUR) return; CUR.status=$('oc-status').value; CUR.fechadaEm=CUR.status==='fechada'?(CUR.fechadaEm||hojeISO()):null; });
@@ -6052,7 +6184,7 @@
     /* capa: imagem inteira ao fundo, escurecida, e o nome num retângulo branco */
     h+='<section class="pg capa">'+(capa?'<div class="cp-bg" style="background-image:url(\''+esc(capa)+'\')"></div>':'')+'<div class="cp-box"><div class="wm"><b>ISYS MATTOS</b><span>engenharia . arquitetura</span></div></div></section>';
     /* 2 · dados */
-    h+='<section class="pg">'+cab('a proposta')+'<div class="dd"><div class="dd-l"><p class="ey">Proposta para</p><h2>'+esc(o.cliente||'—')+'</h2><p class="dt">'+esc(dataLonga(o.data))+'</p></div>'
+    h+='<section class="pg">'+cab('a proposta')+'<div class="dd"><div class="dd-l"><p class="ey">Proposta para</p><h2>'+esc(nomeCli(o)||'—')+'</h2><p class="dt">'+esc(dataLonga(o.data))+'</p></div>'
       +'<div class="dd-r"><div class="bl"><p class="k">Objeto do orçamento</p><p class="v">'+esc(o.objeto||'—')+(areaTxt?'<br><span>de aproximadamente '+areaTxt+'</span>':'')+'</p></div>'
       +'<div class="bl"><p class="k">Localização</p><p class="v">'+(esc(o.end1||'')+(o.end1&&o.end2?'<br>':'')+esc(o.end2||''))+'</p></div>'
       +'<div class="bl"><p class="k">Serviços prestados</p><ol class="sv">'+(sv.length?sv.map(function(s){ return '<li>'+esc(nomeS(s.k))+'</li>'; }).join(''):'<li class="mut">selecione os serviços</li>')+'</ol></div></div></div></section>';
@@ -6158,7 +6290,7 @@
     var js=lockup+galeria+(imprimir==='pdf' ? '' : imprimir
       ? 'function go(){setTimeout(function(){window.print();},400);}var imgs=[].slice.call(document.querySelectorAll("[style*=background-image]")).map(function(el){var m=(el.style.backgroundImage||"").match(/url\\(["\']?(.*?)["\']?\\)/);return m?m[1]:null;}).filter(Boolean);var p=imgs.map(function(u){return new Promise(function(r){var i=new Image();i.onload=i.onerror=r;i.src=u;});});Promise.all(p.concat([document.fonts?document.fonts.ready:Promise.resolve()])).then(function(){return window.__gal;}).then(go);'
       : 'function fit(){var w=document.documentElement.clientWidth;var pw=document.querySelector(".pg").offsetWidth+32;document.body.style.zoom=Math.min(1,w/pw);}window.addEventListener("resize",fit);fit();if(document.fonts)document.fonts.ready.then(fit);');
-    return '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Proposta · '+esc(o.cliente||'')+'</title>'
+    return '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Proposta · '+esc(nomeCli(o))+'</title>'
       +'<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap">'
       +'<style>'+css+(imprimir==='pdf'?'body{background:#fff}.pg{margin:0 0 12px}':(imprimir?'':'body{padding:16px}'))+'</style></head><body>'+h+'<scr'+'ipt>'+js+'</scr'+'ipt></body></html>';
   }
@@ -6227,7 +6359,7 @@
       else await desenharRaster(pdf,pgs[i],W,H,i);
     }
     fr.remove();
-    pdf.save('Proposta - '+String(o.cliente||'cliente').replace(/[\\/:*?"<>|]/g,'')+'.pdf');
+    pdf.save('Proposta - '+String(nomeCli(o)||'cliente').replace(/[\\/:*?"<>|]/g,'')+'.pdf');
   }
 
   /* ---------- PDF vetorial: texto como texto (fonte embutida), fundos e linhas como desenho, fotos na resolução própria ---------- */
