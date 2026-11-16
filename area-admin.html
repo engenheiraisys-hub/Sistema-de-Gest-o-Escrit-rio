@@ -744,6 +744,9 @@
   .kcard:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
   .kcard:active{cursor:grabbing}
   .kcard.dragging{opacity:.5;box-shadow:var(--shadow-md)}
+  /* linha dourada onde o cartão arrastado vai cair */
+  .kcard.kc-antes{box-shadow:0 -3px 0 0 var(--gold)}
+  .kcard.kc-fim{box-shadow:0 3px 0 0 var(--gold)}
   .kcard-t{font-family:var(--display);font-weight:600;font-size:14px;color:var(--ink);line-height:1.3}
   .kcard-m{font-size:11.5px;color:var(--ink-3);margin-top:5px}
   .kcard-chk{font-size:11px;color:var(--ink-2);margin-top:8px;font-variant-numeric:tabular-nums}
@@ -4801,7 +4804,7 @@
     var taskSeq=1;
     var TASKS=[];
     var kanban=document.getElementById('kanban');
-    var dragId=null;
+    var dragId=null, dragObj=null;
     /* etiquetas das tarefas (escolha várias por tarefa; filtro "Etiqueta" no painel) */
     var ETIQUETAS=[{n:'Hidrossanitário',c:'#3E7CA6'},{n:'Executivo',c:'#5F7C8A'},{n:'Legal',c:'#6E7C46'},{n:'Preventivo',c:'#AA564A'},{n:'Proposta',c:'#AF853A'},{n:'Reunião',c:'#8B7FA3'},{n:'Visita',c:'#5B5F97'},{n:'Elétrico',c:'#C08A1E'},{n:'Levantamento',c:'#5E7D57'},{n:'Maquete',c:'#A85C74'},{n:'Estrutural',c:'#6E4B3A'},{n:'Estudo',c:'#3F8F86'},{n:'Fachada',c:'#C2703D'},{n:'Pré-projeto',c:'#9A6B4F'},{n:'Pós-projeto',c:'#4B5563'}];
     var KB_ETQ='', ETQ_OK=true;
@@ -4913,19 +4916,31 @@
           if(bUp) bUp.addEventListener('click',function(e){ e.stopPropagation(); kbMover(list,idx,-1); });
           if(bDn) bDn.addEventListener('click',function(e){ e.stopPropagation(); kbMover(list,idx,1); });
           card.addEventListener('click',function(){ if(card.dataset.dragged){ card.dataset.dragged=''; return; } if(t.dbEtapa){ obraId=t.projeto_id; try{localStorage.setItem('im-obra-adm',obraId);}catch(e){} location.hash='projeto'; } else { location.hash='tarefa'; openTarefa(t); } });
-          if(!t.dbEtapa){
+          /* arrastar: tarefas mudam de coluna e de posição; etapas só mudam de posição dentro da coluna */
+          if(!q){
             card.setAttribute('draggable','true');
-            card.addEventListener('dragstart',function(e){ dragId=t.id; card.classList.add('dragging'); try{e.dataTransfer.setData('text/plain',String(t.id));e.dataTransfer.effectAllowed='move';}catch(err){} });
-            card.addEventListener('dragend',function(){ card.classList.remove('dragging'); card.dataset.dragged='1'; });
+            card.addEventListener('dragstart',function(e){ dragId=t.dbEtapa?null:t.id; dragObj=t; card.classList.add('dragging'); try{e.dataTransfer.setData('text/plain',String(t.id||'etapa'));e.dataTransfer.effectAllowed='move';}catch(err){} });
+            card.addEventListener('dragend',function(){ card.classList.remove('dragging'); card.dataset.dragged='1'; dragObj=null; kanban.querySelectorAll('.kc-antes,.kc-fim').forEach(function(x){ x.classList.remove('kc-antes','kc-fim'); }); });
           }
           col.appendChild(card);
         });
         if(c.key==='concluido' && ocultos){ var oc=document.createElement('p'); oc.className='kc-ocultos'; oc.textContent=ocultos+(ocultos===1?' cartão concluído há mais de 30 dias está oculto':' cartões concluídos há mais de 30 dias estão ocultos')+' — use a busca para encontrar.'; col.appendChild(oc); }
         var add=document.createElement('button'); add.type='button'; add.className='kadd'; add.innerHTML='<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="vertical-align:-2px;margin-right:6px"><path d="M12 5v14M5 12h14"/></svg>tarefa'; add.addEventListener('click',function(){ addTask(c.key); });
         col.appendChild(add);
-        col.addEventListener('dragover',function(e){ e.preventDefault(); col.classList.add('drop'); });
-        col.addEventListener('dragleave',function(){ col.classList.remove('drop'); });
-        col.addEventListener('drop',function(e){ e.preventDefault(); col.classList.remove('drop'); var t=TASKS.filter(function(x){return x.id===dragId;})[0]; if(t){ if(c.key==='revisao'||c.key==='aprov'||c.key==='cliente'){ t.kanban=c.key; } else { t.kanban=''; t.col=c.key; } salvarTarefa(t); renderKanban(); } });
+        /* posição onde o cartão vai cair (antes de qual cartão), pela altura do mouse */
+        function posDrop(e){ var cs=col.querySelectorAll('.kcard'); for(var i=0;i<cs.length;i++){ var r=cs[i].getBoundingClientRect(); if(e.clientY<r.top+r.height/2) return i; } return cs.length; }
+        function marcaDrop(p){ var cs=col.querySelectorAll('.kcard'); kanban.querySelectorAll('.kc-antes,.kc-fim').forEach(function(x){ x.classList.remove('kc-antes','kc-fim'); }); if(p<cs.length) cs[p].classList.add('kc-antes'); else if(cs.length) cs[cs.length-1].classList.add('kc-fim'); }
+        col.addEventListener('dragover',function(e){ if(dragObj && dragObj.dbEtapa && efCol(dragObj)!==c.key) return; e.preventDefault(); col.classList.add('drop'); marcaDrop(posDrop(e)); });
+        col.addEventListener('dragleave',function(e){ if(e.relatedTarget && col.contains(e.relatedTarget)) return; col.classList.remove('drop'); col.querySelectorAll('.kc-antes,.kc-fim').forEach(function(x){ x.classList.remove('kc-antes','kc-fim'); }); });
+        col.addEventListener('drop',function(e){ e.preventDefault(); col.classList.remove('drop');
+          var p=posDrop(e), t=dragObj || TASKS.filter(function(x){return x.id===dragId;})[0]; if(!t) return;
+          if(t.dbEtapa && efCol(t)!==c.key){ renderKanban(); return; } /* etapa não muda de coluna arrastando */
+          if(!t.dbEtapa){ if(c.key==='revisao'||c.key==='aprov'||c.key==='cliente'){ t.kanban=c.key; } else { t.kanban=''; t.col=c.key; } }
+          /* nova ordem da coluna com o cartão na posição solta */
+          if(ORD_OK && efCol(t)===c.key){ var antes=list.slice(0,p).filter(function(x){ return x!==t; }).length, arr=list.filter(function(x){ return x!==t; }); arr.splice(antes,0,t);
+            arr.forEach(function(x,k){ if(kbOrd(x)!==k+1) kbSalvarCampos(x,{ordem_kb:k+1}); }); }
+          else if(!ORD_OK && efCol(t)===c.key && list.indexOf(t)>=0){ alert('Para guardar a ordem dos cartões, rode uma vez o arquivo sql-tarefas-ordem.sql no Supabase.'); }
+          if(!t.dbEtapa) salvarTarefa(t); renderKanban(); });
         kanban.appendChild(col);
       });
     }
@@ -4975,7 +4990,10 @@
       clearTimeout(meetTimers[t.id]);
       meetTimers[t.id]=setTimeout(async function(){
         meetNota(t, t.google_evento_id?'Atualizando a reunião no Google Agenda…':'Criando a reunião no Google Agenda…');
-        try{ var d=await chamarMeet('criar',t); t.link_reuniao=d.link||t.link_reuniao||''; t.google_evento_id=d.evento||t.google_evento_id||''; t.__meetAss=assinatura(t);
+        try{ /* grava antes data/hora/título (a função lê do banco) — evita o evento sair com a hora antiga */
+          var up={title:t.title, data_inicio:t.data_inicio||null, data_fim:t.data_fim||null}; if(HORA_OK){ up.hora_inicio=t.hora_inicio||null; up.hora_fim=t.hora_fim||null; }
+          await sb.from('tarefas').update(up).eq('id',t.id);
+          var d=await chamarMeet('criar',t); t.link_reuniao=d.link||t.link_reuniao||''; t.google_evento_id=d.evento||t.google_evento_id||''; t.__meetAss=assinatura(t);
           if(t===curTask&&tarefaMeet){ tarefaMeet.value=t.link_reuniao; meetBotao(); }
           meetNota(t, t.link_reuniao?'':'O Google ainda não devolveu o link; ele aparece aqui em instantes.'); }
         catch(e){ meetNota(t,'Não foi possível criar a reunião no Google Agenda: '+e.message); }
