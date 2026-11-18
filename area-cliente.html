@@ -654,6 +654,7 @@
   #cli-ct-frame{display:block;width:100%;height:calc(100vh - 170px);min-height:460px;border:1px solid var(--hair-soft);border-radius:var(--r,14px);background:#E9E7E2}
   #view-contratos .docs .doc-name small{letter-spacing:0;text-transform:none}
   @media(max-width:640px){.cli-ct-bar .pill{flex:1 1 auto;justify-content:center}#cli-ct-frame{height:calc(100vh - 210px)}}
+  svg.ic-in{width:1.05em;height:1.05em;vertical-align:-.17em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none} /* ícones Lucide dentro de texto */
 </style>
 
 <header class="top" hidden><span class="top-sec" id="top-sec">área do cliente</span><span class="who" id="who"></span></header>
@@ -662,11 +663,11 @@
 <nav class="sidebar" aria-label="Seções">
   <span class="side-logo">IM</span>
   <div class="side-tabs" id="tabbar">
-    <a class="tab" href="#inicio" data-view="inicio" title="Início" aria-label="Início"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a>
-    <a class="tab" href="#projetos" data-view="projetos" title="Meus projetos" aria-label="Meus projetos"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a>
-    <a class="tab" href="#contratos" data-view="contratos" title="Contratos" aria-label="Contratos"><svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/><path d="M9 11h6M9 14h4"/><path d="M8.5 18.5c1-1.4 1.8-1.4 2.4 0s1.5 1.2 2.6-.3"/></svg></a>
+    <a class="tab" href="#inicio" data-view="inicio" title="Início" aria-label="Início"><svg viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a>
+    <a class="tab" href="#projetos" data-view="projetos" title="Meus projetos" aria-label="Meus projetos"><svg viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></a>
+    <a class="tab" href="#contratos" data-view="contratos" title="Contratos" aria-label="Contratos"><svg viewBox="0 0 24 24"><path d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"/><path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><path d="M8 18h1"/></svg></a>
   </div>
-  <a class="side-exit" href="#" id="exit" title="Sair" aria-label="Sair" style="margin-top:auto"><svg viewBox="0 0 24 24"><path d="M15 12H4"/><path d="M8 8l-4 4 4 4"/><path d="M12 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg></a>
+  <a class="side-exit" href="#" id="exit" title="Sair" aria-label="Sair" style="margin-top:auto"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg></a>
 </nav>
 
 <div class="wrap">
@@ -679,10 +680,10 @@
     </section>
 
     <div class="stat-cards">
-      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="stat-lbl">meus projetos</span><span class="stat-num" id="st-projetos">—</span><span class="stat-link">Ver projetos →</span></a>
-      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8.5 12l2.2 2.2L15.5 9"/></svg></span><span class="stat-lbl">etapas concluídas</span><span class="stat-num" id="st-etapas">—</span><span class="stat-link">Ver andamento →</span></a>
-      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 5l4 4"/></svg></span><span class="stat-lbl">termos aguardando aceite</span><span class="stat-num" id="st-termos">—</span><span class="stat-link">Ver termos →</span></a>
-      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><span class="stat-lbl">parcelas em aberto</span><span class="stat-num" id="st-parcelas">—</span><span class="stat-link">Ver financeiro →</span></a>
+      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></span><span class="stat-lbl">meus projetos</span><span class="stat-num" id="st-projetos">—</span><span class="stat-link">Ver projetos →</span></a>
+      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24"><path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.5"/><path d="m9 11 3 3L22 4"/></svg></span><span class="stat-lbl">etapas concluídas</span><span class="stat-num" id="st-etapas">—</span><span class="stat-link">Ver andamento →</span></a>
+      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></span><span class="stat-lbl">termos aguardando aceite</span><span class="stat-num" id="st-termos">—</span><span class="stat-link">Ver termos →</span></a>
+      <a class="stat-card" href="#projetos"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-lbl">parcelas em aberto</span><span class="stat-num" id="st-parcelas">—</span><span class="stat-link">Ver financeiro →</span></a>
     </div>
 
     <div class="home-grid">
@@ -734,7 +735,7 @@
     <!-- ACOMPANHAMENTO -->
     <div class="acc" data-acc>
       <button class="acc-head" aria-expanded="false" aria-controls="p-acomp">
-        <span class="acc-ico st-ico-ev" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8.5 12l2.2 2.2L15.5 9"/></svg></span>
+        <span class="acc-ico st-ico-ev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.5"/><path d="m9 11 3 3L22 4"/></svg></span>
         <span class="label">Acompanhamento</span>
         <span class="acc-hint">estudo de fachada · 1 aceite pendente</span>
         <span class="acc-chev" aria-hidden="true"></span>
@@ -755,7 +756,7 @@
 <!-- FINANCEIRO -->
     <div class="acc" data-acc>
       <button class="acc-head" aria-expanded="false" aria-controls="p-fin">
-        <span class="acc-ico st-ico-tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3.5-4 3 2.5L19 8"/></svg></span>
+        <span class="acc-ico st-ico-tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span>
         <span class="label">Financeiro</span>
         <span class="acc-hint">60% pago</span>
         <span class="acc-chev" aria-hidden="true"></span>
@@ -772,7 +773,7 @@
         <p class="sec-sub">Parcelas do contrato</p>
         <div class="list-head fin-head"><span>Parcela</span><span>Vencimento</span><span>Valor</span><span>Situação</span></div>
         <ul class="fin-rows" id="fin-rows"></ul>
-        <div class="fin-actions"><button class="pill ghost sm" id="recibos" type="button"><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>baixar recibos</button><span class="note" id="note-fin" style="margin:0"></span></div>
+        <div class="fin-actions"><button class="pill ghost sm" id="recibos" type="button"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>baixar recibos</button><span class="note" id="note-fin" style="margin:0"></span></div>
 
         <div id="extras-item" hidden>
           <p class="sec-sub" style="margin-top:28px">Serviços extras <span id="fin-t-extras" style="color:var(--ink-3);font-weight:400;letter-spacing:0;text-transform:none"></span></p>
@@ -786,7 +787,7 @@
 <!-- DOCUMENTOS -->
     <div class="acc" data-acc>
       <button class="acc-head" aria-expanded="false" aria-controls="p-docs">
-        <span class="acc-ico st-ico-pj" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h6"/></svg></span>
+        <span class="acc-ico st-ico-pj" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
         <span class="label">Documentos</span>
         <span class="acc-hint">6 documentos</span>
         <span class="acc-chev" aria-hidden="true"></span>
@@ -810,8 +811,8 @@
     </div>
     <div class="cli-ct-ver" id="cli-ct-ver" hidden>
       <div class="cli-ct-bar">
-        <button class="pill ghost sm" type="button" id="cli-ct-fechar"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>voltar</button>
-        <button class="pill solid sm" type="button" id="cli-ct-imp"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>imprimir / salvar PDF</button>
+        <button class="pill ghost sm" type="button" id="cli-ct-fechar"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>voltar</button>
+        <button class="pill solid sm" type="button" id="cli-ct-imp"><svg viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>imprimir / salvar PDF</button>
       </div>
       <iframe id="cli-ct-frame" sandbox="allow-scripts allow-modals" title="Contrato"></iframe>
     </div>
@@ -838,8 +839,8 @@
     <p class="signed-line" id="signed-line" hidden></p>
 
     <div class="modal-actions">
-      <button class="pill ghost sm" id="modal-cancel" type="button"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>fechar</button>
-      <button class="pill solid sm" id="modal-confirm" type="button" disabled><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>confirmar aceite</button>
+      <button class="pill ghost sm" id="modal-cancel" type="button"><svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>fechar</button>
+      <button class="pill solid sm" id="modal-confirm" type="button" disabled><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>confirmar aceite</button>
     </div>
   </div>
 </div>
@@ -1064,7 +1065,7 @@
         if(e.documento_path){
           docLink = travadoPorTermo
             ? '<span class="tl-doc-locked">liberado após o aceite do termo</span>'
-            : '<button type="button" class="tl-doc" data-doc="'+e.documento_path+'" title="'+ceC(e.documento_nome||'baixar documento')+'">📄 '+ceC(e.documento_nome||'baixar documento')+'</button>';
+            : '<button type="button" class="tl-doc" data-doc="'+e.documento_path+'" title="'+ceC(e.documento_nome||'baixar documento')+'"><svg class="ic-in" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg> '+ceC(e.documento_nome||'baixar documento')+'</button>';
         }
         html+='<li class="step '+cls+'"><span class="step-n">'+(i+1)+'</span>'
           +'<div class="step-name">'+e.nome+'</div>'
@@ -1079,17 +1080,17 @@
             html+='<li class="gate accepted" data-termo="'+termo+'" data-eid="'+e.id+'"><span class="gate-mark" aria-hidden="true">✓</span>'
               +'<div class="gate-box"><div class="gate-label">'+lab+' — '+e.nome+'</div>'
               +'<div class="gate-text">Aceito por '+por+(quando?(' em '+quando):'')+', liberando a próxima etapa.</div>'
-              +'<button class="pill ghost sm gate-btn" data-gate="ver" data-signed="'+por+'|'+quando+'"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>ver termo aceito</button></div></li>';
+              +'<button class="pill ghost sm gate-btn" data-gate="ver" data-signed="'+por+'|'+quando+'"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>ver termo aceito</button></div></li>';
           } else if(e.status==='concluida'){
             html+='<li class="gate pending" data-termo="'+termo+'" data-eid="'+e.id+'"><span class="gate-mark" aria-hidden="true"></span>'
               +'<div class="gate-box"><div class="gate-label">'+lab+' — '+e.nome+'</div>'
               +'<div class="gate-text">'+(termo==='aceite'?'Assine para autorizar a continuidade e liberar a próxima etapa.':'Confirme a ciência da entrega desta etapa.')+'</div>'
-              +'<button class="pill solid sm gate-btn" data-gate="assinar"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>'+(termo==='aceite'?'aceitar termo':'confirmar ciência')+'</button></div></li>';
+              +'<button class="pill solid sm gate-btn" data-gate="assinar"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>'+(termo==='aceite'?'aceitar termo':'confirmar ciência')+'</button></div></li>';
           } else {
             html+='<li class="gate locked" data-termo="'+termo+'" data-eid="'+e.id+'"><span class="gate-mark" aria-hidden="true"></span>'
               +'<div class="gate-box"><div class="gate-label">'+lab+' — '+e.nome+'</div>'
               +'<div class="gate-text">Disponível quando esta etapa for concluída.</div>'
-              +'<button class="pill ghost sm gate-btn" data-gate="preview"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>ver termo</button></div></li>';
+              +'<button class="pill ghost sm gate-btn" data-gate="preview"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>ver termo</button></div></li>';
           }
         }
       });
@@ -1128,8 +1129,8 @@
         var row=byTipo[tipo], temArq=row&&row.arquivo_path, ctAqui=(tipo==='Contrato'&&!temArq&&ctId); if(temArq||ctAqui) attached++;
         var li=document.createElement('li'); li.className='doc';
         li.innerHTML='<div class="doc-name">'+ceC(tipo)+'</div>'+(temArq
-          ? '<button class="pill ghost sm doc-dl" type="button" data-docpath="'+row.arquivo_path+'"><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>baixar</button>'
-          : (ctAqui ? '<a class="pill ghost sm doc-dl" href="#contrato-'+ceC(ctId)+'"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></svg>ver contrato</a>'
+          ? '<button class="pill ghost sm doc-dl" type="button" data-docpath="'+row.arquivo_path+'"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>baixar</button>'
+          : (ctAqui ? '<a class="pill ghost sm doc-dl" href="#contrato-'+ceC(ctId)+'"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>ver contrato</a>'
           : '<span class="doc-wait" style="font-size:12.5px;color:var(--ink-3)">aguardando emissão</span>'));
         ul.appendChild(li);
       });
@@ -1163,7 +1164,7 @@
           if(r&&r.error) r=await sb.from('contratos').select('id,numero,projeto_id,confirmado_em,html').eq('status','confirmado').order('confirmado_em',{ascending:false}); }catch(e){}
         LST=(r&&!r.error&&r.data)||[];
         if(!LST.length){ ul.innerHTML='<li class="doc"><div class="doc-name" style="color:var(--ink-3)">Nenhum contrato disponível ainda. Assim que o escritório confirmar o seu contrato, ele aparece aqui.</div></li>'; return; }
-        ul.innerHTML=LST.map(function(c,i){ return '<li class="doc"><div class="doc-name">Contrato nº '+ceC(c.numero||'—')+'<small style="display:block;font-size:12px;color:var(--ink-3);font-weight:400;margin-top:2px">'+ceC(((c.projetos&&c.projetos.nome)?c.projetos.nome+' · ':'')+'confirmado em '+dt(c.confirmado_em))+'</small></div><button class="pill ghost sm doc-dl" type="button" data-ct="'+i+'"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></svg>abrir</button></li>'; }).join('');
+        ul.innerHTML=LST.map(function(c,i){ return '<li class="doc"><div class="doc-name">Contrato nº '+ceC(c.numero||'—')+'<small style="display:block;font-size:12px;color:var(--ink-3);font-weight:400;margin-top:2px">'+ceC(((c.projetos&&c.projetos.nome)?c.projetos.nome+' · ':'')+'confirmado em '+dt(c.confirmado_em))+'</small></div><button class="pill ghost sm doc-dl" type="button" data-ct="'+i+'"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>abrir</button></li>'; }).join('');
         if(abrirId){ var c=LST.filter(function(x){ return String(x.id)===String(abrirId); })[0]; if(c) abrirCt(c); }
         else if(LST.length===1) abrirCt(LST[0]);
       };
@@ -1322,8 +1323,8 @@
         back=document.createElement('div'); back.id='recibo-back'; back.className='modal-back'; back.style.zIndex='80';
         back.innerHTML='<div class="recibo-box" role="dialog" aria-modal="true" aria-label="Recibo">'
           +'<div class="recibo-bar"><span class="recibo-t">Recibo</span>'
-          +'<button class="pill solid sm" type="button" id="recibo-print"><svg viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v6H7z"/></svg>imprimir / salvar em PDF</button>'
-          +'<button class="pill ghost sm" type="button" id="recibo-close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>fechar</button></div>'
+          +'<button class="pill solid sm" type="button" id="recibo-print"><svg viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>imprimir / salvar em PDF</button>'
+          +'<button class="pill ghost sm" type="button" id="recibo-close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>fechar</button></div>'
           +'<iframe id="recibo-frame" title="Recibo"></iframe></div>';
         document.body.appendChild(back);
         var fechar=function(){ back.classList.remove('open'); document.body.style.overflow=''; };
@@ -1410,7 +1411,7 @@
             +'<div class="proj-main"><div class="proj-thumb">'+ini+'</div><div class="obra-info"><div class="obra-name">'+p.nome+'</div><div class="obra-sub">'+stTxtProj(p.status)+'</div></div></div>'
             +'<div><div class="obra-stage">Etapa atual — <b>'+(at?at.nome:(ets.length?'entregue':'—'))+'</b></div><div class="pbar"><div class="pbar-fill" style="width:'+pct+'%"></div></div></div>'
             +'<div class="proj-prog"><div class="proj-pct">'+pct+'%</div><div class="proj-prog-lbl">do projeto</div></div>'
-            +'<span class="pbtn"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>abrir</span></a>';
+            +'<span class="pbtn"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>abrir</span></a>';
         }).join('')||'<p class="note" style="color:var(--ink-3)">Você ainda não tem projetos vinculados.</p>';
         var ph=document.querySelector('#view-home .projs-head'); if(ph) ph.hidden=!projetos.length;
       }

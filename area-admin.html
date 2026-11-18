@@ -54,6 +54,7 @@
   .mdl-inner .mdl-item.sub input{font-size:13.5px;font-weight:300;color:var(--ink-2)}
   .mdl-inner .mdl-add{margin-top:14px;padding-top:12px;border-top:1px solid var(--hair-soft)}
   .chk-add .pill{white-space:nowrap}
+  svg.ic-in{width:1.05em;height:1.05em;vertical-align:-.17em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none} /* ícones Lucide dentro de texto */
 </style></head><body>
 <title>Área do Administrador</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1066,6 +1067,10 @@
   .pg-card{background:var(--panel);border:1px solid var(--hair-soft);border-radius:var(--r);box-shadow:var(--shadow-sm);margin-top:clamp(26px,3.5vw,38px);overflow:hidden}
   .pg-head{font-family:var(--sans);font-weight:600;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin:0;padding:16px 20px;border-bottom:1px solid var(--hair-soft)}
   .pg-card .prog-list{margin:0}
+  /* conteúdo solto do card (texto, campos, avisos) com o mesmo recuo do cabeçalho */
+  .pg-card > :not(.pg-head):not(.prog-list){padding-left:20px;padding-right:20px}
+  .pg-card > .pg-head + :not(.prog-list){padding-top:18px}
+  .pg-card > :last-child:not(.pg-head):not(.prog-list){padding-bottom:18px}
   .pg-row{display:grid;grid-template-columns:minmax(160px,1.1fr) minmax(140px,1fr) auto auto;gap:18px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--hair-soft)}
   .pg-row:last-child{border-bottom:none}
   .pg-who{display:flex;align-items:center;gap:12px;min-width:0}
@@ -1442,22 +1447,22 @@
 <nav class="sidebar" aria-label="Seções">
   <span class="side-logo">IM</span>
   <div class="side-tabs" id="tabbar">
-    <a class="tab" href="#inicio" data-view="home" title="Início" aria-label="Início"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a>
-    <a class="tab" href="#tarefas" data-view="tarefas" title="Minhas tarefas" aria-label="Minhas tarefas"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8.5 12l2.2 2.2L15.6 9.4"/></svg></a>
-    <a class="tab" href="#proj" data-view="proj" title="Projetos" aria-label="Projetos"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a>
-    <a class="tab" href="#agenda" data-view="agenda" title="Agenda" aria-label="Agenda"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></a>
-    <a class="tab" href="#clientes" data-view="clientes" title="Clientes" aria-label="Clientes"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6.6a3 3 0 0 1 0 5.8"/><path d="M20.5 19a5.5 5.5 0 0 0-3.6-5.2"/></svg></a>
-    <a class="tab" href="#equipe" data-view="equipe" title="Equipe" aria-label="Equipe"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></a>
-    <a class="tab" href="#membros" data-view="membros" title="Membros" aria-label="Membros"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="2.4"/><path d="M8.5 17a3.5 3.5 0 0 1 7 0"/></svg></a>
-    <a class="tab" href="#financeiro" data-view="financeiro" title="Financeiro" aria-label="Financeiro"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/></svg></a>
-    <a class="tab" href="#orcamentos" data-view="orcamentos" title="Propostas" aria-label="Propostas"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h3"/></svg></a>
-    <a class="tab" href="#contratos" data-view="contratos" title="Contratos" aria-label="Contratos"><svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/><path d="M9 11h6M9 14h4"/><path d="M8.5 18.5c1-1.4 1.8-1.4 2.4 0s1.5 1.2 2.6-.3"/></svg></a>
-    <a class="tab" href="#modelos" data-view="modelos" title="Modelo" aria-label="Modelo"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg></a>
-    <a class="tab" href="#parc" data-view="parc" title="Parceiros" aria-label="Parceiros"><svg viewBox="0 0 24 24"><path d="M4 9l1-4h14l1 4"/><path d="M5 9v10h14V9"/><path d="M4 9h16"/></svg></a>
-    <a class="tab" href="#arquivos" data-view="arquivos" title="Arquivos" aria-label="Arquivos"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11h14V8"/><path d="M10 12h4"/></svg></a>
+    <a class="tab" href="#inicio" data-view="home" title="Início" aria-label="Início"><svg viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a>
+    <a class="tab" href="#tarefas" data-view="tarefas" title="Minhas tarefas" aria-label="Minhas tarefas"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="6" height="6" rx="1"/><path d="m3 17 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg></a>
+    <a class="tab" href="#proj" data-view="proj" title="Projetos" aria-label="Projetos"><svg viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></a>
+    <a class="tab" href="#agenda" data-view="agenda" title="Agenda" aria-label="Agenda"><svg viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg></a>
+    <a class="tab" href="#clientes" data-view="clientes" title="Clientes" aria-label="Clientes"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></a>
+    <a class="tab" href="#equipe" data-view="equipe" title="Equipe" aria-label="Equipe"><svg viewBox="0 0 24 24"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/></svg></a>
+    <a class="tab" href="#membros" data-view="membros" title="Membros" aria-label="Membros"><svg viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg></a>
+    <a class="tab" href="#financeiro" data-view="financeiro" title="Financeiro" aria-label="Financeiro"><svg viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></a>
+    <a class="tab" href="#orcamentos" data-view="orcamentos" title="Propostas" aria-label="Propostas"><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></a>
+    <a class="tab" href="#contratos" data-view="contratos" title="Contratos" aria-label="Contratos"><svg viewBox="0 0 24 24"><path d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"/><path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><path d="M8 18h1"/></svg></a>
+    <a class="tab" href="#modelos" data-view="modelos" title="Modelo" aria-label="Modelo"><svg viewBox="0 0 24 24"><rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/></svg></a>
+    <a class="tab" href="#parc" data-view="parc" title="Parceiros" aria-label="Parceiros"><svg viewBox="0 0 24 24"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg></a>
+    <a class="tab" href="#arquivos" data-view="arquivos" title="Arquivos" aria-label="Arquivos"><svg viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg></a>
   </div>
-  <button class="side-bell" id="notif-bell" title="Notificações" aria-label="Notificações" style="margin-top:auto"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="notif-badge" id="notif-badge" hidden></span></button>
-  <a class="side-exit" href="#" id="exit" title="Sair" aria-label="Sair" style="margin-top:0"><svg viewBox="0 0 24 24"><path d="M15 12H4"/><path d="M8 8l-4 4 4 4"/><path d="M12 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg></a>
+  <button class="side-bell" id="notif-bell" title="Notificações" aria-label="Notificações" style="margin-top:auto"><svg viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg><span class="notif-badge" id="notif-badge" hidden></span></button>
+  <a class="side-exit" href="#" id="exit" title="Sair" aria-label="Sair" style="margin-top:0"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg></a>
 </nav>
 <div class="notif-panel" id="notif-panel" hidden>
   <div class="notif-head">notificações</div>
@@ -1474,10 +1479,10 @@
     </section>
 
     <div class="stat-cards">
-      <a class="stat-card" href="#agenda"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></span><span class="stat-lbl">eventos de hoje</span><span class="stat-num" id="st-eventos">—</span><span class="stat-link">Ver agenda →</span></a>
-      <a class="stat-card" href="#tarefas"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8.5 12l2.2 2.2L15.5 9"/></svg></span><span class="stat-lbl">tarefas pendentes</span><span class="stat-num" id="st-tarefas">—</span><span class="stat-link">Ver tarefas →</span></a>
-      <a class="stat-card" href="#proj"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="stat-lbl">projetos em andamento</span><span class="stat-num" id="st-projetos">—</span><span class="stat-link">Ver projetos →</span></a>
-      <a class="stat-card" href="#agenda"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><span class="stat-lbl">prazos próximos</span><span class="stat-num" id="st-prazos">—</span><span class="stat-link">Ver prazos →</span></a>
+      <a class="stat-card" href="#agenda"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg></span><span class="stat-lbl">eventos de hoje</span><span class="stat-num" id="st-eventos">—</span><span class="stat-link">Ver agenda →</span></a>
+      <a class="stat-card" href="#tarefas"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24"><path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.5"/><path d="m9 11 3 3L22 4"/></svg></span><span class="stat-lbl">tarefas pendentes</span><span class="stat-num" id="st-tarefas">—</span><span class="stat-link">Ver tarefas →</span></a>
+      <a class="stat-card" href="#proj"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></span><span class="stat-lbl">projetos em andamento</span><span class="stat-num" id="st-projetos">—</span><span class="stat-link">Ver projetos →</span></a>
+      <a class="stat-card" href="#agenda"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-lbl">prazos próximos</span><span class="stat-num" id="st-prazos">—</span><span class="stat-link">Ver prazos →</span></a>
     </div>
 
     <!-- grade única: agenda e registro à esquerda; avisos (maior) e cores (menor) à direita, com as bordas alinhadas -->
@@ -1489,7 +1494,7 @@
       <section class="card hq-avisos">
         <h3>avisos</h3>
         <ul class="avisos" id="avisos"></ul>
-        <div class="aviso-add"><input id="aviso-input" type="text" placeholder="Novo aviso para a equipe…"><button class="pill ghost sm" type="button" id="aviso-add-btn"><svg viewBox="0 0 24 24"><path d="M4 12l16-7-7 16-2-7z"/></svg>publicar</button></div>
+        <div class="aviso-add"><input id="aviso-input" type="text" placeholder="Novo aviso para a equipe…"><button class="pill ghost sm" type="button" id="aviso-add-btn"><svg viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg>publicar</button></div>
       </section>
       <section class="card hq-registro">
         <h3>registro de atividade <span style="color:var(--ink-3);font-weight:400;letter-spacing:0;text-transform:none">· esta semana</span></h3>
@@ -1507,13 +1512,13 @@
     <button class="back" type="button" data-home>Voltar</button>
     <div class="page-head">
       <h2 class="page-title">Minhas tarefas</h2>
-      <button class="pill solid sm" type="button" id="nova-tarefa" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>nova tarefa</button>
+      <button class="pill solid sm" type="button" id="nova-tarefa" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>nova tarefa</button>
     </div>
     <p class="proj-note">Cartões avulsos e <b>etapas dos projetos por responsável</b>. Use o filtro para ver as suas, as de um colaborador ou de toda a equipe.</p>
     <div class="kb-filtros">
-      <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px"><svg viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c0-3.2 2.500-5.300 5.500-5.300s5.500 2.100 5.500 5.300"/><circle cx="17" cy="9.500" r="2.500"/><path d="M15.500 14.200c2.800-.4 5 1.500 5 4.300"/></svg>Mostrar tarefas de</label><select id="kanban-filtro" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
-      <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px"><svg viewBox="0 0 24 24"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.5 1.5 0 0 1 0 2.1l-6.2 6.2a1.5 1.5 0 0 1-2.1 0z"/><circle cx="8" cy="8" r="1.3"/></svg>Etiqueta</label><select id="kanban-etq" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
-      <div class="kb-busca"><label for="kanban-busca" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Buscar</label><input id="kanban-busca" type="search" placeholder="Nome do cartão ou projeto…" autocomplete="off"></div>
+      <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Mostrar tarefas de</label><select id="kanban-filtro" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
+      <div><label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px"><svg viewBox="0 0 24 24"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg>Etiqueta</label><select id="kanban-etq" style="width:100%;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select></div>
+      <div class="kb-busca"><label for="kanban-busca" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:6px"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Buscar</label><input id="kanban-busca" type="search" placeholder="Nome do cartão ou projeto…" autocomplete="off"></div>
       <div class="kb-total" id="kb-total"></div>
     </div>
     <div class="kanban" id="kanban"></div>
@@ -1524,7 +1529,7 @@
     <button class="back" type="button" data-home>Voltar</button>
     <div class="page-head">
       <h2 class="page-title">Central de projetos</h2>
-      <a class="pill solid sm" href="#novo" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo projeto</a>
+      <a class="pill solid sm" href="#novo" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>novo projeto</a>
     </div>
     <p class="page-sub">Acompanhe todos os projetos do escritório e seu progresso atual.</p>
     <div class="proj-toolbar">
@@ -1535,7 +1540,7 @@
         <button class="filter" role="tab" aria-selected="false" data-filter="cancelado" style="--fc:var(--red)">Cancelado <span class="filter-n" data-count="cancelado">0</span></button>
       </div>
       <div class="proj-search">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <input id="proj-search-input" type="search" placeholder="Buscar projeto ou cliente…" aria-label="Buscar projeto ou cliente">
       </div>
     </div>
@@ -1553,10 +1558,10 @@
 
     <p class="sec-label">informações</p>
     <div class="form-grid pj-info" style="max-width:660px;margin-bottom:clamp(28px,4vw,42px)">
-      <div class="field"><label><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>Cliente</label><select id="obra-cli-sel"></select><div class="ro" id="obra-cli-ro" hidden></div></div>
-      <div class="field"><label><svg viewBox="0 0 24 24"><path d="M6.500 3.500H14l4 4v13H6.500z"/><path d="M14 3.500v4h4M9.500 13h5M9.500 16.500h5"/></svg>Nº do contrato</label><input id="obra-contrato-input" type="text" placeholder="Ex.: 2026-030"></div>
-      <div class="field"><label><svg viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 10v9h12v-9"/></svg>Nome da obra</label><input id="obra-nome-input" type="text"></div>
-      <div class="field"><label><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Tipo</label><select id="obra-tipo-sel"><option value="">—</option><option>Unifamiliar</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
+      <div class="field"><label><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Cliente</label><select id="obra-cli-sel"></select><div class="ro" id="obra-cli-ro" hidden></div></div>
+      <div class="field"><label><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>Nº do contrato</label><input id="obra-contrato-input" type="text" placeholder="Ex.: 2026-030"></div>
+      <div class="field"><label><svg viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>Nome da obra</label><input id="obra-nome-input" type="text"></div>
+      <div class="field"><label><svg viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>Tipo</label><select id="obra-tipo-sel"><option value="">—</option><option>Unifamiliar</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
       <div id="pj-dados" class="pj-dados" style="grid-column:1/-1"></div>
     </div>
 
@@ -1564,8 +1569,8 @@
     <div class="pj-cover" style="max-width:660px;margin-bottom:clamp(28px,4vw,42px)">
       <div class="pj-cover-preview" id="pj-cover-preview"><span id="pj-cover-ini">P</span></div>
       <div class="pj-cover-actions">
-        <label class="pill ghost sm" style="cursor:pointer"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-7 7"/></svg><span id="pj-cover-btn-txt">anexar imagem</span><input type="file" id="pj-cover-file" accept="image/*" hidden></label>
-        <button class="pbtn danger" type="button" id="pj-cover-remove" hidden><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button>
+        <label class="pill ghost sm" style="cursor:pointer"><svg viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span id="pj-cover-btn-txt">anexar imagem</span><input type="file" id="pj-cover-file" accept="image/*" hidden></label>
+        <button class="pbtn danger" type="button" id="pj-cover-remove" hidden><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>remover</button>
         <span class="note" id="pj-cover-note">Aparece na miniatura do card na central de projetos.</span>
       </div>
     </div>
@@ -1577,7 +1582,7 @@
         <div class="field"><label>Valor do contrato</label><input id="f-total" type="text" inputmode="decimal" value="R$ "></div>
         <div class="field"><label>Forma de pagamento</label><select id="f-forma"></select></div>      </div>
       <ul class="parcelas" id="parcelas"></ul>
-      <div class="form-actions"><button class="pill ghost sm pj-edit-only" type="button" id="add-parcela"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar parcela</button><button class="pill solid sm pj-edit-only" type="button" id="salvar-financeiro"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar financeiro</button><span class="note" id="fin-note"></span></div>
+      <div class="form-actions"><button class="pill ghost sm pj-edit-only" type="button" id="add-parcela"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar parcela</button><button class="pill solid sm pj-edit-only" type="button" id="salvar-financeiro"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>salvar financeiro</button><span class="note" id="fin-note"></span></div>
       <div id="extras-wrap" style="margin-top:24px;padding-top:20px;border-top:1px solid var(--hair-soft);display:none">
         <p class="adm-note" style="margin:0 0 12px"><b>Serviços extras</b> — recebimentos avulsos vinculados a este projeto (não fazem parte do valor do contrato).</p>
         <div id="extras-projeto"></div>
@@ -1644,26 +1649,26 @@
       <div class="np-field" id="ae-nome-wrap" hidden><label>Nome da etapa (deste projeto)</label><input id="ae-nome" type="text" placeholder="Ex.: Compatibilização"></div>
       <div class="np-field"><label>Termo da etapa</label><select id="ae-termo"><option value="nenhum">Sem termo</option><option value="entrega">Termo de finalização e entrega</option><option value="aceite">Termo de finalização, entrega e aceite de etapa</option></select></div>
       <div class="np-field" id="ae-libera-wrap"><label>Liberação do arquivo ao cliente</label><select id="ae-libera"><option value="livre">Libera independente de aceite</option><option value="aceite">Só libera após o aceite do termo</option></select></div>
-      <button class="pill solid sm" type="button" id="ae-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar etapa</button>
+      <button class="pill solid sm" type="button" id="ae-add"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar etapa</button>
     </div>
 
     <p class="sec-label" style="margin-top:clamp(30px,4vw,44px)">documentos do cliente</p>
     <p class="proj-note" style="margin-top:-6px">O <b>Contrato</b> é anexado por você (administrador) e fica para o cliente baixar. Os demais documentos são anexados pelo colaborador na página da obra.</p>
     <div class="np-panel" style="max-width:660px">
       <ul class="np-docs" id="adm-docs">
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Contrato</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Alvará de construção</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Arquitetônico Legal Deferido</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Hidrossanitário Deferido</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Hidro</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button></li>
-        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Prefeitura</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Contrato</div><div class="np-doc-file"></div></div><span class="np-doc-state">aguardando anexo</span><label class="pill ghost sm np-attach"><svg viewBox="0 0 24 24"><path d="M13.234 20.252 21 12.3"/><path d="m16 6-8.414 8.586a2 2 0 0 0 0 2.828 2 2 0 0 0 2.828 0l8.414-8.586a4 4 0 0 0 0-5.656 4 4 0 0 0-5.656 0l-8.415 8.585a6 6 0 1 0 8.486 8.486"/></svg>anexar<input type="file" accept=".pdf,.jpg,.jpeg,.png"></label></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Alvará de construção</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>remover</button></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Arquitetônico Legal Deferido</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>remover</button></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Projeto Hidrossanitário Deferido</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>remover</button></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Hidro</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>remover</button></li>
+        <li class="np-doc"><div class="np-doc-main"><div class="np-doc-name">Habite-se Prefeitura</div></div><span class="np-doc-state">colaborador</span><button type="button" class="pbtn danger np-doc-rm" title="Remover documento"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>remover</button></li>
       </ul>
       <div class="edit-block" style="margin-top:14px">
         <label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:8px">Adicionar documento</label>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
           <select id="ad-modelo" style="flex:1;min-width:200px;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px"></select>
           <input id="ad-nome" type="text" hidden placeholder="Nome do documento" style="flex:1;min-width:200px;font-family:var(--sans);font-weight:300;font-size:14.5px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--hair);padding:8px 2px">
-          <button class="pill ghost sm" type="button" id="ad-add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button>
+          <button class="pill ghost sm" type="button" id="ad-add"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar</button>
         </div>
       </div>
     </div>
@@ -1673,17 +1678,17 @@
     <div class="np-panel apr-panel" id="apr-panel">
       <div class="apr-box" id="pj-apr"></div>
       <div class="apr-docs" id="apr-docs"></div>
-      <details class="apr-dados" id="apr-dados"><summary><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>Dados para os documentos <span id="apr-falta"></span></summary><div class="apr-campos" id="apr-campos"></div></details>
-      <div class="apr-acoes"><button class="pill solid sm" type="button" id="apr-salvar"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg>salvar respostas e dados</button><span class="note" id="apr-note"></span></div>
+      <details class="apr-dados" id="apr-dados"><summary><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>Dados para os documentos <span id="apr-falta"></span></summary><div class="apr-campos" id="apr-campos"></div></details>
+      <div class="apr-acoes"><button class="pill solid sm" type="button" id="apr-salvar"><svg viewBox="0 0 24 24"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>salvar respostas e dados</button><span class="note" id="apr-note"></span></div>
     </div>
 
     <div class="pj-actions">
-      <button class="pill solid" type="button" id="pj-editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 5l4 4"/></svg>editar</button>
-      <button class="pill ghost sm" type="button" id="pj-pausar"><svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg>pausar</button>
-      <button class="pill ghost sm" type="button" id="pj-cancelar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>cancelar</button>
-      <button class="pill ghost sm" type="button" id="pj-retomar"><svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>retomar</button>
-      <button class="pill ghost sm pj-edit-only" type="button" id="add-etapa"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar etapa</button>
-      <button class="pill solid pj-edit-only" type="button" id="pj-concluir"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>concluir</button>
+      <button class="pill solid" type="button" id="pj-editar"><svg viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>editar</button>
+      <button class="pill ghost sm" type="button" id="pj-pausar"><svg viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>pausar</button>
+      <button class="pill ghost sm" type="button" id="pj-cancelar"><svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>cancelar</button>
+      <button class="pill ghost sm" type="button" id="pj-retomar"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg>retomar</button>
+      <button class="pill ghost sm pj-edit-only" type="button" id="add-etapa"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar etapa</button>
+      <button class="pill solid pj-edit-only" type="button" id="pj-concluir"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>concluir</button>
       <span class="note" id="pj-status-note"></span>
     </div>
    </div>
@@ -1706,14 +1711,14 @@
       <div class="np-h"><span class="np-num"></span>Dados do projeto</div>
       <div class="np-grid">
       <div class="np-field full">
-        <label for="np-cliente"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>Cliente</label>
+        <label for="np-cliente"><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Cliente</label>
         <select id="np-cliente"><option value="">Selecione o cliente…</option></select>
         <p class="np-hint">O cadastro do cliente é feito pelo próprio cliente, por um link enviado na aba <b>clientes</b>.</p>
       </div>
-      <div class="np-field"><label for="np-obra"><svg viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 10v9h12v-9"/></svg>Nome da obra</label><input id="np-obra" type="text" placeholder="Ex.: Residência Jurerê"></div>
-      <div class="np-field"><label for="np-tipo"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Tipo</label><select id="np-tipo"><option value="">Selecione o tipo…</option><option>Unifamiliar</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
-      <div class="np-field"><label for="np-contrato"><svg viewBox="0 0 24 24"><path d="M6.500 3.500H14l4 4v13H6.500z"/><path d="M14 3.500v4h4M9.500 13h5M9.500 16.500h5"/></svg>Nº do contrato</label><input id="np-contrato" type="text" placeholder="Ex.: 2026-030"></div>
-      <div class="np-field"><label for="np-valor"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><path d="M14.500 9.500c-.5-.9-1.400-1.400-2.500-1.400-1.500 0-2.600.8-2.600 2s1 1.700 2.600 2 2.700.8 2.700 2.100-1.200 2-2.700 2c-1.200 0-2.200-.5-2.700-1.400M12 6.500v1.600m0 8.100v1.300"/></svg>Valor do contrato <span style="color:var(--amber);text-transform:none;letter-spacing:0;font-weight:400">· só o administrador vê</span></label><input id="np-valor" type="text" value="R$ " inputmode="decimal"></div>
+      <div class="np-field"><label for="np-obra"><svg viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>Nome da obra</label><input id="np-obra" type="text" placeholder="Ex.: Residência Jurerê"></div>
+      <div class="np-field"><label for="np-tipo"><svg viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>Tipo</label><select id="np-tipo"><option value="">Selecione o tipo…</option><option>Unifamiliar</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
+      <div class="np-field"><label for="np-contrato"><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>Nº do contrato</label><input id="np-contrato" type="text" placeholder="Ex.: 2026-030"></div>
+      <div class="np-field"><label for="np-valor"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>Valor do contrato <span style="color:var(--amber);text-transform:none;letter-spacing:0;font-weight:400">· só o administrador vê</span></label><input id="np-valor" type="text" value="R$ " inputmode="decimal"></div>
       </div>
       <div id="np-dados" class="np-dados"></div>
       </div>
@@ -1731,7 +1736,7 @@
         <div class="np-h"><span class="np-num"></span>Parcelas <span class="np-tag">só o administrador vê</span></div>
         <p class="np-hint">Lance as parcelas do contrato aqui. Elas ficam no projeto e alimentam o financeiro da Área do Cliente e o consolidado do administrador.</p>
         <ul class="parcelas" id="np-parcelas"></ul>
-        <div style="margin-top:14px"><button class="pill ghost sm" type="button" id="np-add-parcela"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar parcela</button></div>
+        <div style="margin-top:14px"><button class="pill ghost sm" type="button" id="np-add-parcela"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar parcela</button></div>
       </div>
       </div>
 
@@ -1752,7 +1757,7 @@
       </div>
 
       <div class="form-actions">
-        <button class="pill solid" type="submit"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>criar projeto</button>
+        <button class="pill solid" type="submit"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>criar projeto</button>
         <span class="note" id="note-projeto"></span>
       </div>
     </form>
@@ -1770,10 +1775,10 @@
         <button class="wk-btn" role="tab" data-week="1" aria-selected="false">Próxima semana</button>
       </div>
       <div class="ag-week" aria-label="Semana exibida">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M3 10h18"/><path d="M8 2v4"/><path d="M17 14h-6"/><path d="M13 18H7"/><path d="M7 14h.01"/><path d="M17 18h.01"/></svg>
         <span class="ag-week-txt" id="ag-week-txt"></span>
-        <button class="ag-nav" type="button" id="ag-prev" aria-label="Semana anterior" title="Semana anterior"><svg viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6"/></svg></button>
-        <button class="ag-nav" type="button" id="ag-next" aria-label="Próxima semana" title="Avançar a semana"><svg viewBox="0 0 24 24"><path d="M9.5 6l6 6-6 6"/></svg></button>
+        <button class="ag-nav" type="button" id="ag-prev" aria-label="Semana anterior" title="Semana anterior"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+        <button class="ag-nav" type="button" id="ag-next" aria-label="Próxima semana" title="Avançar a semana"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
       </div>
     </div>
     <div class="gantt" id="gantt"></div>
@@ -1791,8 +1796,8 @@
       <p class="proj-note" style="margin:0 0 14px">As tarefas com etiqueta <b>Reunião</b> ou <b>Visita</b> (com data) entram sozinhas no seu Google Agenda. Gere o link uma vez e adicione no Google em <b>Outras agendas → + → Do URL</b>. O Google atualiza a agenda assinada sozinho, em geral algumas vezes por dia.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
         <input id="gcal-link" type="text" class="tk-in" readonly placeholder="Clique em gerar link" style="flex:1 1 320px;min-width:0">
-        <button class="pill solid sm" type="button" id="gcal-gerar"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>gerar link</span></button>
-        <button class="pill ghost sm" type="button" id="gcal-copiar" style="display:none"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></svg>copiar</button>
+        <button class="pill solid sm" type="button" id="gcal-gerar"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>gerar link</span></button>
+        <button class="pill ghost sm" type="button" id="gcal-copiar" style="display:none"><svg viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>copiar</button>
       </div>
       <p class="note" id="gcal-nota" style="margin:10px 0 0"></p>
     </section>
@@ -1808,19 +1813,19 @@
     <button class="back" type="button" data-home>Voltar</button>
     <div class="page-head">
       <h2 class="page-title">Clientes</h2>
-      <button class="pill solid sm" type="button" id="novo-cliente" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo cliente</button>
+      <button class="pill solid sm" type="button" id="novo-cliente" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>novo cliente</button>
     </div>
 
     <div class="adm-panel" style="max-width:none">
       <div class="adm-row" style="padding-top:0">
         <div class="adm-k">Link de cadastro de novos clientes <small>compartilhe este link — quando o cliente preencher, ele entra na lista abaixo</small></div>
         <div style="display:flex;gap:10px">
-          <button class="pill solid sm" type="button" id="gen-link"><svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5l1.6-1.6a4 4 0 0 1 5.7 5.7L16 12"/><path d="M13.5 17.5l-1.6 1.6a4 4 0 0 1-5.7-5.7L8 12"/></svg>gerar link</button>
+          <button class="pill solid sm" type="button" id="gen-link"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>gerar link</button>
         </div>
       </div>
       <div class="link-box" id="link-box" hidden>
         <span class="link-url" id="link-url"></span>
-        <button class="pill ghost sm" type="button" id="link-copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>copiar</button>
+        <button class="pill ghost sm" type="button" id="link-copy"><svg viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>copiar</button>
       </div>
       <p class="note" id="link-note" style="margin-top:10px"></p>
     </div>
@@ -1831,7 +1836,7 @@
         <span class="seg" role="group" aria-label="Ordenar"><button class="sortbtn" type="button" data-sort="cad" aria-selected="true">Cadastro</button><button class="sortbtn" type="button" data-sort="az" aria-selected="false">A–Z</button></span>
       </div>
       <div class="proj-search">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <input id="cli-search" type="search" placeholder="Buscar cliente…" aria-label="Buscar cliente">
       </div>
     </div>
@@ -1886,26 +1891,26 @@
     <div class="adm-panel">
       <div class="adm-row" style="padding-top:0">
         <div class="adm-k">Membro da área do cliente <small id="membro-sub"></small></div>
-        <button class="pill ghost sm" type="button" id="membro-toggle"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a6 6 0 0 1 11 0"/><path d="M18 9v6M15 12h6"/></svg>incluir como membro</button>
+        <button class="pill ghost sm" type="button" id="membro-toggle"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>incluir como membro</button>
       </div>
       <div class="adm-row">
         <div class="adm-k">Senha de acesso <small>defina uma senha para o cliente entrar (mín. 6)</small></div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
           <input id="cli-senha" type="text" placeholder="senha do cliente" style="border:none;border-bottom:1px solid var(--hair);padding:6px 2px;font-family:var(--sans);font-weight:300;font-size:14px;width:160px;color:var(--ink)">
-          <button class="pill solid sm" type="button" id="senha-btn"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8"/><path d="M17 6l2 2"/></svg>definir acesso</button>
+          <button class="pill solid sm" type="button" id="senha-btn"><svg viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>definir acesso</button>
         </div>
       </div>
       <div class="adm-row" style="border-bottom:none">
         <div class="adm-k">Obras deste cliente <small id="cli-obras-sub"></small></div>
-        <a class="pill ghost sm" href="#proj"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>ver na central</a>
+        <a class="pill ghost sm" href="#proj"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>ver na central</a>
       </div>
       <p class="note" id="acesso-note" style="margin-top:10px"></p>
     </div>
 
     <div class="pj-actions">
-      <button class="pill solid sm" type="button" id="cli-editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 5l4 4"/></svg>editar cadastro</button>
-      <button class="pill solid sm" type="button" id="salvar-dados" hidden><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar dados</button>
-      <button class="pill ghost sm" type="button" id="excluir-cliente" style="color:var(--red);border-color:#e6c9c4"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir cliente</button>
+      <button class="pill solid sm" type="button" id="cli-editar"><svg viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>editar cadastro</button>
+      <button class="pill solid sm" type="button" id="salvar-dados" hidden><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>salvar dados</button>
+      <button class="pill ghost sm" type="button" id="excluir-cliente" style="color:var(--red);border-color:#e6c9c4"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>excluir cliente</button>
       <span class="note" id="dados-note"></span>
     </div>
   </section>
@@ -1917,7 +1922,7 @@
       <h2 class="page-title">Financeiro</h2>
       <div class="fin-filtro" style="margin-bottom:clamp(20px,3vw,30px)">
         <div class="fin-period">
-          <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
           <select id="fin-periodo" aria-label="Filtrar por período">
             <option value="todos">Todos os períodos</option>
             <option value="0">Este mês</option>
@@ -1936,10 +1941,10 @@
     <p class="proj-note">Fluxo financeiro do escritório. Em <b>contratos</b>, clique numa linha para editar as parcelas e o status — ao marcar uma parcela como <b>paga</b>, ela alimenta o recibo na Área do Cliente. Tudo sincronizado com o financeiro do cliente (ligação em tempo real via backend).</p>
 
     <div class="stat-cards" style="margin-bottom:clamp(22px,3vw,30px)">
-      <div class="stat-card"><span class="stat-ico st-ico-doc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg></span><span class="stat-lbl">em contratos</span><span class="stat-num" id="fc-contratos">—</span><span class="stat-badge">Total contratado</span></div>
-      <div class="stat-card"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg></span><span class="stat-lbl">recebido</span><span class="stat-num" id="fc-recebido">—</span><span class="stat-badge green">Total recebido</span></div>
-      <div class="stat-card"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12M6 20h12M8 4v3l4 4 4-4V4M8 20v-3l4-4 4 4v3"/></svg></span><span class="stat-lbl">a receber</span><span class="stat-num" id="fc-areceber">—</span><span class="stat-badge amber">Em aberto</span></div>
-      <div class="stat-card"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></span><span class="stat-lbl">vencido</span><span class="stat-num" id="fc-vencido">—</span><span class="stat-badge red">Em atraso</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-doc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"/><path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><path d="M8 18h1"/></svg></span><span class="stat-lbl">em contratos</span><span class="stat-num" id="fc-contratos">—</span><span class="stat-badge">Total contratado</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span><span class="stat-lbl">recebido</span><span class="stat-num" id="fc-recebido">—</span><span class="stat-badge green">Total recebido</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg></span><span class="stat-lbl">a receber</span><span class="stat-num" id="fc-areceber">—</span><span class="stat-badge amber">Em aberto</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-pz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></span><span class="stat-lbl">vencido</span><span class="stat-num" id="fc-vencido">—</span><span class="stat-badge red">Em atraso</span></div>
     </div>
 
     <div class="proj-toolbar">
@@ -1950,7 +1955,7 @@
         <button class="ptab" role="tab" aria-selected="false" data-fcat="pagamentos" style="--fc:var(--red)">Pagamentos</button>
       </div>
       <div class="proj-search">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <input id="fin-search" type="search" placeholder="Buscar obra, cliente, parcela…" aria-label="Buscar obra, cliente ou parcela">
       </div>
     </div>
@@ -1962,7 +1967,7 @@
       </table></div>
       <p class="note" id="fin-empty" hidden style="margin-top:12px">Nenhum contrato encontrado.</p>
       <div class="card fin-tip">
-        <div class="fin-tip-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6h.01"/></svg></div>
+        <div class="fin-tip-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></div>
         <div><div class="fin-tip-t">Dica rápida</div><div class="fin-tip-s">Clique numa linha para editar as parcelas e o status de pagamento.</div></div>
       </div>
     </div>
@@ -1984,11 +1989,11 @@
         <thead><tr><th>Para</th><th>Referente</th><th>Vencimento</th><th>Valor</th><th>Status</th><th></th></tr></thead>
         <tbody id="fin-pagamentos"></tbody>
       </table></div>
-      <div style="margin-top:20px"><button class="pill solid sm" type="button" id="novo-pagamento"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo pagamento</button></div>
+      <div style="margin-top:20px"><button class="pill solid sm" type="button" id="novo-pagamento"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>novo pagamento</button></div>
     </div>
 
     <div id="receb-actions" style="margin-top:26px;padding-top:22px;border-top:1px solid var(--hair-soft);display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <button class="pill solid sm" type="button" id="novo-recebimento"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo recebimento</button>
+      <button class="pill solid sm" type="button" id="novo-recebimento"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>novo recebimento</button>
       <span class="np-hint" style="margin:0">Entradas que não vêm de nenhum projeto (ex.: consultoria, serviços avulsos).</span>
     </div>
   </section>
@@ -2002,13 +2007,13 @@
 
     <p class="sec-label">etapas</p>
     <div id="modelos-list"></div>
-    <div class="aviso-add" style="max-width:660px;margin-top:6px"><input id="novo-modelo-input" type="text" placeholder="Nome da nova etapa-modelo…"><button class="pill solid sm" type="button" id="novo-modelo-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>criar etapa</button></div>
+    <div class="aviso-add" style="max-width:660px;margin-top:6px"><input id="novo-modelo-input" type="text" placeholder="Nome da nova etapa-modelo…"><button class="pill solid sm" type="button" id="novo-modelo-btn"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>criar etapa</button></div>
 
     <p class="sec-label" style="margin-top:clamp(30px,4vw,44px)">documentos</p>
     <p class="proj-note" style="margin-top:-6px">Documentos que o colaborador anexa em cada projeto (o <b>Contrato</b> é sempre do administrador). Editar aqui muda as opções em "novo projeto".</p>
     <div class="mdl" style="max-width:660px">
       <ul class="mdl-docs" id="modelo-docs" style="list-style:none;margin:0;padding:0"></ul>
-      <div class="aviso-add" style="margin-top:12px"><input id="novo-doc-input" type="text" placeholder="Novo documento…"><button class="pill ghost sm" type="button" id="novo-doc-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button></div>
+      <div class="aviso-add" style="margin-top:12px"><input id="novo-doc-input" type="text" placeholder="Novo documento…"><button class="pill ghost sm" type="button" id="novo-doc-btn"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar</button></div>
     </div>
   </section>
 
@@ -2018,7 +2023,7 @@
     <div class="page-head">
       <h2 class="page-title">Contratos</h2>
       <div class="oc-acts" style="margin-bottom:clamp(20px,3vw,30px)">
-        <button class="pill solid sm" type="button" id="ct-novo"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo contrato</button>
+        <button class="pill solid sm" type="button" id="ct-novo"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>novo contrato</button>
       </div>
     </div>
     <p class="proj-note">Monte o contrato a partir do <b>cadastro do cliente</b> e da <b>proposta</b>: marque os serviços contratados e ajuste prazos, valores e condições. Depois de <b>confirmado</b>, o contrato aparece também na Área do Cliente.</p>
@@ -2033,7 +2038,7 @@
           <button class="ptab" role="tab" aria-selected="false" data-st="confirmado" style="--fc:var(--green)">Confirmados <span class="filter-n" id="ct-n-confirmado">0</span></button>
         </div>
         <div class="proj-search">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           <input id="ct-q" type="search" placeholder="Buscar cliente ou nº…" aria-label="Buscar contrato pelo cliente ou número">
         </div>
       </div>
@@ -2074,7 +2079,7 @@
             <div class="field"><label for="ct-c-email">E-mail (notificações)</label><input id="ct-c-email" type="email"></div>
           </div>
           <div id="ct-extras"></div>
-          <button type="button" class="ct-add" id="ct-add-cli"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>adicionar outro contratante</button>
+          <button type="button" class="ct-add" id="ct-add-cli"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar outro contratante</button>
         </div>
 
         <div class="oc-card">
@@ -2127,7 +2132,7 @@
             <div class="field"><label for="ct-vis-ant">Antecedência para agendar (dias úteis)</label><input id="ct-vis-ant" type="number" min="0" step="1"></div>
             <div class="field"><label for="ct-rec-de">Recesso: de</label><input id="ct-rec-de" type="date"></div>
             <div class="field"><label for="ct-rec-ate">Recesso: até</label><input id="ct-rec-ate" type="date"></div>
-            <div class="field full"><div id="ct-recs"></div><button type="button" class="ct-add" id="ct-add-rec" style="margin-top:4px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>adicionar outro período de recesso / férias</button></div>
+            <div class="field full"><div id="ct-recs"></div><button type="button" class="ct-add" id="ct-add-rec" style="margin-top:4px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar outro período de recesso / férias</button></div>
             <div class="field"><label for="ct-multa">Multa por rescisão (%)</label><input id="ct-multa" type="number" min="0" step="1"></div>
             <div class="field"><label for="ct-atraso">Multa por atraso no pagamento (%)</label><input id="ct-atraso" type="number" min="0" step="1"></div>
             <div class="field"><label for="ct-valid">Validade da proposta (dias úteis)</label><input id="ct-valid" type="number" min="1" step="1"></div>
@@ -2145,11 +2150,11 @@
 
       <div class="ct-prev">
         <div class="oc-prev-bar">
-          <button class="pill ghost sm" type="button" id="ct-voltar"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>voltar</button>
-          <button class="pill ghost sm" type="button" id="ct-editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg><span>editar texto</span></button>
-          <button class="pill ghost sm" type="button" id="ct-pdf"><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>baixar PDF</button>
-          <button class="pill ghost sm" type="button" id="ct-salvar"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg>salvar rascunho</button>
-          <button class="pill solid sm" type="button" id="ct-confirmar"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>confirmar e liberar ao cliente</span></button>
+          <button class="pill ghost sm" type="button" id="ct-voltar"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>voltar</button>
+          <button class="pill ghost sm" type="button" id="ct-editar"><svg viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg><span>editar texto</span></button>
+          <button class="pill ghost sm" type="button" id="ct-pdf"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>baixar PDF</button>
+          <button class="pill ghost sm" type="button" id="ct-salvar"><svg viewBox="0 0 24 24"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>salvar rascunho</button>
+          <button class="pill solid sm" type="button" id="ct-confirmar"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>confirmar e liberar ao cliente</span></button>
         </div>
         <p class="ct-aviso" id="ct-aviso-manual" hidden>O texto foi editado à mão: mudanças no formulário não alteram mais o contrato. <button type="button" class="ct-link" id="ct-refazer">refazer o texto pelo formulário</button></p>
         <iframe id="ct-frame" title="Pré-visualização do contrato"></iframe>
@@ -2164,13 +2169,13 @@
       <h2 class="page-title">Propostas</h2>
       <div class="oc-acts" style="margin-bottom:clamp(20px,3vw,30px)">
         <div class="fin-period" id="oc-per-box">
-          <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
           <select id="oc-f-per" aria-label="Filtrar por período">
             <option value="tudo" selected>Todos os períodos</option><option value="mes">Este mês</option><option value="mesant">Mês passado</option><option value="3m">Últimos 3 meses</option><option value="6m">Últimos 6 meses</option><option value="ano">Este ano</option><option value="anoant">Ano passado</option><option value="pers">Personalizado (de / até)</option>
           </select>
         </div>
-        <button class="pill ghost sm" type="button" id="oc-cfg-btn"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>tabela de preços</button>
-        <button class="pill solid sm" type="button" id="oc-novo"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>nova proposta</button>
+        <button class="pill ghost sm" type="button" id="oc-cfg-btn"><svg viewBox="0 0 24 24"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>tabela de preços</button>
+        <button class="pill solid sm" type="button" id="oc-novo"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>nova proposta</button>
       </div>
     </div>
     <p class="proj-note">Monte a proposta pelo formulário — os valores saem da <b>tabela de preços</b> pela área — e gere o PDF. Acompanhe aqui as propostas <b>enviadas</b>, <b>fechadas</b> e <b>não fechadas</b>.</p>
@@ -2189,16 +2194,16 @@
           <div class="field full"><label>Etapas padrão (título | texto, uma por linha)</label><textarea id="oc-c-etapas" rows="6"></textarea></div>
         </div>
       </details>
-      <div class="oc-row-end"><button class="pill ghost sm" type="button" id="oc-cfg-fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>fechar</button><button class="pill solid sm" type="button" id="oc-cfg-salvar"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg>salvar tabela</button></div>
+      <div class="oc-row-end"><button class="pill ghost sm" type="button" id="oc-cfg-fechar"><svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>fechar</button><button class="pill solid sm" type="button" id="oc-cfg-salvar"><svg viewBox="0 0 24 24"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>salvar tabela</button></div>
     </div>
 
     <!-- lista -->
     <div id="oc-lista-box">
       <div class="stat-cards oc-stats" style="margin-bottom:clamp(22px,3vw,30px)">
-        <button class="stat-card" type="button" data-go="todas"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2-6z"/><path d="M12 14l8-10"/></svg></span><span class="stat-lbl">propostas enviadas</span><span class="stat-num" id="oc-k-env-v">—</span><span class="stat-badge" id="oc-k-env-n">0 propostas</span></button>
-        <button class="stat-card" type="button" data-go="fechada"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8.3 12.2l2.5 2.5 5-5"/></svg></span><span class="stat-lbl">propostas fechadas</span><span class="stat-num" id="oc-k-fec-v">—</span><span class="stat-badge green" id="oc-k-fec-n">0 propostas</span></button>
-        <button class="stat-card" type="button" data-go="aberta"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="stat-lbl">propostas não fechadas</span><span class="stat-num" id="oc-k-abe-v">—</span><span class="stat-badge amber" id="oc-k-abe-n">0 propostas</span></button>
-        <div class="stat-card"><span class="stat-ico st-ico-cl"><svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M7 16V11M12 16V7M17 16v-3"/></svg></span><span class="stat-lbl">taxa de fechamento</span><span class="stat-num" id="oc-k-tx">—</span><span class="stat-badge" id="oc-k-tx-v">0% do valor</span></div>
+        <button class="stat-card" type="button" data-go="todas"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg></span><span class="stat-lbl">propostas enviadas</span><span class="stat-num" id="oc-k-env-v">—</span><span class="stat-badge" id="oc-k-env-n">0 propostas</span></button>
+        <button class="stat-card" type="button" data-go="fechada"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span><span class="stat-lbl">propostas fechadas</span><span class="stat-num" id="oc-k-fec-v">—</span><span class="stat-badge green" id="oc-k-fec-n">0 propostas</span></button>
+        <button class="stat-card" type="button" data-go="aberta"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-lbl">propostas não fechadas</span><span class="stat-num" id="oc-k-abe-v">—</span><span class="stat-badge amber" id="oc-k-abe-n">0 propostas</span></button>
+        <div class="stat-card"><span class="stat-ico st-ico-cl"><svg viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span class="stat-lbl">taxa de fechamento</span><span class="stat-num" id="oc-k-tx">—</span><span class="stat-badge" id="oc-k-tx-v">0% do valor</span></div>
       </div>
       <div class="proj-toolbar">
       <div class="ptabs" role="tablist" aria-label="Situação das propostas" id="oc-tabs">
@@ -2207,17 +2212,17 @@
         <button class="ptab" role="tab" aria-selected="false" data-st="fechada" style="--fc:var(--green)">Fechadas <span class="filter-n" id="oc-n-fechada">0</span></button>
       </div>
       <div class="proj-search">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <input id="oc-f-q" type="search" placeholder="Buscar cliente…" aria-label="Buscar pelo nome do cliente">
       </div>
       </div>
       <div class="oc-fil">
-        <div class="field"><label for="oc-f-tipo"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg>Tipo de edificação</label><select id="oc-f-tipo"><option value="">Todos</option><option>Residencial</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
-        <div class="field"><label for="oc-f-serv"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>Serviço</label><select id="oc-f-serv"><option value="">Todos</option></select></div>
-        <div class="field"><label for="oc-f-de"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>De</label><input id="oc-f-de" type="date"></div>
-        <div class="field"><label for="oc-f-ate"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>Até</label><input id="oc-f-ate" type="date"></div>
-        <div class="field"><label for="oc-f-ord"><svg viewBox="0 0 24 24"><path d="M7 4v16M4 7l3-3 3 3M17 20V4M14 17l3 3 3-3"/></svg>Ordenar</label><select id="oc-f-ord"><option value="rec">Mais recentes</option><option value="ant">Mais antigas</option><option value="vmax">Maior valor</option><option value="vmin">Menor valor</option><option value="az">Cliente A–Z</option></select></div>
-        <button class="pill ghost sm" type="button" id="oc-f-limpar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>limpar filtros</button>
+        <div class="field"><label for="oc-f-tipo"><svg viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>Tipo de edificação</label><select id="oc-f-tipo"><option value="">Todos</option><option>Residencial</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
+        <div class="field"><label for="oc-f-serv"><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>Serviço</label><select id="oc-f-serv"><option value="">Todos</option></select></div>
+        <div class="field"><label for="oc-f-de"><svg viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>De</label><input id="oc-f-de" type="date"></div>
+        <div class="field"><label for="oc-f-ate"><svg viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>Até</label><input id="oc-f-ate" type="date"></div>
+        <div class="field"><label for="oc-f-ord"><svg viewBox="0 0 24 24"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></svg>Ordenar</label><select id="oc-f-ord"><option value="rec">Mais recentes</option><option value="ant">Mais antigas</option><option value="vmax">Maior valor</option><option value="vmin">Menor valor</option><option value="az">Cliente A–Z</option></select></div>
+        <button class="pill ghost sm" type="button" id="oc-f-limpar"><svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>limpar filtros</button>
       </div>
       <p class="oc-hint" id="oc-f-res" style="margin:4px 0 12px"></p>
       <div class="oc-lista" id="oc-lista"></div>
@@ -2231,7 +2236,7 @@
           <div class="oc-g2">
             <div class="field full"><label>Nome do cliente</label><input id="oc-cliente" type="text" list="oc-clientes-dl" placeholder="Ex.: Vanessa"><datalist id="oc-clientes-dl"></datalist>
               <div id="oc-cli-extra"></div>
-              <button type="button" class="oc-add-cli" id="oc-add-cli"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>adicionar outro cliente</button></div>
+              <button type="button" class="oc-add-cli" id="oc-add-cli"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar outro cliente</button></div>
             <div class="field"><label>Tipo de edificação</label><select id="oc-tipo"><option value="">—</option><option>Residencial</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
             <div class="field"><label>Situação</label><select id="oc-status"><option value="aberta">Não fechada</option><option value="fechada">Fechada</option></select></div>
             <div class="field full"><label>Objeto do orçamento</label><input id="oc-objeto" type="text" placeholder="Ex.: Edificação multifamiliar"></div>
@@ -2263,12 +2268,12 @@
           <div class="oc-card-h"><span class="oc-n">5</span><b>Imagens de fundo</b><span>A capa e a última folha usam uma imagem inteira, escurecida. Sem escolha, a capa usa a 1ª foto do portfólio e a última folha usa a mesma da capa.</span></div>
           <p class="oc-hint"><b>Capa</b></p>
           <div class="oc-imgs oc-sel" id="oc-capa-sel"></div>
-          <div class="oc-row-end" style="justify-content:flex-start"><label class="pill ghost sm" style="cursor:pointer"><svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v4h16v-4"/></svg>enviar imagem<input type="file" id="oc-capa-up" accept="image/*" hidden></label></div>
+          <div class="oc-row-end" style="justify-content:flex-start"><label class="pill ghost sm" style="cursor:pointer"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>enviar imagem<input type="file" id="oc-capa-up" accept="image/*" hidden></label></div>
           <p class="oc-hint" style="margin-top:14px">Fotos dos projetos</p>
           <div class="oc-imgs pick" id="oc-capa-proj"></div>
           <p class="oc-hint" style="margin-top:18px;padding-top:14px;border-top:1px solid var(--hair-soft)"><b>Última folha</b></p>
           <div class="oc-imgs oc-sel" id="oc-fim-sel"></div>
-          <div class="oc-row-end" style="justify-content:flex-start"><label class="pill ghost sm" style="cursor:pointer"><svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v4h16v-4"/></svg> enviar imagem<input type="file" id="oc-fim-up" accept="image/*" hidden></label></div>
+          <div class="oc-row-end" style="justify-content:flex-start"><label class="pill ghost sm" style="cursor:pointer"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg> enviar imagem<input type="file" id="oc-fim-up" accept="image/*" hidden></label></div>
           <p class="oc-hint" style="margin-top:14px">Fotos dos projetos</p>
           <div class="oc-imgs pick" id="oc-fim-proj"></div>
         </div>
@@ -2277,17 +2282,17 @@
           <div class="field" style="margin-bottom:12px"><label>Título da folha</label><input id="oc-port-tit" type="text"></div>
           <p class="oc-hint">Escolha até 6 imagens: fotos dos projetos do sistema ou envie do computador.</p>
           <div class="oc-imgs" id="oc-port-sel"></div>
-          <div class="oc-row-end" style="justify-content:flex-start"><label class="pill ghost sm" style="cursor:pointer"><svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v4h16v-4"/></svg>enviar imagem<input type="file" id="oc-port-up" accept="image/*" multiple hidden></label></div>
+          <div class="oc-row-end" style="justify-content:flex-start"><label class="pill ghost sm" style="cursor:pointer"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>enviar imagem<input type="file" id="oc-port-up" accept="image/*" multiple hidden></label></div>
           <p class="oc-hint" style="margin-top:14px">Fotos dos projetos</p>
           <div class="oc-imgs pick" id="oc-port-proj"></div>
         </div>
       </div>
       <div class="oc-prev">
         <div class="oc-prev-bar">
-          <button class="pill ghost sm" type="button" id="oc-fechar"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>voltar à lista</button>
+          <button class="pill ghost sm" type="button" id="oc-fechar"><svg viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>voltar à lista</button>
           <span style="flex:1"></span>
-          <button class="pill ghost sm" type="button" id="oc-salvar"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg>salvar</button>
-          <button class="pill solid sm" type="button" id="oc-pdf"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>gerar PDF</button>
+          <button class="pill ghost sm" type="button" id="oc-salvar"><svg viewBox="0 0 24 24"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>salvar</button>
+          <button class="pill solid sm" type="button" id="oc-pdf"><svg viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>gerar PDF</button>
         </div>
         <iframe id="oc-frame" title="Pré-visualização da proposta"></iframe>
       </div>
@@ -2301,10 +2306,10 @@
     <p class="proj-note">Quem tem acesso à ferramenta — <b>clientes</b> e <b>colaboradores</b>. Ative ou desative o acesso, redefina a senha e abra o cadastro. O cliente entra na Área do Cliente; o colaborador, na Área do Colaborador.</p>
 
     <div class="stat-cards" style="margin-top:0;margin-bottom:clamp(24px,3vw,32px)">
-      <div class="stat-card"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6.6a3 3 0 0 1 0 5.8"/><path d="M20.5 19a5.5 5.5 0 0 0-3.6-5.2"/></svg></span><span class="stat-lbl">membros</span><span class="stat-num" id="mb-total">—</span><span class="stat-badge">cadastrados</span></div>
-      <div class="stat-card"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg></span><span class="stat-lbl">ativos</span><span class="stat-num" id="mb-ativos">—</span><span class="stat-badge">acesso ativo</span></div>
-      <div class="stat-card"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><span class="stat-lbl">pendentes</span><span class="stat-num" id="mb-pend">—</span><span class="stat-badge">aguardando cadastro</span></div>
-      <div class="stat-card"><span class="stat-ico st-ico-cl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span><span class="stat-lbl">colaboradores</span><span class="stat-num" id="mb-colab">—</span><span class="stat-badge">equipe interna</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-pj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="stat-lbl">membros</span><span class="stat-num" id="mb-total">—</span><span class="stat-badge">cadastrados</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-ev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span><span class="stat-lbl">ativos</span><span class="stat-num" id="mb-ativos">—</span><span class="stat-badge">acesso ativo</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-tk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-lbl">pendentes</span><span class="stat-num" id="mb-pend">—</span><span class="stat-badge">aguardando cadastro</span></div>
+      <div class="stat-card"><span class="stat-ico st-ico-cl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/></svg></span><span class="stat-lbl">colaboradores</span><span class="stat-num" id="mb-colab">—</span><span class="stat-badge">equipe interna</span></div>
     </div>
 
     <div class="proj-toolbar">
@@ -2315,7 +2320,7 @@
     </div>
 
     <div class="proj-search">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       <input id="mb-search" type="search" placeholder="Buscar membro…" aria-label="Buscar membro">
     </div>
     </div>
@@ -2331,16 +2336,16 @@
     <button class="back" type="button" data-home>Voltar</button>
     <div class="page-head">
       <h2 class="page-title">Equipe</h2>
-      <button class="pill solid sm" type="button" id="novo-colab" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo colaborador</button>
+      <button class="pill solid sm" type="button" id="novo-colab" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>novo colaborador</button>
     </div>
     <p class="proj-note">Colaboradores do escritório — quem pode ser responsável por etapas nos projetos. Toque em um colaborador para editar os dados. O nº de projetos ativos vem da central de projetos.</p>
 
     <div class="adm-panel" style="max-width:none">
       <div class="adm-row" style="padding-top:0;border-bottom:none">
         <div class="adm-k">Link de cadastro de colaborador <small>envie para o colaborador preencher os próprios dados; ao concluir, ele entra na lista</small></div>
-        <button class="pill solid sm" type="button" id="gen-colab-link"><svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5l1.6-1.6a4 4 0 0 1 5.7 5.7L16 12"/><path d="M13.5 17.5l-1.6 1.6a4 4 0 0 1-5.7-5.7L8 12"/></svg>gerar link</button>
+        <button class="pill solid sm" type="button" id="gen-colab-link"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>gerar link</button>
       </div>
-      <div class="link-box" id="colab-link-box" hidden><span class="link-url" id="colab-link-url"></span><button class="pill ghost sm" type="button" id="colab-link-copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>copiar</button></div>
+      <div class="link-box" id="colab-link-box" hidden><span class="link-url" id="colab-link-url"></span><button class="pill ghost sm" type="button" id="colab-link-copy"><svg viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>copiar</button></div>
       <p class="note" id="colab-link-note" style="margin-top:10px"></p>
     </div>
 
@@ -2353,7 +2358,7 @@
     <button class="back" type="button" data-home>Voltar</button>
     <div class="page-head">
       <h2 class="page-title">Parceiros e fornecedores</h2>
-      <button class="pill solid sm" type="button" id="new-forn" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>novo fornecedor</button>
+      <button class="pill solid sm" type="button" id="new-forn" style="margin-bottom:clamp(20px,3vw,30px)"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>novo fornecedor</button>
     </div>
     <div class="ptabs" role="tablist" aria-label="Categorias">
       <button class="ptab" role="tab" aria-selected="true" data-cat="projeto" style="--fc:var(--amber)">Projeto</button>
@@ -2419,30 +2424,30 @@
     <!-- mesma janela de tarefa da Área do Colaborador (aqui com Responsável e Vínculo, que só o admin define) -->
     <div class="tk-card">
       <div class="tk-head">
-        <p class="tk-eyebrow"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>Tarefa</p>
+        <p class="tk-eyebrow"><svg viewBox="0 0 24 24"><path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.5"/><path d="m9 11 3 3L22 4"/></svg>Tarefa</p>
         <h2 id="tarefa-title" class="tk-title" data-ph="Título da tarefa">Tarefa</h2>
         <p id="tarefa-meta" class="tk-meta"></p>
       </div>
       <div class="tk-body">
-      <div class="tk-f"><label class="tk-lbl" for="tarefa-resp"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>Responsável</label>
+      <div class="tk-f"><label class="tk-lbl" for="tarefa-resp"><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Responsável</label>
         <select id="tarefa-resp" class="tk-in"></select></div>
-      <div class="tk-f"><p class="tk-lbl"><svg viewBox="0 0 24 24"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.5 1.5 0 0 1 0 2.1l-6.2 6.2a1.5 1.5 0 0 1-2.1 0z"/><circle cx="8" cy="8" r="1.3"/></svg>Etiquetas</p>
+      <div class="tk-f"><p class="tk-lbl"><svg viewBox="0 0 24 24"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg>Etiquetas</p>
         <div class="etq-pick" id="tarefa-etq"></div></div>
-      <div class="tk-f"><label class="tk-lbl" for="tarefa-link"><svg viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6H9l2 2.5h8.5A1.5 1.5 0 0 1 21 10v7.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg>Vínculo</label>
+      <div class="tk-f"><label class="tk-lbl" for="tarefa-link"><svg viewBox="0 0 24 24"><path d="M2 9V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h7"/><path d="m8 16 3-3-3-3"/></svg>Vínculo</label>
         <input id="tarefa-link" type="text" class="tk-in" placeholder="Projeto/obra (opcional)"></div>
-      <div class="tk-f"><label class="tk-lbl" for="tarefa-col"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="4.5" height="14" rx="1"/><rect x="9.75" y="5" width="4.5" height="9" rx="1"/><rect x="16" y="5" width="4.5" height="11.5" rx="1"/></svg>Situação no painel</label>
+      <div class="tk-f"><label class="tk-lbl" for="tarefa-col"><svg viewBox="0 0 24 24"><path d="M6 5v11"/><path d="M12 5v6"/><path d="M18 5v14"/></svg>Situação no painel</label>
         <select id="tarefa-col" class="tk-in"></select></div>
       <div class="tk-row">
-        <div class="tk-f"><label class="tk-lbl" for="tarefa-ini"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>Início</label><input id="tarefa-ini" type="date" class="tk-in"></div>
-        <div class="tk-f"><label class="tk-lbl" for="tarefa-fim"><svg viewBox="0 0 24 24"><path d="M6 21V4M6 5h11l-2 3.5 2 3.5H6"/></svg>Término</label><input id="tarefa-fim" type="date" class="tk-in"></div>
+        <div class="tk-f"><label class="tk-lbl" for="tarefa-ini"><svg viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>Início</label><input id="tarefa-ini" type="date" class="tk-in"></div>
+        <div class="tk-f"><label class="tk-lbl" for="tarefa-fim"><svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>Término</label><input id="tarefa-fim" type="date" class="tk-in"></div>
       </div>
       <!-- só para tarefas com etiqueta Reunião ou Visita: horário + envio ao Google Agenda -->
       <div class="tk-row" id="tarefa-horas" style="display:none">
-        <div class="tk-f"><label class="tk-lbl" for="tarefa-hini"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Hora início</label><input id="tarefa-hini" type="time" class="tk-in"></div>
-        <div class="tk-f"><label class="tk-lbl" for="tarefa-hfim"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Hora término</label><input id="tarefa-hfim" type="time" class="tk-in"></div>
+        <div class="tk-f"><label class="tk-lbl" for="tarefa-hini"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Hora início</label><input id="tarefa-hini" type="time" class="tk-in"></div>
+        <div class="tk-f"><label class="tk-lbl" for="tarefa-hfim"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Hora término</label><input id="tarefa-hfim" type="time" class="tk-in"></div>
       </div>
       <div class="tk-f" id="tarefa-meet-box" style="display:none">
-        <label class="tk-lbl" for="tarefa-meet"><svg viewBox="0 0 24 24"><rect x="3" y="6.5" width="12.5" height="11" rx="2"/><path d="M15.5 10.5l5-3v9l-5-3"/></svg>Link da reunião</label>
+        <label class="tk-lbl" for="tarefa-meet"><svg viewBox="0 0 24 24"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg>Link da reunião</label>
         <label class="tk-meet-auto"><input type="checkbox" id="tarefa-meet-auto"><span><b>Reunião Meet</b> — o link é criado automaticamente no Google Agenda</span></label>
         <div class="tk-meet-row">
           <input id="tarefa-meet" type="url" class="tk-in" placeholder="ou cole aqui o link de outra reunião" autocomplete="off">
@@ -2455,17 +2460,17 @@
         <p class="etq-aviso" id="tarefa-gcal-aviso" style="display:none"></p>
       </div>
       <div class="tk-sec">
-        <p class="tk-lbl"><svg viewBox="0 0 24 24"><path d="M4 7l1.5 1.5L8 6M4 13l1.5 1.5L8 12M4 19l1.5 1.5L8 18M11.5 7H20M11.5 13H20M11.5 19H20"/></svg>Check-list</p>
+        <p class="tk-lbl"><svg viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>Check-list</p>
         <ul class="check" id="tarefa-check"></ul>
-        <div class="tk-add"><input id="tarefa-newitem" type="text" class="tk-in" placeholder="Novo item…"><button class="pill ghost sm" type="button" id="tarefa-additem"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar</button></div>
-        <div class="tk-add tk-mdl"><select id="tarefa-mdl" class="tk-in" aria-label="Modelo de check-list"></select><button class="pill ghost sm" type="button" id="tarefa-mdl-add"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg>aplicar</button></div>
+        <div class="tk-add"><input id="tarefa-newitem" type="text" class="tk-in" placeholder="Novo item…"><button class="pill ghost sm" type="button" id="tarefa-additem"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar</button></div>
+        <div class="tk-add tk-mdl"><select id="tarefa-mdl" class="tk-in" aria-label="Modelo de check-list"></select><button class="pill ghost sm" type="button" id="tarefa-mdl-add"><svg viewBox="0 0 24 24"><rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/></svg>aplicar</button></div>
       </div>
       <!-- ações em grade 2×2: salvar | concluir  ·  excluir | fechar -->
       <div class="tk-acts" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;padding-top:20px;border-top:1px solid var(--hair-soft)">
-        <button class="pill solid sm" type="button" id="tarefa-inserir"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar tarefa</button>
-        <button class="pill sm" type="button" id="tarefa-concluir" style="background:var(--green);border:1px solid var(--green);color:#fff"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>concluir tarefa</button>
-        <button class="pill ghost sm" type="button" id="tarefa-remove" style="color:var(--red);border-color:#e6c9c4"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button>
-        <button class="pill ghost sm" type="button" id="tarefa-back"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>fechar</button>
+        <button class="pill solid sm" type="button" id="tarefa-inserir"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>salvar tarefa</button>
+        <button class="pill sm" type="button" id="tarefa-concluir" style="background:var(--green);border:1px solid var(--green);color:#fff"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>concluir tarefa</button>
+        <button class="pill ghost sm" type="button" id="tarefa-remove" style="color:var(--red);border-color:#e6c9c4"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>excluir</button>
+        <button class="pill ghost sm" type="button" id="tarefa-back"><svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>fechar</button>
         <span class="note" id="tarefa-note" style="grid-column:1/-1;margin:2px 0 0"></span>
       </div>
       </div>
@@ -2523,14 +2528,14 @@
           <div class="adm-k">Senha de acesso <small>defina uma senha para o colaborador entrar (mín. 6)</small></div>
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
             <input id="colab-senha" type="text" placeholder="senha do colaborador" autocomplete="off" style="border:none;border-bottom:1px solid var(--hair);padding:6px 2px;font-family:var(--sans);font-weight:300;font-size:14px;width:160px;color:var(--ink)">
-            <button class="pill solid sm" type="button" id="colab-senha-btn"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8"/><path d="M17 6l2 2"/></svg>definir acesso</button>
+            <button class="pill solid sm" type="button" id="colab-senha-btn"><svg viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>definir acesso</button>
           </div>
         </div>
         <p class="note" id="colab-acesso-note" style="margin-top:10px"></p>
       </div>
     </div>
 
-    <div class="form-actions"><button class="pill solid sm" type="button" id="colab-save"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>salvar</button><button class="pbtn danger" type="button" id="colab-del" hidden><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir colaborador</button><span class="note" id="colab-note"></span></div>
+    <div class="form-actions"><button class="pill solid sm" type="button" id="colab-save"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>salvar</button><button class="pbtn danger" type="button" id="colab-del" hidden><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>excluir colaborador</button><span class="note" id="colab-note"></span></div>
   </section>
 
 </div>
@@ -2544,8 +2549,8 @@
     <form id="modal-form" novalidate>
       <div class="modal-fields" id="modal-fields"></div>
       <div class="modal-actions">
-        <button class="pill ghost sm" type="button" id="modal-cancel"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>cancelar</button>
-        <button class="pill solid sm" type="submit" id="modal-ok"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>adicionar</span></button>
+        <button class="pill ghost sm" type="button" id="modal-cancel"><svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>cancelar</button>
+        <button class="pill solid sm" type="submit" id="modal-ok"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg><span>adicionar</span></button>
       </div>
     </form>
   </div>
@@ -2647,12 +2652,12 @@
         var thumb=ini; if(p.imagem_path){ try{ var pu=sb.storage.from('projeto-capas').getPublicUrl(p.imagem_path); if(pu&&pu.data&&pu.data.publicUrl) thumb='<img src="'+esc(pu.data.publicUrl)+'" alt="">'; }catch(e){} }
         var cliNome= p.clientes? (p.clientes.nome||'') : '';
         var cidade= (p.clientes&&p.clientes.cidade)? p.clientes.cidade : '';
-        var loc= cidade? '<div class="proj-loc"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>'+cidade+'</div>' : '';
+        var loc= cidade? '<div class="proj-loc"><svg viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>'+cidade+'</div>' : '';
         var cliLine= cliNome? '<div class="proj-cli"><b>Cliente:</b> '+cliNome+'</div>' : '';
         var tasks= total? (done+' de '+total+' '+(total===1?'etapa concluída':'etapas concluídas')) : 'sem etapas cadastradas';
         return '<div class="proj" data-status="'+st+'" data-id="'+p.id+'" data-busca="'+esc((nome+' '+cliNome+' '+cidade).toLowerCase())+'">'
           +'<div class="proj-main"><div class="proj-thumb" aria-hidden="true">'+thumb+'</div><div class="proj-info"><div class="proj-obra">'+nome+'</div>'+loc+cliLine+'</div></div>'
-          +'<div class="proj-stage"><div class="proj-etapa">etapa atual — <b>'+atualNome+'</b></div><div class="pbar"><div class="pbar-fill" style="width:'+pct+'%"></div></div><div class="proj-tasks"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>'+tasks+'</div></div>'
+          +'<div class="proj-stage"><div class="proj-etapa">etapa atual — <b>'+atualNome+'</b></div><div class="pbar"><div class="pbar-fill" style="width:'+pct+'%"></div></div><div class="proj-tasks"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>'+tasks+'</div></div>'
           +'<div class="proj-prog"><div class="proj-pct">'+pct+'%</div><div class="proj-prog-lbl">do projeto</div></div>'
           +'<div class="proj-actions"><div class="proj-status-badge"><span class="state '+chipDe(st)+'">'+txtDe(st)+'</span></div><div class="proj-btns">'+btnsHtml+'</div></div>'
         +'</div>';
@@ -2660,15 +2665,15 @@
       ativos.forEach(function(p){ var st=p.status||'andamento'; if(counts[st]!=null) counts[st]++; });
       projsBox.innerHTML=ativos.map(function(p){
         return projCardHTML(p,
-          '<a class="pbtn" href="#projeto" data-abrir="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>abrir</a>'
-          +'<button class="pbtn" type="button" data-arq="'+p.id+'"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11h14V8"/><path d="M10 12h4"/></svg>arquivar</button>'
-          +'<button class="pbtn danger" type="button" data-del="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button>');
+          '<a class="pbtn" href="#projeto" data-abrir="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>abrir</a>'
+          +'<button class="pbtn" type="button" data-arq="'+p.id+'"><svg viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg>arquivar</button>'
+          +'<button class="pbtn danger" type="button" data-del="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>excluir</button>');
       }).join('');
       Object.keys(counts).forEach(function(k){ var b=document.querySelector('.filter-n[data-count="'+k+'"]'); if(b) b.textContent=counts[k]; });
       applyFilter(curFilter());
       if(arqList){
         arqList.innerHTML=arqs.map(function(p){
-          return projCardHTML(p, '<button class="pbtn" type="button" data-restaurar="'+p.id+'"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>restaurar</button>');
+          return projCardHTML(p, '<button class="pbtn" type="button" data-restaurar="'+p.id+'"><svg viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h2"/><path d="M20 8v11a2 2 0 0 1-2 2h-2"/><path d="m9 15 3-3 3 3"/><path d="M12 12v9"/></svg>restaurar</button>');
         }).join('');
         if(arqEmpty) arqEmpty.hidden=arqs.length>0;
         if(arqHint) arqHint.textContent=arqs.length?(arqs.length+' projeto'+(arqs.length>1?'s':'')+' arquivado'+(arqs.length>1?'s':'')):'projetos arquivados';
@@ -3092,7 +3097,7 @@
       na.addEventListener('click',function(){ toggleNA(li,et); });
       // setas de ordem (só em modo editar)
       var mkCm=function(dir){ var mb=document.createElement('button'); mb.type='button'; mb.className='chk-mv pj-edit-only'; mb.title=dir<0?'Mover para cima':'Mover para baixo'; mb.setAttribute('aria-label',mb.title);
-        mb.innerHTML=dir<0?'<svg viewBox="0 0 24 24"><path d="M6 14l6-6 6 6"/></svg>':'<svg viewBox="0 0 24 24"><path d="M6 10l6 6 6-6"/></svg>'; mb.addEventListener('click',function(){ moverChk(li,dir,et); }); return mb; };
+        mb.innerHTML=dir<0?'<svg viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg>':'<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>'; mb.addEventListener('click',function(){ moverChk(li,dir,et); }); return mb; };
       li.appendChild(mkCm(-1)); li.appendChild(mkCm(1)); li.appendChild(na); li.appendChild(rm);
     }
     function applyModelo(et){
@@ -3104,7 +3109,7 @@
       if(note) note.textContent='Modelo aplicado ('+tpl.length+' itens).';
       recomputeEtapa(et); kanbanSync();
     }
-    function paintPause(btn,et){ btn.innerHTML=(et.dataset.paused==='1')?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5l12 7-12 7z"/></svg>retomar etapa':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5v14M15 5v14"/></svg>pausar etapa'; }
+    function paintPause(btn,et){ btn.innerHTML=(et.dataset.paused==='1')?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>retomar etapa':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>pausar etapa'; }
     function ensureCheckEditor(et){
       var ul=et.querySelector('.check'); if(!ul) return;
       [].forEach.call(ul.querySelectorAll('li'),function(li){ addItemRemove(li,et); });
@@ -3112,13 +3117,13 @@
       var cc=et.querySelector('.check-count');
       var wrap=document.createElement('div'); wrap.className='chk-add pj-edit-only';
       var inp=document.createElement('input'); inp.type='text'; inp.placeholder='Novo item do check-list…';
-      var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>adicionar item';
+      var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar item';
       function doAdd(sub){ var v=inp.value.trim(); if(!v) return; var li=document.createElement('li'); if(sub===true) li.className='sub'; li.innerHTML='<label class="lbl"><input type="checkbox"><span></span></label>'; li.querySelector('span').textContent=v; addItemRemove(li,et); ul.appendChild(li); abrirGrupoDe(li); marcarGrupos(ul); ul.dispatchEvent(new Event('change',{bubbles:true})); inp.value=''; recomputeEtapa(et); kanbanSync(); }
       add.addEventListener('click',doAdd); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();doAdd();} });
       wrap.appendChild(inp); wrap.appendChild(add);
-      var addS=document.createElement('button'); addS.type='button'; addS.className='pill ghost sm'; addS.title='Adiciona como subitem do último item da lista'; addS.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5v8h13"/><path d="M14 9l4 4-4 4"/></svg>adicionar subitem'; addS.addEventListener('click',function(){ doAdd(true); }); wrap.appendChild(addS);
+      var addS=document.createElement('button'); addS.type='button'; addS.className='pill ghost sm'; addS.title='Adiciona como subitem do último item da lista'; addS.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 10 20 15 15 20"/><path d="M4 4v7a4 4 0 0 0 4 4h12"/></svg>adicionar subitem'; addS.addEventListener('click',function(){ doAdd(true); }); wrap.appendChild(addS);
       var ctrl=document.createElement('div'); ctrl.className='etapa-ctrl';
-      var mdl=document.createElement('button'); mdl.type='button'; mdl.className='pill ghost sm pj-edit-only'; mdl.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/></svg>aplicar modelo'; mdl.addEventListener('click',function(){ applyModelo(et); });
+      var mdl=document.createElement('button'); mdl.type='button'; mdl.className='pill ghost sm pj-edit-only'; mdl.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/></svg>aplicar modelo'; mdl.addEventListener('click',function(){ applyModelo(et); });
       var pause=document.createElement('button'); pause.type='button'; pause.className='pill ghost sm'; paintPause(pause,et); pause.addEventListener('click',function(){ et.dataset.paused=(et.dataset.paused==='1')?'':'1'; paintPause(pause,et); recomputeEtapa(et); kanbanSync(); });
       var note=document.createElement('span'); note.className='note'; note.setAttribute('data-mdl-note','');
       ctrl.appendChild(mdl); ctrl.appendChild(pause); ctrl.appendChild(note);
@@ -3126,7 +3131,7 @@
     }
     function addRemove(et){
       var pad=et.querySelector('.etapa-pad'); if(!pad || pad.querySelector('.etapa-remove')) return;
-      var b=document.createElement('button'); b.type='button'; b.className='pbtn danger pj-edit-only etapa-remove'; b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover etapa';
+      var b=document.createElement('button'); b.type='button'; b.className='pbtn danger pj-edit-only etapa-remove'; b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>remover etapa';
       // remove de verdade: apaga a etapa no banco (antes só sumia da tela e voltava ao recarregar)
       b.addEventListener('click',function(){
         var nm=((et.querySelector('.etapa-name')||{}).textContent||'').trim()||'esta etapa';
@@ -3338,10 +3343,10 @@
       box.innerHTML='<label style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:8px">Documento de conclusão (PDF)</label>'
         +'<div class="doc-state" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">'
         + (temDoc
-            ? '<button type="button" class="doc-ver" style="background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:14px;color:var(--ink);padding:0;border-bottom:1px solid var(--hair)">📄 '+(nome||'documento.pdf')+'</button><button type="button" class="doc-rm pj-edit-only pbtn danger"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover</button>'
+            ? '<button type="button" class="doc-ver" style="background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:14px;color:var(--ink);padding:0;border-bottom:1px solid var(--hair)"><svg class="ic-in" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg> '+(nome||'documento.pdf')+'</button><button type="button" class="doc-rm pj-edit-only pbtn danger"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>remover</button>'
             : '<span class="note" style="color:var(--ink-3);margin:0">Nenhum documento anexado.</span>')
         +'</div>'
-        +'<div class="pj-edit-only" style="margin-top:10px"><button type="button" class="pill ghost sm doc-add"><svg viewBox="0 0 24 24"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>'+(temDoc?'trocar PDF':'anexar PDF')+'</button></div>'
+        +'<div class="pj-edit-only" style="margin-top:10px"><button type="button" class="pill ghost sm doc-add"><svg viewBox="0 0 24 24"><path d="M13.234 20.252 21 12.3"/><path d="m16 6-8.414 8.586a2 2 0 0 0 0 2.828 2 2 0 0 0 2.828 0l8.414-8.586a4 4 0 0 0 0-5.656 4 4 0 0 0-5.656 0l-8.415 8.585a6 6 0 1 0 8.486 8.486"/></svg>'+(temDoc?'trocar PDF':'anexar PDF')+'</button></div>'
         +'<input type="file" accept="application/pdf" class="doc-file" hidden>'
         +'<p class="doc-msg note" style="margin:8px 0 0;color:var(--ink-3)"></p>';
       (pad.querySelector(':scope > .es-card[data-sec="doc"] .es-card-body')||pad).appendChild(box);
@@ -3455,13 +3460,13 @@
     function docRowAdmin(tipo, row){
       var li=document.createElement('li'); li.className='np-doc'; li.dataset.tipo=tipo;
       var temArq=row&&row.arquivo_path;
-      var ver=temArq?'<button type="button" class="np-doc-ver" style="background:none;border:none;padding:0;margin-top:4px;cursor:pointer;color:var(--green);font-size:12.5px;border-bottom:1px solid var(--hair)">📄 '+ceDoc(row.arquivo_nome||'arquivo.pdf')+'</button>':'';
+      var ver=temArq?'<button type="button" class="np-doc-ver" style="background:none;border:none;padding:0;margin-top:4px;cursor:pointer;color:var(--green);font-size:12.5px;border-bottom:1px solid var(--hair)"><svg class="ic-in" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg> '+ceDoc(row.arquivo_nome||'arquivo.pdf')+'</button>':'';
       var main='<div class="np-doc-main"><div class="np-doc-name">'+ceDoc(tipo)+'</div>'+ver+'</div>';
       var state='<span class="np-doc-state">'+(temArq?'anexado':'aguardando anexo')+'</span>';
-      var attach='<label class="pill ghost sm np-attach pj-edit-only"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 6"/></svg>'+(temArq?'trocar':'anexar')+'<input type="file" accept="application/pdf" hidden></label>';
-      var rm=temArq?'<button type="button" class="pbtn danger np-doc-rm pj-edit-only" title="Remove só o PDF anexado; o documento continua na lista"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>remover PDF</button>':'';
+      var attach='<label class="pill ghost sm np-attach pj-edit-only"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13.234 20.252 21 12.3"/><path d="m16 6-8.414 8.586a2 2 0 0 0 0 2.828 2 2 0 0 0 2.828 0l8.414-8.586a4 4 0 0 0 0-5.656 4 4 0 0 0-5.656 0l-8.415 8.585a6 6 0 1 0 8.486 8.486"/></svg>'+(temArq?'trocar':'anexar')+'<input type="file" accept="application/pdf" hidden></label>';
+      var rm=temArq?'<button type="button" class="pbtn danger np-doc-rm pj-edit-only" title="Remove só o PDF anexado; o documento continua na lista"><svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>remover PDF</button>':'';
       // excluir o documento da lista deste projeto (o Contrato é fixo)
-      var ex=(tipo!=='Contrato')?'<button type="button" class="pbtn danger np-doc-ex pj-edit-only" title="Excluir este documento do projeto"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button>':'';
+      var ex=(tipo!=='Contrato')?'<button type="button" class="pbtn danger np-doc-ex pj-edit-only" title="Excluir este documento do projeto"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>excluir</button>':'';
       li.innerHTML=main+state+attach+rm+ex;
       var fileIn=li.querySelector('input[type=file]');
       if(fileIn) fileIn.addEventListener('change',function(){ var f=fileIn.files&&fileIn.files[0]; if(!f) return; if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){ alert('Envie um PDF.'); return; } uploadDocProjeto(tipo, f, li); });
@@ -3505,7 +3510,7 @@
         var head=document.createElement('button'); head.type='button'; head.className='mdl-head';
         head.innerHTML='<span class="mdl-h">'+nome+'</span><span class="mdl-count">'+ETAPA_MODELOS[nome].filter(function(x){ return !mdlSub(x); }).length+' itens'+(ETAPA_MODELOS[nome].some(mdlSub)?(' + '+ETAPA_MODELOS[nome].filter(mdlSub).length+' subitens'):'')+'</span><span class="mdl-chev" aria-hidden="true"></span>';
         head.addEventListener('click',function(){ box.classList.toggle('open'); });
-        var delx=document.createElement('button'); delx.type='button'; delx.className='pbtn danger'; delx.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir'; delx.title='Excluir esta etapa-modelo';
+        var delx=document.createElement('button'); delx.type='button'; delx.className='pbtn danger'; delx.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>excluir'; delx.title='Excluir esta etapa-modelo';
         delx.addEventListener('click',function(){ delete ETAPA_MODELOS[nome]; renderModelos(); renderNovoOpts(); });
         row.appendChild(head); row.appendChild(delx); box.appendChild(row);
         var body=document.createElement('div'); body.className='mdl-body';
@@ -3517,20 +3522,20 @@
           var rm=document.createElement('button'); rm.type='button'; rm.className='chk-rm'; rm.textContent='×';
           rm.addEventListener('click',function(){ ETAPA_MODELOS[nome].splice(idx,1); renderModelos(); keepOpen(nome); });
           var tg=document.createElement('button'); tg.type='button'; tg.className='pbtn'; tg.title=mdlSub(item)?'Tornar item principal':'Tornar subitem do item acima';
-          tg.innerHTML=mdlSub(item)?'<svg viewBox="0 0 24 24"><path d="M19 12H7"/><path d="M11 8l-4 4 4 4"/><path d="M4 5v14"/></svg>item':'<svg viewBox="0 0 24 24"><path d="M5 12h12"/><path d="M13 8l4 4-4 4"/><path d="M20 5v14"/></svg>sub';
+          tg.innerHTML=mdlSub(item)?'<svg viewBox="0 0 24 24"><path d="M21 12H11"/><path d="M21 18H11"/><path d="M21 6H11"/><path d="m7 8-4 4 4 4"/></svg>item':'<svg viewBox="0 0 24 24"><path d="M21 12H11"/><path d="M21 18H11"/><path d="M21 6H11"/><path d="m3 8 4 4-4 4"/></svg>sub';
           tg.addEventListener('click',function(){ var cur=ETAPA_MODELOS[nome][idx]; ETAPA_MODELOS[nome][idx]=mdlSub(cur)?mdlTxt(cur):('\t'+cur); renderModelos(); keepOpen(nome); });
           // setas para mudar a ordem (item leva os subitens junto; subitem anda dentro do próprio item)
           var mkMv=function(dir){ var mb=document.createElement('button'); mb.type='button'; mb.className='mdl-mv'; mb.title=dir<0?'Mover para cima':'Mover para baixo'; mb.setAttribute('aria-label',mb.title);
-            mb.innerHTML=dir<0?'<svg viewBox="0 0 24 24"><path d="M6 14l6-6 6 6"/></svg>':'<svg viewBox="0 0 24 24"><path d="M6 10l6 6 6-6"/></svg>'; mb.addEventListener('click',function(){ mdlMover(nome,idx,dir); }); return mb; };
+            mb.innerHTML=dir<0?'<svg viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg>':'<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>'; mb.addEventListener('click',function(){ mdlMover(nome,idx,dir); }); return mb; };
           row.appendChild(inp); row.appendChild(mkMv(-1)); row.appendChild(mkMv(1)); row.appendChild(tg); row.appendChild(rm); inner.appendChild(row);
         });
         var addRow=document.createElement('div'); addRow.className='mdl-add';
         var ai=document.createElement('input'); ai.type='text'; ai.placeholder='Novo item padrão…';
-        var ab=document.createElement('button'); ab.type='button'; ab.className='pill ghost sm'; ab.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar';
+        var ab=document.createElement('button'); ab.type='button'; ab.className='pill ghost sm'; ab.innerHTML='<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar';
         function doAdd(sub){ var v=ai.value.trim(); if(!v) return; ETAPA_MODELOS[nome].push((sub===true?'\t':'')+v); renderModelos(); keepOpen(nome); }
         ab.addEventListener('click',doAdd); ai.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();doAdd();} });
         addRow.appendChild(ai); addRow.appendChild(ab);
-        var abS=document.createElement('button'); abS.type='button'; abS.className='pill ghost sm'; abS.title='Adiciona como subitem do último item'; abS.innerHTML='<svg viewBox="0 0 24 24"><path d="M5 5v8h13"/><path d="M14 9l4 4-4 4"/></svg>subitem'; abS.addEventListener('click',function(){ doAdd(true); }); addRow.appendChild(abS); inner.appendChild(addRow);
+        var abS=document.createElement('button'); abS.type='button'; abS.className='pill ghost sm'; abS.title='Adiciona como subitem do último item'; abS.innerHTML='<svg viewBox="0 0 24 24"><polyline points="15 10 20 15 15 20"/><path d="M4 4v7a4 4 0 0 0 4 4h12"/></svg>subitem'; abS.addEventListener('click',function(){ doAdd(true); }); addRow.appendChild(abS); inner.appendChild(addRow);
         body.appendChild(inner); box.appendChild(body);
         modelosList.appendChild(box);
       });
@@ -3547,7 +3552,7 @@
         var li=document.createElement('li'); li.className='mdl-item';
         var inp=document.createElement('input'); inp.type='text'; inp.value=d;
         inp.addEventListener('input',function(){ DOC_MODELO[idx]=inp.value; });
-        var rm=document.createElement('button'); rm.type='button'; rm.className='pbtn danger'; rm.title='Excluir este documento'; rm.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir';
+        var rm=document.createElement('button'); rm.type='button'; rm.className='pbtn danger'; rm.title='Excluir este documento'; rm.innerHTML='<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>excluir';
         rm.addEventListener('click',function(){ DOC_MODELO.splice(idx,1); renderModeloDocs(); renderNovoOpts(); });
         li.appendChild(inp); li.appendChild(rm); modeloDocs.appendChild(li);
       });
@@ -3704,7 +3709,8 @@
         var nome=(ni.value||'').trim(); if(!nome){ ni.value=obraNomeAtual||''; pjNote('O nome da obra não pode ficar vazio.',true); return; }
         var r=await sb.from('projetos').update({ nome:nome }).eq('id',obraId);
         if(r&&r.error){ pjNote('Erro ao salvar o nome da obra: '+r.error.message,true); return; }
-        obraNomeAtual=nome; var t=document.getElementById('obra-page-title'); if(t) t.textContent=nome; pjNote('Nome da obra salvo. ✓'); });
+        obraNomeAtual=nome; var t=document.getElementById('obra-page-title'); if(t) t.textContent=nome; pjNote('Nome da obra salvo. ✓');
+        if(typeof renderCentral==='function') renderCentral(); });
       if(ts) ts.addEventListener('change',async function(){ if(!obraId) return;
         var r=await sb.from('projetos').update({ tipo:ts.value||null }).eq('id',obraId);
         if(r&&r.error) pjNote('O tipo não foi guardado: rode o arquivo sql-projeto-tipo.sql no Supabase (uma vez).',true); else pjNote('Tipo salvo. ✓'); });
@@ -3717,7 +3723,8 @@
         // serviços extras (recebimentos) deste projeto acompanham o novo cliente
         try{ await sb.from('recebimentos').update({ cliente_id:novo }).eq('projeto_id',obraId); }catch(e){}
         cs.dataset.atual=novo; var cr=document.getElementById('obra-cli-ro'); if(cr) cr.textContent=nomeNovo;
-        pjNote('Cliente do projeto alterado. ✓'); });
+        pjNote('Cliente do projeto alterado. ✓');
+        if(typeof renderCentral==='function') renderCentral(); }); // central de projetos mostra o novo cliente
       // ao entrar em "editar": limpa aviso antigo e garante a lista completa de clientes
       if(btnEditar) btnEditar.addEventListener('click',function(){ var sn=document.getElementById('pj-status-note'); if(sn) sn.textContent='';
         if(cs){ var o=cs.options[cs.selectedIndex]; fillCliSel(cs.dataset.atual||'', o?o.textContent:''); } });
@@ -3986,8 +3993,8 @@
     var elName=document.getElementById('cli-name'), elMeta=document.getElementById('cli-meta');
     var membroToggle=document.getElementById('membro-toggle'), membroSub=document.getElementById('membro-sub');
     function paintMembro(c){
-      if(c.membro){ membroToggle.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a6 6 0 0 1 11 0"/><path d="M16 10l5 5M21 10l-5 5"/></svg>remover acesso'; membroSub.textContent='liberado para acessar a Área do Cliente'; }
-      else{ membroToggle.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a6 6 0 0 1 11 0"/><path d="M18 9v6M15 12h6"/></svg>incluir como membro'; membroSub.textContent='ainda não liberado — inclua para dar acesso'; }
+      if(c.membro){ membroToggle.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/></svg>remover acesso'; membroSub.textContent='liberado para acessar a Área do Cliente'; }
+      else{ membroToggle.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>incluir como membro'; membroSub.textContent='ainda não liberado — inclua para dar acesso'; }
       var obras=c.obras||[];
       var obrasTxt=obras.length?(obras.length+' obra'+(obras.length>1?'s':'')+' · '+obras.join(', ')):'sem obras ainda';
       elMeta.innerHTML=(c.membro?'<span class="state green">membro</span>':'<span class="state amber">cadastro pendente</span>')+' · '+obrasTxt;
@@ -4314,13 +4321,13 @@
             +'<div class="mbr-kind">'+(it.kind==='cliente'?'cliente':'colaborador')+'</div></div>'
           +'<div class="mbr-acts"></div>';
         var acts=row.querySelector('.mbr-acts');
-        var tgl=document.createElement('button'); tgl.type='button'; tgl.className='pbtn'; tgl.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 4v8"/><path d="M7 7a7 7 0 1 0 10 0"/></svg>'+(mbAtivo(it)?'desativar':'ativar');
+        var tgl=document.createElement('button'); tgl.type='button'; tgl.className='pbtn'; tgl.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.77.04"/></svg>'+(mbAtivo(it)?'desativar':'ativar');
         tgl.addEventListener('click',function(){ if(it.kind==='cliente'){ var nm=!it.ref.membro; it.ref.membro=nm; sb.from('clientes').update({membro:nm}).eq('id',it.ref.key).then(function(r){ if(r&&r.error&&mbNote) mbNote.textContent='Erro ao salvar: '+r.error.message; }); if(typeof renderList==='function') renderList(); } else { var novo=!(it.ref.ativo!==false); it.ref.ativo=novo; sb.from('perfis').update({ativo:novo}).eq('id',it.ref.key).then(function(r){ if(r&&r.error&&mbNote) mbNote.textContent='Erro ao salvar (rodou o SQL de perfis?): '+r.error.message; }); } renderMembros(); mbNote.textContent=it.ref.nome+(mbAtivo(it)?' — acesso ativado.':' — acesso desativado.'); });
-        var sen=document.createElement('button'); sen.type='button'; sen.className='pbtn'; sen.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8"/><path d="M17 6l2 2"/></svg>senha';
+        var sen=document.createElement('button'); sen.type='button'; sen.className='pbtn'; sen.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>senha';
         sen.addEventListener('click',function(){ if(it.kind==='cliente'){ location.hash='cliente'; openCliente(it.ref.key); if(mbNote) mbNote.textContent='Defina a senha na seção "acesso" (clique em "editar cadastro").'; } else { location.hash='colab'; openColab(it.ref); setTimeout(function(){ var a=cg('colab-acesso'); if(a&&a.scrollIntoView) a.scrollIntoView({behavior:'smooth',block:'start'}); var s=cg('colab-senha'); if(s){ try{ s.focus({preventScroll:true}); }catch(e){} } },150); } });
-        var opn=document.createElement('button'); opn.type='button'; opn.className='pbtn'; opn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>abrir';
+        var opn=document.createElement('button'); opn.type='button'; opn.className='pbtn'; opn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>abrir';
         opn.addEventListener('click',function(){ if(it.kind==='cliente'){ location.hash='cliente'; openCliente(it.ref.key); } else { location.hash='colab'; openColab(it.ref); } });
-        var del=document.createElement('button'); del.type='button'; del.className='pbtn danger'; del.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir';
+        var del=document.createElement('button'); del.type='button'; del.className='pbtn danger'; del.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>excluir';
         del.addEventListener('click',function(){ excluirMembro(it); });
         acts.appendChild(tgl); acts.appendChild(sen); acts.appendChild(opn); acts.appendChild(del);
         membrosList.appendChild(row);
@@ -4352,9 +4359,9 @@
     /* seção "acesso" do colaborador (igual à do cliente): remover/liberar acesso + definir senha */
     function paintColabAcesso(m){
       var b=cg('colab-membro-toggle'), s=cg('colab-membro-sub'); if(!b||!s||!m) return;
-      var ico='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a6 6 0 0 1 11 0"/>';
-      if(m.ativo!==false){ b.innerHTML=ico+'<path d="M16 10l5 5M21 10l-5 5"/></svg>remover acesso'; s.textContent='liberado para acessar a Área do Colaborador'; }
-      else{ b.innerHTML=ico+'<path d="M18 9v6M15 12h6"/></svg>liberar acesso'; s.textContent='acesso removido — libere para ele voltar a entrar'; }
+      var ico='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>';
+      if(m.ativo!==false){ b.innerHTML=ico+'<line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/></svg>remover acesso'; s.textContent='liberado para acessar a Área do Colaborador'; }
+      else{ b.innerHTML=ico+'<line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>liberar acesso'; s.textContent='acesso removido — libere para ele voltar a entrar'; }
     }
     (function(){ var tg=cg('colab-membro-toggle'), sb2=cg('colab-senha-btn'); if(!tg||!sb2) return;
       tg.addEventListener('click', async function(){
@@ -4434,12 +4441,12 @@
     var modalMode=null, currentCat='projeto';
     /* ícones dos rótulos das janelas de cadastro */
     var MIC={
-      pessoa:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>',
-      doc:'<svg viewBox="0 0 24 24"><path d="M6.500 3.500H14l4 4v13H6.500z"/><path d="M14 3.500v4h4M9.500 13h5M9.500 16.500h5"/></svg>',
-      data:'<svg viewBox="0 0 24 24"><rect x="4" y="5.500" width="16" height="14" rx="2"/><path d="M4 10h16M8.500 3.500v4M15.500 3.500v4"/></svg>',
-      valor:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><path d="M14.500 9.500c-.5-.9-1.400-1.400-2.500-1.400-1.500 0-2.600.8-2.600 2s1 1.700 2.600 2 2.700.8 2.700 2.100-1.200 2-2.700 2c-1.200 0-2.200-.5-2.700-1.400M12 6.500v1.600m0 8.100v1.300"/></svg>',
-      status:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><path d="M8.500 12.500l2.500 2.500 4.500-5"/></svg>',
-      obra:'<svg viewBox="0 0 24 24"><path d="M4 11l8-6.500 8 6.500"/><path d="M6 10v9h12v-9"/></svg>'
+      pessoa:'<svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+      doc:'<svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>',
+      data:'<svg viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>',
+      valor:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>',
+      status:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
+      obra:'<svg viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>'
     };
     var FFIELDS={
       projeto:['Etapa','Fornecedor','Responsável','Contato','E-mail','Valor','Observação'],
@@ -4476,7 +4483,7 @@
             var v=d[lb]; var tem=!(v==null||v===''||v==='—');
             return '<div class="forn-f"><b>'+lb+'</b>'+(tem?String(v).replace(/</g,'&lt;'):'—')+'</div>';
           }).join('');
-          return '<div class="forn-card"><div class="forn-card-name">'+nome+'</div>'+fields+'<div class="forn-act" style="gap:6px"><button type="button" class="pbtn ico" data-edit-forn="'+r.id+'" title="Editar" aria-label="Editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button><button type="button" class="pbtn danger ico" data-del-forn="'+r.id+'" title="Excluir" aria-label="Excluir"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg></button></div></div>';
+          return '<div class="forn-card"><div class="forn-card-name">'+nome+'</div>'+fields+'<div class="forn-act" style="gap:6px"><button type="button" class="pbtn ico" data-edit-forn="'+r.id+'" title="Editar" aria-label="Editar"><svg viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></button><button type="button" class="pbtn danger ico" data-del-forn="'+r.id+'" title="Excluir" aria-label="Excluir"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button></div></div>';
         }).join('')+'</div>';
       });
     }
@@ -4516,9 +4523,9 @@
     function imConfirm(msg, rotulo){ // rotulo (opcional): confirmação que não é exclusão, ex.: "confirmar"
       return new Promise(function(resolve){
         var ov=document.createElement('div'); ov.className='imc-ov';
-        ov.innerHTML='<div class="imc-box"><div class="imc-msg"></div><div class="imc-acts"><button type="button" class="pill ghost sm imc-no"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>cancelar</button><button type="button" class="pbtn danger imc-yes"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button></div></div>';
+        ov.innerHTML='<div class="imc-box"><div class="imc-msg"></div><div class="imc-acts"><button type="button" class="pill ghost sm imc-no"><svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>cancelar</button><button type="button" class="pbtn danger imc-yes"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>excluir</button></div></div>';
         ov.querySelector('.imc-msg').textContent=msg;
-        if(rotulo){ var yb=ov.querySelector('.imc-yes'); yb.className='pill solid sm imc-yes'; yb.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>'; yb.appendChild(document.createTextNode(rotulo)); }
+        if(rotulo){ var yb=ov.querySelector('.imc-yes'); yb.className='pill solid sm imc-yes'; yb.innerHTML='<svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>'; yb.appendChild(document.createTextNode(rotulo)); }
         document.body.appendChild(ov);
         function done(v){ try{ov.remove();}catch(e){} resolve(v); }
         ov.querySelector('.imc-no').addEventListener('click',function(){ done(false); });
@@ -4617,14 +4624,14 @@
         var obraCol=x.projeto_nome?x.projeto_nome:'—';
         var cliCol=x.cliente_nome?x.cliente_nome:'avulso';
         var desc=(x.projeto_id?'<em style="color:var(--ink-3);font-style:normal">serviço extra · </em>':'')+(x.descricao||'—');
-        var edBtn='<button class="pbtn ico" type="button" data-edit-receb="'+x.id+'" title="Editar" aria-label="Editar"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/></svg></button> <button class="pbtn ico" type="button" data-dup-receb="'+x.id+'" title="Duplicar" aria-label="Duplicar"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button> ';
-        if(x.status==='recebido'){ var tr=document.createElement('tr'); tr.innerHTML='<td>'+obraCol+'</td><td>'+cliCol+'</td><td>'+desc+'</td><td class="num">'+(x.data||'—')+'</td><td class="num rec">'+fmt(v)+'</td><td>'+edBtn+'<button class="pbtn danger ico" type="button" data-del-receb="'+x.id+'" title="Excluir" aria-label="Excluir"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg></button></td>'; rc.appendChild(tr); }
-        else { var tr2=document.createElement('tr'); tr2.innerHTML='<td>'+obraCol+'</td><td>'+cliCol+'</td><td>'+desc+'</td><td class="num">'+(x.data||'—')+'</td><td class="num">'+fmt(v)+'</td><td>'+stChip(recVencido(x)?'vencido':'a vencer')+' '+edBtn+'<button class="pbtn danger ico" type="button" data-del-receb="'+x.id+'" title="Excluir" aria-label="Excluir"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg></button></td>'; ar.appendChild(tr2); }
+        var edBtn='<button class="pbtn ico" type="button" data-edit-receb="'+x.id+'" title="Editar" aria-label="Editar"><svg viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></button> <button class="pbtn ico" type="button" data-dup-receb="'+x.id+'" title="Duplicar" aria-label="Duplicar"><svg viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button> ';
+        if(x.status==='recebido'){ var tr=document.createElement('tr'); tr.innerHTML='<td>'+obraCol+'</td><td>'+cliCol+'</td><td>'+desc+'</td><td class="num">'+(x.data||'—')+'</td><td class="num rec">'+fmt(v)+'</td><td>'+edBtn+'<button class="pbtn danger ico" type="button" data-del-receb="'+x.id+'" title="Excluir" aria-label="Excluir"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button></td>'; rc.appendChild(tr); }
+        else { var tr2=document.createElement('tr'); tr2.innerHTML='<td>'+obraCol+'</td><td>'+cliCol+'</td><td>'+desc+'</td><td class="num">'+(x.data||'—')+'</td><td class="num">'+fmt(v)+'</td><td>'+stChip(recVencido(x)?'vencido':'a vencer')+' '+edBtn+'<button class="pbtn danger ico" type="button" data-del-receb="'+x.id+'" title="Excluir" aria-label="Excluir"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button></td>'; ar.appendChild(tr2); }
       });
       rc.querySelectorAll('[data-recibo]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); gerarReciboAdmin(this.dataset); }); });
       var pg=document.getElementById('fin-pagamentos'); pg.innerHTML='';
       if(per||FIN_Q.trim()){ finVazio(ar,6); finVazio(rc,6); }
-      PAGAMENTOS.forEach(function(x){ if(!finInPer(x.venc==='—'?'':x.venc) || !bate(x.para,x.ref)) return; var tr=document.createElement('tr'); tr.innerHTML='<td>'+x.para+'</td><td>'+x.ref+'</td><td class="num">'+(x.venc||'—')+'</td><td class="num">'+fmt(x.v)+'</td><td>'+stChip(x.st)+'</td><td><button class="pbtn danger" type="button" data-del-pag="'+x.id+'"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>excluir</button></td>'; pg.appendChild(tr); });
+      PAGAMENTOS.forEach(function(x){ if(!finInPer(x.venc==='—'?'':x.venc) || !bate(x.para,x.ref)) return; var tr=document.createElement('tr'); tr.innerHTML='<td>'+x.para+'</td><td>'+x.ref+'</td><td class="num">'+(x.venc||'—')+'</td><td class="num">'+fmt(x.v)+'</td><td>'+stChip(x.st)+'</td><td><button class="pbtn danger" type="button" data-del-pag="'+x.id+'"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>excluir</button></td>'; pg.appendChild(tr); });
       if(per||FIN_Q.trim()) finVazio(pg,6);
     }
     function escAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
@@ -4692,7 +4699,7 @@
       mFields.appendChild(wrap);
       var addWrap=document.createElement('div'); addWrap.className='field full';
       var note=document.createElement('p'); note.className='adm-note'; note.style.margin='0 0 12px'; note.textContent='Marcar "pago" gera o recibo na Área do Cliente e move para a aba Recebido.';
-      var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>adicionar parcela'; add.addEventListener('click',function(){ document.getElementById('ct-parc').appendChild(ctRow({d:'',v:'',venc:'',st:'a vencer'})); });
+      var add=document.createElement('button'); add.type='button'; add.className='pill ghost sm'; add.innerHTML='<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar parcela'; add.addEventListener('click',function(){ document.getElementById('ct-parc').appendChild(ctRow({d:'',v:'',venc:'',st:'a vencer'})); });
       addWrap.appendChild(note); addWrap.appendChild(add); mFields.appendChild(addWrap);
       modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
     }
@@ -4829,7 +4836,7 @@
     function kcRodape(done,total,fim,kb,concl){
       var h=total?('<span class="kc-prog"><span class="kc-bar"><i style="width:'+Math.round(done*100/total)+'%"></i></span>'+done+'/'+total+'</span>'):'';
       if(fim){ var d=new Date(fim+'T00:00:00'), hj=new Date(); hj.setHours(0,0,0,0); var late=!concl && !(window.emAnalise&&window.emAnalise(kb)) && d.getTime()<hj.getTime();
-        h+='<span class="kc-data'+(late?' late':'')+'" title="'+(late?'atrasada · prazo ':'prazo ')+('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>'+('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'</span>'; }
+        h+='<span class="kc-data'+(late?' late':'')+'" title="'+(late?'atrasada · prazo ':'prazo ')+('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'"><svg viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>'+('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'</span>'; }
       return h?('<div class="kcard-f">'+h+'</div>'):'';
     }
     function kbTotal(n){ var el=document.getElementById('kb-total'); if(el) el.innerHTML='<b>'+n+'</b>'+(n===1?'cartão':'cartões'); }
@@ -4888,7 +4895,7 @@
       });
     }
     function allTasks(){ var pz=nomesPausados(); return (TASKS||[]).filter(function(t){ if(pz[String(t.meta||'').trim().toLowerCase()]) return false; if(KB_ETQ && (t.etiquetas||[]).indexOf(KB_ETQ)<0) return false; if(KB_FILTRO==='') return true; if(KB_FILTRO==='__me__') return !t.responsavel_id || String(t.responsavel_id)===String(MEU_ID); return String(t.responsavel_id)===String(KB_FILTRO); }).concat(etapaCards().filter(function(c){ return !KB_ETQ || (c.etiquetas||[]).indexOf(KB_ETQ)>=0; })); }
-    function cardChk(t){ if(t.dbEtapa){ return '☑ '+t._done+'/'+t._total; } var d=t.chk.filter(function(i){return i.done;}).length; return '☑ '+d+'/'+t.chk.length; }
+    function cardChk(t){ if(t.dbEtapa){ return '<svg class="ic-in" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.5"/><path d="m9 11 3 3L22 4"/></svg> '+t._done+'/'+t._total; } var d=t.chk.filter(function(i){return i.done;}).length; return '<svg class="ic-in" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.5"/><path d="m9 11 3 3L22 4"/></svg> '+d+'/'+t.chk.length; }
     /* ordem dos cartões na coluna (setas ↑ ↓) e concluídos há mais de 30 dias fora do quadro (aparecem na busca) */
     function kbOrd(t){ var v=t.dbEtapa?t.dbEtapa.ordem_kb:t.ordem_kb; return (v==null||v==='')?null:Number(v); }
     function kbConcl(t){ return t.dbEtapa?t.dbEtapa.concluido_em:t.concluido_em; }
@@ -4917,7 +4924,7 @@
           var chk=(t.dbEtapa||(t.chk&&t.chk.length))?'<div class="kcard-chk">'+cardChk(t)+'</div>':'';
           var bdg=badgeResp(t.responsavel_id);
           var rod=t.dbEtapa?kcRodape(t._done,t._total,t.dbEtapa.prazo_fim,t.dbEtapa.kanban,c.key==='concluido'):kcRodape((t.chk||[]).filter(function(i){return i.done;}).length,(t.chk||[]).length,t.data_fim,t.kanban,c.key==='concluido');
-          var ord=(!q && list.length>1)?'<span class="kc-ord"><button type="button" class="kc-up" title="Subir na coluna" aria-label="Subir"'+(idx===0?' disabled':'')+'><svg viewBox="0 0 24 24"><path d="M6 14l6-6 6 6"/></svg></button><button type="button" class="kc-down" title="Descer na coluna" aria-label="Descer"'+(idx===list.length-1?' disabled':'')+'><svg viewBox="0 0 24 24"><path d="M6 10l6 6 6-6"/></svg></button></span>':'';
+          var ord=(!q && list.length>1)?'<span class="kc-ord"><button type="button" class="kc-up" title="Subir na coluna" aria-label="Subir"'+(idx===0?' disabled':'')+'><svg viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg></button><button type="button" class="kc-down" title="Descer na coluna" aria-label="Descer"'+(idx===list.length-1?' disabled':'')+'><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button></span>':'';
           card.innerHTML='<div class="kcard-t" style="display:flex;align-items:flex-start;gap:8px;justify-content:space-between">'+'<span>'+t.title+'</span><span style="display:flex;align-items:center;gap:6px;flex:none">'+ord+bdg+'</span></div>'+chipsEtq(t.etiquetas)+'<div class="kcard-m">'+t.meta+tag+'</div>'+rod;
           var bUp=card.querySelector('.kc-up'), bDn=card.querySelector('.kc-down');
           if(bUp) bUp.addEventListener('click',function(e){ e.stopPropagation(); kbMover(list,idx,-1); });
@@ -4932,7 +4939,7 @@
           col.appendChild(card);
         });
         if(c.key==='concluido' && ocultos){ var oc=document.createElement('p'); oc.className='kc-ocultos'; oc.textContent=ocultos+(ocultos===1?' cartão concluído há mais de 30 dias está oculto':' cartões concluídos há mais de 30 dias estão ocultos')+' — use a busca para encontrar.'; col.appendChild(oc); }
-        var add=document.createElement('button'); add.type='button'; add.className='kadd'; add.innerHTML='<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="vertical-align:-2px;margin-right:6px"><path d="M12 5v14M5 12h14"/></svg>tarefa'; add.addEventListener('click',function(){ addTask(c.key); });
+        var add=document.createElement('button'); add.type='button'; add.className='kadd'; add.innerHTML='<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="vertical-align:-2px;margin-right:6px"><path d="M5 12h14"/><path d="M12 5v14"/></svg>tarefa'; add.addEventListener('click',function(){ addTask(c.key); });
         col.appendChild(add);
         /* posição onde o cartão vai cair (antes de qual cartão), pela altura do mouse */
         function posDrop(e){ var cs=col.querySelectorAll('.kcard'); for(var i=0;i<cs.length;i++){ var r=cs[i].getBoundingClientRect(); if(e.clientY<r.top+r.height/2) return i; } return cs.length; }
@@ -5172,9 +5179,9 @@
         var s=document.createElement('div'); s.className='aviso-s'; s.textContent=(av.autor_nome||'equipe')+' · '+ageTxt(diasDe(av.criado_em));
         main.appendChild(t); main.appendChild(s); li.appendChild(dot); li.appendChild(main);
         var acts=document.createElement('div'); acts.className='aviso-acts';
-        var ed=document.createElement('button'); ed.type='button'; ed.className='pbtn'; ed.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 5l4 4"/></svg>editar';
+        var ed=document.createElement('button'); ed.type='button'; ed.className='pbtn'; ed.innerHTML='<svg viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>editar';
         ed.addEventListener('click',function(){ var inp=document.createElement('input'); inp.type='text'; inp.className='aviso-edit'; inp.value=av.texto; t.replaceWith(inp); inp.focus(); function save(){ var nv=inp.value.trim()||av.texto; av.texto=nv; sb.from('avisos').update({texto:nv}).eq('id',av.id).then(function(){}); renderAvisos(); } inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();save();} }); inp.addEventListener('blur',save); });
-        var rm=document.createElement('button'); rm.type='button'; rm.className='pbtn danger'; rm.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>remover';
+        var rm=document.createElement('button'); rm.type='button'; rm.className='pbtn danger'; rm.innerHTML='<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>remover';
         rm.addEventListener('click',function(){ AVISOS=AVISOS.filter(function(x){return x!==av;}); sb.from('avisos').delete().eq('id',av.id).then(function(){}); renderAvisos(); });
         acts.appendChild(ed); acts.appendChild(rm); li.appendChild(acts);
         avisosEl.appendChild(li);
@@ -5226,12 +5233,12 @@
       try{ var re=await sb.from('etapas').select('id,nome,status,kanban,prazo_fim,responsavel_id,termo_aceito,termo_aceito_em,projetos(nome)');
         (re&&re.data?re.data:[]).forEach(function(e){
           var obra=e.projetos?(' · '+e.projetos.nome):'';
-          if(e.responsavel_id && e.status!=='concluida' && e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f<ht && !emAnalise(e.kanban)) out.push({id:'et-atr-'+e.id, texto:(NOME_BY_ID[e.responsavel_id]||'Colaborador')+' está com a etapa "'+e.nome+'" atrasada'+obra, when:e.prazo_fim, ico:'⏰'}); }
-          if(e.termo_aceito) out.push({id:'termo-'+e.id, texto:'Cliente aceitou o termo da etapa "'+e.nome+'"'+obra, when:e.termo_aceito_em||'', ico:'✓'});
+          if(e.responsavel_id && e.status!=='concluida' && e.prazo_fim){ var f=new Date(e.prazo_fim+'T00:00:00').getTime(); if(f<ht && !emAnalise(e.kanban)) out.push({id:'et-atr-'+e.id, texto:(NOME_BY_ID[e.responsavel_id]||'Colaborador')+' está com a etapa "'+e.nome+'" atrasada'+obra, when:e.prazo_fim, ico:'<svg class="ic-in" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'}); }
+          if(e.termo_aceito) out.push({id:'termo-'+e.id, texto:'Cliente aceitou o termo da etapa "'+e.nome+'"'+obra, when:e.termo_aceito_em||'', ico:'<svg class="ic-in" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>'});
         });
       }catch(e){}
-      try{ var rt=await sb.from('tarefas').select('id,title,col,chk,kanban,data_fim,responsavel_id'); (rt&&rt.data?rt.data:[]).forEach(function(t){ var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); if(t.responsavel_id && !concl && t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f<ht && !emAnalise(t.kanban)) out.push({id:'tk-atr-'+t.id, texto:(NOME_BY_ID[t.responsavel_id]||'Colaborador')+' está com a tarefa "'+t.title+'" atrasada', when:t.data_fim, ico:'⏰'}); } }); }catch(e){}
-      try{ var ra=await sb.from('atividades').select('id,texto,autor_id,autor_nome,criado_em').order('criado_em',{ascending:false}).limit(25); (ra&&ra.data?ra.data:[]).forEach(function(a){ if(String(a.autor_id)===String(MEU_ID)) return; if(/conclu/i.test(a.texto||'')) out.push({id:'atv-'+a.id, texto:(a.autor_nome||'Colaborador')+' '+a.texto, when:a.criado_em, ico:'✅'}); }); }catch(e){}
+      try{ var rt=await sb.from('tarefas').select('id,title,col,chk,kanban,data_fim,responsavel_id'); (rt&&rt.data?rt.data:[]).forEach(function(t){ var chk=Array.isArray(t.chk)?t.chk:[]; var esp=(t.kanban==='revisao'||t.kanban==='aprov'||t.kanban==='cliente'); var concl=!esp&&((chk.length&&chk.every(function(i){return i.done;}))||t.col==='concluido'); if(t.responsavel_id && !concl && t.data_fim){ var f=new Date(t.data_fim+'T00:00:00').getTime(); if(f<ht && !emAnalise(t.kanban)) out.push({id:'tk-atr-'+t.id, texto:(NOME_BY_ID[t.responsavel_id]||'Colaborador')+' está com a tarefa "'+t.title+'" atrasada', when:t.data_fim, ico:'<svg class="ic-in" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'}); } }); }catch(e){}
+      try{ var ra=await sb.from('atividades').select('id,texto,autor_id,autor_nome,criado_em').order('criado_em',{ascending:false}).limit(25); (ra&&ra.data?ra.data:[]).forEach(function(a){ if(String(a.autor_id)===String(MEU_ID)) return; if(/conclu/i.test(a.texto||'')) out.push({id:'atv-'+a.id, texto:(a.autor_nome||'Colaborador')+' '+a.texto, when:a.criado_em, ico:'<svg class="ic-in" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>'}); }); }catch(e){}
       /* so desta semana (zera toda segunda-feira, 0h) e no maximo 6, as mais recentes; o que continua atrasado segue aparecendo */ var seg=new Date(); seg.setHours(0,0,0,0); seg.setDate(seg.getDate()-((seg.getDay()+6)%7)); var segT=seg.getTime(); out=out.filter(function(n){ if(!n.when) return true; if(/-atr-/.test(n.id)) return true; var t=new Date(/^\d{4}-\d{2}-\d{2}$/.test(n.when)?(n.when+'T00:00:00'):n.when).getTime(); return isNaN(t)||t>=segT; }); out.sort(function(a,b){ return new Date(b.when||0)-new Date(a.when||0); }); return out.slice(0,6);
     }
     function renderNotifPanel(){ var ul=document.getElementById('notif-list'); if(!ul) return; ul.innerHTML = NOTIFS.length ? NOTIFS.map(function(n){ return '<li class="notif-row"><span class="nt-ico">'+n.ico+'</span><span>'+ceDoc(n.texto)+'</span><span class="nt-when">'+(n.when?ageTxt(diasDe(n.when)):'')+'</span></li>'; }).join('') : '<li class="notif-row"><span style="color:var(--ink-3)">Sem notificações no momento.</span></li>'; }
@@ -5658,7 +5665,7 @@
     var wrap=document.createElement('div'); wrap.className='ptable-wrap';
     wrap.innerHTML='<table class="ptable"><thead><tr><th>Nº</th><th>Cliente</th><th>Serviços</th><th>Valor</th><th>Situação</th><th></th></tr></thead><tbody></tbody></table>';
     var tb=wrap.querySelector('tbody'); box.innerHTML=''; box.appendChild(wrap);
-    var IE='<svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>', ID='<svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>', IX='<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>';
+    var IE='<svg viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>', ID='<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>', IX='<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>';
     lst.forEach(function(r){
       var tr=document.createElement('tr'), ok=r.status==='confirmado', sv=svsDe(r.dados), pj=PROJETOS.filter(function(p){ return p.id===r.projeto_id; })[0];
       var dt=ok&&r.confirmado_em?'confirmado em '+new Date(r.confirmado_em).toLocaleDateString('pt-BR'):(r.atualizado_em?'editado em '+new Date(r.atualizado_em).toLocaleDateString('pt-BR'):'');
@@ -5928,14 +5935,14 @@
   var QR_IMG='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGsAAABrCAYAAABwv3wMAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABaCSURBVHhe7Z1lrDTFEoYXd/cQ3N3dHYIGh+AWXAMECfoBHz9wd3d3d7cQXIK7u9vcPH3vO7e2T43tzu7ZcziVVHZ3pqWq35bqatnGHnvskSyzzDLJqquumqy88sr9wuSNDDvvvHPy999/J/1Nf/31V/i85JJLkkUWWSRZbbXV+sjcTV5ppZVCGTUWWmihpNFoJCOOOGL47A9W3nPNNVfy559/hoL6559/oiLsHv3xxx/h87DDDgtyjTLKKH1k7haPMMII4TOU0RJLLBF+INBII43UL6zCWGCBBdJa3QtgHX744UGu0UcfvY/M3eKRRx45ADXqqKMmjcUWW+z/yDnIdoOV93zzzddTYPVSywK4IbAc6nmw+KEXCPnwww8nt99+e3LnnXfWyqT50EMPJUcddVQqUFmw9OzXX39NNtxww2T55ZdPVllllT4Dsh2YX3jhhRAHw0Xxhw0bltD9YzgwcC+55JLJzTffHN6RvwdWKKxGI1ljjTU6VjZ33HFHcvfddyc33XRTMskkkzSVTSZYt956ayp43aQ077nnnhQsFURZsH744Ydk/PHHb6p5lu2z++67L8QhXcVfb7310nyV94knnhjeYeB4YDF28H333XdP06ubJN8vv/ySTD311CG/QrBuvPHGEOn3338PQtXJpAlRi1SgVcH66aefksknnzzEoRC9QVn6PPjggyEO6WpasNFGG4W4DNph4G40ktNPPz28KwJrp512Cu86UTayhH/88cdkqqmmKgcWzVAKilA0Trws27mT0rzrrrtKgcWn0pEy33//fVtg0YXauHw/9dRTw7sisJgLKj2RlbEq27KxLastsOoipVkWLEvtdoOdAqsuahssKXjhhRcmm2yySbL99tsn2267bSkmLHHOPffcVJiqYH333Xeh69l6662T7bbbLtlmm22SHXbYITnzzDOT8847L6Sdxeecc07yySefpOnVDZbSe/bZZ5MtttgiyBeXQRYTdquttkrwIP32229NOrcNFoUkBVXIRayC2HTTTUMa6kqhIrCU74cffpiMMcYY4b0EH2eccQKIVsEyVDdY6pavuOKKJvnKsMp63HHHDd26la9lsFR41GbeMZtH8DI82mijhThbbrllKkxVsD7++OOgELJhDPA53njjJZ9++ml4T8FSaFlswawbLMl67bXXNoUrw5q7MfZiUFj52gaLpisFVchFrLCbbbZZKkxVsD766KNkzDHHDO8l+FhjjZV2b1hlFG4We2DRNZMOFQ/m+xlnnBHetQLWNddcE95542cWK+zEE088uMGyXUeVblBh11133TRfyXjccceFd0Ng1QSW5KM73G+//ZIjjzwyOfTQQ0Ohesy7d999N6QDUAKLwj3ggAOSI444IjDfn3766TTfIbBqBKsK4ymRLmVpCKyawdIg7TEtTwVsJ8Uivsdjm/KDhsCqGSyPNQaJ+e2BRdqx1TgEVpfB8vjee+9NdSlLQ2B1GCyUwpvOfFBeAibyr7/+epqeDAxcUDhu8YDAfH/11VfTcENgdQgsPWOceuONN5rixiSw1l9//TRf5V12iWQIrBrAokBffPHFEIfCluzepLidJZIBAVZ/uZuqgPXKK680xY1Jzwetu0kJ9Jcjt5fBIizUM45cJdDtJZKBAJbS65klkrppMIFVN9UGlrqwVtgWntIcTGCpx2iFrawtgdULG2aKwCIOTCHyHMPnpZdeCnGKrMF2wOq5DTO9sBWtCCyxnmGCv/baa01xY6oDrJ7bioaQndrIWHaTZx5YyLrsssumGzx1yuKyyy4L7iVarfL7+uuv04JoByyF64lNnlXMzrq5LFgKN/bYYydfffVVUzgKePbZZ28KB99///3hPem2A1Ysc7fYVtABC9YXX3zRB6w55pijKRz8wAMPDB6wFl988fADwVGyP1jjwfzzz98WWJzvsrqgqFoW7zWAb7DBBmkB5IGlIz94YmKZu8UankKFWXjhhZsKoj9Yec8999xpgVYFC+ts1llnbQoHeztyN9544/BuILWsoBMehummmy6Zc845Q5/fH0ze008/fVjiUIFWBYtCXmuttZIZZpgh1WW22WZLrr766uTtt98OZv3LL7+cvPXWW/898pnTslRhTjvttGSKKaYIlSiWuVtM144e6NRQTeoFViFBMmOLwLLzqFgXWtMKK6wQ4jAPo4XAtuV5YImoCLGM/cmNVLIeo1bAEtlnmPgWlJjzwOo1amj+YZlnHsfh6mZbyBYsNnXaggWszz//PLxXvFhOxV9uueVCHHk6YpZxQ5cHxa07lrETHMufxQO2ZWmepXCW7LOyLeuUU04J4Xu6ZXEwjU3+rKmIPYE5GhqHq5NJG1lEKnC2SU822WShdXHMh08W7Ni8+fPPPzfJRC21cSEPLA46sF+etaQJJpggPDv77LNDeKs7Sxed1Bnm+JJX4TxqrLjiiqErQGgUQBFcKZA1d3fdddeg1IQTThiUrJMBgYGfs72aZ0kB8pdiApRDCViwtDji0tImmmgi1zdowZIZfNFFF4V333zzTZquHMyQADvmmGM6prPKGj1USYtAayy66KJ9lPGW9Vkw4536+DpZ3du8887bByxLeoZXmr0LNi5gY5pDRWBhzkNZzlgsL6iT8yzJQkXQsr6ns6XUg2GdlTq5buccrGwqXDxIt8qapVsPhvKzA68GYhUuXcekk04a4khmvO4Ci3BS3BoYCnvVVVel+ikPy2plAquMByPWzernhVMlw2GLPrHOHpduWSzRS2nVjrpYgpdtWXQbsVeaSmT3/olsy1JYgdULLcvubvJ0tuSOWezWQWH69G+//TZ8Z48BidcFFumo/2bcoWXgVCZPapo3sGvMwujwusGnnnoqtApk1uDNMorVj3xuuOGGoLwFyxpQWlYRWHljlsos1o/KEYfVFAQWWIy16OMZejE3WYN8svCF24dCQEEJVFftUleEZ4G8yZfCpZAff/zxkCfHUGWtecx7KWuZwojDsU5EdycAYbUcC9g+++wT0gAYmO+ABQFeXHAwFQu6+OKLQ3hkkn5cikJlkX5Yls8880xajpKfT+SMdRRTDrwPVmsqtWmG+NhswdbJShP/nEgF9vzzz6fvPTDKso1rl0g80vNddtklhKcVqkAFlgXXkuJq36AFi+5XpG4Za1WbSsvqp3AhXQCKB/C11147BJAfTQNjnFArLGVY4ZUiKoznnnsu7WazBu0ybOW1SyTS0w7aMmg0NaEwtTlVYNHq48HextWOXPKV/NyfqLJVODb0CKwi/VTusiVCBQqp/I+62bIYS0SdbFnekR9LdbQsu31a8gOWqLaWZT3VMlnXWWedECDLU90OSxn2TVA5yJfBHeKoaFmwJJdlxbFxdfKRPGIvts1bLQtjQe4tjrBCRWBdd911ITxA6EA5UwaVrTZxskxD2uioA39ZtoAqDeH4HtK161msncw888xhhv/OO++ExGFcO/ZyqjjhVhivA/lp3UZrWnE4ywIBhR955JFwagT5MNm5/WzGGWcM723FmmaaaXLX6ng37bTTJscff3zy/vvvh8MNpMdnnmcf0nOMCOZ4dHPIw5oZrY11KOUx00wzha5f6RMe+R977LE+G4IAhmNJb775ZpounK4Uq2/kuzfP0sGEukz3VljyYR3JElMXQw0OC3QRWEWsynfyySeHdDy/aBVSebGDS3lIHlay1XtJbixF9LHhAM/ejCNyPRgCS10F1MrBhDy2g6jlOFwch09M9M8++yzIpcKlq/E2zGTlI1Y3pPUsCtMaImXIGmkqL8ZK5a0yQz51iZKb1ksvY+WmK6aVQ4CvtN19g17L6qRvsCxLPm9Zn0LywCpiVdC6Fh/zWhbdosCU3Cz1eGBxDRLU1LJ6wd1UlovAojB436tgMX7FYDHhLg3Wk08+mdx2223prlCsJ/Zza8crVhvXk0455ZQhoSwrTUpze8ujjz4a0oQxBPbdd980rgTipmnyinel2t2p7K699NJL03mPB5aU4ZN87U5ZDj+w2UUFofgHHnhgkIuw5MPEmUtQll566TBZR1/uc+ded8hW2ltuuSUs5Sgc37k8RTJ4YNnum/LUtbCUL1ZjbAFngpV+My80Ka5i+anF7b///iEN67FnWzPvKDCliaI2z5j0nOV7+dQEtAdWFmnDjO058DhAFgTOSUkPb54lXU466aQ0PVtBoSKwirgQLJqjhJZAAgsbX0IVZSiw9txzz5AGA6kGU6YCvLNgyYOhvGOWLAy08RV2WWBZXWDeeetZV155ZQiPMSHrTJNiWrHmSmzyhCxYXMjFO3semR2+kiUPLD5VnpbjcJlgpd/MC8+DoYLOYnVVe++9d0ijLrA++OCDtE9XjcfB6YElss+8JRK7+KjC1aTYgqWWxcRZurCxhnd1giVWhUff9957L6RDOUjO0mAVsTKi71cmdXSDmOhxN8jvusHikJz0yOsG2Vij9KRL3d0g8yzdp1ipZUlBTtxffvnlYWNJfL2prjjl3DGDLWF1RSrGCn4yCSOBMFiKzuASn0IkT12xSj60VLmJPKoClsLiSaDVnH/++WkegKWzwjB6HXTQQckFF1wQwujCE93DmwWW8mV371lnnZV7XSzv0Be90V/lGKzxVKsCsFACyjJt9Xz48OEhfLsmvkBl+b7shhJRFbA8knltV4qlT9FhujywmAcqbU8XPbNXoStu+PQCW7DU1LVVixqtLs6yajqXLBLe3pehDC0Dht57rK4I3562a6k7yqowolbA0lIGzAIsJLAY8DWOYYhAjGEKb9PJA4t5IGnL0xGXIc+QHX3xVxJHRl6wCdJcjJLyuttBlOYJZRWUnp9wwgkhPInbwbMqqyZzXFN7FFQwRaxw6KMNM/Je8x0nK2QLWV0YrIp3yCGHhPC2ZRUdAFfLYe6mMVoVD99lmZaVeQDcC8xRTAUIgRqNcDU3VATWscceG8LX1Q3SHdTdDTL2QrbALeV1gx5YlvSco6zSRfnieY/vvLBUCSwR51qZT+jWML7rdjEvE0juE5YIdONYPHhWZQ3gDK4MsrEBUoZZ+mC8VXoM8Cz/QOgiubFYObdFXtwhT3fH1jgVmAeW4tpLS3QZyV577dWkB/lqI1IWtQRWL5AEx0SX6V7VBIbLrhRb0z1Ozz4vug5IPRGuK1FWBY+pJbAkiOW8GmHJDtTtsLoiPBjazaTuqIgVDgW1B8MaBLbwBNZuu+0WCiXLMPLAUlx70ZacA4yVcTlmVRhRIVgqmF5gZIkF1yX8CG2Xwj22ngIVctllfeaDFpSY88AqWtYvunterLU0Vp5lDQI+eYd009LpMRJY9u8tWukGmexCWT2DKoj2DVYBS3E9D81SSy2V5lG1G8Sg0vZwtazwyQDIrBynJdZPfzB5IwMWpwpVglPLuOAk7/524mNmS0ELFoP90UcfnRmfeJwWKToI74ElWdkfcfDBB3esDJE93BzAulKekN1g5V00w/dI4ajlulqhE7p4YHnkme5VewQMKp3stOXQYPGMAPSN8RjQLdagzH8mS1kJyWfct8f9PHE4WMdKLOnEhkGcn8dFAOeBJY8ErHkUho3yLhprxYRDDsZo/dODHe/cG2bkQegkq2+3edsbZmyNii1FzxBBmbJ7MHgfy+PFseFkOLCUAhW1rCped+UBYITF+hVY6CWdXbC6zUVg5VErYLXCFCafO+64Y8ivTrDicHb3VlM3aHc3KRL7BBCqVa9BHpMmabP/QPnlgUX3xtKLliTiJZIqYKkw+MtcTHVk0TKO3Wyj+Hgw8GTg0cCzgYeDPSFQlnVZFSxarL2yVcshsReI7+5WtF66b9D7Zzq7+KhwVcCyezDUpRbtwShLZcHSM++qcCooa19Wl/DpgdVrN3nmLeu3Apa3B8NbKcash2jFkj+rRYkkfxWw9JeIqhSAx9IQ72X8hNUPD6xevSPXtiz7N4J0hRSoZw3ynfRlNPFMx1QtWNaDkQeWx55+Hlh8xrJwbQRzSekCVbp21QOrLqoDLPsHnQpHd1a0113P7Zni/u4GOdloD4BDla5dtWBpAGfpgw2OFHK8ITOLCcv4p7+dIK12wJJ8DMoUuK5YVT7qOixYCy64YNicg9GEUcM+Qg4hMA9ikyfMhs8111wzlUXy8LccTzzxRNMmWE8/zpWJ8sCKN3lynpttf5Qry1Klr13NAkuZY6nwTs23DCtsJ/+LxGMbzrtvUDd5Kt9WWfH5IxrIVkZvWb9o+7Snn579K8DKu3a122AVHUzw9BsUYKm78ph8pY/Xsuy//MRxi9h2sfzmk4OGEOOfDBZvDwbWKsaKXGgQPkDGLZVXnB/PSluDvQpWHttw2tNHuhp/6zrFqfhMlmP9vD0Ys8wyS5/DdBhKOkzn6adnIY2BCBbh7b3uWcxgzvFVpSewhg0bFu6p4CRIHCeLSWv11VdPPR3IIhBYu8JgwUCAqSB4HRQXOfGacCQYgwbdZUxwgQrpYmzEedq8w1WxAwksFU7RfYOdIJn4uIGszDHrud2DIV3saX3pwg0zpa8DGqhg5e117wRVBcu7WoGD3xq/pEulu5sGE1jE6RRrrNEpErmBYhYYdNPIRlwBzYqy1u5UNqxu/yvB6iSpwDnOamWOOa8bZO9l3A1yyZg8GEW6DBqw+OT+CXtvRJ2MF4ZtcWwPz7sHX/d5MPei2yMu3h/utMCg4NgsRoruHMHQwctudcmiAQ+WwjFvmWeeecL7TmxR0DKNDiZkbW3zlvXV9bFHBGDQ0S7Xl6VBBZbnda+LpYu3B8OSnhd5MIpakUelwWrl2lXCEmfzzTcPabQKVt697gpPTZXXnYKNB/52WWONWhZjGAUes8Y2PCeEpxwkN5VJLQ+5ZbyUpdJg9VrLKvv/WXWxdNHfCLbSsqwjtyMtS4XRylXhujOdPQVQK2AV3evO3UeYvnivWQ5hfCBcLEu7rNs9dcC9FbBwN1HJkFe3p1a6170ILBEDatEdrh7rKldRWbCkAKDZtLLudacwudaUbsZesVonk3/eWWbIA0vlCmgCv6V73cuCVRdVBcuSnmXd6+7dPt1tygPLsp5Vutc9D6x4ENWAWJW9AZiV1rJgKR29o+ugaySOxhK6v/he9yy57bsi9uJ6pPCegUGFktElg0U648Hw7nX3yAVLl/APtJbFBBRC6f6iqi2rbUfu9ddfH15mTfzaYfX57GsoAxafiqvzS4xJ2leng+aMXx5Y1PRYhrJgEi6O61VgG86bFHt73TUVwFjS3fl2ouwBl4JlzV22QTFn0bWhdTNpa/eOzduzBtlGzM5YbsHERcMnv9nIgq9N7iXGK+9wNUd+OJima2X5m0G6YMgreEhdmf0bQbwPXLSie3OJa3sJrnwlfc/d5DFyIz+30nn6uTfMeGB1m/PA8nbkYv3ZP4uOyT7DoUocWp/ia5NnFljUbIitaISnJXjzLIHKTivJp16i6EyxnnnXrqIvd1bZcFCfblCDIL87yXbQ5XcWWEyKvR252rhPeA3+IqsgK7TEKboHw5LA0l/fsvVN/j15MGzL0pli0lf3xjFV5EAuK6NYcXGbaQ+G9ENf91Y03eTZqy0ry4MRe90t2WfePRit/HGM5xtUfO9e97Itq9K1q716mE5gcQCcmocihOOTifCXX37ZRxmRfcbeBtKmdajW24MJHgksxifCU1nUFXOqH7JgeQfA2UwqypMRsPD0WP3oOTyw/gP6jvko/b3CogAAAABJRU5ErkJggg==';
   /* ícones dos botões (mesmo traço dos demais) */
   var IC={
-    fechar:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8.3 12.2l2.5 2.5 5-5"/></svg>',
-    reabrir:'<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/></svg>',
-    edit:'<svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>',
-    dup:'<svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>',
-    del:'<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>',
-    recalc:'<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/></svg>',
-    x:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
-    mais:'<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'
+    fechar:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
+    reabrir:'<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
+    edit:'<svg viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>',
+    dup:'<svg viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>',
+    del:'<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>',
+    recalc:'<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
+    x:'<svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+    mais:'<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>'
   };
   function $(id){ return document.getElementById(id); }
   function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -6609,12 +6616,12 @@
   function $(id){ return document.getElementById(id); }
   function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   var IC={
-    pref:'<svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg>',
-    mat:'<svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>',
-    visa:'<svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
-    esg:'<svg viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>',
-    doc:'<svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v3h3M9 12h6M9 16h6"/></svg>',
-    baixar:'<svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M4 20h16"/></svg>'
+    pref:'<svg viewBox="0 0 24 24"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>',
+    mat:'<svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>',
+    visa:'<svg viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>',
+    esg:'<svg viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>',
+    doc:'<svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>',
+    baixar:'<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>'
   };
   /* ---------- perguntas ---------- */
   var PERG=[
