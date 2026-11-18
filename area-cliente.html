@@ -1360,7 +1360,16 @@
       limparExemplosCliente();
       var u=(await sb.auth.getUser()).data.user; if(!u) return;
       // 1ª tentativa já traz "arquivado" (projeto arquivado pelo escritório não aparece para o cliente)
-      var res=await sb.from('clientes').select('id,nome,membro,projetos(id,nome,status,arquivado,valor_contrato,forma_pagamento,etapas(id,nome,ordem,status,termo,termo_aceito,termo_aceito_em,termo_aceito_por,documento_nome,documento_path),parcelas(id,descricao,valor,vencimento,status,ordem,pago_em),recebimentos(id,descricao,valor,data,status))').eq('perfil_id',u.id).order('criado_em').limit(1);
+      // valor do contrato e forma de pagamento vêm da tabela protegida projetos_fin (só o escritório e o próprio cliente leem)
+      var ETS='etapas(id,nome,ordem,status,termo,termo_aceito,termo_aceito_em,termo_aceito_por,documento_nome,documento_path),parcelas(id,descricao,valor,vencimento,status,ordem,pago_em)';
+      var res=await sb.from('clientes').select('id,nome,membro,projetos(id,nome,status,arquivado,projetos_fin(valor_contrato,forma_pagamento),'+ETS+',recebimentos(id,descricao,valor,data,status))').eq('perfil_id',u.id).order('criado_em').limit(1);
+      if(res.error){
+        res=await sb.from('clientes').select('id,nome,membro,projetos(id,nome,status,arquivado,projetos_fin(valor_contrato,forma_pagamento),'+ETS+')').eq('perfil_id',u.id).order('criado_em').limit(1);
+      }
+      if(res.error){
+        // banco ainda sem a tabela protegida: valores nas colunas antigas do projeto
+        res=await sb.from('clientes').select('id,nome,membro,projetos(id,nome,status,arquivado,valor_contrato,forma_pagamento,etapas(id,nome,ordem,status,termo,termo_aceito,termo_aceito_em,termo_aceito_por,documento_nome,documento_path),parcelas(id,descricao,valor,vencimento,status,ordem,pago_em),recebimentos(id,descricao,valor,data,status))').eq('perfil_id',u.id).order('criado_em').limit(1);
+      }
       if(res.error){
         // a coluna "arquivado" pode ainda não existir — tenta sem ela
         res=await sb.from('clientes').select('id,nome,membro,projetos(id,nome,status,valor_contrato,forma_pagamento,etapas(id,nome,ordem,status,termo,termo_aceito,termo_aceito_em,termo_aceito_por,documento_nome,documento_path),parcelas(id,descricao,valor,vencimento,status,ordem,pago_em),recebimentos(id,descricao,valor,data,status))').eq('perfil_id',u.id).order('criado_em').limit(1);
@@ -1397,6 +1406,7 @@
       var projetos=(c.projetos||[]).filter(function(p){ return !p.arquivado; }); // arquivados ficam fora da Área do Cliente
       OBRAS={};
       projetos.forEach(function(p){
+        var fin=Array.isArray(p.projetos_fin)?p.projetos_fin[0]:p.projetos_fin; if(fin){ p.valor_contrato=fin.valor_contrato; p.forma_pagamento=fin.forma_pagamento; }
         var ets=(p.etapas||[]).slice().sort(etOrd), at=etAtual(ets);
         OBRAS[p.id]={ title:p.nome, cliente:c.nome||'', status:p.status, meta:'<div><b>'+(c.nome||'')+'</b></div><div>'+stTxtProj(p.status)+'</div>', stage:'Etapa atual — <b>'+(at?at.nome:(ets.length?'entregue':'—'))+'</b>', pct:etPct(ets), etapas:ets, valor:p.valor_contrato, parcelas:p.parcelas||[], extras:p.recebimentos||[] };
       });

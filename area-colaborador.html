@@ -938,6 +938,67 @@
     .mdl-row{gap:10px}
   }
   svg.ic-in{width:1.05em;height:1.05em;vertical-align:-.17em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none} /* ícones Lucide dentro de texto */
+  /* ---------- PROJETO: imagem, aprovações e documentos (mesmo visual da área do administrador) ---------- */
+  .pj-cover{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .pj-cover-preview{width:108px;height:80px;flex:none;border-radius:12px;border:1px solid var(--hair-soft);background:linear-gradient(135deg,#4a4741,#2f2d29);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;font-size:30px;overflow:hidden}
+  .pj-cover-preview img{width:100%;height:100%;object-fit:cover}
+  .pj-cover-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .pj-cover .pill svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;margin-right:2px}
+  /* ---------- APROVAÇÕES E DOCUMENTOS ---------- */
+  .apr-box{display:grid;gap:12px}
+  .apr-q{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--hair-soft);border-radius:var(--r-sm);background:var(--panel)}
+  .apr-q.sub{margin-left:26px;border-style:dashed}
+  .apr-q .q{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink);font-weight:500}
+  .apr-q .q svg{width:17px;height:17px;flex:none;fill:none;stroke:var(--gold);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .apr-q .q small{display:block;font-size:12px;color:var(--ink-3);font-weight:400;margin-top:2px}
+  .apr-q .seg .sortbtn{padding:6px 16px}
+  .apr-gera{font-size:12.5px;color:var(--ink-2);padding:10px 14px;border-radius:var(--r-sm);background:var(--panel-2)}
+  .apr-gera b{color:var(--ink)}
+  .apr-panel{max-width:860px}
+  .apr-docs{display:grid;gap:8px;margin-top:16px}
+  .apr-doc{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--hair-soft);border-radius:var(--r-sm);background:var(--panel)}
+  .apr-doc .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--gold) 14%,transparent);color:var(--gold);flex:none}
+  .apr-doc .ic svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .apr-doc .tx{flex:1;min-width:200px}
+  .apr-doc .tx b{display:block;font-size:14px;color:var(--ink);font-weight:600}
+  .apr-doc .tx small{display:block;font-size:12px;color:var(--ink-2);margin-top:2px}
+  .apr-doc .tx small.falta{color:var(--amber)}
+  .apr-vazio{font-size:13px;color:var(--ink-3);padding:6px 2px}
+  .apr-dados{margin-top:16px;border:1px solid var(--hair-soft);border-radius:var(--r-sm);background:var(--panel)}
+  .apr-dados summary{cursor:pointer;display:flex;align-items:center;gap:8px;padding:12px 14px;font-size:13.5px;font-weight:600;color:var(--ink)}
+  .apr-dados summary svg{width:16px;height:16px;fill:none;stroke:var(--gold);stroke-width:1.7}
+  .apr-dados summary span{font-weight:500;font-size:12px;color:var(--amber)}
+  .apr-campos{padding:4px 14px 16px}
+  .apr-grupo{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:14px 0 8px;grid-column:1/-1}
+  .apr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px 14px}
+  .apr-grid label{display:block;font-size:11px;color:var(--ink-2);margin-bottom:4px}
+  /* rótulos de 1 ou 2 linhas: a caixa fica sempre embaixo, alinhada com as vizinhas */
+  .apr-grid>div{display:flex;flex-direction:column;min-width:0}
+  .apr-grid>div>label:first-child{flex:1 0 auto}
+  .apr-grid input,.apr-grid select{height:36px;box-sizing:border-box}
+  .apr-grid input[type=checkbox]{height:auto}
+  /* botão "subir/trocar imagem" é um <label>: não herda o estilo de rótulo; ícone e título centralizados */
+  .apr-grid label.pill{display:inline-flex;align-items:center;justify-content:center;margin:0;line-height:1}
+  .apr-grid input{width:100%;border:1px solid var(--hair);border-radius:8px;padding:8px 10px;font:inherit;font-size:13.5px;background:var(--paper,#fff);color:var(--ink)}
+  .apr-grid input:focus{outline:none;border-color:var(--gold)}
+  .apr-grid input.vazio{border-color:color-mix(in srgb,var(--amber) 55%,var(--hair))}
+  .apr-acoes{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px}  .apr-previa{position:fixed;inset:0;z-index:2000;background:rgba(40,38,34,.88);display:flex;flex-direction:column}
+  .apr-pv-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 18px;background:var(--panel);border-bottom:1px solid var(--hair)}
+  .apr-pv-bar b{font-size:14px;color:var(--ink)}
+  .apr-pv-falta{font-size:12px;color:var(--amber);background:color-mix(in srgb,var(--amber) 12%,transparent);padding:4px 10px;border-radius:20px}
+  .apr-pv-doc{flex:1;overflow:auto;padding:18px}
+  .apr-pv-doc canvas{display:block;margin:0 auto 14px;max-width:100%;height:auto;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+  .apr-pv-msg{color:#fff;text-align:center;font-size:12.5px;margin:0 0 12px;opacity:.85}  .apr-img-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.apr-img-row img{height:72px;max-width:160px;object-fit:cover;border-radius:6px;border:1px solid var(--hair)}.apr-img-vazio{font-size:12.5px;color:var(--ink-3);padding:8px 12px;border:1px dashed var(--hair);border-radius:6px}.apr-img-vazio.vazio{border-color:var(--amber);color:var(--amber)}.apr-img-nota{font-size:12px;color:var(--ink-3)}
+.np-dados{margin-top:18px;border-top:1px solid var(--hair);padding-top:6px}
+#pj-dados .apr-grupo{margin-top:6px}#pj-dados input:disabled{border-color:transparent;padding-left:0}#pj-dados input:disabled.vazio{border-color:transparent}
+.apr-pv-doc img{max-width:none}
+.apr-pv-doc p[data-num]::before{content:attr(data-num) !important}
+.apr-prop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 10px}.apr-prop small{font-size:12px;color:var(--ink-3)}.apr-grid input.apr-ro{background:transparent;color:var(--ink-2);cursor:default}
+.apr-grid select{width:100%;border:1px solid var(--hair);border-radius:8px;padding:8px 10px;font:inherit;font-size:13.5px;background:var(--paper,#fff);color:var(--ink)}.apr-grid select.vazio{border-color:var(--amber)}
+.apr-cg-lista{display:flex;flex-direction:column;gap:6px}.apr-cg-lista.vazio .apr-cg-vazio{color:var(--amber)}.apr-cg-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2)}.apr-cg-row input{width:70px!important}.apr-cg-row b{font-weight:600;color:var(--ink)}.apr-cg-row .pbtn{padding:0 10px}.apr-cg-vazio{font-size:12.5px;color:var(--ink-3);margin:0}.apr-cg-pe{display:flex;align-items:center;gap:12px;margin-top:8px}.apr-cg-pe small{font-size:12px;color:var(--ink-3)}
+.apr-cg>input.apr-cg-qtd{max-width:120px}.apr-cg .apr-cg-lista{margin-top:10px}.apr-cg-row label{margin:0!important;font-size:12px;color:var(--ink-3)}.apr-cg-row select{width:auto!important;min-width:130px}.apr-cg-n{font-weight:600;color:var(--ink);min-width:58px}.apr-cg-tot{display:block;margin-top:8px;font-size:12px;color:var(--ink-3)}
+  .pj-info-tg{display:none}
+  @media(max-width:640px){ #projeto-index:not(.pj-info-on) .pj-info > .pj-dados{display:none} #projeto-index > .pj-info-tg{display:inline-flex;align-self:flex-start;margin:4px 0 22px} }
 </style>
 
 <header class="top" hidden><span class="top-sec" id="top-sec">área do colaborador</span><span class="who">Isys Mattos</span></header>
@@ -1057,12 +1118,25 @@
     <button class="back" type="button" data-home>Voltar</button>
     <h2 class="page-title">Residência Jurerê</h2>
     <p class="proj-note">As <b>informações</b> e as <b>etapas</b> podem ser editadas aqui. Toque em uma etapa para abri-la em sua própria tela. O status de cada etapa é calculado automaticamente (concluído / em andamento / atrasado) e alimenta a <b>agenda</b> e a central de projetos.</p>
+    <p class="sec-label">informações</p>
     <div class="form-grid pj-info" style="max-width:660px;margin-bottom:clamp(28px,4vw,42px)">
-      <div class="field"><label><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Cliente</label><div class="ro">Marina Andrade <small>· gerenciado pelo administrador</small></div></div>
+      <div class="field"><label><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Cliente</label><select id="obra-cli-sel"></select><div class="ro" id="obra-cli-ro" hidden></div></div>
       <div class="field"><label><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>Nº do contrato</label><input id="obra-contrato-input" type="text" placeholder="Ex.: 2026-030"></div>
       <div class="field"><label><svg viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>Nome da obra</label><input id="obra-nome-input" type="text"></div>
       <div class="field"><label><svg viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>Tipo</label><select id="obra-tipo-sel"><option value="">—</option><option>Unifamiliar</option><option>Multifamiliar</option><option>Comercial</option><option>Mista</option></select></div>
+      <div id="pj-dados" class="pj-dados" style="grid-column:1/-1"></div>
     </div>
+
+    <p class="sec-label">imagem do projeto</p>
+    <div class="pj-cover" style="max-width:660px;margin-bottom:clamp(28px,4vw,42px)">
+      <div class="pj-cover-preview" id="pj-cover-preview"><span id="pj-cover-ini">P</span></div>
+      <div class="pj-cover-actions">
+        <label class="pill ghost sm" style="cursor:pointer"><svg viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span id="pj-cover-btn-txt">anexar imagem</span><input type="file" id="pj-cover-file" accept="image/*" hidden></label>
+        <button class="pbtn danger" type="button" id="pj-cover-remove" hidden><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>remover</button>
+        <span class="note" id="pj-cover-note">Aparece na miniatura do card na central de projetos.</span>
+      </div>
+    </div>
+
     <p class="sec-label">etapas</p>
 
     <div class="etapas" id="etapas">
@@ -1151,10 +1225,23 @@
       </div>
     </div>
 
+    <p class="sec-label" style="margin-top:clamp(30px,4vw,44px)">aprovações e documentos</p>
+    <p class="proj-note" style="margin-top:-6px">Responda às perguntas e o sistema lista os documentos de aprovação deste projeto, já preenchidos com os dados do cliente e da obra. O que faltar, você completa em <b>dados para os documentos</b>.</p>
+    <div class="np-panel apr-panel" id="apr-panel">
+      <div class="apr-box" id="pj-apr"></div>
+      <div class="apr-docs" id="apr-docs"></div>
+      <details class="apr-dados" id="apr-dados"><summary><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>Dados para os documentos <span id="apr-falta"></span></summary><div class="apr-campos" id="apr-campos"></div></details>
+      <div class="apr-acoes"><button class="pill solid sm" type="button" id="apr-salvar"><svg viewBox="0 0 24 24"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>salvar respostas e dados</button><span class="note" id="apr-note"></span></div>
+    </div>
+
     <div class="pj-actions">
       <button class="pill solid" type="button" id="pj-editar"><svg viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>editar</button>
+      <button class="pill ghost sm" type="button" id="pj-pausar"><svg viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>pausar</button>
+      <button class="pill ghost sm" type="button" id="pj-cancelar"><svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>cancelar</button>
+      <button class="pill ghost sm" type="button" id="pj-retomar"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg>retomar</button>
       <button class="pill ghost sm pj-edit-only" type="button" id="add-etapa"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>adicionar etapa</button>
       <button class="pill solid pj-edit-only" type="button" id="pj-concluir"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>concluir</button>
+      <span class="note" id="pj-status-note"></span>
     </div>
    </div>
 
@@ -1461,7 +1548,7 @@
       if(name==='clientes' && typeof cliCarregar==='function') cliCarregar();
       // ficha de cliente sem cliente escolhido (ex.: página recarregada): volta para a lista
       if(name==='cliente' && typeof cliTemAberto==='function' && !cliTemAberto()){ location.hash='clientes'; return; }
-      if(name==='projeto'){ if(!obraId){ try{ obraId=localStorage.getItem('im-obra-colab')||null; }catch(e){} } if(typeof fillObraColab==='function') fillObraColab(); }
+      if(name==='projeto'){ if(!obraId){ try{ obraId=localStorage.getItem('im-obra-colab')||null; }catch(e){} } if(typeof fillObraColab==='function') fillObraColab(); window.obraAtualId=obraId; if(typeof window.carregarAprovacoes==='function') window.carregarAprovacoes(obraId); }
       var tv=document.getElementById(VIEWS[name]); if(tv){ tv.classList.remove('anim'); void tv.offsetWidth; tv.classList.add('anim'); }
       window.scrollTo(0,0);
     }
@@ -2093,10 +2180,91 @@
         var nome=(ni.value||'').trim(); if(!nome){ ni.value=(typeof obraNomeAtual!=='undefined'&&obraNomeAtual)||''; return; }
         var r=await sb.from('projetos').update({ nome:nome }).eq('id',obraId);
         if(r&&r.error){ alert('Erro ao salvar o nome da obra: '+r.error.message); return; }
-        if(typeof obraNomeAtual!=='undefined') obraNomeAtual=nome; var t=document.querySelector('#view-projeto .page-title'); if(t) t.textContent=nome; });
+        if(typeof obraNomeAtual!=='undefined') obraNomeAtual=nome; var t=document.querySelector('#view-projeto .page-title'); if(t) t.textContent=nome;
+        if(typeof renderCentralColab==='function') renderCentralColab(); });
       if(ts) ts.addEventListener('change',async function(){ if(typeof obraId==='undefined'||!obraId) return;
         var r=await sb.from('projetos').update({ tipo:ts.value||null }).eq('id',obraId);
         if(r&&r.error) alert('O tipo não foi guardado: peça ao administrador para rodar o arquivo sql-projeto-tipo.sql no Supabase.'); });
+      // cliente do projeto (como na área do administrador; os serviços extras acompanham pelo próprio banco)
+      var cs=document.getElementById('obra-cli-sel');
+      if(cs) cs.addEventListener('change',async function(){ if(typeof obraId==='undefined'||!obraId) return;
+        var novo=cs.value, antigo=cs.dataset.atual||''; if(!novo||novo===antigo) return;
+        var nomeNovo=cs.options[cs.selectedIndex]?cs.options[cs.selectedIndex].textContent:'';
+        if(!(await imConfirm('Passar o projeto "'+(obraNomeAtual||'')+'" para o cliente "'+nomeNovo+'"? O cliente atual deixa de ver este projeto, com suas etapas e documentos.','confirmar'))){ cs.value=antigo; return; }
+        var r=await sb.from('projetos').update({ cliente_id:novo }).eq('id',obraId);
+        if(r&&r.error){ cs.value=antigo; pjNote('Erro ao trocar o cliente: '+r.error.message,true); return; }
+        cs.dataset.atual=novo; var cr=document.getElementById('obra-cli-ro'); if(cr) cr.textContent=nomeNovo;
+        if(typeof logAtividade==='function') logAtividade('passou o projeto '+(obraNomeAtual||'')+' para o cliente '+nomeNovo);
+        pjNote('Cliente do projeto alterado. ✓');
+        if(typeof renderCentralColab==='function') renderCentralColab(); });
+      // ao entrar em "editar": garante a lista completa de clientes
+      if(btnEditar) btnEditar.addEventListener('click',function(){ var sn=document.getElementById('pj-status-note'); if(sn) sn.textContent='';
+        if(cs){ var o=cs.options[cs.selectedIndex]; fillCliSel(cs.dataset.atual||'', o?o.textContent:''); } });
+    })();
+    function pjNote(msg, erro){ var sn=document.getElementById('pj-status-note'); if(!sn) return; sn.textContent=msg;
+      if(!erro) setTimeout(function(){ if(sn.textContent===msg) sn.textContent=''; },4000); }
+    // lista de clientes no seletor "Cliente" (mantém o atual mesmo se a lista ainda não carregou)
+    var CLI_OPTS=null;
+    async function fillCliSel(curId, curNome){ var cs=document.getElementById('obra-cli-sel'); if(!cs) return;
+      function montar(){ var lista=CLI_OPTS||[];
+        var h=lista.map(function(c){ return '<option value="'+c.id+'">'+ce(c.nome||'')+'</option>'; }).join('');
+        if(!lista.some(function(c){ return String(c.id)===String(curId); })) h='<option value="'+(curId||'')+'">'+ce(curNome||'—')+'</option>'+h;
+        cs.innerHTML=h; cs.value=curId||''; cs.dataset.atual=curId||''; }
+      montar();
+      if(!CLI_OPTS){ try{ var r=await sb.from('clientes').select('id,nome').order('nome',{ascending:true}); if(r&&!r.error){ CLI_OPTS=r.data||[]; montar(); } }catch(e){} }
+    }
+
+    /* status do projeto (pausar/cancelar/retomar) — como na área do administrador */
+    function mudarStatusObra(novo){
+      if(!obraId){ pjNote('Abra um projeto pela central primeiro.',true); return; }
+      sb.from('projetos').update({status:novo}).eq('id',obraId).then(function(r){
+        pjNote(r.error ? ('Erro: '+r.error.message) : ('Projeto '+(novo==='pausado'?'pausado':(novo==='cancelado'?'cancelado':'reativado'))+'. ✓'), !!r.error);
+        if(!r.error && typeof logAtividade==='function') logAtividade((novo==='pausado'?'pausou':(novo==='cancelado'?'cancelou':'retomou'))+' o projeto '+(obraNomeAtual||''));
+        if(!r.error && typeof renderCentralColab==='function') renderCentralColab();
+      });
+    }
+    [['pj-pausar','pausado'],['pj-cancelar','cancelado'],['pj-retomar','andamento']].forEach(function(x){ var b=document.getElementById(x[0]); if(b) b.addEventListener('click',function(){ mudarStatusObra(x[1]); }); });
+
+    /* imagem de capa do projeto (aparece na miniatura do card) */
+    var COVER_PATH=null;
+    function coverUrl(path){ try{ var pu=sb.storage.from('projeto-capas').getPublicUrl(path); return (pu&&pu.data&&pu.data.publicUrl)||''; }catch(e){ return ''; } }
+    function setCover(path, nome){
+      COVER_PATH=path||null;
+      var prev=document.getElementById('pj-cover-preview'), rm=document.getElementById('pj-cover-remove'), bt=document.getElementById('pj-cover-btn-txt');
+      if(!prev) return;
+      var letter=((nome||'').trim().charAt(0)||'P').toUpperCase();
+      if(path){ prev.innerHTML='<img src="'+ce(coverUrl(path)).replace(/"/g,'&quot;')+'" alt="capa do projeto">'; if(rm) rm.hidden=false; if(bt) bt.textContent='trocar imagem'; }
+      else { prev.innerHTML='<span id="pj-cover-ini">'+ce(letter)+'</span>'; if(rm) rm.hidden=true; if(bt) bt.textContent='anexar imagem'; }
+    }
+    (function(){
+      var file=document.getElementById('pj-cover-file'), note=document.getElementById('pj-cover-note'), rm=document.getElementById('pj-cover-remove');
+      if(file) file.addEventListener('change', async function(){
+        var f=file.files&&file.files[0]; if(!f||!obraId) return;
+        if(!/^image\//.test(f.type)){ if(note) note.textContent='Selecione um arquivo de imagem.'; return; }
+        if(note) note.textContent='Enviando imagem…';
+        try{
+          var ext=((f.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,''))||'jpg';
+          var path=obraId+'/capa-'+Date.now()+'.'+ext;
+          var up=await sb.storage.from('projeto-capas').upload(path, f, {upsert:true, contentType:f.type});
+          if(up.error){ if(note) note.textContent='Não foi possível enviar a imagem: '+up.error.message; return; }
+          var old=COVER_PATH;
+          var upd=await sb.from('projetos').update({imagem_path:path}).eq('id',obraId);
+          if(upd.error){ if(note) note.textContent='Não foi possível salvar: '+upd.error.message; return; }
+          if(old && old!==path){ try{ await sb.storage.from('projeto-capas').remove([old]); }catch(e){} }
+          setCover(path, obraNomeAtual); if(note) note.textContent='Imagem atualizada.';
+          if(typeof renderCentralColab==='function') renderCentralColab();
+        }catch(e){ if(note) note.textContent='Erro: '+(e&&e.message||e); }
+        file.value='';
+      });
+      if(rm) rm.addEventListener('click', async function(){
+        if(!obraId||!COVER_PATH) return;
+        if(!(await imConfirm('Remover a imagem do projeto?'))) return;
+        try{ await sb.storage.from('projeto-capas').remove([COVER_PATH]); }catch(e){}
+        var upd=await sb.from('projetos').update({imagem_path:null}).eq('id',obraId);
+        if(upd.error){ if(note) note.textContent='Erro ao remover: '+upd.error.message; return; }
+        setCover(null, obraNomeAtual); if(note) note.textContent='Imagem removida.';
+        if(typeof renderCentralColab==='function') renderCentralColab();
+      });
     })();
 
     /* anexar documentos do cliente na página da obra (modo editar) — mesmos que o cliente baixa */
@@ -2846,16 +3014,22 @@
     async function fillObraColab(){
       if(typeof resetEtapaScreen==='function') resetEtapaScreen();
       if(!obraId) return;
-      var res=await sb.from('projetos').select('id,nome,status,clientes(nome,cidade),etapas(id,nome,ordem,status,checklist,prazo_inicio,prazo_fim,termo,documento_nome,documento_path,kanban,responsavel_id)').eq('id',obraId).single();
+      var res=await sb.from('projetos').select('id,nome,status,imagem_path,clientes(nome,cidade),etapas(id,nome,ordem,status,checklist,prazo_inicio,prazo_fim,termo,documento_nome,documento_path,kanban,responsavel_id)').eq('id',obraId).single();
+      if(res.error){ res=await sb.from('projetos').select('id,nome,status,clientes(nome,cidade),etapas(id,nome,ordem,status,checklist,prazo_inicio,prazo_fim,termo,documento_nome,documento_path,kanban,responsavel_id)').eq('id',obraId).single(); }
       if(res.error){ res=await sb.from('projetos').select('id,nome,status,clientes(nome,cidade),etapas(id,nome,ordem,status,checklist,prazo_inicio,prazo_fim,termo)').eq('id',obraId).single(); }
       if(res.error){ return; }
       var p=res.data; obraNomeAtual=p.nome;
       var t=document.querySelector('#view-projeto .page-title'); if(t) t.textContent=p.nome;
       var ts=document.getElementById('top-sec'); if(ts) ts.textContent='área do colaborador · '+p.nome;
-      var ro=document.querySelector('#view-projeto .pj-info .ro'); if(ro) ro.innerHTML=(p.clientes?ce(p.clientes.nome):'—')+' <small>· gerenciado pelo administrador</small>';
-      var nomeInput=document.querySelectorAll('#view-projeto .pj-info input')[1]; if(nomeInput) nomeInput.value=p.nome;
+      var cliNomeAtual=p.clientes?(p.clientes.nome||''):'—';
+      var ro=document.getElementById('obra-cli-ro'); if(ro) ro.textContent=cliNomeAtual;
+      var nomeInput=document.getElementById('obra-nome-input'); if(nomeInput) nomeInput.value=p.nome;
+      setCover(p.imagem_path||null, p.nome);
+      var pn=document.getElementById('pj-status-note'); if(pn) pn.textContent='';
       // nº do contrato (informações): consulta separada — coluna criada pelo sql-numero-contrato.sql
       (function(){ var fc=document.getElementById('obra-contrato-input'); if(!fc) return; fc.value=''; var pid=p.id;
+        fillCliSel('', cliNomeAtual);
+        sb.from('projetos').select('cliente_id').eq('id',pid).single().then(function(r){ if(r&&!r.error&&r.data&&String(obraId)===String(pid)) fillCliSel(r.data.cliente_id||'', cliNomeAtual); });
         sb.from('projetos').select('numero_contrato').eq('id',pid).single().then(function(r){ if(r&&!r.error&&r.data&&String(obraId)===String(pid)) fc.value=r.data.numero_contrato||''; });
         // tipo: coluna criada pelo sql-projeto-tipo.sql (se ainda não existir, o campo fica em "—")
         var ts=document.getElementById('obra-tipo-sel'); if(ts){ ts.value='';
@@ -3065,6 +3239,7 @@
     if((location.hash||'').replace('#','')==='proj') renderCentralColab();
   })();
 </script>
+<script src="aprovacoes.js"></script>
 <script>
 /* celular: cada célula das tabelas recebe o nome da coluna (data-l), usado quando a tabela vira cartão */
 (function(){
@@ -3072,5 +3247,10 @@
   function rotular(){ pend=false; document.querySelectorAll('table.ptable').forEach(function(t){ var hs=[].map.call(t.querySelectorAll('thead th'),function(th){ return th.textContent.trim(); }); if(!hs.length) return; t.querySelectorAll('tbody tr, tfoot tr').forEach(function(tr){ [].forEach.call(tr.children,function(td,i){ if(hs[i]&&td.getAttribute('data-l')!==hs[i]) td.setAttribute('data-l',hs[i]); }); }); }); }
   new MutationObserver(function(){ if(!pend){ pend=true; requestAnimationFrame(rotular); } }).observe(document.body,{childList:true,subtree:true});
   rotular();
+  /* celular: botão para mostrar/ocultar os dados do imóvel no projeto (no computador fica escondido) */
+  var pi=document.getElementById('projeto-index'), inf=pi&&pi.querySelector('.pj-info');
+  if(inf){ var b=document.createElement('button'); b.type='button'; b.className='pill ghost sm pj-info-tg';
+    function txt(){ b.textContent=pi.classList.contains('pj-info-on')?'ocultar dados do imóvel':'ver dados do imóvel e terreno'; }
+    b.addEventListener('click',function(){ pi.classList.toggle('pj-info-on'); txt(); }); txt(); inf.insertAdjacentElement('afterend',b); }
 })();
 </script>
