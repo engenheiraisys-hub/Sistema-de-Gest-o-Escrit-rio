@@ -1279,6 +1279,9 @@
   #view-contratos .ct-extra-h b{font-size:13px;font-weight:600;color:var(--ink);letter-spacing:.02em}
   #view-contratos .ct-extra-del,#view-orcamentos .oc-cli-del{border:none;background:none;padding:0;font:inherit;font-size:12.5px;color:var(--red);cursor:pointer;text-decoration:underline}
   #view-contratos .ct-add,#view-orcamentos .oc-add-cli{display:inline-flex;align-items:center;gap:6px;margin-top:14px;border:1px dashed var(--hair);background:none;border-radius:999px;padding:7px 14px;font:inherit;font-size:12.5px;color:var(--ink-2);cursor:pointer}
+  #view-contratos .ct-rec-l{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px;margin-bottom:10px}
+  #view-contratos .ct-rec-l .field{flex:1 1 140px;margin:0}
+  #view-contratos .ct-rec-l .ct-extra-del{padding-bottom:10px}
   #view-contratos .ct-add:hover,#view-orcamentos .oc-add-cli:hover{border-color:var(--gold);color:var(--gold)}
   #view-contratos .ct-add svg,#view-orcamentos .oc-add-cli svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
   #view-orcamentos .oc-cli-x{display:flex;gap:10px;align-items:center;margin-top:8px}
@@ -2082,6 +2085,8 @@
             <div class="field"><label for="ct-o-cep">CEP</label><input id="ct-o-cep" type="text"></div>
             <div class="field"><label for="ct-o-cid">Município / UF</label><input id="ct-o-cid" type="text" placeholder="Florianópolis, Santa Catarina"></div>
             <div class="field full"><label for="ct-o-insc">Inscrição imobiliária</label><input id="ct-o-insc" type="text"></div>
+            <div class="field"><label for="ct-o-tipo">Tipo de edificação</label><select id="ct-o-tipo"><option value="">— não informar —</option><option value="res">Residência isolada</option><option value="gem">Residência geminada</option><option value="mfh">Multifamiliar horizontal</option><option value="mfv">Multifamiliar vertical</option><option value="com">Comercial</option><option value="mis">Mista</option></select></div>
+            <div class="field" id="ct-o-qtd-f"><label for="ct-o-qtd">Quantidade de unidades</label><input id="ct-o-qtd" type="number" min="1" step="1" placeholder="1"></div>
           </div>
         </div>
 
@@ -2097,6 +2102,7 @@
             <div class="field"><label for="ct-desc">Desconto (%)</label><input id="ct-desc" type="text" inputmode="decimal" placeholder="0"></div>
             <div class="field"><label for="ct-parc">Nº de parcelas</label><input id="ct-parc" type="number" min="1" max="36" step="1" placeholder="1"></div>
             <div class="field"><label for="ct-1parc">1ª parcela</label><select id="ct-1parc"><option value="ato">no ato da assinatura</option><option value="30">30 dias após a assinatura</option></select></div>
+            <div class="field full" id="ct-entrada-f"><label for="ct-entrada">Valor da 1ª parcela (R$) — deixe vazio para parcelas iguais</label><input id="ct-entrada" type="text" inputmode="decimal" placeholder="parcelas iguais"></div>
             <div class="field full"><div class="ct-resumo" id="ct-resumo"></div></div>
           </div>
           <details class="oc-more"><summary>Dados bancários</summary>
@@ -2121,6 +2127,7 @@
             <div class="field"><label for="ct-vis-ant">Antecedência para agendar (dias úteis)</label><input id="ct-vis-ant" type="number" min="0" step="1"></div>
             <div class="field"><label for="ct-rec-de">Recesso: de</label><input id="ct-rec-de" type="date"></div>
             <div class="field"><label for="ct-rec-ate">Recesso: até</label><input id="ct-rec-ate" type="date"></div>
+            <div class="field full"><div id="ct-recs"></div><button type="button" class="ct-add" id="ct-add-rec" style="margin-top:4px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>adicionar outro período de recesso / férias</button></div>
             <div class="field"><label for="ct-multa">Multa por rescisão (%)</label><input id="ct-multa" type="number" min="0" step="1"></div>
             <div class="field"><label for="ct-atraso">Multa por atraso no pagamento (%)</label><input id="ct-atraso" type="number" min="0" step="1"></div>
             <div class="field"><label for="ct-valid">Validade da proposta (dias úteis)</label><input id="ct-valid" type="number" min="1" step="1"></div>
@@ -5323,7 +5330,7 @@
   var CONTRATADO={nome:'Isys de Mattos Vieira',cpf:'079.717.789-29',email:'engenheira.isys@gmail.com',
     qual:'brasileira, engenheira civil, residente e domiciliada na Avenida Red Park, nº 1180, no bairro São João do Rio Vermelho, no município de Florianópolis, CEP 88060-292, com CPF 079.717.789-29'};
   var BANCO={banco:'Banco C6 S.A. – 336',ag:'0001',conta:'38439960-6',cnpj:'60.894.741.0001/95',pix:'60894741000195'};
-  var NAO_PADRAO=['Desenvolvimento de levantamento topográfico por profissional topógrafo','Desenvolvimento de projeto de detalhamento de arquitetura de interiores','Desenvolvimento de projeto elétrico padrão da CELESC','Desenvolvimento Projeto de Sistema de Proteção Contra Descargas Atmosféricas','Desenvolvimento de projeto de Estação de Tratamento de Esgoto','Desenvolvimento de projeto de Fundações Profundas','Desenvolvimento e solicitação de licenciamento ambiental','Desenvolvimento de projeto preventivo','Elaboração de sondagem no solo','Elaboração de teste de percolação','Solicitação de viabilidade de água','Solicitação de viabilidade de esgoto','Regularização ou solicitação de documentos de propriedade do imóvel','Acompanhamento e gerenciamento de obra','Execução da obra e providências legais, burocráticas e custos decorrentes dos mesmos','Cópias dos projetos'];
+  var NAO_PADRAO=['Desenvolvimento de levantamento topográfico por profissional topógrafo','Desenvolvimento de projeto de detalhamento de arquitetura de interiores','Desenvolvimento de projeto elétrico padrão da CELESC','Desenvolvimento Projeto de Sistema de Proteção Contra Descargas Atmosféricas','Desenvolvimento de projeto de Estação de Tratamento de Esgoto','Desenvolvimento de projeto de Fundações Profundas','Desenvolvimento e solicitação de licenciamento ambiental','Desenvolvimento de projeto preventivo','Elaboração de sondagem no solo','Elaboração de teste de percolação','Solicitação de viabilidade de água','Solicitação de viabilidade de esgoto','Regularização ou solicitação de documentos de propriedade do imóvel','Acompanhamento e gerenciamento de obra','Execução da obra e providências legais, burocráticas e custos decorrentes dos mesmos','Cópias físicas dos projetos'];
   /* serviços do contrato (ordem das etapas) e o que entra em "não inclusos" quando NÃO é contratado */
   var SV=[
     {k:'arq',n:'Projeto arquitetônico',nao:'Desenvolvimento de projeto arquitetônico'},
@@ -5341,13 +5348,13 @@
   function novo(){ var y=new Date().getFullYear();
     return {id:null,status:'rascunho',numero:'',data:hojeISO(),cidade:'Florianópolis',proposta:'',cliente_id:'',projeto_id:'',
       c:{pessoa:'pf',nome:'',nac:'',civil:'',prof:'',rg:'',doc:'',rep:'',end:'',bairro:'',cid:'',cep:'',email:''},
-      o:{end:'',cep:'',cid:'Florianópolis, Santa Catarina',insc:''},
+      o:{end:'',cep:'',cid:'Florianópolis, Santa Catarina',insc:'',tipo:'',qtd:''},
       sv:{arq:false,hid:false,ele:false,est:false,prev:false,hab_hid:false,hab_prev:false,hab_arq:false},
       sub:{ep:true,fach:true,legal:true,exec:true},
       dias:{ep:2,fach:15,legexec:10,hid:10,ele:20,est:20,prev:20,hab_hid:10,hab_prev:10,hab_arq:10},
-      v:{total:'',desc:'',parc:1,primeira:'ato'},
+      v:{total:'',desc:'',parc:1,primeira:'ato',entrada:''},
       b:Object.assign({},BANCO),
-      cd:{alt:3,altDias:15,vis:3,visValor:'200,00',visHoras:2,visAnt:5,recDe:y+'-12-18',recAte:(y+1)+'-01-11',multa:35,atraso:10,valid:10,anos:1,foro:'Florianópolis/SC'},
+      cd:{alt:3,altDias:15,vis:3,visValor:'200,00',visHoras:2,visAnt:5,recDe:y+'-12-18',recAte:(y+1)+'-01-11',recs:[],multa:35,atraso:10,valid:10,anos:1,foro:'Florianópolis/SC'},
       cs:[], naoOff:[],naoExtra:'',manual:null};
   }
   /* contratante extra (2º, 3º...): mesmos campos do principal + o cliente cadastrado dele */
@@ -5355,12 +5362,26 @@
   function contratantes(C){ return [C.c].concat(C.cs||[]); }
   function idsClientes(C){ var a=[]; [C.cliente_id].concat((C.cs||[]).map(function(x){ return x.cliente_id; })).forEach(function(id){ if(id && a.indexOf(id)<0) a.push(id); }); return a; }
   function nomesClientes(C){ return lista(contratantes(C).map(function(x){ return String(x.nome||'').trim(); })); }
-  function mesclar(d){ var c=novo(); if(!d) return c; ['numero','data','cidade','proposta','cliente_id','projeto_id','naoExtra','manual'].forEach(function(k){ if(d[k]!=null) c[k]=d[k]; }); if(Array.isArray(d.naoOff)) c.naoOff=d.naoOff.slice(); ['c','o','sv','sub','dias','v','b','cd'].forEach(function(k){ if(d[k]&&typeof d[k]==='object') Object.assign(c[k],d[k]); });
+  function mesclar(d){ var c=novo(); if(!d) return c; ['numero','data','cidade','proposta','cliente_id','projeto_id','naoExtra','manual'].forEach(function(k){ if(d[k]!=null) c[k]=d[k]; }); if(Array.isArray(d.naoOff)) c.naoOff=d.naoOff.map(function(x){ return x==='Cópias dos projetos'?'Cópias físicas dos projetos':x; }); ['c','o','sv','sub','dias','v','b','cd'].forEach(function(k){ if(d[k]&&typeof d[k]==='object') Object.assign(c[k],d[k]); });
     if(Array.isArray(d.cs)) c.cs=d.cs.map(function(x){ return Object.assign(novoCt(),x); }); return c; }
 
+  /* E = 1ª parcela (pode ser diferente das demais), X = parcelas do meio, last = última (acerta os centavos) */
   function pagar(C){ var V=r2(num(C.v.total)), d=num(C.v.desc), P=r2(V*(1-d/100)), n=Math.max(1,parseInt(C.v.parc,10)||1);
-    var X=Math.floor(P/n*100+1e-6)/100, last=r2(P-X*(n-1)); return {V:V,d:d,P:P,n:n,X:X,last:last}; }
+    var en=r2(num(C.v.entrada)), erroE=false;
+    if(n>1 && en>0 && en<P){ var X2=Math.floor((P-en)/(n-1)*100+1e-6)/100; return {V:V,d:d,P:P,n:n,E:en,X:X2,last:r2(P-en-X2*(n-2))}; }
+    if(n>1 && en>0) erroE=true;
+    var X=Math.floor(P/n*100+1e-6)/100, last=r2(P-X*(n-1)); return {V:V,d:d,P:P,n:n,E:X,X:X,last:last,erroE:erroE}; }
 
+  /* tipo de edificação na Cláusula Primeira: ", destinado à construção de ..." (vazio se não informado) */
+  function tipoObra(ob){ var q=parseInt(ob.qtd,10)||0, n=function(s,p){ return q>1?q+' ('+extF(q)+') '+p:s; }, x='';
+    switch(ob.tipo){
+      case 'res': x=n('uma residência isolada','residências isoladas'); break;
+      case 'gem': x=q>1?n('','residências geminadas'):'residências geminadas'; break;
+      case 'mfh': x='uma edificação multifamiliar horizontal'+(q?' com '+q+' ('+extF(q)+') '+(q===1?'unidade':'unidades'):''); break;
+      case 'mfv': x='uma edificação multifamiliar vertical'; break;
+      case 'com': x='uma edificação comercial'; break;
+      case 'mis': x='uma edificação de uso misto'; break; }
+    return x?', destinado à construção de '+x:''; }
   function naoItens(C){
     var algum=SV.some(function(s){ return C.sv[s.k]; }), L=[];
     if(algum) SV.forEach(function(s){ if(!C.sv[s.k] && s.nao) L.push({t:s.nao,auto:true}); });
@@ -5386,12 +5407,15 @@
     function qual(c){ var pjx=c.pessoa==='pj', loc=(t(c.bairro)?', no bairro '+esc(t(c.bairro)):'')+(t(c.cid)?', no município de '+esc(t(c.cid)):'')+(t(c.cep)?', CEP '+esc(t(c.cep)):'');
       if(pjx) return '<b>'+B(c.nome)+'</b>, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº '+B(c.doc)+', com sede em '+B(c.end)+loc+(t(c.rep)?', neste ato representada por '+esc(t(c.rep)):'');
       var q=[c.nac,c.civil,c.prof].map(t).filter(Boolean).map(esc);
-      var dc=t(c.rg)&&t(c.doc)?'portador do RG: '+esc(t(c.rg))+' e CPF '+esc(t(c.doc)):(t(c.doc)?'portador do CPF '+esc(t(c.doc)):(t(c.rg)?'portador do RG: '+esc(t(c.rg)):'portador do CPF __________'));
+      var dc=t(c.rg)&&t(c.doc)?'portador(a) do RG nº '+esc(t(c.rg))+' e do CPF nº '+esc(t(c.doc)):(t(c.doc)?'portador(a) do CPF nº '+esc(t(c.doc)):(t(c.rg)?'portador(a) do RG nº '+esc(t(c.rg)):'portador(a) do CPF nº __________'));
       return '<b>'+B(c.nome)+'</b>'+(q.length?', '+q.join(', '):'')+', residente e domiciliado(a) em '+B(c.end)+loc+', '+dc; }
     var TODOS=contratantes(C), qc;
-    if(TODOS.length===1) qc=qual(c)+(pj?', denominada':', denominado')+' <b>CONTRATANTE</b>';
-    else { var qs=TODOS.map(qual); qc=qs.slice(0,-1).join('; ')+'; e '+qs[qs.length-1]+', doravante denominados, em conjunto, simplesmente <b>CONTRATANTE</b>'; }
-    P('Por meio do presente instrumento particular de contrato que celebram entre si, de um lado '+qc+', do outro, <b>'+CONTRATADO.nome+'</b>, '+CONTRATADO.qual+', denominada <b>CONTRATADO</b>, com fundamento nas normas constantes do Código Civil Brasileiro, Código Nacional do Consumidor, Lei Federal nº 12.378/2010, Resolução nº 21 (Atribuições) e Resolução nº 1.043/2012 (Tabela de Honorários), do CREA/BR, sendo regido por essas leis e discriminado nas seguintes cláusulas.');
+    /* singular ou plural conforme o número de contratantes */
+    var PL=TODOS.length>1, K=function(s,p){ return PL?p:s; };
+    var oCT=K('o CONTRATANTE','os CONTRATANTES'), OCT=K('O CONTRATANTE','Os CONTRATANTES'), aoCT=K('ao CONTRATANTE','aos CONTRATANTES'), doCT=K('do CONTRATANTE','dos CONTRATANTES'), peloCT=K('pelo CONTRATANTE','pelos CONTRATANTES');
+    if(!PL) qc=qual(c)+(pj?', denominada':', denominado(a)')+' <b>CONTRATANTE</b>';
+    else { var qs=TODOS.map(qual); qc=qs.slice(0,-1).join('; ')+'; e '+qs[qs.length-1]+', doravante denominados, em conjunto, simplesmente <b>CONTRATANTES</b>'; }
+    P('Por meio do presente instrumento particular de contrato, celebram entre si, de um lado, '+qc+', e, de outro, <b>'+CONTRATADO.nome+'</b>, '+CONTRATADO.qual+', denominada <b>CONTRATADO</b>, com fundamento nas normas constantes do Código Civil Brasileiro, do Código de Defesa do Consumidor, da Lei Federal nº 12.378/2010, da Resolução nº 21 (Atribuições) e da Resolução nº 1.043/2012 (Tabela de Honorários), do CREA/BR, o presente contrato, que se regerá por essas normas e pelas cláusulas a seguir.');
 
     /* 1 · objeto */
     CL('OBJETO DO CONTRATO');
@@ -5401,142 +5425,146 @@
     if(habs.length) obj+=(projs.length?', além de laudo e vistoria para solicitação de ':'prestação de serviços de laudo e vistoria para solicitação de ')+lista(habs);
     if(!obj) obj='prestação de serviços de __________';
     var mu=t(ob.cid).split(','), mun='município de '+esc(t(mu[0])||'Florianópolis')+(mu.length>1&&t(mu.slice(1).join(','))?', estado de '+esc(t(mu.slice(1).join(','))):'');
-    P('O presente contrato tem por objeto a '+obj+' por parte do CONTRATADO, em um terreno localizado no <b>'+B(ob.end)+'</b>'+(t(ob.cep)?', CEP '+esc(t(ob.cep)):'')+', '+mun+(t(ob.insc)?', sob Cadastro de Inscrição Imobiliária nº <b>'+esc(t(ob.insc))+'</b>':'')+', de propriedade do Contratante, seguindo os termos e condições detalhados na cláusula segunda.');
+    P('O presente contrato tem por objeto a '+obj+' por parte do CONTRATADO, em um terreno localizado em <b>'+B(ob.end)+'</b>'+(t(ob.cep)?', CEP '+esc(t(ob.cep)):'')+', '+mun+(t(ob.insc)?', sob Cadastro de Inscrição Imobiliária nº <b>'+esc(t(ob.insc))+'</b>':'')+', de propriedade '+doCT+tipoObra(ob)+', segundo os termos e as condições detalhados na Cláusula Segunda.');
 
     /* 2 · serviços */
     CL('SERVIÇOS A SEREM PRESTADOS');
     if(sv.arq){
-      P('A elaboração do <u>projeto de arquitetura</u> consistirá na representação gráfica de desenhos visando à sua boa compreensão, conforme condições exigíveis fixadas em Norma Técnica de Representação de projetos de arquitetura – NBR 6492 – juntamente com a legislação federal, estadual e municipal vigente e cabíveis a tal projeto. A saber:');
-      if(sub.ep) LI('Desenvolvimento do Estudo Preliminar, com estudo da viabilidade do programa de necessidades e partido arquitetônico propostos nesta etapa ao CONTRATANTE, com a respectiva apreciação e aprovação por parte do mesmo. Os documentos representarão elementos construtivos de forma esquemática, níveis e medidas principais, áreas, acessos, denominação dos espaços, orientação geográfica, de forma a permitir a perfeita compreensão do funcionamento do programa e partido adotados;');
-      if(sub.fach) LI('Desenvolvimento do estudo de fachada arquitetônica é uma análise detalhada e planejada da parte externa de um edifício, que visa não apenas determinar sua aparência estética, mas também otimizar sua funcionalidade e desempenho. Envolve a seleção cuidadosa de materiais, detalhes de design e sistemas de revestimento para expressão visual atraente e coerente com a identidade do projeto, com a respectiva apreciação e aprovação por parte do CONTRATANTE;');
-      if(sub.legal) LI('Desenvolvimento do Projeto Legal. Nesta etapa serão consideradas as normas técnicas e a legislação vigente, o projeto deve receber aprovação final do cliente e dos órgãos oficiais envolvidos. Serão entregues situação, plantas, cortes e fachadas, maquete eletrônica;');
-      if(sub.exec) LI('Desenvolvimento do Projeto Executivo, considerando os projetos complementares. Nesta etapa, o projeto já foi aprovado pelo cliente e pelos órgãos oficiais envolvidos e possibilita a contratação da obra. Serão entregues situação, plantas, cortes e fachadas, maquete eletrônica finalizada. Elementos construtivos já bem caracterizados, com indicação de medidas, níveis, áreas, denominação dos compartimentos, orientação, eixos e coordenadas;');
+      P('A elaboração do <u>projeto de arquitetura</u> consistirá na representação gráfica de desenhos, visando à sua boa compreensão, conforme as condições exigíveis fixadas na norma técnica de representação de projetos de arquitetura – NBR 6492 –, juntamente com a legislação federal, estadual e municipal vigente e aplicável a tal projeto, a saber:');
+      if(sub.ep) LI('Desenvolvimento do Estudo Preliminar, com estudo da viabilidade do programa de necessidades e do partido arquitetônico propostos nesta etapa '+aoCT+', com a respectiva apreciação e aprovação por parte '+K('dele','deles')+'. Os documentos representarão os elementos construtivos de forma esquemática, os níveis e as medidas principais, as áreas, os acessos, a denominação dos espaços e a orientação geográfica, de forma a permitir a perfeita compreensão do funcionamento do programa e do partido adotados;');
+      if(sub.fach) LI('Desenvolvimento do Estudo de Fachada, que consiste em uma análise detalhada e planejada da parte externa da edificação, visando não apenas determinar sua aparência estética, mas também otimizar sua funcionalidade e seu desempenho. Envolve a seleção cuidadosa de materiais, detalhes de design e sistemas de revestimento, para uma expressão visual atraente e coerente com a identidade do projeto, com a respectiva apreciação e aprovação por parte '+doCT+';');
+      if(sub.legal) LI('Desenvolvimento do Projeto Legal. Nesta etapa, serão consideradas as normas técnicas e a legislação vigente, e o projeto deverá receber a aprovação final '+doCT+' e dos órgãos oficiais envolvidos. Serão entregues planta de situação, plantas baixas, cortes, fachadas e maquete eletrônica;');
+      if(sub.exec) LI('Desenvolvimento do Projeto Executivo, considerando os projetos complementares. Nesta etapa, o projeto já foi aprovado '+peloCT+' e pelos órgãos oficiais envolvidos, o que possibilita a contratação da obra. Serão entregues planta de situação, plantas baixas, cortes, fachadas e maquete eletrônica finalizada, com os elementos construtivos já bem caracterizados e a indicação de medidas, níveis, áreas, denominação dos compartimentos, orientação, eixos e coordenadas;');
     }
-    if(sv.hid) P('A elaboração do <u>projeto hidrossanitário</u> baseadas nas Normas da ABNT, entre elas: Instalações Prediais de Água Fria – NBR 5626; Instalações Prediais de Águas Pluviais – NBR 10844; Sistemas Prediais de Esgoto sanitário – NBR 8160; Instalações Prediais de Água Quente – NBR 7198; Projeto, construção e operação de sistemas de tanques sépticos – NBR 7229; Tanques sépticos - Unidades de tratamento complementar e disposição final dos efluentes líquidos - Projeto, construção e operação – NBR 13969; além das normas vigentes da Prefeitura Municipal, Vigilância Sanitária, CASAN e demais órgãos quando aplicáveis; no projeto hidrossanitário, os elementos de composição do sistema serão distribuídos e dimensionados previamente, configurando a instalação com os detalhes dos componentes, locação dos pontos de consumo de água (quente e fria), despejo de esgoto, captação de água pluvial, previsão dos ramais caminhamento das tubulações, especificação das espessuras dos condutores e outros, fornecendo, por fim, as plantas baixas de cada sistema com elementos gráficos representativos dos elementos integrantes, memorial de cálculo, detalhamento e especificações técnicas, esquema vertical dos sistemas e legenda, para o bom entendimento e fiel execução do sistema.');
-    if(sv.ele) P('A elaboração de <u>projeto elétrico</u> se dará com os elementos de composição do sistema de cada ambiente do imóvel serão dispostos e dimensionados previamente, definindo antecipadamente toda a instalação com seus detalhes, locação dos pontos de consumo de energia, a fragmentação dos circuitos, a especificação dos condutores, carga de cada circuito e carga total, considerando as orientações técnicas como a NBR 5410 de Instalações Elétricas de Baixa Tensão, adequações de projeto e uso proposto e fornecendo, por fim, a planta baixa elétrica com a locação gráfica dos elementos do sistema (caixas, tubulações, fiações, etc), diagramas unifilares, quadros de cargas e legenda, detalhes e demais especificações pertinentes ao projeto.');
-    if(sv.est) P('A elaboração de <u>projeto estrutural</u> objetiva dimensionar os elementos estruturais para edificar, mantendo a compatibilidade com o projeto arquitetônico afim de preservar as características estéticas e funcionais da edificação, garantindo a segurança, durabilidade e sustentabilidade da estrutura. No projeto estrutural serão dimensionados os elementos estruturais (vigas, lajes e pilares), organizando, dispondo e ordenando esses essenciais componentes, considerando o uso e parâmetros de segurança, baseado nas Normas da ABNT, entre elas: Projeto de estruturas de concreto – Procedimento – NBR 6118; Cargas para o cálculo de estruturas de edificações – NBR 6120; Projeto e execução de fundações – NBR 6122; e Ações e segurança nas estruturas – Procedimento – NBR 8681; fornecendo para execução da estrutura as plantas de forma, detalhamentos de armaduras dos elementos estruturais, cortes estruturais, locação, detalhamento das fundações rasas e blocos de coroamento e relação de aço.');
+    if(sv.hid) P('A elaboração do <u>projeto hidrossanitário</u> será baseada nas normas da ABNT, entre elas: Instalações Prediais de Água Fria – NBR 5626; Instalações Prediais de Águas Pluviais – NBR 10844; Sistemas Prediais de Esgoto Sanitário – NBR 8160; Instalações Prediais de Água Quente – NBR 7198; Projeto, construção e operação de sistemas de tanques sépticos – NBR 7229; Tanques sépticos – Unidades de tratamento complementar e disposição final dos efluentes líquidos – Projeto, construção e operação – NBR 13969; além das normas vigentes da Prefeitura Municipal, da Vigilância Sanitária, da CASAN e dos demais órgãos, quando aplicáveis. No projeto hidrossanitário, os elementos de composição do sistema serão distribuídos e dimensionados previamente, configurando a instalação com os detalhes dos componentes, a locação dos pontos de consumo de água (quente e fria), o despejo de esgoto, a captação de água pluvial, a previsão dos ramais, o caminhamento das tubulações, a especificação das espessuras dos condutores e outros, fornecendo, por fim, as plantas baixas de cada sistema com os elementos gráficos representativos dos elementos integrantes, o memorial de cálculo, o detalhamento e as especificações técnicas, o esquema vertical dos sistemas e a legenda, para o bom entendimento e a fiel execução do sistema.');
+    if(sv.ele) P('Na elaboração do <u>projeto elétrico</u>, os elementos de composição do sistema de cada ambiente do imóvel serão dispostos e dimensionados previamente, definindo antecipadamente toda a instalação com seus detalhes, a locação dos pontos de consumo de energia, a divisão dos circuitos, a especificação dos condutores, a carga de cada circuito e a carga total, considerando as orientações técnicas, como a NBR 5410 – Instalações Elétricas de Baixa Tensão, as adequações de projeto e o uso proposto, e fornecendo, por fim, a planta baixa elétrica com a locação gráfica dos elementos do sistema (caixas, tubulações, fiações etc.), os diagramas unifilares, os quadros de cargas, a legenda, os detalhes e as demais especificações pertinentes ao projeto.');
+    if(sv.est) P('A elaboração do <u>projeto estrutural</u> objetiva dimensionar os elementos estruturais da edificação, mantendo a compatibilidade com o projeto arquitetônico, a fim de preservar as características estéticas e funcionais da edificação e garantir a segurança, a durabilidade e a sustentabilidade da estrutura. No projeto estrutural, serão dimensionados os elementos estruturais (vigas, lajes e pilares), organizando, dispondo e ordenando esses componentes essenciais, considerando o uso e os parâmetros de segurança, com base nas normas da ABNT, entre elas: Projeto de estruturas de concreto – Procedimento – NBR 6118; Cargas para o cálculo de estruturas de edificações – NBR 6120; Projeto e execução de fundações – NBR 6122; e Ações e segurança nas estruturas – Procedimento – NBR 8681; fornecendo, para a execução da estrutura, as plantas de forma, os detalhamentos de armaduras dos elementos estruturais, os cortes estruturais, a locação, o detalhamento das fundações rasas e dos blocos de coroamento e a relação de aço.');
     if(sv.prev) P('A elaboração do <u>projeto preventivo</u> contra incêndio e pânico seguirá as Instruções Normativas vigentes do Corpo de Bombeiros Militar de Santa Catarina (CBMSC), com o dimensionamento e a locação dos sistemas e medidas de segurança exigidos para a edificação, fornecendo, por fim, as plantas, os detalhes e o memorial necessários à aprovação no Corpo de Bombeiros.');
-    if(sv.hab_hid) P('A elaboração do <u>Habite-se sanitário</u> objetiva fazer a vistoria final, analisando se o CONTRATANTE executou a obra de acordo com o projeto aprovado na vigilância sanitária e somente nesse caso caberá ao CONTRATADO o pedido do habite-se perante a vigilância sanitária de Florianópolis, junto com toda a documentação necessária, como ART de laudo de vistoria e relatório de condições físico e sanitária.');
-    if(sv.hab_prev) P('A elaboração do <u>Habite-se preventivo</u> objetiva fazer a vistoria final, analisando se o CONTRATANTE executou a obra de acordo com o projeto preventivo aprovado no Corpo de Bombeiros Militar de Santa Catarina e somente nesse caso caberá ao CONTRATADO o pedido do habite-se perante o Corpo de Bombeiros, junto com toda a documentação necessária, como ART de laudo de vistoria e relatório fotográfico.');
-    if(sv.hab_arq) P('A elaboração do <u>Habite-se arquitetônico</u> objetiva fazer a vistoria final, analisando se o CONTRATANTE executou a obra de acordo com o projeto aprovado na Prefeitura Municipal de Florianópolis e somente nesse caso caberá ao CONTRATADO o pedido do habite-se perante a Prefeitura Municipal de Florianópolis, junto com toda a documentação necessária, como ART de laudo de vistoria e relatório fotográfico.');
-    var comp=['Projeto de Fundações Profundas'].concat(sv.est?[]:['estruturas']).concat(sv.hid&&sv.ele?[]:['instalações']).concat(['Levantamento Topográfico','Projeto Elétrico padrão da CELESC','Projeto de Sistema de Proteção Contra Descargas Atmosféricas','etc.']);
-    PARS(['cabe ao CONTRATANTE a contratação dos projetos complementares, se necessário, não contemplados nesse contrato ('+comp.join(', ')+').']);
+    var vhab=function(){ return 'analisando se '+oCT+' '+K('executou','executaram')+' a obra de acordo com o projeto '; };
+    if(sv.hab_hid) P('A elaboração do <u>Habite-se sanitário</u> objetiva fazer a vistoria final, '+vhab()+'aprovado na Vigilância Sanitária. Somente nesse caso caberá ao CONTRATADO o pedido do habite-se perante a Vigilância Sanitária de Florianópolis, com toda a documentação necessária, como ART de laudo de vistoria e relatório de condições físico-sanitárias.');
+    if(sv.hab_prev) P('A elaboração do <u>Habite-se preventivo</u> objetiva fazer a vistoria final, '+vhab()+'preventivo aprovado no Corpo de Bombeiros Militar de Santa Catarina. Somente nesse caso caberá ao CONTRATADO o pedido do habite-se perante o Corpo de Bombeiros, com toda a documentação necessária, como ART de laudo de vistoria e relatório fotográfico.');
+    if(sv.hab_arq) P('A elaboração do <u>Habite-se arquitetônico</u> objetiva fazer a vistoria final, '+vhab()+'aprovado na Prefeitura Municipal de Florianópolis. Somente nesse caso caberá ao CONTRATADO o pedido do habite-se perante a Prefeitura Municipal de Florianópolis, com toda a documentação necessária, como ART de laudo de vistoria e relatório fotográfico.');
+    var comp=['Projeto de Fundações Profundas'].concat(sv.est?[]:['Projeto Estrutural']).concat(sv.hid&&sv.ele?[]:['Projetos de Instalações']).concat(['Levantamento Topográfico','Projeto Elétrico Padrão da CELESC','Projeto de Sistema de Proteção contra Descargas Atmosféricas etc.']);
+    PARS(['Cabe '+aoCT+' a contratação dos projetos complementares não contemplados neste contrato, quando necessários ('+comp.join(', ')+').']);
 
     /* 3 · etapas e prazos */
     CL('ETAPAS E PRAZOS DE ENTREGA');
-    P('Todos os projetos detalhados em cláusula anterior seguirão o desenvolvimento de acordo com as etapas abaixo, as quais deverão ser obrigatoriamente concluídas sequencialmente. Cada nova etapa será iniciada somente após a conclusão total de todos os ambientes integrantes do projeto, conforme o cronograma abaixo:');
+    P('Todos os projetos detalhados na cláusula anterior serão desenvolvidos de acordo com as etapas abaixo, que deverão ser concluídas obrigatoriamente em sequência. Cada nova etapa somente será iniciada após a conclusão de todos os ambientes integrantes do projeto, conforme o cronograma abaixo:');
     var et=[];
     if(sv.arq){ if(sub.ep) et.push({n:'Estudo Preliminar',k:'ep',ap:true}); if(sub.fach) et.push({n:'Estudo de Fachada',k:'fach',ap:true});
-      var le=sub.legal&&sub.exec?'Projeto Legal e executivo':(sub.legal?'Projeto Legal':(sub.exec?'Projeto Executivo':'')); if(le) et.push({n:le,k:'legexec'}); }
+      var le=sub.legal&&sub.exec?'Projeto Legal e Executivo':(sub.legal?'Projeto Legal':(sub.exec?'Projeto Executivo':'')); if(le) et.push({n:le,k:'legexec'}); }
     SV.forEach(function(s){ if(s.k!=='arq' && sv[s.k]) et.push({n:s.et,k:s.k,hab:s.hab}); });
-    var hTxt={hab_hid:'após conclusão da obra, se estiver tudo executado conforme projeto hidrossanitário aprovado',hab_prev:'após conclusão da obra, se estiver tudo executado conforme projeto preventivo aprovado',hab_arq:(sv.hab_hid?'após emissão do habite-se hidro e conclusão da obra':'após conclusão da obra')+', se estiver tudo executado conforme projeto arquitetônico aprovado'};
+    var hTxt={hab_hid:'após a conclusão da obra, se tudo estiver executado conforme o projeto hidrossanitário aprovado',hab_prev:'após a conclusão da obra, se tudo estiver executado conforme o projeto preventivo aprovado',hab_arq:(sv.hab_hid?'após a emissão do habite-se sanitário e a conclusão da obra':'após a conclusão da obra')+', se tudo estiver executado conforme o projeto arquitetônico aprovado'};
     if(!et.length) P('<b>ETAPA 1:</b> __________','et');
     et.forEach(function(e,i){ var d=parseInt(C.dias[e.k],10); d=isFinite(d)?d:0; var ant=et[i-1];
-      var quando=e.hab?hTxt[e.k]:(!ant?'após assinatura do contrato':((ant.ap?'após aprovação do ':'após conclusão do ')+ant.n.toLowerCase()));
+      var quando=e.hab?hTxt[e.k]:(!ant?'após a assinatura do contrato':((ant.ap?'após a aprovação do ':'após a conclusão do ')+ant.n.toLowerCase()));
       P('<b>ETAPA '+(i+1)+': '+esc(e.n)+'</b> - '+d+(d===1?' dia útil ':' dias úteis ')+quando+(i===et.length-1?'.':';'),'et'); });
-    var rec=C.cd.recDe&&C.cd.recAte;
-    PARS(['os prazos estarão condicionados ao período que o CONTRATANTE retém os projetos para sua apreciação e ao período em análise nos órgãos oficiais envolvidos.',
-      'cabe ao CONTRATANTE a responsabilidade ao cumprimento dos prazos por parte dos projetistas complementares.',
-      'cabe ao CONTRATADO manter o prazo estabelecido em contrato, ressalvada a ocorrência de casos fortuitos ou força maior, calamidades ou ações naturais incontroláveis, devidamente comprovados. Nesse caso, cabe ao CONTRATADO combinar com CONTRATANTE ajuste de prazo.',
-      sv.arq&&'possíveis revisões de projeto de arquitetura terão prazo estipulado em cláusula específica de revisão de projeto.',
-      rec&&'Os prazos acima serão suspensos em virtude do recesso de final de ano e férias, entre os dias '+dataLonga(C.cd.recDe)+' a '+dataLonga(C.cd.recAte)+', e caso haja recesso, informando o CONTRATANTE previamente um mês antes do início do recesso.']);
+    /* recesso / férias: o período principal + outros períodos adicionados */
+    var pers=[{de:C.cd.recDe,ate:C.cd.recAte}].concat(Array.isArray(C.cd.recs)?C.cd.recs:[]).filter(function(p){ return p&&p.de&&p.ate; }).map(function(p){ return 'de '+dataLonga(p.de)+' a '+dataLonga(p.ate); });
+    var rec=pers.length>0;
+    PARS(['Os prazos estarão condicionados ao período em que '+oCT+' '+K('retém','retêm')+' os projetos para sua apreciação, ao período de entrega da documentação necessária para a elaboração do projeto (estudo de solo, projeto de estação de tratamento e outros) e ao período de análise nos órgãos oficiais envolvidos.',
+      'Cabe '+aoCT+' a responsabilidade pelo cumprimento dos prazos por parte dos projetistas complementares.',
+      'Cabe ao CONTRATADO manter o prazo estabelecido em contrato, ressalvada a ocorrência de casos fortuitos ou de força maior, calamidades ou ações naturais incontroláveis, devidamente comprovados. Nesse caso, cabe ao CONTRATADO combinar com '+oCT+' o ajuste de prazo.',
+      sv.arq&&'Possíveis revisões do projeto de arquitetura terão o prazo estipulado na Cláusula Quarta (Alterações de Projeto).',
+      rec&&'Os prazos acima serão suspensos durante o recesso de fim de ano e férias, '+(pers.length===1?'no período ':'nos períodos ')+lista(pers)+'; havendo outro recesso, '+oCT+' '+K('será informado','serão informados')+' com um mês de antecedência do seu início.']);
 
     /* 4 · alterações */
     CL('ALTERAÇÕES DE PROJETO');
-    P('Após a aprovação final do projeto por parte do CONTRATANTE e órgãos oficiais envolvidos, o CONTRATADO não se responsabiliza por qualquer alteração ou modificação nos projetos em desacordo com o aprovado, só podendo haver alterações por parte do autor ou com seu consentimento por escrito, caso contrário, será de única e exclusiva responsabilidade do CONTRATANTE.');
+    P('Após a aprovação final do projeto por parte '+doCT+' e dos órgãos oficiais envolvidos, o CONTRATADO não se responsabiliza por qualquer alteração ou modificação nos projetos em desacordo com o aprovado, só podendo haver alterações feitas pelo autor ou com o seu consentimento por escrito; caso contrário, a responsabilidade será única e exclusiva '+doCT+'.');
     var alt=parseInt(cd.alt,10)||0, altD=parseInt(cd.altDias,10)||0;
-    PARS(['Quaisquer modificações que o CONTRATANTE desejar fazer nos projetos deverão ser comunicadas antecipadamente'+(ep?' (ainda em fase de Estudo Preliminar)':'')+' ao CONTRATADO.',
-      ep&&alt>0&&('Na eventualidade do CONTRATANTE desejar introduzir modificações ainda na fase do estudo preliminar, inclui-se a quantidade máxima de '+extF(alt)+(alt===1?' alteração':' alterações')+', sem ônus ao CONTRATANTE. O mesmo fica ciente que o prazo de alteração proposta será acrescido em '+altD+' dias úteis ao prazo de entrega previsto na Cláusula de Prazos de entrega.'),
-      'Toda e qualquer modificação ou alteração realizada após a conclusão do '+(exe?'Projeto Executivo':'projeto')+', incluindo àquelas de projetos complementares, será remunerada com base nas horas técnicas profissionais despendidas.']);
+    PARS(['Quaisquer modificações que '+oCT+' '+K('desejar','desejarem')+' fazer nos projetos deverão ser comunicadas antecipadamente'+(ep?' (ainda na fase de Estudo Preliminar)':'')+' ao CONTRATADO.',
+      ep&&alt>0&&('Na eventualidade de '+oCT+' '+K('desejar','desejarem')+' introduzir modificações ainda na fase de Estudo Preliminar, inclui-se a quantidade máxima de '+extF(alt)+(alt===1?' alteração':' alterações')+', sem ônus '+aoCT+'. '+K('O CONTRATANTE fica ciente','Os CONTRATANTES ficam cientes')+' de que o prazo da alteração proposta será acrescido em '+altD+' ('+extInt(altD)+') '+(altD===1?'dia útil':'dias úteis')+' ao prazo de entrega previsto na Cláusula Terceira (Etapas e Prazos de Entrega).'),
+      'Toda e qualquer modificação ou alteração realizada após a conclusão do '+(exe?'Projeto Executivo':'projeto')+', incluindo aquelas de projetos complementares, será remunerada com base nas horas técnicas profissionais despendidas.']);
 
     /* 5 · visitas */
     CL('VISITAS À OBRA');
     var nv=parseInt(cd.vis,10)||0, incl=sv.est&&nv>0, vv=num(cd.visValor), vh=parseInt(cd.visHoras,10)||2, va=parseInt(cd.visAnt,10)||0;
-    P('Os serviços contratados neste instrumento consistem na elaboração dos projetos descritos pelo CONTRATADO, não fazendo parte da responsabilidade do mesmo o acompanhamento da obra'+(incl?', mas há a possibilidade de agendamento de até '+nv+(nv===1?' visita':' visitas')+' durante a execução para conferência das armaduras na fase de execução do estrutural.':'.'));
-    PARS(['O CONTRATANTE poderá solicitar '+(incl?'demais ':'')+'visitas técnicas ao CONTRATADO mediante pagamento de honorário de R$ '+moeda(vv)+' ('+extReais(vv)+') por período de até '+vh+(vh===1?' hora':' horas')+' por visita.',
-      'a solicitação das visitas técnicas deverá ser agendada pelo CONTRATANTE com antecedência de '+va+' ('+extInt(va)+') dias úteis.']);
+    P('Os serviços contratados neste instrumento consistem na elaboração, pelo CONTRATADO, dos projetos descritos, não fazendo parte de sua responsabilidade o acompanhamento da obra'+(incl?'; há, porém, a possibilidade de agendamento de até '+nv+(nv===1?' visita':' visitas')+' durante a obra, para conferência das armaduras na fase de execução da estrutura.':'.'));
+    PARS([OCT+' '+K('poderá','poderão')+' solicitar '+(incl?'outras ':'')+'visitas técnicas ao CONTRATADO mediante o pagamento de honorários de R$ '+moeda(vv)+' ('+extReais(vv)+') por período de até '+vh+(vh===1?' hora':' horas')+' por visita.',
+      'A solicitação das visitas técnicas deverá ser agendada '+peloCT+' com antecedência de '+va+' ('+extInt(va)+') '+(va===1?'dia útil':'dias úteis')+'.']);
 
     /* 6 · não inclusos */
     CL('ITENS NÃO INCLUSOS NO CUSTO DO PROJETO');
-    P('A listagem abaixo reforça os itens não inclusos na contratação do objeto e, portanto, estabelece a responsabilidade dos mesmos por parte do CONTRATANTE:');
-    var nao=naoItens(C).filter(function(x){ return C.naoOff.indexOf(x.t)<0; }).map(function(x){ return esc(x.t); })
+    P('A listagem abaixo reforça os itens não inclusos na contratação do objeto, que são, portanto, de responsabilidade '+doCT+':');
+    var nao=naoItens(C).filter(function(x){ return C.naoOff.indexOf(x.t)<0; }).map(function(x){ return esc(x.t.replace(/^Desenvolvimento Projeto /,'Desenvolvimento de projeto ').replace('Proteção Contra','Proteção contra')); })
       .concat(String(C.naoExtra||'').split('\n').map(function(s){ return s.trim().replace(/[;.]$/,''); }).filter(Boolean).map(esc));
     nao.forEach(function(x,i){ LI(x+(i===nao.length-1?'.':';')); });
-    PARS(['a admissão posterior de quaisquer dos itens citados acima ao CONTRATADO será objeto de novo contrato.']);
+    PARS(['A contratação posterior de qualquer dos itens acima com o CONTRATADO será objeto de novo contrato.']);
 
     /* 7 · honorários */
     CL('HONORÁRIOS E CONDIÇÕES DE PAGAMENTO');
     var pg=pagar(C), ato=C.v.primeira!=='30';
-    if(pg.d>0) P('Pela elaboração dos serviços ora contratados o CONTRATANTE pagará ao CONTRATADO o valor total de <b>R$ '+moeda(pg.V)+'</b> ('+extReais(pg.V)+'), sendo acordado entre as partes, que o pagamento com prazo e condição de pagamento estabelecida abaixo garante o desconto, estipulando o valor total a ser pago de <b>R$ '+moeda(pg.P)+'</b> ('+extReais(pg.P)+').');
-    else P('Pela elaboração dos serviços ora contratados o CONTRATANTE pagará ao CONTRATADO o valor total de <b>R$ '+moeda(pg.V)+'</b> ('+extReais(pg.V)+'), conforme a condição de pagamento estabelecida abaixo.');
-    if(pg.n===1) P('<b>Parcela única</b> no valor de <b>R$ '+moeda(pg.P)+'</b> ('+extReais(pg.P)+') a ser paga '+(ato?'no ato da assinatura deste contrato.':'em até 30 (trinta) dias após a assinatura deste contrato.'));
-    else P('<b>'+pg.n+' ('+extF(pg.n)+') parcelas</b> mensais no valor de <b>R$ '+moeda(pg.X)+'</b> ('+extReais(pg.X)+') cada'+(pg.last!==pg.X?', sendo a última no valor de <b>R$ '+moeda(pg.last)+'</b> ('+extReais(pg.last)+')':'')+', a primeira paga '+(ato?'no ato da assinatura deste contrato':'em até 30 (trinta) dias após a assinatura deste contrato')+' e as demais a cada 30 (trinta) dias.');
-    PARS([pg.d>0&&'Caso os prazos estabelecidos sejam descumpridos, o CONTRATANTE deve pagar o valor total sem o desconto.',
-      'O pagamento deverá ser realizado mediante transferência bancária, depósito em conta ou pagamento em moeda corrente, até cinco dias corridos após o prazo estipulado, na conta abaixo:']);
+    if(pg.d>0) P('Pela elaboração dos serviços ora contratados, '+oCT+' '+K('pagará','pagarão')+' ao CONTRATADO o valor total de <b>R$ '+moeda(pg.V)+'</b> ('+extReais(pg.V)+'), sendo acordado entre as partes que o pagamento no prazo e nas condições estabelecidas abaixo garante o desconto, resultando no valor total a ser pago de <b>R$ '+moeda(pg.P)+'</b> ('+extReais(pg.P)+').');
+    else P('Pela elaboração dos serviços ora contratados, '+oCT+' '+K('pagará','pagarão')+' ao CONTRATADO o valor total de <b>R$ '+moeda(pg.V)+'</b> ('+extReais(pg.V)+'), conforme as condições de pagamento estabelecidas abaixo.');
+    if(pg.n===1) P('<b>Parcela única</b> no valor de <b>R$ '+moeda(pg.P)+'</b> ('+extReais(pg.P)+'), a ser paga '+(ato?'no ato da assinatura deste contrato.':'em até 30 (trinta) dias após a assinatura deste contrato.'));
+    else for(var k=1;k<=pg.n;k++){ var vk=k===1?pg.E:(k===pg.n?pg.last:pg.X);
+      P('<b>'+k+'ª parcela</b> no valor de <b>R$ '+moeda(vk)+'</b> ('+extReais(vk)+'), a ser paga '+(k===1?(ato?'no ato da assinatura deste contrato':'em até 30 (trinta) dias após a assinatura deste contrato'):'após '+(30*(k-1))+' dias corridos do pagamento da primeira parcela')+'.','li2'); }
+    PARS([pg.d>0&&'Caso os prazos estabelecidos sejam descumpridos, '+oCT+' '+K('deverá','deverão')+' pagar o valor total sem o desconto.',
+      'O pagamento deverá ser realizado mediante transferência bancária, depósito em conta ou pagamento em moeda corrente, em até 5 (cinco) dias corridos após o prazo estipulado, na conta abaixo:']);
     var b=C.b; [[b.banco,''],[b.ag,'Agência: '],[b.conta,'Conta: '],[b.cnpj,'CNPJ: '],[b.pix,'PIX: ']].forEach(function(x){ if(t(x[0])) P(x[1]+esc(t(x[0])),'bk'); });
 
     /* 8 · disposições gerais */
     CL('DISPOSIÇÕES GERAIS');
-    P('Fica acordado entre as partes conforme parágrafos abaixo:');
-    PARS(['Atrasos de qualquer ordem de responsabilidade do CONTRATANTE serão computados como acréscimo no prazo de entrega do serviço.',
-      'Fica assegurado ao CONTRATADO o direito de ser comunicado por escrito pelo CONTRATANTE acerca do início da obra, bem como datas previstas de conteúdo de visita técnica.',
-      'Fica o CONTRATANTE ciente de que as etapas de elaboração de projeto só terão início após a assinatura do presente contrato, com assinatura digital válida e comprovação de pagamento da primeira parcela.',
-      'O CONTRATADO disponibiliza sugestões de fornecedores, mas não se responsabiliza pelo serviço prestado deles.',
-      'Fica pactuada a total inexistência de vínculo trabalhista, fiscal, previdenciária, tributária, entre as partes, excluindo as obrigações previdenciárias e os encargos sociais, não havendo entre CONTRATANTE e CONTRATADO e seus funcionários qualquer tipo de relação de subordinação.',
+    P('Fica acordado entre as partes o disposto nos parágrafos abaixo:');
+    PARS(['Atrasos de qualquer ordem de responsabilidade '+doCT+' serão computados como acréscimo no prazo de entrega do serviço.',
+      'Fica assegurado ao CONTRATADO o direito de ser comunicado por escrito '+peloCT+' acerca do início da obra, bem como das datas previstas para as visitas técnicas.',
+      K('Fica o CONTRATANTE ciente','Ficam os CONTRATANTES cientes')+' de que as etapas de elaboração do projeto só terão início após a assinatura do presente contrato, com assinatura digital válida, e a comprovação do pagamento da primeira parcela.',
+      'O CONTRATADO disponibiliza sugestões de fornecedores, mas não se responsabiliza pelos serviços prestados por eles.',
+      'Fica pactuada a total inexistência de vínculo trabalhista, fiscal, previdenciário ou tributário entre as partes, excluindo as obrigações previdenciárias e os encargos sociais, não havendo entre '+oCT+', o CONTRATADO e seus funcionários qualquer tipo de relação de subordinação.',
       'A mera tolerância de uma das partes em relação ao cumprimento das obrigações determinadas neste contrato não importa em renúncia, perdão, novação ou alteração da norma infringida.',
-      'Sempre que houver a atuação de advogado para cobrança de obrigações não cumpridas, que sejam devidas por uma parte a outra por força deste contrato, a parte inadimplente estará sujeita a pagar a outra 20% (vinte por cento), sobre o valor cobrado independente da quantia fixada pelo juízo a título de honorários sucumbenciais, e de 10% (dez por cento) em caso de intervenção extrajudicial.',
-      'Qualquer matéria de publicidade ou propaganda com imagens gráficas e/ou fotográficas, relacionada com o produto do presente instrumento, deverá fazer menção destacada do nome do CONTRATADO, autor do projeto de arquitetura de interiores.',
-      'Fica autorizado pelo CONTRATANTE, a captação de imagens gráficas e/ou fotográficas para matéria de publicidade ou propaganda, relacionada com o produto do presente instrumento, pelo CONTRATADO, autor do projeto de arquitetura de interiores.',
-      'Visando à desoneração, simplicidade e efetividade desta relação jurídica, as partes, desde já, ajustam que avisos, notificações, intimações e/ou citações referentes a este contrato deverão ser enviados/recebidos pelo endereço eletrônico <b>'+esc(CONTRATADO.email)+'</b> do CONTRATADO e '+(TODOS.length===1?'<b>'+B(c.email)+'</b>':lista(TODOS.map(function(x){ return '<b>'+B(x.email)+'</b>'; })))+' do CONTRATANTE.',
-      'Para fins de cumprimento do inciso I do Art. 7º da LGPD, o CONTRATANTE declara expresso CONSENTIMENTO com a coleta, tratamento e compartilhamento de seus dados pessoais, pelo CONTRATADO, necessários ao cumprimento do contrato e de obrigações legais relacionadas ao mesmo.',
-      'As partes avençam que toda informação disponibilizada entre elas em razão do desempenho do presente instrumento, incluindo, dentre outras, informação oral e, ou escrita, transmitida e, ou divulgada pelas partes, será considerada confidencial e restrita.',
-      'As informações confidenciais reveladas por quaisquer das partes deverão ser guardadas em segredo, não devendo ser reveladas a terceiros ou utilizadas para fins diversos aos de interesse do presente contrato, sem a devida autorização por escrito. Em caso de qualquer falha na segurança das informações confidenciais, a parte que constatar tal falha deverá comunicar imediatamente a outra. A pronta comunicação não exclui, entretanto, a responsabilidade pelo defeito na proteção de dados sigilosos.']);
+      'Sempre que houver a atuação de advogado para a cobrança de obrigações não cumpridas, devidas por uma parte à outra por força deste contrato, a parte inadimplente estará sujeita a pagar à outra 20% (vinte por cento) sobre o valor cobrado, independentemente da quantia fixada pelo juízo a título de honorários sucumbenciais, e 10% (dez por cento) em caso de intervenção extrajudicial.',
+      'Qualquer matéria de publicidade ou propaganda com imagens gráficas e/ou fotográficas relacionadas ao produto do presente instrumento deverá fazer menção destacada ao nome do CONTRATADO, autor do projeto.',
+      'Fica autorizada '+peloCT+' a captação de imagens gráficas e/ou fotográficas pelo CONTRATADO, autor do projeto, para matéria de publicidade ou propaganda relacionada ao produto do presente instrumento.',
+      'Visando à desoneração, à simplicidade e à efetividade desta relação jurídica, as partes, desde já, ajustam que avisos, notificações, intimações e/ou citações referentes a este contrato deverão ser enviados e recebidos pelo endereço eletrônico <b>'+esc(CONTRATADO.email)+'</b> do CONTRATADO e '+(PL?'pelos endereços eletrônicos '+lista(TODOS.map(function(x){ return '<b>'+B(x.email)+'</b>'; }))+' dos CONTRATANTES.':'pelo endereço eletrônico <b>'+B(c.email)+'</b> do CONTRATANTE.'),
+      'Para fins de cumprimento do inciso I do art. 7º da LGPD, '+oCT+' '+K('declara','declaram')+' expresso CONSENTIMENTO com a coleta, o tratamento e o compartilhamento de seus dados pessoais pelo CONTRATADO, necessários ao cumprimento do contrato e das obrigações legais a ele relacionadas.',
+      'As partes avençam que toda informação disponibilizada entre elas em razão do desempenho do presente instrumento, incluindo, dentre outras, informação oral e/ou escrita, transmitida e/ou divulgada pelas partes, será considerada confidencial e restrita.',
+      'As informações confidenciais reveladas por qualquer das partes deverão ser guardadas em segredo, não devendo ser reveladas a terceiros ou utilizadas para fins diversos dos de interesse do presente contrato sem a devida autorização por escrito. Em caso de qualquer falha na segurança das informações confidenciais, a parte que constatar tal falha deverá comunicá-la imediatamente à outra. A pronta comunicação não exclui, entretanto, a responsabilidade pela falha na proteção dos dados sigilosos.']);
 
     /* 9 · responsabilidades do contratante */
-    CL('RESPONSABILIDADES DO CONTRATANTE');
-    P('É de responsabilidade do CONTRATANTE efetuar e arcar com a contratação e fornecimento ao CONTRATADO dos projetos complementares, levantamento topográfico, documentos e laudos necessários à boa elaboração dos projetos arquitetônico e complementares, bem como efetuar os pagamentos conforme descrito em contrato.');
-    PARS(['O levantamento topográfico do lote (área da construção) será de responsabilidade de profissional topógrafo, devidamente contratado pela parte CONTRATANTE, e deverá ser disponibilizado em formato DWG ao CONTRATADO sem ônus.',
-      sv.est&&'Para a elaboração do projeto estrutural é necessário fazer a sondagem do terreno, feita por uma empresa terceirizada a ser contratada pelo CONTRATANTE e disponibilizada ao CONTRATADO sem ônus.',
-      'É de responsabilidade do CONTRATANTE fornecer todos os documentos solicitados pelos órgãos oficiais envolvidos para a aprovação dos projetos, além de arcar com os custos dos mesmos.',
-      sv.hid&&'Para a elaboração e aprovação do projeto hidrossanitário quando necessário, fazer a sondagem do terreno e teste de percolação, feita por uma empresa terceirizada a ser contratada pelo CONTRATANTE e disponibilizada ao CONTRATADO sem ônus, bem como projeto de estação de tratamento de esgoto e os pedidos de viabilidade de água e viabilidade de esgoto.']);
-    P('É de responsabilidade do CONTRATANTE efetuar o pagamento e arcar com quaisquer taxas geradas pelos órgãos responsáveis pelas aprovações de projetos referente a qualquer parte do trâmite dos mesmos.');
-    P('É de responsabilidade do CONTRATANTE toda e quaisquer ônus em consequências advindas do início da obra sem alvará de construção.');
+    CL(K('RESPONSABILIDADES DO CONTRATANTE','RESPONSABILIDADES DOS CONTRATANTES'));
+    P('É de responsabilidade '+doCT+' contratar, custear e fornecer ao CONTRATADO os projetos complementares, o levantamento topográfico, os documentos e os laudos necessários à boa elaboração dos projetos arquitetônico e complementares, bem como efetuar os pagamentos conforme descrito neste contrato.');
+    PARS(['O levantamento topográfico do lote (área da construção) será de responsabilidade de profissional topógrafo, devidamente contratado '+peloCT+', e deverá ser disponibilizado ao CONTRATADO em formato DWG, sem ônus.',
+      sv.est&&'Para a elaboração do projeto estrutural, é necessária a sondagem do terreno, feita por empresa terceirizada a ser contratada '+peloCT+' e disponibilizada ao CONTRATADO sem ônus.',
+      'É de responsabilidade '+doCT+' fornecer todos os documentos solicitados pelos órgãos oficiais envolvidos para a aprovação dos projetos, além de arcar com os respectivos custos.',
+      sv.hid&&'Para a elaboração e a aprovação do projeto hidrossanitário, quando necessários, a sondagem do terreno e o teste de percolação deverão ser feitos por empresa terceirizada a ser contratada '+peloCT+' e disponibilizados ao CONTRATADO sem ônus, assim como o projeto de estação de tratamento de esgoto e os pedidos de viabilidade de água e de esgoto.']);
+    P('É de responsabilidade '+doCT+' efetuar o pagamento de quaisquer taxas geradas pelos órgãos responsáveis pelas aprovações dos projetos, referentes a qualquer parte do trâmite.');
+    P('É de responsabilidade '+doCT+' todo e qualquer ônus decorrente do início da obra sem alvará de construção.');
     var hb=[['hab_hid','sanitário'],['hab_prev','preventivo'],['hab_arq','arquitetônico']].filter(function(x){ return sv[x[0]]; }).map(function(x){ return x[1]; });
-    if(hb.length) P('É de responsabilidade do CONTRATANTE executar o projeto de acordo com a aprovação, caso contrário o CONTRATADO está isento de solicitar o habite-se '+lista(hb)+', com respaldo da incompatibilidade do projeto aprovado com a execução, sendo de responsabilidade do CONTRATANTE a adequação dos sistemas e o comprometimento com qualquer ônus advindo desta situação.');
-    P('Os serviços e as informações técnicas específicas utilizadas na concepção do projeto deverão ser utilizados única e exclusivamente para o fim estabelecido neste instrumento, bem como a localidade definida no mesmo, não podendo o CONTRATANTE utilizá-los para outros projetos que por ventura se desenvolvam paralela ou futuramente.');
-    P('Os serviços propostos serão suscetíveis de proteção aos direitos autorais reservados com reprodução total ou parcial proibida conforme consta na forma da legislação.');
+    if(hb.length) P('É de responsabilidade '+doCT+' executar a obra de acordo com o projeto aprovado; caso contrário, o CONTRATADO fica isento de solicitar o habite-se '+lista(hb)+', com respaldo na incompatibilidade entre o projeto aprovado e a execução, sendo de responsabilidade '+doCT+' a adequação dos sistemas e qualquer ônus advindo dessa situação.');
+    P('Os serviços e as informações técnicas específicas utilizados na concepção do projeto deverão ser utilizados única e exclusivamente para o fim estabelecido neste instrumento e para a localidade nele definida, não podendo '+oCT+' utilizá-los em outros projetos que porventura se desenvolvam paralela ou futuramente.');
+    P('Os serviços propostos estão protegidos pelos direitos autorais, sendo proibida a sua reprodução total ou parcial, na forma da legislação.');
 
     /* 10 · responsabilidades do contratado */
     CL('RESPONSABILIDADES DO CONTRATADO');
-    P('É de responsabilidade única do CONTRATADO a execução dos serviços descritos no objeto do contrato e cumprimento dos prazos estabelecidos.');
+    P('É de responsabilidade única do CONTRATADO a execução dos serviços descritos no objeto do contrato e o cumprimento dos prazos estabelecidos.');
     P('O CONTRATADO se responsabiliza tecnicamente pelos serviços prestados, obrigando-se a corrigir quaisquer erros constatados.');
-    P('É de responsabilidade do CONTRATADO efetuar as devidas aprovações de projeto em órgãos oficiais envolvidos, condicionado ao CONTRATANTE fornecer todos os documentos solicitados por tais órgãos e arcar com os custos dos mesmos.');
-    P('O CONTRATADO obriga-se a manter sigilo acerca de quaisquer informações, materiais, documentos, especificações técnicas, projetos, croquis, orçamentos ou quaisquer dados ou informações gerais que, em razão do presente contrato, venham a ter acesso ou conhecimento.');
+    P('É de responsabilidade do CONTRATADO efetuar as devidas aprovações do projeto nos órgãos oficiais envolvidos, desde que '+oCT+' '+K('forneça','forneçam')+' todos os documentos solicitados por tais órgãos e '+K('arque','arquem')+' com os respectivos custos.');
+    P('O CONTRATADO obriga-se a manter sigilo acerca de quaisquer informações, materiais, documentos, especificações técnicas, projetos, croquis, orçamentos ou quaisquer dados ou informações gerais a que, em razão do presente contrato, venha a ter acesso ou conhecimento.');
 
     /* 11 · rescisão */
     CL('DESCUMPRIMENTO E RESCISÃO');
-    P('Em caso de cancelamento dos serviços contratados por parte do CONTRATANTE em qualquer das etapas de projeto, o mesmo não terá direito a reembolso de valores já pagos ao CONTRATADO, ciente ainda que arcará com o pagamento do valor integral das etapas concluídas no momento da solicitação.');
-    P('Por rescisão deste contrato por qualquer das partes, fica convencionada multa de '+pct(cd.multa)+' do valor global.');
-    P('Atraso no pagamento de qualquer parcela acarretará na cobrança de multa de '+pct(cd.atraso)+' do valor a ser pago.');
+    P('Em caso de cancelamento dos serviços contratados por parte '+doCT+', em qualquer das etapas de projeto, '+K('este não terá','estes não terão')+' direito a reembolso dos valores já pagos ao CONTRATADO, '+K('ciente','cientes')+', ainda, de que '+K('arcará','arcarão')+' com o pagamento do valor integral das etapas concluídas no momento da solicitação.');
+    P('Em caso de rescisão deste contrato por qualquer das partes, fica convencionada multa de '+pct(cd.multa)+' sobre o valor global.');
+    P('O atraso no pagamento de qualquer parcela acarretará a cobrança de multa de '+pct(cd.atraso)+' sobre o valor a ser pago.');
 
     /* 12 · validade */
     CL('VALIDADE DA PROPOSTA CONTRATUAL');
     var vd=parseInt(cd.valid,10)||10;
-    P('Esta proposta contratual tem validade de '+vd+' dias úteis, caso aprovado terá validade a partir da assinatura deste documento até a entrega final do objeto contratual.');
+    P('Esta proposta contratual tem validade de '+vd+' dias úteis; caso aprovada, terá validade a partir da assinatura deste documento até a entrega final do objeto contratual.');
 
     /* 13 · finalização */
     CL('FINALIZAÇÃO DO CONTRATO');
     var an=parseInt(cd.anos,10)||1, anT=an===1?'um ano':extInt(an)+' anos';
-    P('As partes concordam que todos os serviços a serem prestados serão realizados dentro de um período de até '+anT+' a partir da data de início do contrato. Qualquer serviço que não tenha sido concluído dentro deste prazo será considerado automaticamente finalizado e entregue, salvo acordo escrito em contrário entre as partes.');
+    P('As partes concordam que todos os serviços a serem prestados serão realizados dentro de um período de até '+anT+' a partir da data de início do contrato. Qualquer serviço que não tenha sido concluído dentro desse prazo será considerado automaticamente finalizado e entregue, salvo acordo escrito em contrário entre as partes.');
     P('<b>Disposições Adicionais:</b>','kw');
-    P('<b>1. Prazo de Conclusão:</b> O CONTRATADO se compromete a concluir todos os serviços contratados dentro do prazo de '+anT+' a partir da data de início deste contrato se não houver impedimentos gerados pelo CONTRATANTE ou Órgãos competentes pela análise de projeto.','li2');
-    P('<b>2. Notificação de Conclusão:</b> O CONTRATANTE deverá notificar o CONTRATADO por escrito assim que qualquer serviço for concluído e estiver pronto para entrega.','li2');
-    P('<b>3. Encerramento do Contrato:</b> Após a conclusão de todos os serviços ou ao final do prazo de '+anT+', o contrato será considerado automaticamente encerrado e todas as obrigações das partes serão consideradas cumpridas, a menos que haja uma extensão acordada por escrito entre as partes.','li2');
+    P('<b>1. Prazo de Conclusão:</b> O CONTRATADO se compromete a concluir todos os serviços contratados dentro do prazo de '+anT+' a partir da data de início deste contrato, se não houver impedimentos gerados '+peloCT+' ou pelos órgãos competentes pela análise do projeto.','li2');
+    P('<b>2. Notificação de Conclusão:</b> '+OCT+' '+K('deverá','deverão')+' notificar o CONTRATADO por escrito assim que qualquer serviço for concluído e estiver pronto para entrega.','li2');
+    P('<b>3. Encerramento do Contrato:</b> Após a conclusão de todos os serviços ou ao final do prazo de '+anT+', o contrato será considerado automaticamente encerrado e todas as obrigações das partes serão consideradas cumpridas, a menos que haja uma prorrogação acordada por escrito entre as partes.','li2');
 
     /* 14 · foro */
     CL('FORO DE ELEIÇÃO');
-    P('Fica eleito o Fórum da cidade de '+B(cd.foro,'Florianópolis/SC')+' como o competente para dirimir eventuais dúvidas oriundas deste instrumento ou ajuizamento de qualquer questão dele decorrentes.');
-    P('E por estarem assim, justos e contratados, firmam o presente em via digital, assinada digitalmente com assinatura válida, de igual teor e forma, assinados abaixo.');
+    P('Fica eleito o Foro da Comarca de '+B(cd.foro,'Florianópolis/SC')+' como competente para dirimir eventuais dúvidas oriundas deste instrumento ou para o ajuizamento de qualquer questão dele decorrente.');
+    P('E, por estarem assim justos e contratados, firmam o presente instrumento em via digital, assinado digitalmente com assinatura válida, de igual teor e forma.');
     TODOS.forEach(function(x){ var pjx=x.pessoa==='pj';
       o.push('<div class="ass"><p><b>CONTRATANTE:</b></p><p class="ln">_______________________________________________________</p><p><b>'+B(x.nome)+'</b></p><p>'+(pjx?'CNPJ ':'CPF ')+B(x.doc)+'</p>'+(pjx&&t(x.rep)?'<p>Representante: '+esc(t(x.rep))+'</p>':'')+'</div>'); });
     o.push('<div class="ass"><p><b>CONTRATADO:</b></p><p class="ln">_______________________________________________________</p><p><b>'+CONTRATADO.nome+'</b></p><p><b>CPF: '+CONTRATADO.cpf+'</b></p></div>');
@@ -5653,7 +5681,7 @@
 
   /* ---------- editor ---------- */
   var CAMPOS=[['ct-numero','numero'],['ct-data','data'],['ct-cidade','cidade'],['ct-pessoa','c.pessoa'],['ct-c-nome','c.nome'],['ct-c-nac','c.nac'],['ct-c-civil','c.civil'],['ct-c-prof','c.prof'],['ct-c-rg','c.rg'],['ct-c-doc','c.doc'],['ct-c-rep','c.rep'],['ct-c-end','c.end'],['ct-c-bairro','c.bairro'],['ct-c-cid','c.cid'],['ct-c-cep','c.cep'],['ct-c-email','c.email'],
-    ['ct-o-end','o.end'],['ct-o-cep','o.cep'],['ct-o-cid','o.cid'],['ct-o-insc','o.insc'],['ct-valor','v.total'],['ct-desc','v.desc'],['ct-parc','v.parc'],['ct-1parc','v.primeira'],
+    ['ct-o-end','o.end'],['ct-o-cep','o.cep'],['ct-o-cid','o.cid'],['ct-o-insc','o.insc'],['ct-o-tipo','o.tipo'],['ct-o-qtd','o.qtd'],['ct-valor','v.total'],['ct-desc','v.desc'],['ct-parc','v.parc'],['ct-1parc','v.primeira'],['ct-entrada','v.entrada'],
     ['ct-b-banco','b.banco'],['ct-b-ag','b.ag'],['ct-b-conta','b.conta'],['ct-b-cnpj','b.cnpj'],['ct-b-pix','b.pix'],
     ['ct-alt','cd.alt'],['ct-alt-dias','cd.altDias'],['ct-vis','cd.vis'],['ct-vis-valor','cd.visValor'],['ct-vis-horas','cd.visHoras'],['ct-vis-ant','cd.visAnt'],['ct-rec-de','cd.recDe'],['ct-rec-ate','cd.recAte'],['ct-multa','cd.multa'],['ct-atraso','cd.atraso'],['ct-valid','cd.valid'],['ct-anos','cd.anos'],['ct-foro','cd.foro'],['ct-nao-extra','naoExtra']];
   function pega(p){ var o=CUR; p.split('.').forEach(function(k){ o=o==null?'':o[k]; }); return o==null?'':o; }
@@ -5661,8 +5689,17 @@
   function preencher(){
     CAMPOS.forEach(function(c){ var el=$(c[0]); if(el) el.value=pega(c[1]); });
     opcoesSelects(); $('ct-cliente').value=CUR.cliente_id||''; $('ct-projeto').value=CUR.projeto_id||''; $('ct-proposta').value=CUR.proposta||'';
-    renderExtras(); renderServs(); renderNao(); visibilidade(); botoes();
+    renderExtras(); renderRecs(); renderServs(); renderNao(); visibilidade(); botoes();
   }
+  /* ---------- outros períodos de recesso / férias ---------- */
+  function renderRecs(){ var box=$('ct-recs'); if(!box) return; box.innerHTML='';
+    (CUR.cd.recs||[]).forEach(function(p,i){ var d=document.createElement('div'); d.className='ct-rec-l'; d.dataset.i=i;
+      d.innerHTML='<div class="field"><label>Outro período: de</label><input type="date" data-r="de" value="'+esc(p.de||'')+'"></div><div class="field"><label>até</label><input type="date" data-r="ate" value="'+esc(p.ate||'')+'"></div><button type="button" class="ct-extra-del" data-r="del">remover</button>';
+      box.appendChild(d); }); }
+  $('ct-recs').addEventListener('input',function(e){ var k=e.target.dataset.r, l=e.target.closest('.ct-rec-l'); if(!CUR||!l||(k!=='de'&&k!=='ate')) return; CUR.cd.recs[+l.dataset.i][k]=e.target.value; mudou(); });
+  $('ct-recs').addEventListener('click',function(e){ var b=e.target.closest('[data-r="del"]'), l=e.target.closest('.ct-rec-l'); if(!CUR||!b||!l) return; CUR.cd.recs.splice(+l.dataset.i,1); renderRecs(); mudou(); });
+  $('ct-add-rec').addEventListener('click',function(){ if(!CUR) return; if(!Array.isArray(CUR.cd.recs)) CUR.cd.recs=[]; CUR.cd.recs.push({de:'',ate:''}); renderRecs(); mudou();
+    var s=$('ct-recs').querySelectorAll('input[data-r="de"]'); if(s.length) s[s.length-1].focus(); });
   /* ---------- outros contratantes (2º, 3º...) ---------- */
   var EX_CAMPOS=[['nome','Nome / razão social','full'],['nac','Nacionalidade','pf'],['civil','Estado civil','pf'],['prof','Profissão','pf'],['rg','RG','pf'],['doc','CPF',''],['rep','Representante legal','pj'],['end','Endereço (rua, nº, complemento)','full'],['bairro','Bairro',''],['cid','Município / UF',''],['cep','CEP',''],['email','E-mail (notificações)','']];
   function renderExtras(){
@@ -5694,8 +5731,9 @@
     view.querySelectorAll('.ct-pf').forEach(function(e){ e.hidden=pj; }); view.querySelectorAll('.ct-pj').forEach(function(e){ e.hidden=!pj; });
     $('ct-c-doc-l').textContent=pj?'CNPJ':'CPF';
     view.querySelectorAll('.ct-so-est').forEach(function(e){ e.hidden=!CUR.sv.est; });
-    var pg=pagar(CUR), r=$('ct-resumo');
-    if(r) r.innerHTML=pg.V?('Valor total <b>R$ '+moeda(pg.V)+'</b>'+(pg.d>0?' · desconto de '+String(pg.d).replace('.',',')+'% → a pagar <b>R$ '+moeda(pg.P)+'</b>':'')+'<br>'+(pg.n===1?'Parcela única de <b>R$ '+moeda(pg.P)+'</b>':pg.n+' parcelas de <b>R$ '+moeda(pg.X)+'</b>'+(pg.last!==pg.X?' (a última de R$ '+moeda(pg.last)+')':''))+' · 1ª '+(CUR.v.primeira==='30'?'em 30 dias':'no ato da assinatura')):'Informe o valor total (ou escolha a proposta).';
+    var qf=$('ct-o-qtd-f'); if(qf) qf.hidden=['res','gem','mfh'].indexOf(CUR.o.tipo||'')<0;
+    var pg=pagar(CUR), r=$('ct-resumo'), ef=$('ct-entrada-f'); if(ef) ef.hidden=pg.n<2;
+    if(r) r.innerHTML=pg.V?('Valor total <b>R$ '+moeda(pg.V)+'</b>'+(pg.d>0?' · desconto de '+String(pg.d).replace('.',',')+'% → a pagar <b>R$ '+moeda(pg.P)+'</b>':'')+'<br>'+(pg.n===1?'Parcela única de <b>R$ '+moeda(pg.P)+'</b>':(pg.E!==pg.X?'1ª parcela de <b>R$ '+moeda(pg.E)+'</b> + '+(pg.n-1)+' de <b>R$ '+moeda(pg.X)+'</b>':pg.n+' parcelas de <b>R$ '+moeda(pg.X)+'</b>')+(pg.last!==pg.X?' (a última de R$ '+moeda(pg.last)+')':''))+' · 1ª '+(CUR.v.primeira==='30'?'em 30 dias':'no ato da assinatura')+(pg.erroE?'<br><span style="color:var(--red,#AA564A)">O valor da 1ª parcela precisa ser menor que o total a pagar — usando parcelas iguais.</span>':'')):'Informe o valor total (ou escolha a proposta).';
   }
   function botoes(){
     var ok=CUR.status==='confirmado';
@@ -5740,7 +5778,7 @@
       l.querySelector('input').addEventListener('change',function(){ var i=CUR.naoOff.indexOf(it.t); if(this.checked){ if(i>=0) CUR.naoOff.splice(i,1); } else if(i<0) CUR.naoOff.push(it.t); mudou(); });
       box.appendChild(l); });
   }
-  CAMPOS.forEach(function(c){ var el=$(c[0]); if(!el) return; var upd=function(){ if(!CUR) return; poe(c[1],el.value); if(c[1]==='c.pessoa'||c[1].indexOf('v.')===0) visibilidade(); mudou(); }; el.addEventListener('input',upd); el.addEventListener('change',upd); });
+  CAMPOS.forEach(function(c){ var el=$(c[0]); if(!el) return; var upd=function(){ if(!CUR) return; poe(c[1],el.value); if(c[1]==='c.pessoa'||c[1]==='o.tipo'||c[1].indexOf('v.')===0) visibilidade(); mudou(); }; el.addEventListener('input',upd); el.addEventListener('change',upd); });
 
   $('ct-cliente').addEventListener('change',function(){ var cl=CLIENTES.filter(function(c){ return String(c.id)===this.value; },this)[0]; if(cl) aplicarCliente(cl); else { CUR.cliente_id=''; } preencher(); mudou(); });
   $('ct-projeto').addEventListener('change',function(){ var p=PROJETOS.filter(function(x){ return String(x.id)===this.value; },this)[0]; if(p) aplicarProjeto(p); else CUR.projeto_id=''; preencher(); mudou(); });
