@@ -26,6 +26,8 @@
   .mark .wm{font-family:var(--sans);font-weight:400;font-size:clamp(30px,3.4vw,40px);letter-spacing:.14em;line-height:1;white-space:nowrap}
   /* em janelas médias o nome não pode quebrar em duas linhas (o subtítulo acompanha a largura dele) */
   @media(min-width:821px){.mark{padding-left:clamp(28px,4vw,64px);padding-right:clamp(28px,4vw,64px)} .mark .wm{font-size:clamp(28px,3.4vw,40px)}}
+  .mark{align-items:center} /* marca sempre centralizada na faixa escura */
+  .mark .mk{display:flex;flex-direction:column;align-items:flex-start;max-width:100%}
   .mark .tg{font-family:var(--sans);font-weight:300;font-size:13px;letter-spacing:.34em;color:#9a9895;margin-top:12px;text-transform:lowercase}
 
   /* lado formulário */
@@ -75,8 +77,10 @@
 </head>
 <body>
   <aside class="mark">
-    <div class="wm">ISYS MATTOS</div>
-    <div class="tg">engenharia . arquitetura</div>
+    <div class="mk">
+      <div class="wm">ISYS MATTOS</div>
+      <div class="tg">engenharia . arquitetura</div>
+    </div>
   </aside>
 
   <main class="panel">
@@ -226,6 +230,8 @@
         ls+=(alvo-real)/vaos; tg.style.letterSpacing=ls+'px';
       }
       tg.style.marginLeft=(wmE-tgE)+'px';            // alinha também a borda esquerda
+      /* centro visual: desconta o espaçamento que sobra depois da última letra */
+      var mk=wm.parentNode; if(mk && mk.classList.contains('mk')){ var W=mk.getBoundingClientRect().width; mk.style.transform='translateX('+(W/2-(wmE+alvo/2))+'px)'; }
     }
     if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fitMark); } else { window.addEventListener('load',fitMark); }
     window.addEventListener('resize',fitMark);

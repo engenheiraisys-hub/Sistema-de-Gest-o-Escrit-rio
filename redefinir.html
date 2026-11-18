@@ -17,6 +17,8 @@
   @media(max-width:820px){.mark{min-height:180px;justify-content:flex-end}}
   .mark .wm{font-family:var(--sans);font-weight:400;font-size:clamp(28px,3.4vw,40px);letter-spacing:.14em}
   .mark .tg{font-size:13px;letter-spacing:.34em;color:#9a9895;margin-top:12px}
+  /* marca sempre centralizada na faixa escura (o recuo à esquerda compensa o espaçamento depois da última letra) */
+  .mark{align-items:center;text-align:center} .mark .wm{padding-left:.14em;white-space:nowrap} .mark .tg{padding-left:.34em}
   .panel{display:flex;align-items:center;justify-content:center;padding:clamp(28px,5vw,72px)}
   .box{width:100%;max-width:392px}
   .sec-label{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
