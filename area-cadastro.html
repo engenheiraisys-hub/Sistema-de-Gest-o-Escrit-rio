@@ -110,12 +110,7 @@
 
   <main class="access">
     <form class="form" id="form" novalidate>
-      <p class="section-label">cadastro</p>
-      <div class="roles" role="tablist" aria-label="Tipo de cadastro">
-        <button type="button" class="role" role="tab" aria-selected="true" data-role="cliente">cliente</button>
-        <span class="sep" aria-hidden="true"></span>
-        <button type="button" class="role" role="tab" aria-selected="false" data-role="colaborador">colaborador</button>
-      </div>
+      <p class="section-label" id="sec-tipo" style="margin-bottom:26px">cadastro · cliente</p>
 
       <!-- CADASTRO DO CLIENTE -->
       <div class="only-cliente">
@@ -208,13 +203,13 @@
     window.addEventListener('load',fit); window.addEventListener('resize',function(){clearTimeout(timer);timer=setTimeout(fit,120);}); fit();
 
     var form=document.getElementById('form'), done=document.getElementById('done');
-    var roles=document.querySelectorAll('.role'), note=document.getElementById('note');
+    var note=document.getElementById('note');
     var current='cliente';
 
     function setRole(r){
       current=r;
-      roles.forEach(function(b){ b.setAttribute('aria-selected', b.dataset.role===r?'true':'false'); });
       var isColab=(r==='colaborador');
+      document.getElementById('sec-tipo').textContent=isColab?'cadastro · colaborador':'cadastro · cliente';
       document.querySelectorAll('.only-colab').forEach(function(el){ el.hidden=!isColab; });
       document.querySelectorAll('.only-cliente').forEach(function(el){ el.hidden=isColab; });
       document.getElementById('w-title').textContent=isColab?'Bem-vindo(a) à equipe':'Bem-vinda ao seu cadastro';
@@ -223,10 +218,10 @@
         : 'Você foi convidada pelo escritório para acompanhar seus projetos. Preencha seus dados e crie uma senha de acesso.';
       note.textContent='';
     }
-    roles.forEach(function(b){ b.addEventListener('click',function(){ setRole(b.dataset.role); }); });
-    /* link do adm pode trazer o tipo no hash (#colaborador / #cliente) */
+    /* o tipo vem SÓ do link gerado pelo adm: link de cliente e link de equipe são separados;
+       não há troca na página. Qualquer outro endereço abre como cliente. */
     var h=(location.hash||'').replace('#','');
-    if(h==='colaborador'||h==='cliente') setRole(h);
+    setRole(h==='equipe-convite'?'colaborador':'cliente');
 
     var MES2NUM={Janeiro:1,Fevereiro:2,'Março':3,Abril:4,Maio:5,Junho:6,Julho:7,Agosto:8,Setembro:9,Outubro:10,Novembro:11,Dezembro:12};
     function val(id){ var el=document.getElementById(id); return el?el.value.trim():''; }

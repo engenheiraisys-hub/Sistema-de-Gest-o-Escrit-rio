@@ -5,6 +5,8 @@
 (function(){
   function $(id){ return document.getElementById(id); }
   function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  /* "Snº", "s/n", "S/Nº", "sem número"… = sem número (não leva "N°" na frente) */
+  function semNumero(v){ var t=String(v||'').trim(); return !t || /^s\.?\s*\/?\s*n\.?\s*[º°o]?\.?$/i.test(t) || /^sem\s+n/i.test(t); }
   var IC={
     pref:'<svg viewBox="0 0 24 24"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>',
     mat:'<svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>',
@@ -472,7 +474,7 @@
     var r=await fetch('modelos/declaracao-posse.docx'); if(!r.ok) throw new Error('modelo da declaração não encontrado');
     var zip=await JSZip.loadAsync(await r.arrayBuffer()), xml=await zip.file('word/document.xml').async('string');
     var trocas=[
-      [/^Eu, /, 'Eu, '+b(D.prop_nome,30)+', com CPF de n° '+b(D.prop_cpf,20)+', residente e domiciliado à '+b(D.prop_end,40)+', bairro '+b(D.prop_bairro,18)+', na cidade de '+b(D.prop_cidade,24)+' declaro para os fins, que sou posseiro do imóvel de inscrição imobiliária (nº do IPTU) '+b(D.inscricao,'XX.XX.XXX.XXXX.XXX-XXX'.length)+', situado à '+b(D.obra_end,40)+(String(D.obra_num||'').trim()?' N° '+D.obra_num:', s/nº')+', no bairro de '+b(D.obra_bairro,24)+', a '+(refEsq||'____ metros da Rua ____________________')+', com as seguintes características e confrontações:'],
+      [/^Eu, /, 'Eu, '+b(D.prop_nome,30)+', com CPF de n° '+b(D.prop_cpf,20)+', residente e domiciliado à '+b(D.prop_end,40)+', bairro '+b(D.prop_bairro,18)+', na cidade de '+b(D.prop_cidade,24)+' declaro para os fins, que sou posseiro do imóvel de inscrição imobiliária (nº do IPTU) '+b(D.inscricao,'XX.XX.XXX.XXXX.XXX-XXX'.length)+', situado à '+b(D.obra_end,40)+(!semNumero(D.obra_num)?' N° '+String(D.obra_num).trim().replace(/^n\.?\s*[º°]\.?\s*/i,''):', s/nº')+', no bairro de '+b(D.obra_bairro,24)+', a '+(refEsq||'____ metros da Rua ____________________')+', com as seguintes características e confrontações:'],
       [/^Área de /, 'Área de '+b(D.t_area,18)+' metros quadrados;'],
       [/^Frente com /, 'Frente com '+b(D.t_frente,16)+' metros;'],
       [/^Fundos com /, 'Fundos com '+b(D.t_fundos,16)+' metros;'],
